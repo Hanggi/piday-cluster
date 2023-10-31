@@ -1,36 +1,84 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
-
 ## Getting Started
 
 First, run the development server:
 
 ```bash
-npm run dev
-# or
 yarn dev
-# or
-pnpm dev
-# or
+
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Next.js project convention
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+We use App Router in this project. So, we have to follow the convention of Next.js.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+### Project organization strategy
 
-## Learn More
+Split project files by feature or route.
 
-To learn more about Next.js, take a look at the following resources:
+[Project organization](https://nextjs.org/docs/app/building-your-application/routing/colocation#split-project-files-by-feature-or-route)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+and use private folders for page sub components and lib.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+[Private folder](https://nextjs.org/docs/app/building-your-application/routing/colocation#private-folders)
 
-## Deploy on Vercel
+Example:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Suppose there is a post page now. This page consists of Sections 1 to 3.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+```
+./src
+├─ components
+├─ app
+│   ├─ post                           <-- /post (Feature level)
+│   │   ├─ _components                <-- Private folder
+│   │   │   ├─ Section1.tsx
+│   │   │   ├─ Section2.tsx
+│   │   │   └─ section3
+│   │   │       ├─ SubSection3-1.tsx
+│   │   │       └─ SubSection3-2.tsx
+│   │   ├─ _lib                       <-- Private folder
+│   │   │    ├─ tool1.ts
+│   │   │    └─ tool2.ts
+│   │   ├─ layout.tsx
+│   │   └─ page.tsx
+│   ├─ layout.tsx
+│   └─ page.tsx
+├─ lib
+...
+```
+
+- **\_components:** is a private folder that contains components that are only used in the post page.
+- **\_lib:** is a private folder that contains libraries that are only used in the post page.
+- **src/components:** is a public folder that contains components that are used in multiple pages.
+- **src/lib:** is a public folder that contains libraries that are used in multiple pages.
+
+## Conventions
+
+- Use `yarn` as package manager
+- Do not use personal dependencies or libraries that are infrequently used and not maintained by anyone
+
+### Components:
+
+- Use Pascal Case as react component naming convention. e.g: UserProfile.tsx
+- When directory name is multiple words, use dash(-) as separator. e.g: user-profile
+- Each component file should only contains one exported component.
+
+### State management:
+
+- Use Redux Toolkit for state management.
+- Use Redux Toolkit's slice should be used as feature level. e.g: userSlice.ts
+
+### Styles:
+
+- Use Tailwind CSS for styling.
+
+### Icons:
+
+Currently, `Remix Icon` is recommended as icon library.
+
+https://remixicon.com/
+
+The package size of `react-icons`` is too large. So, we should not use it.
+
+https://mui.com/joy-ui/integrations/icon-libraries/#third-party-icons
