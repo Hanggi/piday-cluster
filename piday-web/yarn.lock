@@ -415,6 +415,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@formatjs/intl-localematcher@npm:^0.2.32":
+  version: 0.2.32
+  resolution: "@formatjs/intl-localematcher@npm:0.2.32"
+  dependencies:
+    tslib: "npm:^2.4.0"
+  checksum: 21104d575846af4c66b6af73b28f54bb86405789d632189a04530022ab7d8a919c6e805cc6f9b749850d854985f12cb9fae248a33fe2a38c9d74565fa4345ff9
+  languageName: node
+  linkType: hard
+
 "@humanwhocodes/config-array@npm:^0.11.13":
   version: 0.11.13
   resolution: "@humanwhocodes/config-array@npm:0.11.13"
@@ -3342,6 +3351,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"next-i18n-router@npm:^5.0.1":
+  version: 5.0.1
+  resolution: "next-i18n-router@npm:5.0.1"
+  dependencies:
+    "@formatjs/intl-localematcher": "npm:^0.2.32"
+    negotiator: "npm:^0.6.3"
+  checksum: 7dc23c33af1c48799b8ba0f926f6b3b3df80e7334fcb719ad562bb95245cf9b03c4a4dd6db647586d664a61c57d072e0b157a871670fbc6128877d36407b986d
+  languageName: node
+  linkType: hard
+
 "next@npm:14.0.1":
   version: 14.0.1
   resolution: "next@npm:14.0.1"
@@ -3690,6 +3709,7 @@ __metadata:
     eslint-config-next: "npm:14.0.1"
     eslint-plugin-unused-imports: "npm:^3.0.0"
     next: "npm:14.0.1"
+    next-i18n-router: "npm:^5.0.1"
     postcss: "npm:^8.4.31"
     prettier: "npm:^3.0.3"
     react: "npm:^18.2.0"
