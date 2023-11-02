@@ -1,3 +1,23 @@
 {
-  "extends": "next/core-web-vitals"
+  "extends": "next/core-web-vitals",
+  "plugins": ["react-hooks", "unused-imports"],
+  "rules": {
+    "unused-imports/no-unused-imports": "warn",
+
+    "indent": ["off", 2],
+    "react/jsx-sort-props": [
+      "warn",
+      {
+        "callbacksLast": true
+      }
+    ],
+
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": [
+      "warn",
+      {
+        "additionalHooks": "useRecoilCallback"
+      }
+    ]
+  }
 }

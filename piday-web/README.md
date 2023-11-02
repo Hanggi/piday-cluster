@@ -82,3 +82,7 @@ https://remixicon.com/
 The package size of `react-icons`` is too large. So, we should not use it.
 
 https://mui.com/joy-ui/integrations/icon-libraries/#third-party-icons
+
+# Reference
+
+https://i18nexus.com/tutorials/nextjs/react-i18next
