@@ -12,5 +12,8 @@
   },
   "[json]": {
     "editor.defaultFormatter": "vscode.json-language-features"
-  }
+  },
+  "i18n-ally.localesPaths": [
+    "src/locales"
+  ]
 }
