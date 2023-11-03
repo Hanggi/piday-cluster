@@ -3,6 +3,7 @@ const i18nConfig = {
   defaultLocale: "en",
   routingStrategy: "dynamicSegment",
   prefixDefault: false,
+  // localeDetector: false,
 };
 
 export default i18nConfig;
