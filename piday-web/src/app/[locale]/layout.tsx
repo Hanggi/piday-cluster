@@ -8,6 +8,9 @@ import type { Metadata } from "next";
 
 import { Inter } from "next/font/google";
 
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 import initTranslations from "../i18n";
 import Footer from "./_components/layout/Footer";
 import Header from "./_components/layout/Header";
@@ -50,6 +53,7 @@ export default async function RootLayout({
             </ReduxProviderWrapper>
           </SessionProviderWrapper>
         </ThemeRegistry>
+        <ToastContainer />
       </body>
     </html>
   );

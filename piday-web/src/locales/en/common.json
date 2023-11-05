@@ -13,6 +13,13 @@
       "signInHint": "Already have an account?"
     },
     "email": "Email",
-    "password": "Password"
+    "emailPlaceholder": "Enter your email",
+    "password": "Password",
+    "passwordPlaceholder": "Enter your password",
+    "validation": {
+      "email": "Please enter a valid email address",
+      "emailOrPasswordIncorrect": "Email or password is incorrect",
+      "passwordLenth": "Password must be at least 6 characters long"
+    }
   }
 }

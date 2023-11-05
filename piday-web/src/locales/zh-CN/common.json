@@ -13,6 +13,13 @@
       "signInHint": "已有账号?"
     },
     "email": "邮箱",
-    "password": "密码"
+    "emailPlaceholder": "请输入邮箱",
+    "password": "密码",
+    "passwordPlaceholder": "请输入密码",
+    "validation": {
+      "email": "请输入正确的邮箱",
+      "emailOrPasswordIncorrect": "邮箱或密码错误",
+      "passwordLength": "密码长度不能小于6位"
+    }
   }
 }

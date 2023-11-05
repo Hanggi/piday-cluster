@@ -1,6 +1,8 @@
 import { encrypt } from "@/src/utils/encryption";
-import { jwtDecode } from "jwt-decode";
+import { authenticateWithKeycloak } from "@/src/utils/keycloak/authenticateWithKeycloak";
+import { decodeAccessToken } from "@/src/utils/keycloak/decodeAccessToken";
 import NextAuth, { AuthOptions } from "next-auth";
+import CredentialsProvider from "next-auth/providers/credentials";
 import KeycloakProvider from "next-auth/providers/keycloak";
 
 // // this will refresh an expired access token, when needed
@@ -35,20 +37,50 @@ export const authOptions: AuthOptions = {
       clientSecret: process.env.KEYCLOAK_CLIENT_SECRET as string,
       issuer: process.env.KEYCLOAK_ISSUER,
     }),
+    CredentialsProvider({
+      name: "Email Sign In",
+
+      credentials: {
+        username: { label: "Username", type: "text", placeholder: "jsmith" },
+        password: { label: "Password", type: "password" },
+      },
+      authorize: async (credentials) => {
+        const token = await authenticateWithKeycloak({
+          email: credentials?.username as string,
+          password: credentials?.password as string,
+        });
+
+        if (token) {
+          const accessToken = token.access_token;
+          const userInfo = decodeAccessToken(accessToken);
+
+          return {
+            id: userInfo.sid,
+            name: userInfo.name,
+            email: userInfo.email,
+            accessToken: token.access_token,
+            refreshToken: token.refresh_token,
+            roles: userInfo.roles,
+          };
+        } else {
+          throw new Error("Could not log you in."); // 登录失败
+        }
+      },
+    }),
   ],
-  // debug: true,
+  debug: true,
   callbacks: {
     // TODO: Fix any
-    async jwt({ token, account }: any) {
+    async jwt({ token, user }: any) {
       const nowTimeStamp = Math.floor(Date.now() / 1000);
 
-      if (account) {
+      if (user) {
         // account is only available the first time this callback is called on a new session (after the user signs in)
-        token.decoded = jwtDecode(account.access_token);
-        token.access_token = account.access_token;
-        token.id_token = account.id_token;
-        token.expires_at = account.expires_at;
-        token.refresh_token = account.refresh_token;
+        token.accessToken = user.accessToken;
+
+        // token.expires_at = account.expires_at;
+        token.refreshToken = user.refreshToken;
+        token.roles = user.roles;
         return token;
       } else if (nowTimeStamp < token.expires_at) {
         // token has not expired yet, return it
@@ -57,14 +89,16 @@ export const authOptions: AuthOptions = {
         // token is expired, try to refresh it
         console.log("Token has expired. Will refresh...");
       }
+
       return token;
     },
     async session({ session, token }: any) {
       // Send properties to the client
-      session.access_token = encrypt(token.access_token); // see utils/sessionTokenAccessor.js
-      session.id_token = encrypt(token.id_token); // see utils/sessionTokenAccessor.js
-      session.roles = token.decoded.realm_access.roles;
+      session.accessToken = encrypt(token.accessToken); // see utils/sessionTokenAccessor.js
+      // session.id_token = encrypt(token.id_token); // see utils/sessionTokenAccessor.js
+      session.roles = token.roles;
       session.error = token.error;
+      console.log(session);
       return session;
     },
   },
