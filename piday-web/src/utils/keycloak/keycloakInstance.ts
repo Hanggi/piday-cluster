@@ -9,9 +9,9 @@ export function getKeycloakInstance() {
       realm: "piday",
       clientId: "dev-auth-client",
     });
-    keycloakInstance.init({}).then((auth) => {
-      console.log(auth);
-    });
+    // keycloakInstance.init({}).then((auth) => {
+    //   console.log(auth);
+    // });
   }
   return keycloakInstance;
 }
