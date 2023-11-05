@@ -68,7 +68,7 @@ export const authOptions: AuthOptions = {
       },
     }),
   ],
-  debug: true,
+  // debug: true,
   callbacks: {
     // TODO: Fix any
     async jwt({ token, user }: any) {
@@ -86,6 +86,7 @@ export const authOptions: AuthOptions = {
         // token has not expired yet, return it
         return token;
       } else {
+        // TODO: refresh token
         // token is expired, try to refresh it
         console.log("Token has expired. Will refresh...");
       }
@@ -98,7 +99,7 @@ export const authOptions: AuthOptions = {
       // session.id_token = encrypt(token.id_token); // see utils/sessionTokenAccessor.js
       session.roles = token.roles;
       session.error = token.error;
-      console.log(session);
+
       return session;
     },
   },

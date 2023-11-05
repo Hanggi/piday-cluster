@@ -18,7 +18,6 @@ export async function GET(request: Request) {
 
     try {
       const resp = await fetch(url, { method: "GET" });
-      console.log(resp);
     } catch (err) {
       console.error(err);
       return new Response("Failed to logout", { status: 500 });

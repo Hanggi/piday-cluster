@@ -4,7 +4,6 @@ import { jwtDecode } from "jwt-decode";
 export function decodeAccessToken(accessToken: string): User {
   const userInfo: any = jwtDecode(accessToken);
 
-  console.log(userInfo);
   return {
     sid: userInfo.sub ?? "",
     email: userInfo.email ?? "",

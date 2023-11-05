@@ -3,7 +3,7 @@ import { KeycloakCredentials, KeycloakToken } from "./creadentials.interface";
 export async function authenticateWithKeycloak(
   credentials: KeycloakCredentials,
 ): Promise<KeycloakToken | null> {
-  const keycloakTokenUrl = `https://piday-dev-auth.dvqdev.com/realms/piday/protocol/openid-connect/token`;
+  const keycloakTokenUrl = `${process.env.KEYCLOAK_BASE_URL}/realms/piday/protocol/openid-connect/token`;
 
   const tokenResponse = await fetch(keycloakTokenUrl, {
     method: "POST",

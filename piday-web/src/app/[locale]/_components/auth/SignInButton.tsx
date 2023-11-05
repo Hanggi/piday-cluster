@@ -1,6 +1,6 @@
 "use client";
 
-import { StatusCodes, UNAUTHORIZED } from "http-status-codes";
+import { StatusCodes } from "http-status-codes";
 import { signIn } from "next-auth/react";
 
 import Button from "@mui/joy/Button";
@@ -18,6 +18,7 @@ import ModalDialog from "@mui/joy/ModalDialog";
 import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
+import BeatLoader from "react-spinners/BeatLoader";
 import { toast } from "react-toastify";
 
 interface SignInFormProps {
@@ -29,6 +30,7 @@ export default function SignInButton() {
   const { t } = useTranslation("common");
 
   const [open, setOpen] = useState(false);
+  const [isLoggingIn, setIsLoggingIn] = useState(false); // 登录状态标志
 
   const {
     register,
@@ -37,26 +39,29 @@ export default function SignInButton() {
     formState: { errors },
   } = useForm<SignInFormProps>();
 
-  const onSubmit = useCallback((data: any) => {
-    console.log(data);
-
-    signIn("credentials", {
-      redirect: false, // 不重定向，我们在这里处理结果
-      username: data.username,
-      password: data.password,
-    })
-      .then((res) => {
-        console.log(res);
-        if (res?.status == StatusCodes.UNAUTHORIZED) {
-          toast.error(t("common:auth.validation.emailOrPasswordIncorrect"));
-        }
+  const onSubmit = useCallback(
+    (data: any) => {
+      setIsLoggingIn(true);
+      signIn("credentials", {
+        redirect: false, // 不重定向，我们在这里处理结果
+        username: data.username,
+        password: data.password,
       })
-      .catch((error) => {
-        console.log("/??");
-        console.error(error);
-        toast.error(error);
-      });
-  }, []);
+        .then((res) => {
+          if (res?.status == StatusCodes.UNAUTHORIZED) {
+            toast.error(t("common:auth.validation.emailOrPasswordIncorrect"));
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+          toast.error(error);
+        })
+        .finally(() => {
+          setIsLoggingIn(false);
+        });
+    },
+    [t],
+  );
 
   return (
     <div>
@@ -109,8 +114,13 @@ export default function SignInButton() {
                   <FormHelperText>{errors.password.message}</FormHelperText>
                 )}
               </FormControl>
-              <Button className="mt-8" fullWidth type="submit">
-                {t("common:header.login")}
+              <Button
+                className="mt-8"
+                disabled={isLoggingIn}
+                fullWidth
+                type="submit"
+              >
+                {isLoggingIn ? <BeatLoader /> : t("common:header.login")}
               </Button>
             </form>
           </DialogContent>

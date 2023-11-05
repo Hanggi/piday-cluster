@@ -28,7 +28,7 @@ export default function AuthStatusButton() {
 
   const { data: session, status } = useSession();
 
-  console.log(session, status);
+  console.info(session, status);
 
   if (status == "loading") {
     return <Button className="my-3">Loading...</Button>;
