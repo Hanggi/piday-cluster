@@ -1,5 +1,18 @@
 {
-    "header": {
-        "login": "Login"
-    }
+  "header": {
+    "login": "Login",
+    "logOut": "Log Out"
+  },
+  "auth": {
+    "signIn": {
+      "title": "Sign In",
+      "signUpHint": "Don't have an account?"
+    },
+    "signUp": {
+      "title": "Sign Up",
+      "signInHint": "Already have an account?"
+    },
+    "email": "Email",
+    "password": "Password"
+  }
 }

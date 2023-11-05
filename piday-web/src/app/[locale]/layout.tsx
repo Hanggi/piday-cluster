@@ -1,5 +1,7 @@
 import i18nConfig from "@/i18nConfig";
 import TranslationsProvider from "@/src/components/TranslationsProvider";
+import SessionProviderWrapper from "@/src/utils/SessionProviderWrapper";
+import ReduxProviderWrapper from "@/src/utils/redux/ReduxProviderWrapper";
 import ThemeRegistry from "@src/components/ThemeRegistry/ThemeRegistry";
 import { dir } from "i18next";
 import type { Metadata } from "next";
@@ -35,14 +37,18 @@ export default async function RootLayout({
     <html dir={dir(locale)} lang={locale}>
       <body className={inter.className}>
         <ThemeRegistry>
-          <TranslationsProvider
-            locale={locale}
-            namespaces={options.ns as string[]}
-          >
-            <Header />
-            <main className="pt-20">{children}</main>
-            <Footer />
-          </TranslationsProvider>
+          <SessionProviderWrapper>
+            <ReduxProviderWrapper>
+              <TranslationsProvider
+                locale={locale}
+                namespaces={options.ns as string[]}
+              >
+                <Header />
+                <main className="pt-20">{children}</main>
+                <Footer />
+              </TranslationsProvider>
+            </ReduxProviderWrapper>
+          </SessionProviderWrapper>
         </ThemeRegistry>
       </body>
     </html>

@@ -1,15 +1,11 @@
 "use client";
 
-import Button from "@mui/joy/Button";
-
 import Image from "next/image";
 import Link from "next/link";
 
-import { useTranslation } from "react-i18next";
+import AuthStatusButton from "../auth/AuthStatusButton";
 
 export default function Header() {
-  const { t } = useTranslation("common");
-
   return (
     <header className="fixed top-0 w-full bg-yellow-500 h-16">
       <nav className="container mx-auto px-2 h-full flex justify-between items-center">
@@ -26,7 +22,7 @@ export default function Header() {
           </div>
         </Link>
         <div>
-          <Button>{t("common:header.login")}</Button>
+          <AuthStatusButton />
         </div>
       </nav>
     </header>

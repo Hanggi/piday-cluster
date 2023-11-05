@@ -1,5 +1,18 @@
 {
-    "header": {
-        "login": "登录"
-    }
+  "header": {
+    "login": "登录",
+    "logOut": "退出"
+  },
+  "auth": {
+    "signIn": {
+      "title": "登录",
+      "signUpHint": "没有账号?"
+    },
+    "signUp": {
+      "title": "注册",
+      "signInHint": "已有账号?"
+    },
+    "email": "邮箱",
+    "password": "密码"
+  }
 }
