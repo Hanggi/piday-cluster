@@ -1,31 +1,21 @@
 FROM --platform=linux/amd64 node:20-alpine AS base
 
 # Install dependencies only when needed
-FROM base AS deps
+FROM base AS builder
 
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 ARG BUILD_ENV
 
-# Install dependencies based on the preferred package manager
-COPY ./piday-web/yarn.lock* ./piday-web/.yarnrc.yml ./
-RUN ls
-RUN yarn set version stable
-RUN yarn install
-
-
-# Rebuild the source code only when needed
-FROM base AS builder
-WORKDIR /app
-COPY --from=deps /app/node_modules ./node_modules
 COPY ./piday-web .
+RUN yarn install --frozen-lockfile
 
 # Next.js collects completely anonymous telemetry data about general usage.
 # Learn more here: https://nextjs.org/telemetry
 # Uncomment the following line in case you want to disable telemetry during the build.
 ENV NEXT_TELEMETRY_DISABLED 1
 
-RUN yarn build
+RUN yarn build$BUILD_ENV
 
 # If using npm comment out above and use below instead
 # RUN npm run build
