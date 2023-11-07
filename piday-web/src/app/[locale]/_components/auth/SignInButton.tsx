@@ -66,6 +66,7 @@ export default function SignInButton() {
   return (
     <div>
       <Button
+        color="neutral"
         onClick={() => {
           setOpen(true);
         }}

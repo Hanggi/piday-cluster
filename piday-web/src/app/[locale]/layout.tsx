@@ -47,7 +47,7 @@ export default async function RootLayout({
                 namespaces={options.ns as string[]}
               >
                 <Header />
-                <main className="pt-20">{children}</main>
+                <main className="pt-56">{children}</main>
                 <Footer />
               </TranslationsProvider>
             </ReduxProviderWrapper>

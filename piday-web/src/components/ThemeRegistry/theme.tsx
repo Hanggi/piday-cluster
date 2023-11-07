@@ -27,6 +27,23 @@ const sourceCodePro = Source_Code_Pro({
 });
 
 const theme = extendTheme({
+  colorSchemes: {
+    light: {
+      palette: {
+        primary: {
+          100: "#fff2cc",
+          200: "#ffe699",
+          300: "#ffd966",
+          400: "#ffcd33",
+          500: "#ffc000",
+          600: "#cc9a00",
+          700: "#997300",
+          800: "#664d00",
+          900: "#332600",
+        },
+      },
+    },
+  },
   fontFamily: {
     body: inter.style.fontFamily,
     display: inter.style.fontFamily,
@@ -36,10 +53,17 @@ const theme = extendTheme({
     JoyButton: {
       styleOverrides: {
         root: ({ ownerState }) => ({
-          ...(ownerState.color === "primary" &&
-            {
-              // backgroundColor: '#4338ca',
-            }),
+          ...(ownerState.color === "primary" && {
+            backgroundColor: "#ffc000",
+            color: "#000000",
+          }),
+          ...(ownerState.color === "neutral" && {
+            ":hover": {
+              backgroundColor: "#ffffffbb",
+            },
+            backgroundColor: "#ffffff",
+            color: "#7030A0",
+          }),
         }),
       },
     },
