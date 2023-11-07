@@ -95,8 +95,8 @@ steps:
         - failure
 
 node_selector:
-  # kubernetes.io/os: linux
-  doks.digitalocean.com/node-pool: amd-pool-4c-8g
+  kubernetes.io/os: linux
+  # doks.digitalocean.com/node-pool: amd-pool-4c-8g
   # doks.digitalocean.com/node-pool: regular-pool
   # doks.digitalocean.com/node-pool: intel-pool-4c-8g
 
