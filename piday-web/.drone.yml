@@ -13,9 +13,6 @@ steps:
     commands:
       - export $(cat piday-web/.env | xargs)
       - echo $VERSION-dev > .tags
-      # - cd piday-web
-      # - yarn run build:dev
-      # - cd ../../
 
   # Make docker image
   - name: Build-Docker-Image-Dev
