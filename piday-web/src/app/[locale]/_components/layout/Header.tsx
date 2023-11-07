@@ -7,15 +7,15 @@ import AuthStatusButton from "../auth/AuthStatusButton";
 
 export default function Header() {
   return (
-    <header className="fixed top-0 w-full h-20  ">
+    <header className="fixed top-0 w-full h-20">
       <Image
         alt="banner"
-        className="w-full -z-10 absolute "
+        className="w-full h-[240px] object-cover object-bottom -z-10 absolute "
         height={240}
         src={`/img/banner.svg`}
         width={1024}
       />
-      <nav className="container mx-auto px-2 h-full flex justify-between items-center">
+      <nav className="container mx-auto px-2 h-full flex relative z-10 justify-between items-center">
         <Link href="/">
           <div className="relative h-12 w-28">
             <Image

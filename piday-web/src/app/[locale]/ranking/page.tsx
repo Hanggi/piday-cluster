@@ -15,7 +15,9 @@ export default function RankingPage() {
     </section>
   );
 }
+
 export type TabListDataType = (typeof tabListData)[number];
+
 const tabListData = [
   {
     icon: "/public/img/icons/globe.png",
