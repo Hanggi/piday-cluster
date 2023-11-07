@@ -15,7 +15,7 @@ export default function Header() {
         src={`/img/banner.svg`}
         width={1024}
       />
-      <nav className="container mx-auto px-2 h-full flex relative z-10 justify-between items-center">
+      <nav className="container mx-auto px-2 h-full flex  justify-between items-center">
         <Link href="/">
           <div className="relative h-12 w-28">
             <Image
