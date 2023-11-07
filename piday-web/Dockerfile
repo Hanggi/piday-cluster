@@ -8,16 +8,17 @@ WORKDIR /app
 ARG BUILD_ENV
 
 # Install dependencies based on the preferred package manager
-COPY yarn.lock* ./
+COPY ./piday-web/yarn.lock* ./piday-web/.yarnrc.yml ./
+RUN ls
 RUN yarn set version stable
-RUN yarn --immutable
+RUN yarn install
 
 
 # Rebuild the source code only when needed
 FROM base AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
-COPY . .
+COPY ./piday-web .
 
 # Next.js collects completely anonymous telemetry data about general usage.
 # Learn more here: https://nextjs.org/telemetry

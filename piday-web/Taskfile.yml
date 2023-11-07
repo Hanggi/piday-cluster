@@ -1,0 +1,88 @@
+version: "3"
+
+dotenv: [".env"]
+
+vars:
+  GREETING: Hello, World!
+  BINARY: piday-web
+  DO_REGISTRY: registry.digitalocean.com/davinqi
+
+tasks:
+  build-docker:
+    dir: ../
+    vars:
+      BUILD_ENV: "{{.BUILD_ENV}}"
+    cmds:
+      - echo $BUILD_ENV
+      - docker build -t {{.DO_REGISTRY}}/{{.BINARY}}:$VERSION-{{.BUILD_ENV}} -f piday-web/Dockerfile --build-arg BUILD_ENV=:{{.BUILD_ENV}} .
+      # - docker buildx build --platform linux/amd64 -t {{.DO_REGISTRY}}/{{.BINARY}}:$VERSION-{{.BUILD_ENV}} -f piday-web/Dockerfile --build-arg BUILD_ENV=:{{.BUILD_ENV}} .
+
+  build-dev-docker:
+    cmds:
+      - task: build-docker
+        vars: { BUILD_ENV: dev }
+
+  build-staging-docker:
+    cmds:
+      - task: build-docker
+        vars: { BUILD_ENV: staging }
+
+  build-prod-docker:
+    cmds:
+      - task: build-docker
+        vars: { BUILD_ENV: prod }
+
+  # Push to docker registry
+  push-dev-image:
+    cmds:
+      - docker push {{.DO_REGISTRY}}/{{.BINARY}}:$VERSION-dev
+
+  push-staging-image:
+    cmds:
+      - docker push {{.DO_REGISTRY}}/{{.BINARY}}:$VERSION-staging
+
+  push-prod-image:
+    cmds:
+      - docker push {{.DO_REGISTRY}}/{{.BINARY}}:$VERSION-prod
+
+  # Apply
+  apply-dev:
+    cmds:
+      - kubectl apply -k deployment/dok8s/overlays/dodev
+  apply-staging:
+    cmds:
+      - kubectl apply -k deployment/dok8s/overlays/dostaging
+  apply-prod:
+    cmds:
+      - kubectl apply -k deployment/dok8s/overlays/doprod
+
+  # Prepare
+  prepare-dev:
+    cmds:
+      - task: build-dev-docker
+      - task: push-dev-image
+
+  prepare-staging:
+    cmds:
+      - task: build-staging-docker
+      - task: push-staging-image
+
+  prepare-prod:
+    cmds:
+      - task: build-prod-docker
+      - task: push-prod-image
+
+  go-prod:
+    cmds:
+      - task: prepare-prod
+      - task: apply-prod
+
+  go-staging:
+    cmds:
+      - task: prepare-staging
+      - task: apply-staging
+
+  go-dev:
+    cmds:
+      - task: prepare-dev
+      - task: apply-dev
