@@ -3,6 +3,11 @@
     "login": "登录",
     "logOut": "退出"
   },
+  "nav": {
+    "store": "市场",
+    "mining": "挖矿",
+    "wallet": "钱包"
+  },
   "auth": {
     "signIn": {
       "title": "登录",

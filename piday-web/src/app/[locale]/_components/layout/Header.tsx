@@ -3,9 +3,12 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import { useTranslation } from "react-i18next";
+
 import AuthStatusButton from "../auth/AuthStatusButton";
 
 export default function Header() {
+  const { t } = useTranslation("common");
   return (
     <header className="fixed top-0 w-full h-20">
       <Image
@@ -28,7 +31,7 @@ export default function Header() {
             />
           </div>
         </Link>
-        <ul className="flex items-center gap-12">
+        <ul className="flex items-center capitalize gap-12">
           {navData.map((el) => (
             <Link
               className="flex items-center gap-1.5"
@@ -36,7 +39,7 @@ export default function Header() {
               key={el.label}
             >
               <Image alt={el.label} height={20} src={el.icon} width={20} />
-              <span>{el.label}</span>
+              <span>{t(el.label)}</span>
             </Link>
           ))}
         </ul>
@@ -51,14 +54,14 @@ export default function Header() {
 const navData = [
   {
     icon: "img/icons/Handbag.svg",
-    label: "市场",
+    label: "common:nav.store",
   },
   {
     icon: "img/icons/tools.svg",
-    label: "挖矿",
+    label: "common:nav.mining",
   },
   {
     icon: "img/icons/wallet.svg",
-    label: "钱包",
+    label: "common:nav.wallet",
   },
 ];

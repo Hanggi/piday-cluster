@@ -3,6 +3,11 @@
     "login": "Login",
     "logOut": "Log Out"
   },
+  "nav": {
+    "store": "store",
+    "mining": "mining",
+    "wallet": "wallet"
+  },
   "auth": {
     "signIn": {
       "title": "Sign In",

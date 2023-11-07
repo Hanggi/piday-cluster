@@ -13,14 +13,31 @@ type TabListProps = ComponentProps<typeof RadixTab.List> & {
 
 export function TabList({ className, tabListData, ...props }: TabListProps) {
   return (
-    <RadixTab.List className={cn("container", className)} {...props}>
+    <RadixTab.List
+      className={cn("container gap-1 flex items-center mb-6", className)}
+      {...props}
+    >
       {tabListData.map((tab) => (
         <>
-          <RadixTab.Trigger key={tab.label} value={tab.label}>
-            <Image alt={tab.label} height={34} src={tab.icon} width={34} />
-            {tab.label}
+          <RadixTab.Trigger
+            className="grow flex flex-col rounded-xl max-w-[160px] mx-auto aria-selected:bg-white/40 py-3 gap-1.5 group items-center"
+            key={tab.label}
+            value={tab.label}
+          >
+            <Image
+              alt={tab.label}
+              className="group-aria-selected:grayscale-0 grayscale"
+              height={34}
+              src={tab.icon}
+              width={34}
+            />
+            <h4 className="group-aria-selected:text-secondary max-md:hidden text-xl font-medium">
+              {tab.label}
+            </h4>
           </RadixTab.Trigger>
-          <div className="text-secondary/10 text-2xl font-medium">/</div>
+          <div className="text-secondary/20 last:hidden text-2xl font-medium">
+            /
+          </div>
         </>
       ))}
     </RadixTab.List>

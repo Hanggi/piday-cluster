@@ -1,0 +1,9 @@
+{
+  "ranking": {
+    "country": "国家排名",
+    "personal": "个人排名",
+    "invitation": "邀请排名",
+    "commission": "佣金排名",
+    "transaction": "成交排名"
+  }
+}
