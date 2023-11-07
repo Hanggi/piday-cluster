@@ -21,22 +21,22 @@ export type TabListDataType = (typeof tabListData)[number];
 const tabListData = [
   {
     icon: "/img/icons/globe.png",
-    label: "国家排名",
+    label: "ranking:tabs.country",
   },
   {
     icon: "/img/icons/User.png",
-    label: "个人排名",
+    label: "ranking:tabs.personal",
   },
   {
     icon: "/img/icons/UsersThree.png",
-    label: "邀请排名",
+    label: "ranking:tabs.invitation",
   },
   {
     icon: "/img/icons/pid.png",
-    label: "佣金排名",
+    label: "ranking:tabs.commission",
   },
   {
     icon: "/img/icons/Medal.png",
-    label: "成交排名",
+    label: "ranking:tabs.transaction",
   },
 ] as const;

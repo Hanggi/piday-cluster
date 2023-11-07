@@ -10,7 +10,7 @@ type TabContentProps = ComponentProps<"div"> & {
 };
 export function TabContent({ className, tabList, ...props }: TabContentProps) {
   return (
-    <div className={cn(className)} {...props}>
+    <div className={cn("container", className)} {...props}>
       <RadixTab.Content value={tabList[0]}>hello</RadixTab.Content>
       <RadixTab.Content value="个人排名">bollo</RadixTab.Content>
     </div>

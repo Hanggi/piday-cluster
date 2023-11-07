@@ -4,6 +4,7 @@ import { cn } from "@/src/utils/cn";
 import Image from "next/image";
 
 import { ComponentProps } from "react";
+import { useTranslation } from "react-i18next";
 
 import { TabListDataType } from "../page";
 
@@ -12,6 +13,7 @@ type TabListProps = ComponentProps<typeof RadixTab.List> & {
 };
 
 export function TabList({ className, tabListData, ...props }: TabListProps) {
+  const { t } = useTranslation("ranking");
   return (
     <RadixTab.List
       className={cn("container gap-1 flex items-center mb-6", className)}
@@ -31,8 +33,8 @@ export function TabList({ className, tabListData, ...props }: TabListProps) {
               src={tab.icon}
               width={34}
             />
-            <h4 className="group-aria-selected:text-secondary max-md:hidden text-xl font-medium">
-              {tab.label}
+            <h4 className="group-aria-selected:text-secondary capitalize max-md:hidden text-xl font-medium">
+              {t(tab.label)}
             </h4>
           </RadixTab.Trigger>
           <div className="text-secondary/20 last:hidden text-2xl font-medium">

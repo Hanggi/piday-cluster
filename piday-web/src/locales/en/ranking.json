@@ -1,0 +1,9 @@
+{
+  "tabs": {
+    "country": "country",
+    "personal": "personal",
+    "invitation": "invitation",
+    "commission": "commission",
+    "transaction": "transaction"
+  }
+}
