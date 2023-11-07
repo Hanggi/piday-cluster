@@ -8,7 +8,8 @@ WORKDIR /app
 ARG BUILD_ENV
 
 COPY ./piday-web .
-RUN yarn install --frozen-lockfile
+RUN yarn set version stable
+RUN yarn install
 
 # Next.js collects completely anonymous telemetry data about general usage.
 # Learn more here: https://nextjs.org/telemetry
