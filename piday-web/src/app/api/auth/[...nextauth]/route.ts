@@ -20,7 +20,9 @@ async function refreshAccessToken(token: any) {
     method: "POST",
   });
   const refreshToken = await resp.json();
-  if (!resp.ok) throw refreshToken;
+  if (!resp.ok) {
+    throw new Error("Failed to refresh access token.", refreshToken);
+  }
 
   return {
     ...token,
@@ -89,7 +91,6 @@ export const authOptions: AuthOptions = {
         return token;
       } else {
         // token is expired, try to refresh it
-        console.log("Token has expired. Will refresh...");
         try {
           const newToken = await refreshAccessToken(token);
           return newToken;
@@ -106,27 +107,26 @@ export const authOptions: AuthOptions = {
       session.roles = token.roles;
       session.error = token.error;
       session.expiresAt = token.expiresAt;
-      console.log("Session:", session);
 
-      try {
-        fetch(
-          `${process.env.KEYCLOAK_BASE_URL}/realms/piday/protocol/openid-connect/userinfo`,
-          {
-            method: "GET",
-            headers: {
-              Authorization: `Bearer ${token.accessToken}`,
-            },
-          },
-        )
-          .then(async (res) => {
-            console.log(await res.json());
-          })
-          .catch((err) => {
-            console.error(err);
-          });
-      } catch (error) {
-        console.error(error);
-      }
+      // try {
+      //   fetch(
+      //     `${process.env.KEYCLOAK_BASE_URL}/realms/piday/protocol/openid-connect/userinfo`,
+      //     {
+      //       method: "GET",
+      //       headers: {
+      //         Authorization: `Bearer ${token.accessToken}`,
+      //       },
+      //     },
+      //   )
+      //     .then(async (res) => {
+      //       console.log(await res.json());
+      //     })
+      //     .catch((err) => {
+      //       console.error(err);
+      //     });
+      // } catch (error) {
+      //   console.error(error);
+      // }
 
       return session;
     },

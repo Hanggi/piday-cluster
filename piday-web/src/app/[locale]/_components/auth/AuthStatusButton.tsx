@@ -1,5 +1,6 @@
 "use client";
 
+import { keycloakSessionLogOut } from "@/src/utils/keycloak/keycloakSessionLogout";
 import { signOut, useSession } from "next-auth/react";
 
 import Button from "@mui/joy/Button";
@@ -12,16 +13,6 @@ import MenuItem from "@mui/joy/MenuItem";
 import { useTranslation } from "react-i18next";
 
 import SignInButton from "./SignInButton";
-
-async function keycloakSessionLogOut() {
-  try {
-    await fetch("/api/auth/logout", {
-      method: "GET",
-    });
-  } catch (err) {
-    console.error(err);
-  }
-}
 
 export default function AuthStatusButton() {
   const { t } = useTranslation("common");
