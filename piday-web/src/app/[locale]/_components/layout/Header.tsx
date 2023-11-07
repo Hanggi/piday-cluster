@@ -7,7 +7,7 @@ import AuthStatusButton from "../auth/AuthStatusButton";
 
 export default function Header() {
   return (
-    <header className="fixed top-0 w-full h-20">
+    <header className="fixed top-0 w-full h-20  ">
       <Image
         alt="banner"
         className="w-full -z-10 absolute "
