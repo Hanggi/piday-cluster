@@ -3,13 +3,13 @@ kind: Kustomization
 
 namespace: piday-prod
 
-commonLabels:
-  env: doprod
-
-bases:
+resources:
   - ../../base
-  
-patchesStrategicMerge:
-#   - configMap.yaml
-  - deployment.yaml
-#   - routing.yaml
+
+labels:
+  - includeSelectors: true
+    pairs:
+      env: doprod
+
+patches:
+  - path: deployment.yaml

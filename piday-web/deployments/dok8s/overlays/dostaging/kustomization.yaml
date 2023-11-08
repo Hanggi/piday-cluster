@@ -3,13 +3,13 @@ kind: Kustomization
 
 namespace: piday-staging
 
-commonLabels:
-  env: dostaging
+resources:
+- ../../base
 
-bases:
-  - ../../base
-  
-patchesStrategicMerge:
-#   - configMap.yaml
-  - deployment.yaml
-#   - routing.yaml
+labels:
+- includeSelectors: true
+  pairs:
+    env: dostaging
+
+patches:
+- path: deployment.yaml

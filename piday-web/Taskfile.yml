@@ -48,13 +48,13 @@ tasks:
   # Apply
   apply-dev:
     cmds:
-      - kubectl apply -k deployment/dok8s/overlays/dodev
+      - kubectl apply -k deployments/dok8s/overlays/dodev
   apply-staging:
     cmds:
-      - kubectl apply -k deployment/dok8s/overlays/dostaging
+      - kubectl apply -k deployments/dok8s/overlays/dostaging
   apply-prod:
     cmds:
-      - kubectl apply -k deployment/dok8s/overlays/doprod
+      - kubectl apply -k deployments/dok8s/overlays/doprod
 
   # Prepare
   prepare-dev:
