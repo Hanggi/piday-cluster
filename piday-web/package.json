@@ -6,6 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "build:dev": "env-cmd -f .env.dev yarn run build",
+    "build:staging": "env-cmd -f .env.staging yarn run build",
+    "build:prod": "env-cmd -f .env.prod yarn run build",
     "lint": "next lint"
   },
   "dependencies": {
