@@ -3954,6 +3954,7 @@ __metadata:
     react-redux: "npm:^8.1.3"
     react-spinners: "npm:^0.13.8"
     react-toastify: "npm:^9.1.3"
+    remixicon: "npm:^3.5.0"
     tailwindcss: "npm:^3.3.5"
     typescript: "npm:^5.2.2"
   languageName: unknown
@@ -4318,6 +4319,13 @@ __metadata:
     define-properties: "npm:^1.2.0"
     set-function-name: "npm:^2.0.0"
   checksum: 1de7d214c0a726c7c874a7023e47b0e27b9f7fdb64175bfe1861189de1704aaeca05c3d26c35aa375432289b99946f3cf86651a92a8f7601b90d8c226a23bcd8
+  languageName: node
+  linkType: hard
+
+"remixicon@npm:^3.5.0":
+  version: 3.5.0
+  resolution: "remixicon@npm:3.5.0"
+  checksum: a1d6d2c4b0ff3245b8a1b32df048c42eff6758741c566200b2e21aae61c57827c3e1a38a278f7d8ee45d5fe04740ea5b6e2631b9a61f8b37d57e26bf333aa0c0
   languageName: node
   linkType: hard
 

@@ -113,7 +113,7 @@ export default function SignInDialog({
               <FormHelperText>{errors.password.message}</FormHelperText>
             )}
           </FormControl>
-          <div className="mb-4 text-right flex justify-end items-center">
+          <div className="mb-8 text-right flex justify-end items-center">
             <Typography level="body-sm">
               {t("common:auth.signIn.signUpHint")}
             </Typography>
@@ -132,7 +132,7 @@ export default function SignInDialog({
               {t("common:auth.signUp.title")}
             </Typography>
           </div>
-          <Button className="mt-8" disabled={isLoding} fullWidth type="submit">
+          <Button disabled={isLoding} fullWidth type="submit">
             {isLoding ? <BeatLoader /> : t("common:auth.signIn.title")}
           </Button>
         </form>

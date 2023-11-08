@@ -8,6 +8,7 @@ import DialogTitle from "@mui/joy/DialogTitle";
 import FormControl from "@mui/joy/FormControl";
 import FormHelperText from "@mui/joy/FormHelperText";
 import FormLabel from "@mui/joy/FormLabel";
+import IconButton from "@mui/joy/IconButton";
 import Input from "@mui/joy/Input";
 import ModalClose from "@mui/joy/ModalClose";
 import ModalDialog from "@mui/joy/ModalDialog";
@@ -53,7 +54,18 @@ export default function SignUpDialog({
 
   return (
     <ModalDialog>
-      <DialogTitle>{t("common:auth.signUp.title")}</DialogTitle>
+      <DialogTitle>
+        <div
+          className="cursor-pointer mr-2"
+          onClick={() => {
+            onAuthTypeChange(AuthDialogType.EMAIL_SIGN_IN);
+          }}
+        >
+          <i className="ri-arrow-left-line"></i>
+        </div>
+        {t("common:auth.signUp.title")}
+      </DialogTitle>
+
       <ModalClose sx={{ m: 1 }} variant="plain" />
       <DialogContent>
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -115,7 +127,7 @@ export default function SignUpDialog({
             )}
           </FormControl>
 
-          <div className="mb-4 text-right flex justify-end items-center">
+          <div className="mb-8 text-right flex justify-end items-center">
             <Typography level="body-sm">
               {t("common:auth.signIn.signUpHint")}
             </Typography>
@@ -135,7 +147,7 @@ export default function SignUpDialog({
             </Typography>
           </div>
 
-          <Button className="mt-8" disabled={isLoding} fullWidth type="submit">
+          <Button disabled={isLoding} fullWidth type="submit">
             {isLoding ? <BeatLoader /> : t("common:auth.signUp.title")}
           </Button>
         </form>

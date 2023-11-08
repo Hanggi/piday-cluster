@@ -1,6 +1,6 @@
 "use client";
 
-import { keycloakSessionLogOut } from "@/src/utils/keycloak/keycloakSessionLogout";
+import { keycloakSessionLogOut } from "@/src/features/auth/keycloak/keycloakSessionLogout";
 import { signOut, useSession } from "next-auth/react";
 
 import Button from "@mui/joy/Button";
