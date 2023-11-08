@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: piday-web-service
+  namespace: piday-dev
+spec:
+  selector:
+    app: piday-web-deployment
+  ports:
+    - name: apiv1
+      protocol: TCP
+      port: 80 # This port for ingress
+      targetPort: 3000
