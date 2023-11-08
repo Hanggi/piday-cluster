@@ -2,11 +2,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: piday-web-deployment
-  # namespace: dev
+  namespace: piday-dev
 spec:
-  selector:
-    matchLabels:
-      app: piday-web-deployment
   replicas: 2
   template:
     spec:
