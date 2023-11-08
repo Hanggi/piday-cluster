@@ -8,7 +8,8 @@ commonLabels:
 
 bases:
   - ../../base
-# patchesStrategicMerge:
+  
+patchesStrategicMerge:
 #   - configMap.yaml
-#   - deployment.yaml
+  - deployment.yaml
 #   - routing.yaml
