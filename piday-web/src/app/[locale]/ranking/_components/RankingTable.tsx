@@ -8,28 +8,41 @@ import {
 } from "@/src/components/Table";
 import { cn } from "@/src/utils/cn";
 
-import { ComponentProps } from "react";
+import { ComponentProps, useMemo } from "react";
 
-type RankingTableProps = ComponentProps<typeof Table>;
+import { RankDataKey, rankData } from "./rankData";
 
-export function RankingTable({ className, ...props }: RankingTableProps) {
+type RankingTableProps = ComponentProps<typeof Table> & {
+  dataKey: RankDataKey;
+};
+
+export function RankingTable({
+  className,
+  dataKey,
+  ...props
+}: RankingTableProps) {
+  const [head, cell] = useMemo(() => {
+    return [Object.keys(rankData[dataKey]?.[0]), rankData[dataKey]];
+  }, [dataKey]);
   return (
     <Table className={cn(className)} {...props}>
       <TableHeader>
         <TableRow>
           <TableHead>Invoice</TableHead>
-          <TableHead>Status</TableHead>
-          <TableHead>Method</TableHead>
-          <TableHead>Amount</TableHead>
+          {head.map((item) => (
+            <TableHead key={item}>{item}</TableHead>
+          ))}
         </TableRow>
       </TableHeader>
       <TableBody>
-        <TableRow>
-          <TableCell>INV001</TableCell>
-          <TableCell>Paid</TableCell>
-          <TableCell>Credit Card</TableCell>
-          <TableCell>$250.00</TableCell>
-        </TableRow>
+        {cell.map((item) => (
+          <TableRow key={Object.keys(item)?.[0]}>
+            <TableCell>INV001</TableCell>
+            {Object.values(item).map((col) => (
+              <TableCell key={col}>{col}</TableCell>
+            ))}
+          </TableRow>
+        ))}
       </TableBody>
     </Table>
   );
