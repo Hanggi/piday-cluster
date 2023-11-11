@@ -1,3 +1,4 @@
+import { Pagination } from "@/src/components/Pagination";
 import {
   Table,
   TableBody,
@@ -41,27 +42,30 @@ export function RankingTable({
   }
 
   return (
-    <Table className={cn(className)} {...props}>
-      <TableHeader>
-        <TableRow>
-          <TableHead>rank</TableHead>
-          {head.map((item) => (
-            <TableHead key={item}>{item}</TableHead>
-          ))}
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {cell.map((item, idx) => (
-          <TableRow key={Object.keys(item)?.[0]}>
-            <TableCell className="flex items-center gap-2">
-              {renderIcon(idx)} {idx + 1}
-            </TableCell>
-            {Object.values(item).map((col) => (
-              <TableCell key={col}>{col}</TableCell>
+    <>
+      <Table className={cn(className)} {...props}>
+        <TableHeader>
+          <TableRow>
+            <TableHead>rank</TableHead>
+            {head.map((item) => (
+              <TableHead key={item}>{item}</TableHead>
             ))}
           </TableRow>
-        ))}
-      </TableBody>
-    </Table>
+        </TableHeader>
+        <TableBody>
+          {cell.map((item, idx) => (
+            <TableRow key={Object.keys(item)?.[0]}>
+              <TableCell className="flex items-center gap-2">
+                {renderIcon(idx)} {idx + 1}
+              </TableCell>
+              {Object.values(item).map((col) => (
+                <TableCell key={col}>{col}</TableCell>
+              ))}
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+      <Pagination />
+    </>
   );
 }
