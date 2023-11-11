@@ -27,29 +27,19 @@ const country = [
 ] as const;
 const personal = [
   {
-    nation: "中国",
-    amountOfLand: 2400,
-    numberOfHolders: 1000,
+    username: "张**",
+    numberOfLandHoldings: 2400,
+    totalPoints: 2344,
   },
   {
-    nation: "中国",
-    amountOfLand: 2400,
-    numberOfHolders: 1000,
+    username: "张**",
+    numberOfLandHoldings: 2400,
+    totalPoints: 2344,
   },
   {
-    nation: "中国",
-    amountOfLand: 2400,
-    numberOfHolders: 1000,
-  },
-  {
-    nation: "中国",
-    amountOfLand: 2400,
-    numberOfHolders: 1000,
-  },
-  {
-    nation: "中国",
-    amountOfLand: 2400,
-    numberOfHolders: 1000,
+    username: "张**",
+    numberOfLandHoldings: 2400,
+    totalPoints: 2344,
   },
 ] as const;
 

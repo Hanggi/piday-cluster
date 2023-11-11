@@ -8,6 +8,8 @@ import {
 } from "@/src/components/Table";
 import { cn } from "@/src/utils/cn";
 
+import Image from "next/image";
+
 import { ComponentProps, useMemo } from "react";
 
 import { RankDataKey, rankData } from "./rankData";
@@ -24,20 +26,36 @@ export function RankingTable({
   const [head, cell] = useMemo(() => {
     return [Object.keys(rankData[dataKey]?.[0]), rankData[dataKey]];
   }, [dataKey]);
+
+  function renderIcon(idx: number) {
+    if (idx > 2) return;
+    const filter = ["gold", "silver", "bronze"];
+    return (
+      <Image
+        alt={filter[idx]}
+        height={20}
+        src={`/img/icons/${filter[idx]}.svg`}
+        width={20}
+      />
+    );
+  }
+
   return (
     <Table className={cn(className)} {...props}>
       <TableHeader>
         <TableRow>
-          <TableHead>Invoice</TableHead>
+          <TableHead>rank</TableHead>
           {head.map((item) => (
             <TableHead key={item}>{item}</TableHead>
           ))}
         </TableRow>
       </TableHeader>
       <TableBody>
-        {cell.map((item) => (
+        {cell.map((item, idx) => (
           <TableRow key={Object.keys(item)?.[0]}>
-            <TableCell>INV001</TableCell>
+            <TableCell className="flex items-center gap-2">
+              {renderIcon(idx)} {idx + 1}
+            </TableCell>
             {Object.values(item).map((col) => (
               <TableCell key={col}>{col}</TableCell>
             ))}

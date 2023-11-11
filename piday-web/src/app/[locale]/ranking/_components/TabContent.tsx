@@ -20,7 +20,6 @@ export function TabContent({ className, tabList, ...props }: TabContentProps) {
           />
         </RadixTab.Content>
       ))}
-      <RadixTab.Content value={tabList[1]}>bollo</RadixTab.Content>
     </div>
   );
 }
