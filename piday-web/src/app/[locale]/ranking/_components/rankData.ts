@@ -1,4 +1,6 @@
-const country = [
+import { RankData } from "../@types/rankData.type";
+
+const country: RankData[] = [
   {
     nation: "中国",
     amountOfLand: 2400,
@@ -24,8 +26,8 @@ const country = [
     amountOfLand: 2400,
     numberOfHolders: 1000,
   },
-] as const;
-const personal = [
+];
+const personal: RankData[] = [
   {
     username: "张**",
     numberOfLandHoldings: 2400,
@@ -41,8 +43,8 @@ const personal = [
     numberOfLandHoldings: 2400,
     totalPoints: 2344,
   },
-] as const;
-const invitation = [
+];
+const invitation: RankData[] = [
   {
     username: "张**",
     numberOfInvitedUserRegistrations: 2400,
@@ -53,22 +55,22 @@ const invitation = [
     numberOfInvitedUserRegistrations: 2400,
     totalPoints: 2344,
   },
-] as const;
-const commission = [
+];
+const commission: RankData[] = [
   {
     username: "张**",
     numberOfLandHoldings: 2400,
     totalPoints: 2344,
   },
-] as const;
-const transaction = [
+];
+const transaction: RankData[] = [
   {
     nation: "中国",
     numberOfLandTransactions: 2400,
     numberOfLandTransactions2: 1000,
     turnover: 2000,
   },
-] as const;
+];
 
 export const rankData = {
   country,
@@ -77,5 +79,3 @@ export const rankData = {
   commission,
   transaction,
 };
-
-export type RankDataKey = keyof typeof rankData;

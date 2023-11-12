@@ -13,7 +13,8 @@ import Image from "next/image";
 
 import { ComponentProps, useMemo } from "react";
 
-import { RankDataKey, rankData } from "./rankData";
+import { RankDataKey } from "../@types/rankData.type";
+import { rankData } from "./rankData";
 
 type RankingTableProps = ComponentProps<typeof Table> & {
   dataKey: RankDataKey;
