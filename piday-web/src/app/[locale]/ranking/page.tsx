@@ -16,9 +16,12 @@ export default function RankingPage() {
   );
 }
 
-export type TabListDataType = (typeof tabListData)[number];
+export type TabListDataType = {
+  icon: string;
+  label: string;
+};
 
-const tabListData = [
+const tabListData: TabListDataType[] = [
   {
     icon: "/img/icons/globe.png",
     label: "ranking:tabs.country",
@@ -39,4 +42,4 @@ const tabListData = [
     icon: "/img/icons/Medal.png",
     label: "ranking:tabs.transaction",
   },
-] as const;
+];
