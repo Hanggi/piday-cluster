@@ -4,7 +4,6 @@ import Button from "@mui/joy/Button";
 import Modal from "@mui/joy/Modal";
 
 import { useCallback, useState } from "react";
-import { set } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 
 import SignInDialog from "./auth-dialogs/SignInDialog";
