@@ -9,17 +9,18 @@ import { useTranslation } from "react-i18next";
 
 export default function Navbar({
   children,
-  Component,
+  navType,
 }: {
   children: React.ReactNode;
-  Component: "header" | "footer";
+  navType: "header" | "footer";
 }) {
   const { t } = useTranslation("common");
+  const Wrapper = navType;
   return (
-    <Component
-      className={cn(" top-0 w-full h-20", { fixed: Component === "header" })}
+    <Wrapper
+      className={cn(" top-0 w-full h-20", { fixed: navType === "header" })}
     >
-      {Component === "header" && (
+      {navType === "header" && (
         <Image
           alt="banner"
           className="w-full h-[240px] object-cover object-bottom -z-10 absolute "
@@ -32,7 +33,7 @@ export default function Navbar({
         <Link href="/">
           <div
             className={cn("relative h-12 w-28", {
-              grayscale: Component === "footer",
+              grayscale: navType === "footer",
             })}
           >
             <Image
@@ -50,30 +51,35 @@ export default function Navbar({
             <Link
               className="flex items-center gap-1.5"
               href={""}
-              key={el.label}
+              key={el.translationKey}
             >
-              <Image alt={el.label} height={20} src={el.icon} width={20} />
-              <span>{t(el.label)}</span>
+              <Image
+                alt={el.translationKey}
+                height={20}
+                src={el.icon}
+                width={20}
+              />
+              <span>{t(el.translationKey)}</span>
             </Link>
           ))}
         </ul>
         <div>{children}</div>
       </nav>
-    </Component>
+    </Wrapper>
   );
 }
 
 const navData = [
   {
     icon: "img/icons/Handbag.svg",
-    label: "common:nav.store",
+    translationKey: "common:nav.store",
   },
   {
     icon: "img/icons/tools.svg",
-    label: "common:nav.mining",
+    translationKey: "common:nav.mining",
   },
   {
     icon: "img/icons/wallet.svg",
-    label: "common:nav.wallet",
+    translationKey: "common:nav.wallet",
   },
 ];
