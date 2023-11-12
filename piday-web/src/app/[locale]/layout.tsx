@@ -5,6 +5,7 @@ import ReduxProviderWrapper from "@/src/utils/redux/ReduxProviderWrapper";
 import ThemeRegistry from "@src/components/ThemeRegistry/ThemeRegistry";
 import { dir } from "i18next";
 import type { Metadata } from "next";
+import "remixicon/fonts/remixicon.css";
 
 import { Inter } from "next/font/google";
 
@@ -15,6 +16,8 @@ import initTranslations from "../i18n";
 import Footer from "./_components/layout/Footer";
 import Header from "./_components/layout/Header";
 import "./globals.css";
+
+import "remixicon/fonts/remixicon.css";
 
 const inter = Inter({ subsets: ["latin"] });
 

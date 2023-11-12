@@ -19,9 +19,9 @@ export async function GET(request: Request) {
     try {
       const resp = await fetch(url, { method: "GET" });
     } catch (err) {
-      console.error(err);
-      return new Response("Failed to logout", { status: 500 });
+      console.error("logout: ", err);
+      return new Response(JSON.stringify("Failed to logout"), { status: 500 });
     }
   }
-  return new Response("Logouted", { status: 200 });
+  return new Response(JSON.stringify("Logouted"), { status: 200 });
 }

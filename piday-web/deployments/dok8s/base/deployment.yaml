@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: piday-web-deployment
+  namespace: piday-dev
+spec:
+  selector:
+    matchLabels:
+      app: piday-web-deployment
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: piday-web-deployment
+    spec:
+      nodeSelector:
+        kubernetes.io/os: linux
+      containers:
+        - image: registry.digitalocean.com/davinqi/piday-web:v0.0.1
+          imagePullPolicy: Always
+          name: piday-web-deployment
+          resources:
+            requests:
+              memory: "32Mi"
+              cpu: "50m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"

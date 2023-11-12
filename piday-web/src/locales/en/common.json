@@ -21,10 +21,14 @@
     "emailPlaceholder": "Enter your email",
     "password": "Password",
     "passwordPlaceholder": "Enter your password",
+    "confirmPassword": "Confirm Password",
+    "confirmPasswordPlaceholder": "Confirm your password",
     "validation": {
+      "required": "This field is required",
       "email": "Please enter a valid email address",
       "emailOrPasswordIncorrect": "Email or password is incorrect",
-      "passwordLenth": "Password must be at least 6 characters long"
+      "passwordLenth": "Password must be at least 6 characters long",
+      "passwordNotMatch": "Password does not match"
     }
   }
 }
