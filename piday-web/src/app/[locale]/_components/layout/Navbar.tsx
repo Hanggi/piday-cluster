@@ -5,6 +5,7 @@ import { cn } from "@/src/utils/cn";
 import Image from "next/image";
 import Link from "next/link";
 
+import { ElementType } from "react";
 import { useTranslation } from "react-i18next";
 
 export default function Navbar({
@@ -12,7 +13,7 @@ export default function Navbar({
   navType,
 }: {
   children: React.ReactNode;
-  navType: "header" | "footer";
+  navType: ElementType;
 }) {
   const { t } = useTranslation("common");
   const Wrapper = navType;
@@ -25,7 +26,7 @@ export default function Navbar({
           alt="banner"
           className="w-full h-[240px] object-cover object-bottom -z-10 absolute "
           height={240}
-          src={`/img/banner.svg`}
+          src={`/img/banner.png`}
           width={1024}
         />
       )}

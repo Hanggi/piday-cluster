@@ -46,7 +46,7 @@ export function RankingTable({
       <Table className={cn(className)} {...props}>
         <TableHeader>
           <TableRow>
-            <TableHead>rank</TableHead>
+            <TableHead>ranks</TableHead>
             {head.map((item) => (
               <TableHead key={item}>{item}</TableHead>
             ))}
