@@ -659,81 +659,81 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@next/env@npm:14.0.1":
-  version: 14.0.1
-  resolution: "@next/env@npm:14.0.1"
-  checksum: f016beb493a1a958b0a084f0ab0c9dbc94b4e032fcb354f45d50c4e4b2dd5089950424e7ea73a7c81416ae6bf8bd82747f1db3b6d6daf273fef42ab08a110d9a
+"@next/env@npm:14.0.2":
+  version: 14.0.2
+  resolution: "@next/env@npm:14.0.2"
+  checksum: 9fad703ce13b7b7fecf898d3c239f8976f2ec7f3c7c461c06da70898a0221775c48e1a2e2c76740216c4093c2db9bd7adaacd196586cd4283e09eb89de4c1db6
   languageName: node
   linkType: hard
 
-"@next/eslint-plugin-next@npm:14.0.1":
-  version: 14.0.1
-  resolution: "@next/eslint-plugin-next@npm:14.0.1"
+"@next/eslint-plugin-next@npm:14.0.2":
+  version: 14.0.2
+  resolution: "@next/eslint-plugin-next@npm:14.0.2"
   dependencies:
     glob: "npm:7.1.7"
-  checksum: 5e77c1c771830892dff7c45810940e9c2e7a9d8f123c1d53f23151e43e4d1e1488a29d1b7bd3cee99f6c4a605508b0948e26ac908570fe3d974e2949eb592cf5
+  checksum: 94a06810d87bdb4e806ef77fb841c74334707e2b1c570aa740b473d4871ef61aa05acd6f6b8487948e4bbca121819e757f14a8ccf0b84914e55bdc84223ea9f7
   languageName: node
   linkType: hard
 
-"@next/swc-darwin-arm64@npm:14.0.1":
-  version: 14.0.1
-  resolution: "@next/swc-darwin-arm64@npm:14.0.1"
+"@next/swc-darwin-arm64@npm:14.0.2":
+  version: 14.0.2
+  resolution: "@next/swc-darwin-arm64@npm:14.0.2"
   conditions: os=darwin & cpu=arm64
   languageName: node
   linkType: hard
 
-"@next/swc-darwin-x64@npm:14.0.1":
-  version: 14.0.1
-  resolution: "@next/swc-darwin-x64@npm:14.0.1"
+"@next/swc-darwin-x64@npm:14.0.2":
+  version: 14.0.2
+  resolution: "@next/swc-darwin-x64@npm:14.0.2"
   conditions: os=darwin & cpu=x64
   languageName: node
   linkType: hard
 
-"@next/swc-linux-arm64-gnu@npm:14.0.1":
-  version: 14.0.1
-  resolution: "@next/swc-linux-arm64-gnu@npm:14.0.1"
+"@next/swc-linux-arm64-gnu@npm:14.0.2":
+  version: 14.0.2
+  resolution: "@next/swc-linux-arm64-gnu@npm:14.0.2"
   conditions: os=linux & cpu=arm64 & libc=glibc
   languageName: node
   linkType: hard
 
-"@next/swc-linux-arm64-musl@npm:14.0.1":
-  version: 14.0.1
-  resolution: "@next/swc-linux-arm64-musl@npm:14.0.1"
+"@next/swc-linux-arm64-musl@npm:14.0.2":
+  version: 14.0.2
+  resolution: "@next/swc-linux-arm64-musl@npm:14.0.2"
   conditions: os=linux & cpu=arm64 & libc=musl
   languageName: node
   linkType: hard
 
-"@next/swc-linux-x64-gnu@npm:14.0.1":
-  version: 14.0.1
-  resolution: "@next/swc-linux-x64-gnu@npm:14.0.1"
+"@next/swc-linux-x64-gnu@npm:14.0.2":
+  version: 14.0.2
+  resolution: "@next/swc-linux-x64-gnu@npm:14.0.2"
   conditions: os=linux & cpu=x64 & libc=glibc
   languageName: node
   linkType: hard
 
-"@next/swc-linux-x64-musl@npm:14.0.1":
-  version: 14.0.1
-  resolution: "@next/swc-linux-x64-musl@npm:14.0.1"
+"@next/swc-linux-x64-musl@npm:14.0.2":
+  version: 14.0.2
+  resolution: "@next/swc-linux-x64-musl@npm:14.0.2"
   conditions: os=linux & cpu=x64 & libc=musl
   languageName: node
   linkType: hard
 
-"@next/swc-win32-arm64-msvc@npm:14.0.1":
-  version: 14.0.1
-  resolution: "@next/swc-win32-arm64-msvc@npm:14.0.1"
+"@next/swc-win32-arm64-msvc@npm:14.0.2":
+  version: 14.0.2
+  resolution: "@next/swc-win32-arm64-msvc@npm:14.0.2"
   conditions: os=win32 & cpu=arm64
   languageName: node
   linkType: hard
 
-"@next/swc-win32-ia32-msvc@npm:14.0.1":
-  version: 14.0.1
-  resolution: "@next/swc-win32-ia32-msvc@npm:14.0.1"
+"@next/swc-win32-ia32-msvc@npm:14.0.2":
+  version: 14.0.2
+  resolution: "@next/swc-win32-ia32-msvc@npm:14.0.2"
   conditions: os=win32 & cpu=ia32
   languageName: node
   linkType: hard
 
-"@next/swc-win32-x64-msvc@npm:14.0.1":
-  version: 14.0.1
-  resolution: "@next/swc-win32-x64-msvc@npm:14.0.1"
+"@next/swc-win32-x64-msvc@npm:14.0.2":
+  version: 14.0.2
+  resolution: "@next/swc-win32-x64-msvc@npm:14.0.2"
   conditions: os=win32 & cpu=x64
   languageName: node
   linkType: hard
@@ -844,9 +844,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@trivago/prettier-plugin-sort-imports@npm:^4.2.1":
-  version: 4.2.1
-  resolution: "@trivago/prettier-plugin-sort-imports@npm:4.2.1"
+"@trivago/prettier-plugin-sort-imports@npm:^4.3.0":
+  version: 4.3.0
+  resolution: "@trivago/prettier-plugin-sort-imports@npm:4.3.0"
   dependencies:
     "@babel/generator": "npm:7.17.7"
     "@babel/parser": "npm:^7.20.5"
@@ -860,7 +860,7 @@ __metadata:
   peerDependenciesMeta:
     "@vue/compiler-sfc":
       optional: true
-  checksum: 1c13d5a6cd858dfedafebd35e5e4bcafd56461597bf24112304d6bd8895496474b274eb1c2d41189baa5ad6c7eb3cc8837d3297146445d2f129770d682e19f0d
+  checksum: 42270fb9c89e54a3f8b6ac8c43e6d0e03350e2857e902cdad4de22c78ef1864da600525595311bc7e94e51c16c7dd3882c2e048a162fdab59761ffa893756aa2
   languageName: node
   linkType: hard
 
@@ -1931,11 +1931,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-config-next@npm:14.0.1":
-  version: 14.0.1
-  resolution: "eslint-config-next@npm:14.0.1"
+"eslint-config-next@npm:14.0.2":
+  version: 14.0.2
+  resolution: "eslint-config-next@npm:14.0.2"
   dependencies:
-    "@next/eslint-plugin-next": "npm:14.0.1"
+    "@next/eslint-plugin-next": "npm:14.0.2"
     "@rushstack/eslint-patch": "npm:^1.3.3"
     "@typescript-eslint/parser": "npm:^5.4.2 || ^6.0.0"
     eslint-import-resolver-node: "npm:^0.3.6"
@@ -1950,7 +1950,7 @@ __metadata:
   peerDependenciesMeta:
     typescript:
       optional: true
-  checksum: 507a7c288a267dec33ba04122f5bc0f979bfb937b3635d60967a4b4de30fad295ecd5db50b91e86bba42d71496137c057342a74fcf4e687273a96387c1ff41bc
+  checksum: 6936087453f5ed329d3885a4f362a3ae9519dac8e06a4b1536f7c1fa43e13d7090ea5380762d912d94bc25f153a098a7d17a0d64fa8fc7618bf7ce26a9809caa
   languageName: node
   linkType: hard
 
@@ -2710,12 +2710,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"i18next@npm:^23.6.0":
-  version: 23.6.0
-  resolution: "i18next@npm:23.6.0"
+"i18next@npm:^23.7.1":
+  version: 23.7.1
+  resolution: "i18next@npm:23.7.1"
   dependencies:
-    "@babel/runtime": "npm:^7.22.5"
-  checksum: 292055897c01dd7720b3c6ab1321bd2b3b1f89e36702da9da90493f2a9e931e6a1f762a5b40d8e91c72803a8e80102ba9b64a4ffc0174acb91805f969072437c
+    "@babel/runtime": "npm:^7.23.2"
+  checksum: cc7513c32eba4df86a6ccb79fc4572d4086ff767f54c090e56f2653f6861f5d827f855e5480ae5b13a6eab952a4145c7d60e485651856d5eece96fa6ec5237e6
   languageName: node
   linkType: hard
 
@@ -3553,20 +3553,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"next@npm:14.0.1":
-  version: 14.0.1
-  resolution: "next@npm:14.0.1"
+"next@npm:14.0.2":
+  version: 14.0.2
+  resolution: "next@npm:14.0.2"
   dependencies:
-    "@next/env": "npm:14.0.1"
-    "@next/swc-darwin-arm64": "npm:14.0.1"
-    "@next/swc-darwin-x64": "npm:14.0.1"
-    "@next/swc-linux-arm64-gnu": "npm:14.0.1"
-    "@next/swc-linux-arm64-musl": "npm:14.0.1"
-    "@next/swc-linux-x64-gnu": "npm:14.0.1"
-    "@next/swc-linux-x64-musl": "npm:14.0.1"
-    "@next/swc-win32-arm64-msvc": "npm:14.0.1"
-    "@next/swc-win32-ia32-msvc": "npm:14.0.1"
-    "@next/swc-win32-x64-msvc": "npm:14.0.1"
+    "@next/env": "npm:14.0.2"
+    "@next/swc-darwin-arm64": "npm:14.0.2"
+    "@next/swc-darwin-x64": "npm:14.0.2"
+    "@next/swc-linux-arm64-gnu": "npm:14.0.2"
+    "@next/swc-linux-arm64-musl": "npm:14.0.2"
+    "@next/swc-linux-x64-gnu": "npm:14.0.2"
+    "@next/swc-linux-x64-musl": "npm:14.0.2"
+    "@next/swc-win32-arm64-msvc": "npm:14.0.2"
+    "@next/swc-win32-ia32-msvc": "npm:14.0.2"
+    "@next/swc-win32-x64-msvc": "npm:14.0.2"
     "@swc/helpers": "npm:0.5.2"
     busboy: "npm:1.6.0"
     caniuse-lite: "npm:^1.0.30001406"
@@ -3604,7 +3604,7 @@ __metadata:
       optional: true
   bin:
     next: dist/bin/next
-  checksum: 3a3ec178da972a141866494f14c32bb81be736eed7de5898687cfdf30c756ef75afc882f53e46b978021eef379d6aa82b43dd6a38ed05d4098dc0075990bac9c
+  checksum: 65ae7a09f1643bc3deafdbdae9ce0c02326346c4a60a7c739f8f6b154b2226b8fcc5efb984cdcb4ef100116910d4c1013089135800d30c7a50cf98c9d22e5a26
   languageName: node
   linkType: hard
 
@@ -3926,7 +3926,7 @@ __metadata:
     "@emotion/styled": "npm:^11.11.0"
     "@mui/joy": "npm:^5.0.0-beta.14"
     "@reduxjs/toolkit": "npm:^1.9.7"
-    "@trivago/prettier-plugin-sort-imports": "npm:^4.2.1"
+    "@trivago/prettier-plugin-sort-imports": "npm:^4.3.0"
     "@types/node": "npm:^20.9.0"
     "@types/react": "npm:^18.2.37"
     "@types/react-dom": "npm:^18.2.15"
@@ -3935,14 +3935,14 @@ __metadata:
     cryptr: "npm:^6.3.0"
     env-cmd: "npm:^10.1.0"
     eslint: "npm:^8.53.0"
-    eslint-config-next: "npm:14.0.1"
+    eslint-config-next: "npm:14.0.2"
     eslint-plugin-unused-imports: "npm:^3.0.0"
     http-status-codes: "npm:^2.3.0"
-    i18next: "npm:^23.6.0"
+    i18next: "npm:^23.7.1"
     i18next-resources-to-backend: "npm:^1.1.4"
     jwt-decode: "npm:^4.0.0"
     keycloak-js: "npm:^22.0.5"
-    next: "npm:14.0.1"
+    next: "npm:14.0.2"
     next-auth: "npm:^4.24.4"
     next-i18n-router: "npm:^5.0.1"
     postcss: "npm:^8.4.31"
@@ -3950,7 +3950,7 @@ __metadata:
     react: "npm:^18.2.0"
     react-dom: "npm:^18.2.0"
     react-hook-form: "npm:^7.48.2"
-    react-i18next: "npm:^13.3.1"
+    react-i18next: "npm:^13.3.2"
     react-redux: "npm:^8.1.3"
     react-spinners: "npm:^0.13.8"
     react-toastify: "npm:^9.1.3"
@@ -4159,9 +4159,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-i18next@npm:^13.3.1":
-  version: 13.3.1
-  resolution: "react-i18next@npm:13.3.1"
+"react-i18next@npm:^13.3.2":
+  version: 13.3.2
+  resolution: "react-i18next@npm:13.3.2"
   dependencies:
     "@babel/runtime": "npm:^7.22.5"
     html-parse-stringify: "npm:^3.0.1"
@@ -4173,7 +4173,7 @@ __metadata:
       optional: true
     react-native:
       optional: true
-  checksum: a19701359ac8ae1c75c68012215c024fd6c896c86e2f254c43a135279afb2035ed3b37c9f07ae2662fa1e44e36b3de918287ebecf841dd1bce6ecaba3a055fc4
+  checksum: 38ad9daebb9d30d589d694a09e218d545b3bd4ef7deec302b141b964b9781e957e52b7b039647079dbdbd3bfbb74ade63c136524121ff5ed040e500a8a4ec24a
   languageName: node
   linkType: hard
 

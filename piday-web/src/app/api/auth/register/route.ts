@@ -50,20 +50,23 @@ export async function POST(request: Request, res: Response) {
     });
 
     if (createUserResponse.status === StatusCodes.CREATED) {
-      return new Response("User registered successfully.", {
-        status: StatusCodes.OK,
-      });
+      return new Response(
+        JSON.stringify({ message: "User registered successfully." }),
+        {
+          status: StatusCodes.OK,
+        },
+      );
     } else {
       // 处理创建用户时的错误
       const errorData = await createUserResponse.json();
-      console.error(errorData);
-      return new Response("User registration failed", {
+      console.error("register:", errorData);
+      return new Response(JSON.stringify("User registration failed"), {
         status: createUserResponse.status,
       });
     }
   } catch (error) {
     console.error("User registration failed!!", error);
-    return new Response("User registration failed", {
+    return new Response(JSON.stringify("User registration failed"), {
       status: StatusCodes.INTERNAL_SERVER_ERROR,
     });
   }

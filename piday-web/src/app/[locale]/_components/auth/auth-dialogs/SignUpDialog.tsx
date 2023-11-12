@@ -22,6 +22,7 @@ import BeatLoader from "react-spinners/BeatLoader";
 import { AuthDialogType } from "../SignInButton";
 
 interface SignUpFormProps {
+  email: string;
   username: string;
   verifyCode: string;
   password: string;
@@ -48,8 +49,22 @@ export default function SignUpDialog({
 
   const password = watch("password");
 
-  const onSubmit = useCallback((data: any) => {
-    setIsLoding(true);
+  const onSubmit = useCallback((data: SignUpFormProps) => {
+    // setIsLoding(true);
+    console.log(data);
+
+    (async () => {
+      const res = await fetch("/api/auth/register", {
+        method: "POST",
+        body: JSON.stringify({
+          // username: data.username,
+          password: data.password,
+          email: data.email,
+        }),
+      });
+      console.log(res);
+      console.log(await res.json());
+    })();
   }, []);
 
   return (
@@ -69,10 +84,10 @@ export default function SignUpDialog({
       <ModalClose sx={{ m: 1 }} variant="plain" />
       <DialogContent>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <FormControl className="mb-4" error={!!errors.username}>
+          <FormControl className="mb-4" error={!!errors.email}>
             <FormLabel>{t("common:auth.email")}</FormLabel>
             <Input
-              {...register("username", {
+              {...register("email", {
                 required: t("common:auth.validation.required"),
                 pattern: {
                   value: /\S+@\S+\.\S+/,
@@ -81,8 +96,8 @@ export default function SignUpDialog({
               })}
               placeholder={t("common:auth.emailPlaceholder")}
             />
-            {errors.username && (
-              <FormHelperText>{errors.username.message}</FormHelperText>
+            {errors.email && (
+              <FormHelperText>{errors.email.message}</FormHelperText>
             )}
           </FormControl>
           <FormControl className="mb-4" error={!!errors.password}>
