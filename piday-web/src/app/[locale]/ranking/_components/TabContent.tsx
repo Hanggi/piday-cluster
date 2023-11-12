@@ -3,9 +3,9 @@ import { cn } from "@/src/utils/cn";
 
 import { ComponentProps } from "react";
 
+import { RankDataKey } from "../@types/rankData.type";
 import { TabListDataType } from "../page";
 import { RankingTable } from "./RankingTable";
-import { RankDataKey } from "./rankData";
 
 type TabContentProps = ComponentProps<"div"> & {
   tabList: TabListDataType["label"][];

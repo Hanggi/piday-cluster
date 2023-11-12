@@ -1,6 +1,6 @@
 import plugin from "tailwindcss/plugin";
 
-export const utilities = plugin(({ addVariant }) => {
+export const tailwindCssUtilities = plugin(({ addVariant }) => {
   const states = { selected: true, state: "open" };
   Object.keys(states).forEach((state) =>
     addVariant(
