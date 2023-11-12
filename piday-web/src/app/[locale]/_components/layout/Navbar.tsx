@@ -1,22 +1,24 @@
-"use client";
-
 import { cn } from "@/src/utils/cn";
 
 import Image from "next/image";
 import Link from "next/link";
 
-import { ElementType } from "react";
 import { useTranslation } from "react-i18next";
 
+export enum navType {
+  header = "header",
+  footer = "footer",
+}
 export default function Navbar({
   children,
   navType,
 }: {
   children: React.ReactNode;
-  navType: ElementType;
+  navType: navType;
 }) {
   const { t } = useTranslation("common");
   const Wrapper = navType;
+
   return (
     <Wrapper
       className={cn(" top-0 w-full h-20", { fixed: navType === "header" })}
