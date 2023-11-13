@@ -50,6 +50,21 @@ export async function POST(request: Request, res: Response) {
     });
 
     if (createUserResponse.status === StatusCodes.CREATED) {
+      const locationHeader = createUserResponse.headers.get("Location");
+      if (locationHeader) {
+        const userId = locationHeader.split("/").pop();
+        const verifyEmailURL = `${process.env.KEYCLOAK_BASE_URL}/admin/realms/piday/users/${userId}/send-verify-email`;
+        console.log(verifyEmailURL);
+        const verifyRes = await fetch(verifyEmailURL, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${tokenData.access_token}`,
+          },
+          body: JSON.stringify(body),
+        });
+        console.log("verifyRes:", verifyRes);
+      }
       return new Response(
         JSON.stringify({ message: "User registered successfully." }),
         {
