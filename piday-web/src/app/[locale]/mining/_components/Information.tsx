@@ -11,13 +11,16 @@ type InformationProps = ComponentProps<"div">;
 export function Information({ className, ...props }: InformationProps) {
   const { t } = useTranslation("mining");
   return (
-    <div className={cn("grid grid-cols-4 grid-rows-2", className)} {...props}>
+    <div
+      className={cn("grid grid-cols-4 gap-5 grid-rows-2", className)}
+      {...props}
+    >
       <Wrapper className="col-span-2 row-span-2">
         <p className="text-xl font-normal">{t("mining:information.title")}</p>
-        <section className="grid-cols-3 mt-7 grid divide-x divide-zinc-100 gap-y-10">
+        <section className="md:grid-cols-3 mt-7 grid divide-x divide-zinc-100 gap-y-10">
           {informationData.map((info) => (
             <div
-              className="nth-[3n+1]:pl-0 space-y-2 pl-10 nth-[3n+1]:!border-l-0"
+              className="nth-[3n+1]:pl-0 space-y-2 pl-6 md:pl-10 lg:pl-14 nth-[3n+1]:!border-l-0"
               key={info.translationKey}
             >
               <h4 className="text-black/40 ">{t(info.translationKey)}</h4>
@@ -26,6 +29,12 @@ export function Information({ className, ...props }: InformationProps) {
           ))}
         </section>
       </Wrapper>
+      {pointsData.map((data) => (
+        <Wrapper key={data.translationKey}>
+          <h4 className="text-black/40">{t(data.translationKey)}</h4>
+          <p className="text-secondary text-[32px]">{t(data.value)}</p>
+        </Wrapper>
+      ))}
     </div>
   );
 }
@@ -50,5 +59,28 @@ const informationData = [
   {
     translationKey: "mining:information.landHolding",
     value: "22214",
+  },
+];
+
+const pointsData = [
+  {
+    translationKey: "mining:information.totalPoints",
+    value: "21547",
+    image: "/img/mining/Database.svg",
+  },
+  {
+    translationKey: "mining:information.basicPoints",
+    value: "122",
+    image: "/img/mining/Database.svg",
+  },
+  {
+    translationKey: "mining:information.invitationPoints",
+    value: "21",
+    image: "/img/mining/Email.svg",
+  },
+  {
+    translationKey: "mining:information.landPoints",
+    value: "213",
+    image: "/img/mining/Dashboard.svg",
   },
 ];
