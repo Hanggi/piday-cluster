@@ -1,6 +1,10 @@
 "use client";
 
+import { Modal } from "@/src/components/ui/Modal";
+
 import { Button } from "@mui/joy";
+
+import Image from "next/image";
 
 import { useTranslation } from "react-i18next";
 
@@ -12,7 +16,22 @@ export const HeaderAside = () => {
         <h4 className="text-secondary text-6xl font-bold">200</h4>
         <p className="text-black/40">待领取积分</p>
       </div>
-      <Button className="w-full">{t("mining:header.receive")}</Button>
+      <Modal
+        Content={
+          <>
+            <Image
+              alt="success"
+              height={120}
+              src={"/img/mining/receive-success.svg"}
+              width={130}
+            />
+            <p className="text-xl font-medium">领取成功</p>
+          </>
+        }
+        className="flex flex-col gap-2 items-center min-h-[375px] justify-center"
+      >
+        <Button className="w-full">{t("mining:header.receive")}</Button>
+      </Modal>
     </aside>
   );
 };
