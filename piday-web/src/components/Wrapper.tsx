@@ -10,7 +10,7 @@ export function Wrapper({ className, modal, ...props }: WrapperProps) {
   return (
     <section
       className={cn(
-        "md:p-7 p-4 bg-white shadow rounded-lg  md:rounded-xl",
+        "md:p-7 p-4 bg-white shadow-2xl shadow-gray-200 rounded-lg  md:rounded-xl",
         { "w-full md:w-[450px]": modal },
         className,
       )}
