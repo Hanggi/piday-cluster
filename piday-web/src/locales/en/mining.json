@@ -1,0 +1,17 @@
+{
+  "header": {
+    "receive": "receive"
+  },
+  "information": {
+    "title": "information",
+    "accountRegistrationTime": "accountRegistrationTime",
+    "miningDays": "miningDays",
+    "numberOfPeopleInvited": "numberOfPeopleInvited",
+    "nftHolding": "nftHolding",
+    "landHolding": "landHolding",
+    "totalPoints": "totalPoints",
+    "basicPoints": "basicPoints",
+    "invitationPoints": "invitationPoints",
+    "landPoints": "landPoints"
+  }
+}
