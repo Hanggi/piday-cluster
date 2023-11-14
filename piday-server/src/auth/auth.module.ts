@@ -1,9 +1,10 @@
-import { RedisModule } from "src/lib/redis/redis.module";
-
 import { Module } from "@nestjs/common";
-import { ThrottlerModule } from "@nestjs/throttler";
+import { APP_GUARD } from "@nestjs/core";
+import { ThrottlerGuard, ThrottlerModule } from "@nestjs/throttler";
 
+import { KeycloakModule } from "../lib/keycloak/keycloak.module";
 import { MailgunModule } from "../lib/mailgun/mailgun.module";
+import { RedisModule } from "../lib/redis/redis.module";
 import { AuthController } from "./auth.controller";
 import { AuthService } from "./auth.service";
 
@@ -17,8 +18,15 @@ import { AuthService } from "./auth.service";
     ]),
     RedisModule,
     MailgunModule,
+    KeycloakModule,
   ],
   controllers: [AuthController],
-  providers: [AuthService],
+  providers: [
+    AuthService,
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard,
+    },
+  ],
 })
 export class AuthModule {}

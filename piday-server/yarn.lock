@@ -909,6 +909,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@keycloak/keycloak-admin-client@npm:^22.0.5":
+  version: 22.0.5
+  resolution: "@keycloak/keycloak-admin-client@npm:22.0.5"
+  dependencies:
+    camelize-ts: "npm:^3.0.0"
+    lodash-es: "npm:^4.17.21"
+    url-join: "npm:^5.0.0"
+    url-template: "npm:^3.1.0"
+  checksum: eb35e482308a8d9d327e8e96228fa645aeb953e3714add214df485b6383f0f28f5d5213be3814d7cd769b93b3a078d2932819aa96a75956d5f83fe0759dcc487
+  languageName: node
+  linkType: hard
+
 "@lukeed/csprng@npm:^1.0.0":
   version: 1.1.0
   resolution: "@lukeed/csprng@npm:1.1.0"
@@ -2414,6 +2426,13 @@ __metadata:
   version: 6.3.0
   resolution: "camelcase@npm:6.3.0"
   checksum: 0d701658219bd3116d12da3eab31acddb3f9440790c0792e0d398f0a520a6a4058018e546862b6fba89d7ae990efaeb97da71e1913e9ebf5a8b5621a3d55c710
+  languageName: node
+  linkType: hard
+
+"camelize-ts@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "camelize-ts@npm:3.0.0"
+  checksum: 879a7a84a1c889eb71b46ad5933107324eeeda0b713367aebe22356e25039636b5ce2f460ff4f302621e3d3ed8b6b0f2bcd8baee5218a8a38ff2b71d2c2a0522
   languageName: node
   linkType: hard
 
@@ -5087,6 +5106,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"lodash-es@npm:^4.17.21":
+  version: 4.17.21
+  resolution: "lodash-es@npm:4.17.21"
+  checksum: fb407355f7e6cd523a9383e76e6b455321f0f153a6c9625e21a8827d10c54c2a2341bd2ae8d034358b60e07325e1330c14c224ff582d04612a46a4f0479ff2f2
+  languageName: node
+  linkType: hard
+
 "lodash.defaults@npm:^4.2.0":
   version: 4.2.0
   resolution: "lodash.defaults@npm:4.2.0"
@@ -5924,6 +5950,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "piday-server@workspace:."
   dependencies:
+    "@keycloak/keycloak-admin-client": "npm:^22.0.5"
     "@nestjs/cli": "npm:^10.2.1"
     "@nestjs/common": "npm:^10.2.8"
     "@nestjs/core": "npm:^10.2.8"
@@ -7287,6 +7314,20 @@ __metadata:
   version: 4.0.1
   resolution: "url-join@npm:4.0.1"
   checksum: ac65e2c7c562d7b49b68edddcf55385d3e922bc1dd5d90419ea40b53b6de1607d1e45ceb71efb9d60da02c681d13c6cb3a1aa8b13fc0c989dfc219df97ee992d
+  languageName: node
+  linkType: hard
+
+"url-join@npm:^5.0.0":
+  version: 5.0.0
+  resolution: "url-join@npm:5.0.0"
+  checksum: ed2b166b4b5a98adcf6828a48b6bd6df1dac4c8a464a73cf4d8e2457ed410dd8da6be0d24855b86026cd7f5c5a3657c1b7b2c7a7c5b8870af17635a41387b04c
+  languageName: node
+  linkType: hard
+
+"url-template@npm:^3.1.0":
+  version: 3.1.0
+  resolution: "url-template@npm:3.1.0"
+  checksum: 142fb6e8ed3a956e49a8b9bf461150b5a6ba1e1cc1483300e3d2692df159fed6327ca5843bae3f2100746ee00878365e2780c63cf78f80ea25b0a1787ca04976
   languageName: node
   linkType: hard
 
