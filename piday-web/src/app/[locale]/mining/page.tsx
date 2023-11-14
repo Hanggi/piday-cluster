@@ -1,3 +1,4 @@
+import { BreadCrumb } from "@/src/components/BreadCrumb";
 import { Wrapper } from "@/src/components/Wrapper";
 
 import Image from "next/image";
@@ -13,6 +14,7 @@ export const metadata = {
 export default async function MiningPage() {
   return (
     <section className="container space-y-5">
+      <BreadCrumb />
       <Wrapper className="flex flex-wrap lg:h-96 gap-14 max-md:flex-col ">
         <Image
           alt="banner"
