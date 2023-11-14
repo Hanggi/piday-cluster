@@ -1,9 +1,15 @@
 "use client";
 
-import * as Dialog from "@radix-ui/react-dialog";
 import { cn } from "@/src/utils/cn";
 
-import { ComponentPropsWithRef, forwardRef } from "react";
+import {
+  ModalClose,
+  ModalDialog,
+  Modal as ModalRoot,
+  Typography,
+} from "@mui/joy";
+
+import { ComponentPropsWithRef, forwardRef, useState } from "react";
 
 import { Wrapper } from "../Wrapper";
 
@@ -14,29 +20,22 @@ type ModalProps = ComponentPropsWithRef<"div"> & {
 
 const Modal = forwardRef<HTMLDivElement, ModalProps>(
   ({ className, children, Content, title, ...props }, ref) => {
+    const [open, setOpen] = useState(false);
     return (
-      <Dialog.Root>
-        <Dialog.Trigger>{children}</Dialog.Trigger>
-        <Dialog.Portal>
-          <Dialog.Overlay className="fixed inset-0 z-50 bg-black/40" />
-          <Dialog.Content
-            ref={ref}
-            {...props}
-            asChild
-            className={cn("fixed center z-50", className)}
-          >
-            <Wrapper modal>
+      <>
+        <div onClick={() => setOpen(true)}>{children}</div>
+        <ModalRoot open={open} onClose={() => setOpen(false)}>
+          <ModalDialog className="!p-0">
+            <Wrapper modal {...props} className={cn(className)}>
               <header className="flex px-5 py-3 absolute top-0 inset-x-0 items-center justify-between">
-                <Dialog.Title>{title}</Dialog.Title>
-                <Dialog.Close>
-                  <i className="ri-close-fill text-3xl hover:scale-105 transition-all"></i>
-                </Dialog.Close>
+                <Typography>{title}</Typography>
+                <ModalClose />
               </header>
               {Content}
             </Wrapper>
-          </Dialog.Content>
-        </Dialog.Portal>
-      </Dialog.Root>
+          </ModalDialog>
+        </ModalRoot>
+      </>
     );
   },
 );

@@ -3,5 +3,5 @@ export const metadata = {
 };
 
 export default function ProfilePage() {
-  return <main>ProfilePage</main>;
+  return <main className="flex-1">ProfilePage</main>;
 }

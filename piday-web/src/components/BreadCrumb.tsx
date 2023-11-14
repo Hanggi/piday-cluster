@@ -8,7 +8,7 @@ import { useTranslation } from "react-i18next";
 
 import { cn } from "../utils/cn";
 
-type BreadCrumbProps = ComponentProps<"div"> & { path: string };
+type BreadCrumbProps = ComponentProps<"div"> & { path?: string };
 
 export function BreadCrumb({ className, path, ...props }: BreadCrumbProps) {
   const { t } = useTranslation("breadcrumb");
