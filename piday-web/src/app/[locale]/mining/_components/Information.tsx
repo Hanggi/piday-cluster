@@ -14,9 +14,12 @@ export function Information({ className, ...props }: InformationProps) {
     <div className={cn("grid grid-cols-4 grid-rows-2", className)} {...props}>
       <Wrapper className="col-span-2 row-span-2">
         <p className="text-xl font-normal">{t("mining:information.title")}</p>
-        <section className="grid-cols-3 grid divide-x-2">
+        <section className="grid-cols-3 mt-7 grid divide-x divide-zinc-100 gap-y-10">
           {informationData.map((info) => (
-            <div className="nth-[3n+1]:bg-red-200" key={info.translationKey}>
+            <div
+              className="nth-[3n+1]:pl-0 space-y-2 pl-10 nth-[3n+1]:!border-l-0"
+              key={info.translationKey}
+            >
               <h4 className="text-black/40 ">{t(info.translationKey)}</h4>
               <h5 className="text-xl font-medium">{info.value}</h5>
             </div>
