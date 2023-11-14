@@ -48,7 +48,7 @@ export function Table({ className, ...props }: TableProps) {
           ))}
         </TableBody>
       </TableRoot>
-      <Pagination />
+      <Pagination className="mb-2" />
     </Wrapper>
   );
 }
