@@ -1,6 +1,6 @@
 "use client";
 
-import { Wrapper } from "@/src/components/Wrapper";
+import { WrapperCard } from "@/src/components/WrapperCard";
 import { cn } from "@/src/utils/cn";
 
 import Image from "next/image";
@@ -17,7 +17,7 @@ export function Information({ className, ...props }: InformationProps) {
       className={cn("grid grid-cols-4 gap-5 grid-rows-2", className)}
       {...props}
     >
-      <Wrapper className="col-span-2 row-span-2">
+      <WrapperCard className="col-span-2 row-span-2">
         <p className="text-xl font-normal">{t("mining:information.title")}</p>
         <section className="md:grid-cols-3 mt-7 grid divide-x divide-zinc-100 gap-y-10">
           {informationData.map((info) => (
@@ -30,9 +30,9 @@ export function Information({ className, ...props }: InformationProps) {
             </div>
           ))}
         </section>
-      </Wrapper>
+      </WrapperCard>
       {pointsData.map((data) => (
-        <Wrapper className="relative" key={data.translationKey}>
+        <WrapperCard className="relative" key={data.translationKey}>
           <h4 className="text-black/40">{t(data.translationKey)}</h4>
           <p className="text-secondary text-[32px]">{t(data.value)}</p>
           <Image
@@ -42,7 +42,7 @@ export function Information({ className, ...props }: InformationProps) {
             src={data.image}
             width={106}
           />
-        </Wrapper>
+        </WrapperCard>
       ))}
     </div>
   );

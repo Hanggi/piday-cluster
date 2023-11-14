@@ -11,7 +11,7 @@ import {
 
 import { ComponentPropsWithRef, forwardRef, useState } from "react";
 
-import { Wrapper } from "../Wrapper";
+import { WrapperCard } from "../WrapperCard";
 
 type ModalProps = ComponentPropsWithRef<"div"> & {
   Content: React.ReactNode;
@@ -26,13 +26,13 @@ const Modal = forwardRef<HTMLDivElement, ModalProps>(
         <div onClick={() => setOpen(true)}>{children}</div>
         <ModalRoot open={open} onClose={() => setOpen(false)}>
           <ModalDialog className="!p-0">
-            <Wrapper modal {...props} className={cn(className)}>
+            <WrapperCard modal {...props} className={cn(className)}>
               <header className="flex px-5 py-3 absolute top-0 inset-x-0 items-center justify-between">
                 <Typography>{title}</Typography>
                 <ModalClose />
               </header>
               {Content}
-            </Wrapper>
+            </WrapperCard>
           </ModalDialog>
         </ModalRoot>
       </>

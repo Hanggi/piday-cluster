@@ -1,9 +1,15 @@
 import { cn } from "@/src/utils/cn";
 
+import dynamic from "next/dynamic";
+
 import { ComponentProps } from "react";
 
-import { SideNav } from "./SideNav";
-import { User } from "./User";
+const SideNav = dynamic(() =>
+  import("./SideNav").then((module) => ({ default: module.SideNav })),
+);
+const User = dynamic(() =>
+  import("./User").then((module) => ({ default: module.User })),
+);
 
 type AsideProps = ComponentProps<"aside">;
 

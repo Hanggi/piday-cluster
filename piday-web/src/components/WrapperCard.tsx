@@ -6,7 +6,7 @@ type WrapperProps = ComponentProps<"section"> & {
   modal?: boolean;
 };
 
-export function Wrapper({ className, modal, ...props }: WrapperProps) {
+export function WrapperCard({ className, modal, ...props }: WrapperProps) {
   return (
     <section
       className={cn(

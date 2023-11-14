@@ -9,18 +9,18 @@ import {
   Table as TableRoot,
   TableRow,
 } from "@/src/components/Table";
-import { Wrapper } from "@/src/components/Wrapper";
+import { WrapperCard } from "@/src/components/WrapperCard";
 import { cn } from "@/src/utils/cn";
 
 import { ComponentProps } from "react";
 import { useTranslation } from "react-i18next";
 
-type TableProps = ComponentProps<typeof Wrapper>;
+type TableProps = ComponentProps<typeof WrapperCard>;
 
 export function Table({ className, ...props }: TableProps) {
   const { t } = useTranslation("mining");
   return (
-    <Wrapper className={cn("w-full", className)} {...props}>
+    <WrapperCard className={cn("w-full", className)} {...props}>
       <h4 className="text-black text-xl font-semibold font-['PingFang SC']">
         {t("mining:table.title")}
       </h4>
@@ -49,7 +49,7 @@ export function Table({ className, ...props }: TableProps) {
         </TableBody>
       </TableRoot>
       <Pagination className="mb-2" />
-    </Wrapper>
+    </WrapperCard>
   );
 }
 

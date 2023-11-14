@@ -1,12 +1,12 @@
-import { Wrapper } from "@/src/components/Wrapper";
+import { WrapperCard } from "@/src/components/WrapperCard";
 
 import { Aside } from "./_components/Aside";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <Wrapper className="container  flex">
+    <WrapperCard className="container  flex">
       <Aside />
       {children}
-    </Wrapper>
+    </WrapperCard>
   );
 }

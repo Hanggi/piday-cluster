@@ -1,5 +1,5 @@
 import { BreadCrumb } from "@/src/components/BreadCrumb";
-import { Wrapper } from "@/src/components/Wrapper";
+import { WrapperCard } from "@/src/components/WrapperCard";
 
 import Image from "next/image";
 
@@ -15,7 +15,7 @@ export default async function MiningPage() {
   return (
     <section className="container space-y-5">
       <BreadCrumb />
-      <Wrapper className="flex flex-wrap lg:h-96 gap-14 max-md:flex-col ">
+      <WrapperCard className="flex flex-wrap lg:h-96 gap-14 max-md:flex-col ">
         <Image
           alt="banner"
           className="flex-1"
@@ -24,7 +24,7 @@ export default async function MiningPage() {
           width={770}
         />
         <HeaderAside />
-      </Wrapper>
+      </WrapperCard>
       <Information />
       <Table />
       <br />
