@@ -3,6 +3,8 @@
 import { Wrapper } from "@/src/components/Wrapper";
 import { cn } from "@/src/utils/cn";
 
+import Image from "next/image";
+
 import { ComponentProps } from "react";
 import { useTranslation } from "react-i18next";
 
@@ -30,9 +32,16 @@ export function Information({ className, ...props }: InformationProps) {
         </section>
       </Wrapper>
       {pointsData.map((data) => (
-        <Wrapper key={data.translationKey}>
+        <Wrapper className="relative" key={data.translationKey}>
           <h4 className="text-black/40">{t(data.translationKey)}</h4>
           <p className="text-secondary text-[32px]">{t(data.value)}</p>
+          <Image
+            alt="icon"
+            className="absolute right-0 bottom-0 opacity-10"
+            height={106}
+            src={data.image}
+            width={106}
+          />
         </Wrapper>
       ))}
     </div>

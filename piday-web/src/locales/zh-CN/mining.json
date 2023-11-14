@@ -13,5 +13,13 @@
     "basicPoints": "基础积分",
     "invitationPoints": "邀请积分",
     "landPoints": "土地积分"
+  },
+  "table": {
+    "title": "挖矿团队成员列表 ",
+    "memberName": "成员名称",
+    "pointAmount": "积分量",
+    "landOwnership": "土地持有量",
+    "numberOfPeopleInvited": "邀请人数",
+    "isActiveToday": "今日活跃与否"
   }
 }

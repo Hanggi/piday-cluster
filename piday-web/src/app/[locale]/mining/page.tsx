@@ -4,6 +4,7 @@ import Image from "next/image";
 
 import { HeaderAside } from "./_components/HeaderAside";
 import { Information } from "./_components/Information";
+import { Table } from "./_components/Table";
 
 export const metadata = {
   title: "Mining",
@@ -23,6 +24,9 @@ export default async function MiningPage() {
         <HeaderAside />
       </Wrapper>
       <Information />
+      <Table />
+      <br />
+      <br />
     </section>
   );
 }
