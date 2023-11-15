@@ -1,5 +1,5 @@
-import { Module } from "@nestjs/common";
-import { APP_FILTER } from "@nestjs/core";
+import { Module, ValidationPipe } from "@nestjs/common";
+import { APP_FILTER, APP_PIPE } from "@nestjs/core";
 import { ThrottlerModule } from "@nestjs/throttler";
 
 import { AppController } from "./app.controller";
@@ -23,6 +23,10 @@ import { HttpExceptionFilter } from "./lib/exceptions/http-exception.filter";
     {
       provide: APP_FILTER,
       useClass: HttpExceptionFilter,
+    },
+    {
+      provide: APP_PIPE,
+      useClass: ValidationPipe,
     },
   ],
 })

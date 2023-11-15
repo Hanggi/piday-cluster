@@ -11,6 +11,7 @@ import {
 import { Throttle } from "@nestjs/throttler";
 
 import { AuthService } from "./auth.service";
+import { EmailQueryDto } from "./dto/email-query.dto";
 
 @Controller("auth")
 export class AuthController {
@@ -19,12 +20,9 @@ export class AuthController {
   @Get("send-email-verification")
   @Throttle({ default: { limit: 2, ttl: 60000 } })
   async sendEmailVerification(
-    @Query("email") email: string,
+    @Query() { email }: EmailQueryDto,
     @Res() res: Response,
   ) {
-    // TODO: Check if email is valid
-    // TODO: Check if email is already registered
-
     try {
       await this.authService.setVerificationCodeAndSendEmail(email);
     } catch (err) {

@@ -1,7 +1,7 @@
-import { Tab } from "./_components/Tab";
+import { RankingTab } from "./_components/Tab";
 
 export default function RankingPage() {
-  return <Tab />;
+  return <RankingTab />;
 }
 
 export type TabListDataType = {

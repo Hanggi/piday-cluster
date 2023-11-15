@@ -5,25 +5,28 @@ import Link from "next/link";
 
 import { useTranslation } from "react-i18next";
 
-export enum navType {
-  header = "header",
-  footer = "footer",
+export enum NavType {
+  HEADER = "HEADER",
+  FOOTER = "FOOTER",
 }
+
 export default function Navbar({
   children,
   navType,
 }: {
   children: React.ReactNode;
-  navType: navType;
+  navType: NavType;
 }) {
   const { t } = useTranslation("common");
   const Wrapper = navType;
 
   return (
-    <Wrapper
-      className={cn(" top-0 w-full h-20", { fixed: navType === "header" })}
+    <div
+      className={cn(" top-0 w-full h-20", {
+        fixed: navType === NavType.HEADER,
+      })}
     >
-      {navType === "header" && (
+      {navType === NavType.HEADER && (
         <Image
           alt="banner"
           className="w-full h-[240px] object-cover object-bottom -z-10 absolute "
@@ -36,7 +39,7 @@ export default function Navbar({
         <Link href="/">
           <div
             className={cn("relative h-12 w-28", {
-              grayscale: navType === "footer",
+              grayscale: navType === NavType.FOOTER,
             })}
           >
             <Image
@@ -68,7 +71,7 @@ export default function Navbar({
         </ul>
         <div>{children}</div>
       </nav>
-    </Wrapper>
+    </div>
   );
 }
 

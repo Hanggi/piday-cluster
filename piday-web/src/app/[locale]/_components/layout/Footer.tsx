@@ -1,11 +1,11 @@
 "use client";
 
-import Navbar, { navType } from "./Navbar";
+import Navbar, { NavType } from "./Navbar";
 
 export default function Footer() {
   return (
     <section className="w-full  bg-primary">
-      <Navbar navType={navType.footer}>hello</Navbar>
+      <Navbar navType={NavType.FOOTER}>hello</Navbar>
     </section>
   );
 }

@@ -18,6 +18,9 @@ export class AuthService {
   async setVerificationCodeAndSendEmail(email: string) {
     const user = await this.keycloakService.findUserByEmail(email);
 
+    console.log(email);
+    console.log(user);
+
     if (user && user.emailVerified) {
       throw new ServiceException(
         "Email already verified!",

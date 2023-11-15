@@ -6,7 +6,7 @@ import { TabListDataType } from "../page";
 import { TabContent } from "./TabContent";
 import { TabList } from "./TabList";
 
-export const Tab = () => {
+export const RankingTab = () => {
   return (
     <RadixTab.Root defaultValue={tabListData[0].label}>
       <TabList tabListData={tabListData as any} />

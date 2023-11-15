@@ -1,11 +1,11 @@
 "use client";
 
 import AuthStatusButton from "../auth/AuthStatusButton";
-import Navbar, { navType } from "./Navbar";
+import Navbar, { NavType } from "./Navbar";
 
 export default function Header() {
   return (
-    <Navbar navType={navType.header}>
+    <Navbar navType={NavType.HEADER}>
       <AuthStatusButton />
     </Navbar>
   );
