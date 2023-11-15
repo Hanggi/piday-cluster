@@ -18,7 +18,6 @@ export default function Navbar({
   navType: NavType;
 }) {
   const { t } = useTranslation("common");
-  const Wrapper = navType;
 
   return (
     <div

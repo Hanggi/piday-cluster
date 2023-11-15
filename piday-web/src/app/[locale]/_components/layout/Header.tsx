@@ -5,8 +5,10 @@ import Navbar, { NavType } from "./Navbar";
 
 export default function Header() {
   return (
-    <Navbar navType={NavType.HEADER}>
-      <AuthStatusButton />
-    </Navbar>
+    <header>
+      <Navbar navType={NavType.HEADER}>
+        <AuthStatusButton />
+      </Navbar>
+    </header>
   );
 }
