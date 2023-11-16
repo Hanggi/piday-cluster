@@ -1,5 +1,8 @@
 "use client";
 
+import Breadcrumbs from "@mui/joy/Breadcrumbs";
+import Typography from "@mui/joy/Typography";
+
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -14,10 +17,16 @@ export function BreadCrumb({ className, path, ...props }: BreadCrumbProps) {
   const { t } = useTranslation("breadcrumb");
   const pathname = usePathname();
   return (
-    <div className={cn(className)} {...props}>
+    <Breadcrumbs
+      aria-label="breadcrumbs"
+      className={cn(className)}
+      separator={<i className="ri-arrow-right-s-line"></i>}
+    >
       <Link href={"/"}>{t("breadcrumb:home")}</Link>
-      <i className="ri-arrow-right-s-line"></i>
-      <span>{path || t(`breadcrumb:${pathname.split("/")[1]}`)}</span>
-    </div>
+
+      <Typography>
+        {path || t(`breadcrumb:${pathname.split("/")[1]}`)}
+      </Typography>
+    </Breadcrumbs>
   );
 }
