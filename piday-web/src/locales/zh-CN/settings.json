@@ -1,13 +1,14 @@
 {
-  "settings": "Settings",
-  "nickname": "Nickname",
+  "settings": "设置",
+  "nickname": "昵称",
   "pidayID": "Piday ID",
-  "liubei": "Liubei",
+  "liubei": "刘备",
   "pid": "213215487",
-  "setPassword": "Set Password",
-  "confirmPassword": "Confirm Password",
-  "enter": "Enter",
-  "bindEmail": "Bind Email",
-  "bindPIDWalletAddress": "Bind PI Wallet Address",
-  "country": "Country"
+  "setPassword": "设置密码",
+  "confirmPassword": "二次确认密码",
+  "enter": "请输入",
+  "bindEmail": "绑定邮箱",
+  "bindPIDWalletAddress": "绑定PI钱包地址",
+  "country": "所属国家",
+  "saveAndModify": "保存并修改"
 }

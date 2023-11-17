@@ -16,6 +16,8 @@ export default function SettingPage() {
         <User />
         <Form />
       </WrapperCard>
+      <br />
+      <br />
     </main>
   );
 }

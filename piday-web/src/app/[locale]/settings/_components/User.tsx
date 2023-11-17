@@ -10,7 +10,7 @@ export const User = () => {
     <div>
       <Image
         alt="cover"
-        className="w-full"
+        className="w-full object-cover min-h-[80px]"
         height={120}
         src={`/img/settings/cover.png`}
         width={1280}
