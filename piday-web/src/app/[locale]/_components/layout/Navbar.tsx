@@ -81,17 +81,17 @@ export default function Navbar({
 
 const navData = [
   {
-    icon: "img/icons/Handbag.svg",
+    icon: "/img/icons/handbag.svg",
     href: "/store",
     translationKey: "common:nav.store",
   },
   {
-    icon: "img/icons/tools.svg",
+    icon: "/img/icons/tools.svg",
     href: "/mining",
     translationKey: "common:nav.mining",
   },
   {
-    icon: "img/icons/wallet.svg",
+    icon: "/img/icons/wallet.svg",
     href: "/wallet",
     translationKey: "common:nav.wallet",
   },
