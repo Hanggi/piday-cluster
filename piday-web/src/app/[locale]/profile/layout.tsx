@@ -6,7 +6,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <WrapperCard className="container  flex">
       <Aside />
-      {children}
+      <main className="grow p-4 md:px-7">{children}</main>
     </WrapperCard>
   );
 }

@@ -75,21 +75,21 @@ const pointsData = [
   {
     translationKey: "mining:information.totalPoints",
     value: "21547",
-    image: "/img/mining/Database.svg",
+    image: "/img/mining/database.svg",
   },
   {
     translationKey: "mining:information.basicPoints",
     value: "122",
-    image: "/img/mining/Database.svg",
+    image: "/img/mining/database.svg",
   },
   {
     translationKey: "mining:information.invitationPoints",
     value: "21",
-    image: "/img/mining/Email.svg",
+    image: "/img/mining/email.svg",
   },
   {
     translationKey: "mining:information.landPoints",
     value: "213",
-    image: "/img/mining/Dashboard.svg",
+    image: "/img/mining/dashboard.svg",
   },
 ];

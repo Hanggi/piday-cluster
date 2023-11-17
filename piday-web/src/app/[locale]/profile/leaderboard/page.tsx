@@ -1,7 +1,13 @@
+import { Statistics } from "./_components/Statistics";
+
 export const metadata = {
   title: "Leaderboard",
 };
 
 export default function LeaderboardPage() {
-  return <main>LeaderboardPage</main>;
+  return (
+    <main>
+      <Statistics />
+    </main>
+  );
 }
