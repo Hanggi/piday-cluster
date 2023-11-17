@@ -4,5 +4,17 @@
     "leaderboard": "Leaderboard",
     "blogCenter": "Blog Center",
     "aboutParty": "About Party"
+  },
+  "leaderboard": {
+    "overviewStatistics": "Overview Statistics",
+    "totalWalletAssets": "Total Wallet Assets",
+    "landAssetQuantity": "Land Asset Quantity",
+    "totalMiningPoints": "Total Mining Points",
+    "teamMemberStatistics": "Team Member Statistics",
+    "enterMemberName": "Enter Member Name",
+    "minInvitations": "Minimum Invitations",
+    "maxInvitations": "Maximum Invitations",
+    "minRanking": "Minimum Ranking",
+    "maxRanking": "Maximum Ranking"
   }
 }

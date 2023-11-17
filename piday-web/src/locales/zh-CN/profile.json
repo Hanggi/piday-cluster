@@ -4,5 +4,17 @@
     "leaderboard": "排行榜单",
     "blogCenter": "博客中心",
     "aboutParty": "关于派对"
+  },
+  "leaderboard": {
+    "overviewStatistics": "概况统计",
+    "totalWalletAssets": "钱包资产总额",
+    "landAssetQuantity": "土地资产数量",
+    "totalMiningPoints": "挖矿总积分",
+    "teamMemberStatistics": "团队成员统计",
+    "enterMemberName": "请输入成员名称",
+    "minInvitations": "邀请人数最小值",
+    "maxInvitations": "邀请人数最大值",
+    "minRanking": "排名最小值",
+    "maxRanking": "排名最大值"
   }
 }
