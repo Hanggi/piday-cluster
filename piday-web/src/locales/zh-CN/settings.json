@@ -1,0 +1,13 @@
+{
+  "settings": "Settings",
+  "nickname": "Nickname",
+  "pidayID": "Piday ID",
+  "liubei": "Liubei",
+  "pid": "213215487",
+  "setPassword": "Set Password",
+  "confirmPassword": "Confirm Password",
+  "enter": "Enter",
+  "bindEmail": "Bind Email",
+  "bindPIDWalletAddress": "Bind PI Wallet Address",
+  "country": "Country"
+}
