@@ -22,9 +22,12 @@ export function SideNav({ className, ...props }: SideNavProps) {
     <div className={cn(className)} {...props}>
       {navItems.map((nav) => (
         <Link
-          className={cn("flex min-w-[190px] items-center gap-2 p-4 border-b", {
-            "bg-secondary/10 rounded-md": isNavActive(nav.href, pathname),
-          })}
+          className={cn(
+            "flex min-w-[190px] last:grow items-center gap-2 p-4 border-b",
+            {
+              "bg-secondary/10 rounded-md": isNavActive(nav.href, pathname),
+            },
+          )}
           href={`${pathname}/${nav.href}`}
           key={nav.translationKey}
         >
@@ -41,28 +44,38 @@ export function SideNav({ className, ...props }: SideNavProps) {
           <i className="ri-arrow-right-s-line"></i>
         </Link>
       ))}
+      <Link
+        className={cn(
+          "flex min-w-[190px] translate-y-16 items-center gap-2 absolute bottom-0 p-4 border rounded-xl",
+        )}
+        href={""}
+      >
+        <Image alt="" height={20} src="/img/profile/power.svg" width={20} />
+        <Typography className="text-sm grow">{t("nav.logout")}</Typography>{" "}
+        <i className="ri-arrow-right-s-line"></i>
+      </Link>
     </div>
   );
 }
 
 const navItems = [
   {
-    translationKey: "profile:nav.enterTeam",
+    translationKey: "nav.enterTeam",
     href: "user",
     icon: "/img/profile/users.svg",
   },
   {
-    translationKey: "profile:nav.leaderboard",
+    translationKey: "nav.leaderboard",
     href: "leaderboard",
     icon: "/img/profile/trophy.svg",
   },
   {
-    translationKey: "profile:nav.blogCenter",
+    translationKey: "nav.blogCenter",
     href: "blog",
     icon: "/img/profile/newspaper.svg",
   },
   {
-    translationKey: "profile:nav.aboutParty",
+    translationKey: "nav.aboutParty",
     href: "pid",
     icon: "/img/profile/pid.png",
   },

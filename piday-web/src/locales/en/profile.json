@@ -3,7 +3,8 @@
     "enterTeam": "Enter Team",
     "leaderboard": "Leaderboard",
     "blogCenter": "Blog Center",
-    "aboutParty": "About Party"
+    "aboutParty": "About Party",
+    "logout": "Logout"
   },
   "leaderboard": {
     "overviewStatistics": "Overview Statistics",

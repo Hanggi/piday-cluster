@@ -15,7 +15,7 @@ type AsideProps = ComponentProps<"aside">;
 
 export function Aside({ className, ...props }: AsideProps) {
   return (
-    <aside className={cn(className)} {...props}>
+    <aside className={cn("relative", className)} {...props}>
       <User />
       <SideNav />
     </aside>

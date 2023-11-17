@@ -3,7 +3,8 @@
     "enterTeam": "进入团队",
     "leaderboard": "排行榜单",
     "blogCenter": "博客中心",
-    "aboutParty": "关于派对"
+    "aboutParty": "关于派对",
+    "logout": "退出登录"
   },
   "leaderboard": {
     "overviewStatistics": "概况统计",
