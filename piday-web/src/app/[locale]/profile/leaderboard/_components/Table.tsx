@@ -1,5 +1,14 @@
 "use client";
 
+import { Pagination } from "@/src/components/Pagination";
+import {
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  Table as TableRoot,
+  TableRow,
+} from "@/src/components/Table";
 import { cn } from "@/src/utils/cn";
 
 import { Chip, Input, Typography } from "@mui/joy";
@@ -69,6 +78,34 @@ export const Table = () => {
           />
         </div>
       </header>
+      <TableRoot className="mt-5">
+        <TableHeader>
+          <TableRow>
+            {[
+              "memberName",
+              "currentStatus",
+              "numberOfPeopleInvited",
+              "globalRanking",
+            ].map((head) => (
+              <TableHead key={head}>
+                {t(`profile:leaderboard.table.${head}`)}
+              </TableHead>
+            ))}
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {Array.from(Array(10).keys()).map((idx) => (
+            <TableRow key={idx}>
+              {data.map((el) => (
+                <TableCell key={el}>{el}</TableCell>
+              ))}
+            </TableRow>
+          ))}
+        </TableBody>
+      </TableRoot>
+      <Pagination className="mb-2" />
     </section>
   );
 };
+
+const data = ["张飞", "在线", "5", "24"];

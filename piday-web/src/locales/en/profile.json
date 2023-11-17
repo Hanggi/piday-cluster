@@ -15,6 +15,12 @@
     "minInvitations": "Minimum Invitations",
     "maxInvitations": "Maximum Invitations",
     "minRanking": "Minimum Ranking",
-    "maxRanking": "Maximum Ranking"
+    "maxRanking": "Maximum Ranking",
+    "table": {
+      "memberName": "Member Name",
+      "currentStatus": "Current Status",
+      "numberOfPeopleInvited": "Number Of People Invited",
+      "globalRanking": "Global Ranking"
+    }
   }
 }
