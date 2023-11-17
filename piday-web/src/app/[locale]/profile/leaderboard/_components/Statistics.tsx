@@ -19,7 +19,7 @@ export function Statistics({ className, ...props }: StatisticsProps) {
       <Typography level="h4">
         {t("profile:leaderboard.overviewStatistics")}
       </Typography>
-      <div className="grid grid-cols-1 gap-5 my -4 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-5 my-4 lg:grid-cols-2 xl:grid-cols-3">
         {statisticsData.map((data) => (
           <WrapperCard
             className="relative"
