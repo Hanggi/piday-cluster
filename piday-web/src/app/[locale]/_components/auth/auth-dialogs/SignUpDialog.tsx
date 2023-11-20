@@ -1,6 +1,7 @@
 "use client";
 
 import { clsx } from "clsx";
+import validator from "validator";
 
 import Button from "@mui/joy/Button";
 import DialogContent from "@mui/joy/DialogContent";
@@ -13,17 +14,18 @@ import ModalClose from "@mui/joy/ModalClose";
 import ModalDialog from "@mui/joy/ModalDialog";
 import Typography from "@mui/joy/Typography";
 
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import BeatLoader from "react-spinners/BeatLoader";
+import { toast } from "react-toastify";
 
 import { AuthDialogType } from "../SignInButton";
 
 interface SignUpFormProps {
   email: string;
   username: string;
-  verifyCode: string;
+  verificationCode: string;
   password: string;
   confirmPassword: string;
 }
@@ -35,9 +37,26 @@ interface Props {
 export default function SignUpDialog({
   onAuthDialogTypeChange: onAuthTypeChange,
 }: Props) {
-  const { t } = useTranslation("common");
+  const { t, i18n } = useTranslation("common");
 
   const [isLoding, setIsLoding] = useState(false); // 登录状态标志
+
+  const [seconds, setSeconds] = useState(0);
+  const [disabledSendButton, setDisabledSendButton] = useState(false);
+  useEffect(() => {
+    let interval: any = null;
+
+    if (disabledSendButton && seconds > 0) {
+      interval = setInterval(() => {
+        setSeconds((seconds) => seconds - 1);
+      }, 1000);
+    } else if (seconds === 0) {
+      setDisabledSendButton(false);
+      setSeconds(60);
+    }
+
+    return () => clearInterval(interval);
+  }, [disabledSendButton, seconds]);
 
   const {
     register,
@@ -46,6 +65,7 @@ export default function SignUpDialog({
     formState: { errors },
   } = useForm<SignUpFormProps>();
 
+  const email = watch("email");
   const password = watch("password");
 
   const onSubmit = useCallback((data: SignUpFormProps) => {
@@ -59,12 +79,44 @@ export default function SignUpDialog({
           // username: data.username,
           password: data.password,
           email: data.email,
+          code: data.verificationCode,
         }),
       });
       console.log(res);
       console.log(await res.json());
     })();
   }, []);
+
+  const handleSendVerificationCode = useCallback(() => {
+    if (!email) {
+      toast.warn(t("common:auth.validation.email"));
+      return;
+    }
+    if (!validator.isEmail(email)) {
+      toast.warn(t("common:auth.errors.invalidEmail"));
+      return;
+    }
+
+    (async () => {
+      const res = await fetch(
+        `/api/auth/send-email-verification?email=${email}`,
+        {
+          method: "GET",
+          headers: {
+            locale: i18n.language,
+          },
+        },
+      );
+      console.log(res);
+      const jsonRes = await res.json();
+      if (jsonRes.success) {
+        setDisabledSendButton(true);
+        toast.success(t("common:auth.toast.emailVerificationSent"));
+      } else {
+        toast.error(jsonRes.message);
+      }
+    })();
+  }, [email, i18n.language, t]);
 
   return (
     <ModalDialog>
@@ -98,6 +150,27 @@ export default function SignUpDialog({
             {errors.email && (
               <FormHelperText>{errors.email.message}</FormHelperText>
             )}
+          </FormControl>
+          <FormControl className="mb-4">
+            <FormLabel>{t("common:auth.verificationCode")}</FormLabel>
+            <div className="flex gap-4">
+              <Input
+                {...register("verificationCode", {
+                  required: t("common:auth.validation.required"),
+                })}
+                placeholder={t("common:auth.verificationCodePlaceholder")}
+              />
+              <Button
+                className="w-[100px]"
+                disabled={disabledSendButton}
+                onClick={() => {
+                  handleSendVerificationCode();
+                }}
+              >
+                {t("common:button.send")}{" "}
+                <span>{disabledSendButton ? `(${seconds}s)` : ""}</span>
+              </Button>
+            </div>
           </FormControl>
           <FormControl className="mb-4" error={!!errors.password}>
             <FormLabel>{t("common:auth.password")}</FormLabel>

@@ -18,9 +18,6 @@ export class AuthService {
   async setVerificationCodeAndSendEmail(email: string) {
     const user = await this.keycloakService.findUserByEmail(email);
 
-    console.log(email);
-    console.log(user);
-
     if (user && user.emailVerified) {
       throw new ServiceException(
         "Email already verified!",
@@ -28,7 +25,7 @@ export class AuthService {
       );
     }
 
-    const redisKey = `piday::auth:email.verify1.${email}`;
+    const redisKey = `piday::auth:email.verify.${email}`;
     // Get exisint verification code
     let verificationCode = await this.redis.get(redisKey);
     if (!verificationCode) {
@@ -63,5 +60,43 @@ export class AuthService {
       console.error("Send email failed:", error);
       throw new ServiceException("Send email failed", "SEND_EMAIL_FAILED");
     }
+  }
+
+  async emailSignup(email: string, code: string, password: string) {
+    const redisKey = `piday::auth:email.verify.${email}`;
+    const verificationCode = await this.redis.get(redisKey);
+
+    if (verificationCode !== code) {
+      throw new ServiceException(
+        "Invalid verification code",
+        "INVALID_VERIFICATION_CODE",
+      );
+    }
+
+    console.log("???");
+    const user = await this.keycloakService.findUserByEmail(email);
+    console.log(user);
+
+    if (user) {
+      throw new ServiceException("Email already exists", "EMAIL_EXISTS");
+    }
+
+    const createdUser = await this.keycloakService.createUser({
+      email,
+      emailVerified: true,
+      enabled: true,
+      username: email,
+      credentials: [
+        {
+          type: "password",
+          value: password,
+          temporary: false,
+        },
+      ],
+    });
+
+    console.log(createdUser);
+
+    return createdUser;
   }
 }

@@ -76,15 +76,15 @@ export default function Navbar({
 
 const navData = [
   {
-    icon: "img/icons/Handbag.svg",
+    icon: "/img/icons/Handbag.svg",
     translationKey: "common:nav.store",
   },
   {
-    icon: "img/icons/tools.svg",
+    icon: "/img/icons/tools.svg",
     translationKey: "common:nav.mining",
   },
   {
-    icon: "img/icons/wallet.svg",
+    icon: "/img/icons/wallet.svg",
     translationKey: "common:nav.wallet",
   },
 ];

@@ -1,4 +1,4 @@
-import { RankingTab } from "./_components/Tab";
+import { RankingTab } from "./_components/RankingTab";
 
 export default function RankingPage() {
   return <RankingTab />;

@@ -39,4 +39,9 @@ export class KeycloakService {
     });
     return users[0];
   }
+
+  async createUser(user: UserRepresentation): Promise<UserRepresentation> {
+    await this.getAccessToken();
+    return await this.kcAdminClient.users.create(user);
+  }
 }

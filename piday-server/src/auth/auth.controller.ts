@@ -1,17 +1,19 @@
 import { Response } from "express";
 
 import {
+  Body,
   Controller,
   Get,
   HttpException,
   HttpStatus,
+  Post,
   Query,
   Res,
 } from "@nestjs/common";
 import { Throttle } from "@nestjs/throttler";
 
 import { AuthService } from "./auth.service";
-import { EmailQueryDto } from "./dto/email-query.dto";
+import { EmailQueryDto, EmailSignupDto } from "./dto/email-query.dto";
 
 @Controller("auth")
 export class AuthController {
@@ -41,6 +43,38 @@ export class AuthController {
 
     res.status(HttpStatus.OK).json({
       message: "Email verification sent",
+    });
+  }
+
+  @Post("email-signup")
+  @Throttle({ default: { limit: 10, ttl: 60000 } })
+  async emailSignup(
+    @Body() { email, code, password }: EmailSignupDto,
+    @Res() res: Response,
+  ) {
+    try {
+      await this.authService.emailSignup(email, code, password);
+    } catch (err) {
+      switch (err.code) {
+        case "EMAIL_ALREADY_EXISTS":
+          throw new HttpException(
+            "Email already verified",
+            HttpStatus.CONFLICT,
+          );
+        case "INVALID_VERIFICATION_CODE":
+          throw new HttpException(
+            "Invalid verification code",
+            HttpStatus.BAD_REQUEST,
+          );
+      }
+      throw new HttpException(
+        "Internal Server Error",
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+
+    res.status(HttpStatus.CREATED).json({
+      message: "Email signup success",
     });
   }
 }
