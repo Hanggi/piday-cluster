@@ -53,10 +53,20 @@ export default function SignInButton() {
       >
         <div>
           {dialogType === AuthDialogType.EMAIL_SIGN_IN && (
-            <SignInDialog onAuthDialogTypeChange={handleAuthDialogTypeChange} />
+            <SignInDialog
+              onAuthDialogTypeChange={handleAuthDialogTypeChange}
+              onClose={() => {
+                setOpenSignIn(false);
+              }}
+            />
           )}
           {dialogType === AuthDialogType.EMAIL_SIGN_UP && (
-            <SignUpDialog onAuthDialogTypeChange={handleAuthDialogTypeChange} />
+            <SignUpDialog
+              onAuthDialogTypeChange={handleAuthDialogTypeChange}
+              onClose={() => {
+                setOpenSignIn(false);
+              }}
+            />
           )}
         </div>
       </Modal>

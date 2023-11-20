@@ -31,10 +31,12 @@ interface SignInFormProps {
 
 interface Props {
   onAuthDialogTypeChange: (type: AuthDialogType) => void;
+  onClose?: () => void;
 }
 
 export default function SignInDialog({
   onAuthDialogTypeChange: onAuthTypeChange,
+  onClose,
 }: Props) {
   const { t } = useTranslation("common");
 
@@ -58,7 +60,10 @@ export default function SignInDialog({
         .then((res) => {
           if (res?.status == StatusCodes.UNAUTHORIZED) {
             toast.error(t("common:auth.validation.emailOrPasswordIncorrect"));
+            return;
           }
+          toast.success(t("common:auth.signIn.success"));
+          onClose && onClose();
         })
         .catch((error) => {
           console.error(error);
@@ -68,7 +73,7 @@ export default function SignInDialog({
           setIsLoding(false);
         });
     },
-    [t],
+    [onClose, t],
   );
 
   return (

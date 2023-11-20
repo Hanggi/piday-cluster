@@ -11,11 +11,13 @@
   "auth": {
     "signIn": {
       "title": "Sign In",
-      "signUpHint": "Don't have an account?"
+      "signUpHint": "Don't have an account?",
+      "success": "Sign in successfully"
     },
     "signUp": {
       "title": "Sign Up",
-      "signInHint": "Already have an account?"
+      "signInHint": "Already have an account?",
+      "success": "Sign up successfully"
     },
     "email": "Email",
     "emailPlaceholder": "Enter your email",

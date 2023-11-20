@@ -3,6 +3,7 @@ import { StatusCodes } from "http-status-codes";
 export async function POST(request: Request, res: Response) {
   const req = await request.json();
 
+  console.log(req);
   const body = {
     username: req.username,
     password: req.password,
@@ -29,11 +30,27 @@ export async function POST(request: Request, res: Response) {
       `${process.env.BACKEND_BASE_URL}/auth/email-signup`,
       {
         method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify(body),
       },
     );
-    console.log(res);
-    console.log(await res.json());
+    console.log(res.ok);
+    const jsonRes = await res.json();
+    console.log(jsonRes);
+
+    if (!res.ok) {
+      return new Response(
+        JSON.stringify({
+          success: false,
+          message: jsonRes.message,
+        }),
+        {
+          status: jsonRes.statusCode,
+        },
+      );
+    }
 
     return new Response(
       JSON.stringify({ message: "User registered successfully." }),

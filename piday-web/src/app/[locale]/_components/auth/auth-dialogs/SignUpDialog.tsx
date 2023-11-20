@@ -1,5 +1,13 @@
 "use client";
 
+import {
+  useEmailSignUpMutation,
+  useSendEmailVerificationMutation,
+} from "@/src/features/auth/api/authAPI";
+import {
+  useErrorToast,
+  useSuccessToast,
+} from "@/src/features/rtk-utils/use-error-toast.hook";
 import { clsx } from "clsx";
 import validator from "validator";
 
@@ -32,15 +40,40 @@ interface SignUpFormProps {
 
 interface Props {
   onAuthDialogTypeChange: (type: AuthDialogType) => void;
+  onClose?: () => void;
 }
 
 export default function SignUpDialog({
-  onAuthDialogTypeChange: onAuthTypeChange,
+  onAuthDialogTypeChange,
+  onClose,
 }: Props) {
   const { t, i18n } = useTranslation("common");
 
+  const [emailSignUp, emailSignUpResult] = useEmailSignUpMutation();
+  useErrorToast(emailSignUpResult.error);
+  useSuccessToast(
+    emailSignUpResult.isSuccess,
+    t("common:auth.signUp.success"),
+    () => {
+      onAuthDialogTypeChange(AuthDialogType.EMAIL_SIGN_IN);
+    },
+  );
+
+  const [sendEmailVerification, sendEmailVerificationResult] =
+    useSendEmailVerificationMutation();
+  useErrorToast(sendEmailVerificationResult.error);
+  useSuccessToast(
+    sendEmailVerificationResult.isSuccess,
+    t("common:auth.toast.emailVerificationSent"),
+    () => {
+      setDisabledSendButton(true);
+    },
+  );
+  // test5@dvqdev.com
+
   const [isLoding, setIsLoding] = useState(false); // 登录状态标志
 
+  // Timer for 60 seconds verification code
   const [seconds, setSeconds] = useState(0);
   const [disabledSendButton, setDisabledSendButton] = useState(false);
   useEffect(() => {
@@ -68,24 +101,16 @@ export default function SignUpDialog({
   const email = watch("email");
   const password = watch("password");
 
-  const onSubmit = useCallback((data: SignUpFormProps) => {
-    // setIsLoding(true);
-    console.log(data);
-
-    (async () => {
-      const res = await fetch("/api/auth/register", {
-        method: "POST",
-        body: JSON.stringify({
-          // username: data.username,
-          password: data.password,
-          email: data.email,
-          code: data.verificationCode,
-        }),
+  const onSubmit = useCallback(
+    (data: SignUpFormProps) => {
+      emailSignUp({
+        password: data.password,
+        email: data.email,
+        code: data.verificationCode,
       });
-      console.log(res);
-      console.log(await res.json());
-    })();
-  }, []);
+    },
+    [emailSignUp],
+  );
 
   const handleSendVerificationCode = useCallback(() => {
     if (!email) {
@@ -97,26 +122,11 @@ export default function SignUpDialog({
       return;
     }
 
-    (async () => {
-      const res = await fetch(
-        `/api/auth/send-email-verification?email=${email}`,
-        {
-          method: "GET",
-          headers: {
-            locale: i18n.language,
-          },
-        },
-      );
-      console.log(res);
-      const jsonRes = await res.json();
-      if (jsonRes.success) {
-        setDisabledSendButton(true);
-        toast.success(t("common:auth.toast.emailVerificationSent"));
-      } else {
-        toast.error(jsonRes.message);
-      }
-    })();
-  }, [email, i18n.language, t]);
+    sendEmailVerification({
+      email,
+      locale: i18n.language,
+    });
+  }, [email, i18n.language, sendEmailVerification, t]);
 
   return (
     <ModalDialog>
@@ -124,7 +134,7 @@ export default function SignUpDialog({
         <div
           className="cursor-pointer mr-2"
           onClick={() => {
-            onAuthTypeChange(AuthDialogType.EMAIL_SIGN_IN);
+            onAuthDialogTypeChange(AuthDialogType.EMAIL_SIGN_IN);
           }}
         >
           <i className="ri-arrow-left-line"></i>
@@ -162,7 +172,9 @@ export default function SignUpDialog({
               />
               <Button
                 className="w-[100px]"
-                disabled={disabledSendButton}
+                disabled={
+                  disabledSendButton || sendEmailVerificationResult.isLoading
+                }
                 onClick={() => {
                   handleSendVerificationCode();
                 }}
@@ -227,15 +239,23 @@ export default function SignUpDialog({
               )}
               level="body-sm"
               onClick={() => {
-                onAuthTypeChange(AuthDialogType.EMAIL_SIGN_IN);
+                onAuthDialogTypeChange(AuthDialogType.EMAIL_SIGN_IN);
               }}
             >
               {t("common:auth.signIn.title")}
             </Typography>
           </div>
 
-          <Button disabled={isLoding} fullWidth type="submit">
-            {isLoding ? <BeatLoader /> : t("common:auth.signUp.title")}
+          <Button
+            disabled={emailSignUpResult.isLoading}
+            fullWidth
+            type="submit"
+          >
+            {emailSignUpResult.isLoading ? (
+              <BeatLoader />
+            ) : (
+              t("common:auth.signUp.title")
+            )}
           </Button>
         </form>
       </DialogContent>
