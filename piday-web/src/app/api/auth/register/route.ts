@@ -3,28 +3,13 @@ import { StatusCodes } from "http-status-codes";
 export async function POST(request: Request, res: Response) {
   const req = await request.json();
 
-  console.log(req);
   const body = {
     username: req.username,
     password: req.password,
     email: req.email,
     code: req.code,
-
-    // enabled: true,
-    // // emailVerified: true,
-    // // firstName: req.username,
-    // // lastName: req.username,
-    // credentials: [
-    //   {
-    //     type: "password",
-    //     value: req.password,
-    //     temporary: false,
-    //   },
-    // ],
   };
 
-  console.log(body);
-  console.log(`${process.env.BACKEND_BASE_URL}/auth/email-signup`);
   try {
     const res = await fetch(
       `${process.env.BACKEND_BASE_URL}/auth/email-signup`,
@@ -36,9 +21,7 @@ export async function POST(request: Request, res: Response) {
         body: JSON.stringify(body),
       },
     );
-    console.log(res.ok);
     const jsonRes = await res.json();
-    console.log(jsonRes);
 
     if (!res.ok) {
       return new Response(

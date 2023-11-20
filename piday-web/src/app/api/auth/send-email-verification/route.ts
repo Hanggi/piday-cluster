@@ -7,7 +7,6 @@ export async function GET(request: NextRequest, res: Response) {
   const searchParams = request.nextUrl.searchParams;
   const email = searchParams.get("email");
 
-  console.log(request.nextUrl);
 
   const { t, options } = await initTranslations("en", ["common"]);
 
@@ -15,8 +14,7 @@ export async function GET(request: NextRequest, res: Response) {
     const fetchRes = await fetch(
       `${process.env.BACKEND_BASE_URL}/auth/send-email-verification?email=${email}`,
     );
-    console.log(fetchRes);
-    console.log(fetchRes.status);
+    
     if (fetchRes.ok) {
       return new Response(
         JSON.stringify({

@@ -9,9 +9,6 @@ export function useErrorToast(
   optional?: { message: string },
 ) {
   useEffect(() => {
-    console.log(optional);
-    console.log(error);
-    console.log(optional?.message || error);
     if (error) {
       toast.error(`${optional?.message || error}`);
     }

@@ -32,8 +32,9 @@ export const authOptions: AuthOptions = {
 
           return {
             id: userInfo.sid,
-            name: userInfo.name,
+            name: userInfo.preferredUsername,
             email: userInfo.email,
+            username: userInfo.preferredUsername,
             accessToken: token.access_token,
             refreshToken: token.refresh_token,
             expiresIn: token.expires_in,

@@ -69,7 +69,7 @@ export default function SignUpDialog({
       setDisabledSendButton(true);
     },
   );
-  // test5@dvqdev.com
+  // test9@dvqdev.com
 
   const [isLoding, setIsLoding] = useState(false); // 登录状态标志
 

@@ -6,6 +6,7 @@ import { Inject, Injectable } from "@nestjs/common";
 
 import { ServiceException } from "../lib/exceptions/service-exception";
 import { KeycloakService } from "../lib/keycloak/keycloak.service";
+import { generateUsername } from "../lib/utils/extract-username-from-email";
 
 @Injectable()
 export class AuthService {
@@ -73,19 +74,20 @@ export class AuthService {
       );
     }
 
-    console.log("???");
     const user = await this.keycloakService.findUserByEmail(email);
-    console.log(user);
 
     if (user) {
       throw new ServiceException("Email already exists", "EMAIL_EXISTS");
     }
 
+    const randomUserName = generateUsername(email);
+
     const createdUser = await this.keycloakService.createUser({
       email,
       emailVerified: true,
       enabled: true,
-      username: email,
+      username: randomUserName,
+      firstName: randomUserName,
       credentials: [
         {
           type: "password",
@@ -95,7 +97,6 @@ export class AuthService {
       ],
     });
 
-    console.log(createdUser);
 
     return createdUser;
   }
