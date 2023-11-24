@@ -1,0 +1,65 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// --------------------------------------
+
+model RechargeRecords {
+  id        Int      @id @default(autoincrement())
+  ownerID   String // Keycloak user ID
+  createdAt DateTime @default(now())
+
+  amount Decimal @db.Decimal(10, 8)
+}
+
+model VirtualEstate {
+  id              Int    @id @default(autoincrement())
+  virtualEstateID String @unique // Hex ID
+
+  lastPrice Decimal
+  address   String?
+
+  ownerID   String // Keycloak user ID
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum TransactionType {
+  BID
+  ASK
+}
+
+model VirtualEstateListing {
+  id              Int    @id @default(autoincrement())
+  virtualEstateID String // Hex ID
+  ownerID         String // Keycloak user ID, who made the listing
+
+  price Decimal         @db.Decimal(10, 8)
+  type  TransactionType
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  expiresAt DateTime
+}
+
+model VirtualEstateTransactionRecords {
+  id              Int    @id @default(autoincrement())
+  virtualEstateID String // Hex ID
+
+  buyerID  String? // Keycloak user ID
+  sellerID String? // Keycloak user ID
+
+  price Decimal @db.Decimal(10, 8)
+
+  createdAt DateTime @default(now())
+}
+
+// --------------------------------------
