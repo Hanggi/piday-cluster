@@ -8,7 +8,7 @@ import { useTranslation } from "react-i18next";
 
 import { isNavActive } from "../../_lib/utils";
 
-export enum navType {
+export enum NavType {
   header = "header",
   footer = "footer",
 }
@@ -27,10 +27,10 @@ export default function Navbar({
   return (
     <div
       className={cn(" top-0 w-full h-20", {
-        fixed: navType === NavType.HEADER,
+        fixed: navType === NavType.header,
       })}
     >
-      {navType === NavType.HEADER && (
+      {navType === NavType.header && (
         <Image
           alt="banner"
           className="w-full h-[240px] object-cover object-bottom -z-10 absolute "
@@ -43,7 +43,7 @@ export default function Navbar({
         <Link href="/">
           <div
             className={cn("relative h-12 w-28", {
-              grayscale: navType === NavType.FOOTER,
+              grayscale: navType === NavType.footer,
             })}
           >
             <Image
@@ -61,9 +61,9 @@ export default function Navbar({
             <Link
               className={cn("flex items-center gap-1.5 py-2.5 rounded px-5", {
                 "bg-white/40":
-                  isNavActive(el.href, path) && navType === "header",
+                  isNavActive(el.href!, path) && navType === "header",
               })}
-              href={el.href}
+              href={el.href || ""}
               key={el.translationKey}
             >
               <Image
@@ -89,13 +89,11 @@ const navData = [
     translationKey: "common:nav.store",
   },
   {
-    icon: "/img/icons/tools.svg",
-    href: "/mining",
+    icon: "img/icons/tools.svg",
     translationKey: "common:nav.mining",
   },
   {
-    icon: "/img/icons/wallet.svg",
-    href: "/wallet",
+    icon: "img/icons/wallet.svg",
     translationKey: "common:nav.wallet",
   },
 ];

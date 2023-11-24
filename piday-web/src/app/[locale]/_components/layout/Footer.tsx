@@ -4,12 +4,12 @@ import { cn } from "@/src/utils/cn";
 
 import Link from "next/link";
 
-import Navbar, { navType } from "./Navbar";
+import Navbar, { NavType } from "./Navbar";
 
 export default function Footer() {
   return (
     <section className="w-full  bg-primary">
-      <Navbar navType={navType.footer}>
+      <Navbar navType={NavType.footer}>
         <div className="flex items-center gap-5">
           {socials.map((social) => (
             <Link href={social.href} key={social.href} target="_blank">
