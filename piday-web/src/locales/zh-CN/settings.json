@@ -1,0 +1,14 @@
+{
+  "settings": "设置",
+  "nickname": "昵称",
+  "pidayID": "Piday ID",
+  "liubei": "刘备",
+  "pid": "213215487",
+  "setPassword": "设置密码",
+  "confirmPassword": "二次确认密码",
+  "enter": "请输入",
+  "bindEmail": "绑定邮箱",
+  "bindPIDWalletAddress": "绑定PI钱包地址",
+  "country": "所属国家",
+  "saveAndModify": "保存并修改"
+}

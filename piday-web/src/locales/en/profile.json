@@ -1,0 +1,27 @@
+{
+  "nav": {
+    "enterTeam": "Enter Team",
+    "leaderboard": "Leaderboard",
+    "blogCenter": "Blog Center",
+    "aboutParty": "About Party",
+    "logout": "Logout"
+  },
+  "leaderboard": {
+    "overviewStatistics": "Overview Statistics",
+    "totalWalletAssets": "Total Wallet Assets",
+    "landAssetQuantity": "Land Asset Quantity",
+    "totalMiningPoints": "Total Mining Points",
+    "teamMemberStatistics": "Team Member Statistics",
+    "enterMemberName": "Enter Member Name",
+    "minInvitations": "Minimum Invitations",
+    "maxInvitations": "Maximum Invitations",
+    "minRanking": "Minimum Ranking",
+    "maxRanking": "Maximum Ranking",
+    "table": {
+      "memberName": "Member Name",
+      "currentStatus": "Current Status",
+      "numberOfPeopleInvited": "Number Of People Invited",
+      "globalRanking": "Global Ranking"
+    }
+  }
+}

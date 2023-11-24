@@ -1,0 +1,25 @@
+{
+  "header": {
+    "receive": "领取积分"
+  },
+  "information": {
+    "title": "信息概况",
+    "accountRegistrationTime": "账户注册时间",
+    "miningDays": "挖矿天数",
+    "numberOfPeopleInvited": "邀请人数",
+    "nftHolding": "NFT持有数量",
+    "landHolding": "土地持有数量",
+    "totalPoints": "总积分",
+    "basicPoints": "基础积分",
+    "invitationPoints": "邀请积分",
+    "landPoints": "土地积分"
+  },
+  "table": {
+    "title": "挖矿团队成员列表 ",
+    "memberName": "成员名称",
+    "pointAmount": "积分量",
+    "landOwnership": "土地持有量",
+    "numberOfPeopleInvited": "邀请人数",
+    "isActiveToday": "今日活跃与否"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "header": {
+    "receive": "receive"
+  },
+  "information": {
+    "title": "information",
+    "accountRegistrationTime": "accountRegistrationTime",
+    "miningDays": "miningDays",
+    "numberOfPeopleInvited": "numberOfPeopleInvited",
+    "nftHolding": "nftHolding",
+    "landHolding": "landHolding",
+    "totalPoints": "totalPoints",
+    "basicPoints": "basicPoints",
+    "invitationPoints": "invitationPoints",
+    "landPoints": "landPoints"
+  },
+  "table": {
+    "title": "Member List",
+    "memberName": "Member Name",
+    "pointAmount": "Point Amount",
+    "landOwnership": "Land Ownership",
+    "numberOfPeopleInvited": "Number Of People Invited",
+    "isActiveToday": "Is Active Today"
+  }
+}

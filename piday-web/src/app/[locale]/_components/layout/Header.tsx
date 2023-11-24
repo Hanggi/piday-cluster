@@ -6,7 +6,7 @@ import Navbar, { NavType } from "./Navbar";
 export default function Header() {
   return (
     <header>
-      <Navbar navType={NavType.HEADER}>
+      <Navbar navType={NavType.header}>
         <AuthStatusButton />
       </Navbar>
     </header>
