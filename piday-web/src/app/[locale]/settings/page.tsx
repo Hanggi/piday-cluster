@@ -1,8 +1,8 @@
 import { BreadCrumb } from "@/src/components/BreadCrumb";
 import { WrapperCard } from "@/src/components/WrapperCard";
 
-import { Form } from "./_components/Form";
-import { User } from "./_components/User";
+import { ProfileUpdateForm } from "./_components/ProfileUpdateForm";
+import { UserProfileMini } from "./_components/UserProfileMini";
 
 export const metadata = {
   title: "Settings",
@@ -13,8 +13,8 @@ export default function SettingPage() {
     <main className="container">
       <BreadCrumb />
       <WrapperCard className="p-0 md:p-0">
-        <User />
-        <Form />
+        <UserProfileMini />
+        <ProfileUpdateForm />
       </WrapperCard>
       <br />
       <br />

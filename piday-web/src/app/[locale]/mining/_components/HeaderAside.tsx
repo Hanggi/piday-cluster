@@ -22,7 +22,7 @@ export const HeaderAside = () => {
             <Image
               alt="success"
               height={120}
-              src={"/img/mining/receive-success.svg"}
+              src={"/img/mining/receive-success.png"}
               width={130}
             />
             <p className="text-xl font-medium">领取成功</p>
