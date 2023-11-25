@@ -10,6 +10,8 @@ import Menu from "@mui/joy/Menu";
 import MenuButton from "@mui/joy/MenuButton";
 import MenuItem from "@mui/joy/MenuItem";
 
+import Link from "next/link";
+
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
@@ -39,6 +41,9 @@ export default function AuthStatusButton() {
           {session.user?.name}
         </MenuButton>
         <Menu>
+          <MenuItem>
+            <Link href={"/profile"}>Profile</Link>
+          </MenuItem>
           <Divider />
           <MenuItem
             onClick={() => {

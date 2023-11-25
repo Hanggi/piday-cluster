@@ -16,6 +16,8 @@ import { HttpExceptionFilter } from "./lib/exceptions/http-exception.filter";
         limit: 10,
       },
     ]),
+
+    // Logic Modules
     AuthModule,
     AccountModule,
   ],

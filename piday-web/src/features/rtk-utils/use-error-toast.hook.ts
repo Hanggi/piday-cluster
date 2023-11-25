@@ -25,5 +25,7 @@ export function useSuccessToast(
       toast.success(message);
       callback && callback();
     }
+    // ignore callback changes
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSuccess, message]);
 }
