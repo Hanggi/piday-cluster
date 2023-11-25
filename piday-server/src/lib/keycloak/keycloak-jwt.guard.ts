@@ -6,7 +6,6 @@ import { CanActivate, ExecutionContext, Injectable } from "@nestjs/common";
 export class KeycloakJwtGuard implements CanActivate {
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
-    // console.log(request);
     const authHeader = request.headers.authorization;
 
     if (!authHeader) {
@@ -31,7 +30,6 @@ export class KeycloakJwtGuard implements CanActivate {
     try {
       const decoded = jwt.verify(token, secret);
 
-      console.log("decoded: ", decoded);
       const userID = decoded.sub;
 
       request.user = {

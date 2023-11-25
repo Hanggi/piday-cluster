@@ -2,7 +2,8 @@ import { Request } from "express";
 
 interface UserPayload {
   userID: string;
-  // 可以根据需要添加更多属性
+  email: string;
+  username: string;
 }
 
 export interface AuthenticatedRequest extends Request {
