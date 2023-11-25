@@ -10,6 +10,7 @@ import Menu from "@mui/joy/Menu";
 import MenuButton from "@mui/joy/MenuButton";
 import MenuItem from "@mui/joy/MenuItem";
 
+import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
 import SignInButton from "./SignInButton";
@@ -20,6 +21,14 @@ export default function AuthStatusButton() {
   const { data: session, status } = useSession();
 
   console.info(session, status);
+
+  useEffect(() => {
+    if (session?.error == "RefreshAccessTokenError") {
+      keycloakSessionLogOut().then(() => {
+        signOut({ callbackUrl: "/" });
+      });
+    }
+  }, [session?.error]);
 
   if (status == "loading") {
     return <Button className="my-3">Loading...</Button>;
