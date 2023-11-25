@@ -9,6 +9,7 @@ declare module "next-auth" {
     //   /** The user's postal address. */
     //   address: string;
     // };
+    accessToken?: string;
     error?: string;
   }
 }

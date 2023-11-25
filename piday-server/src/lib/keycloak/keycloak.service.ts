@@ -16,6 +16,7 @@ export class KeycloakService {
     });
   }
 
+  // This is keycloak admin client
   async getAccessToken() {
     const credentials: Credentials = {
       grantType: "client_credentials",
@@ -31,6 +32,12 @@ export class KeycloakService {
 
     return await this.kcAdminClient.getAccessToken();
   }
+
+  // async getCertificate() {
+  //   const keyInfo = await this.kcAdminClient.clients.getKeyInfo();
+  //   console.log(keyInfo);
+  //   return keyInfo;
+  // }
 
   async findUserByEmail(email: string): Promise<UserRepresentation> {
     await this.getAccessToken();

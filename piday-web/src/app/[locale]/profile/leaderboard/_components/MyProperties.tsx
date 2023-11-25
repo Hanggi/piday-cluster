@@ -1,6 +1,7 @@
 "use client";
 
 import { WrapperCard } from "@/src/components/WrapperCard";
+import { useGetBalanceQuery } from "@/src/features/account/api/accountAPI";
 import { cn } from "@/src/utils/cn";
 
 import { Typography } from "@mui/joy";
@@ -12,8 +13,12 @@ import { useTranslation } from "react-i18next";
 
 type StatisticsProps = ComponentProps<"div">;
 
-export function Statistics({ className, ...props }: StatisticsProps) {
+export function MyProperties({ className, ...props }: StatisticsProps) {
   const { t } = useTranslation("profile");
+
+  const { data: balance } = useGetBalanceQuery({});
+  console.log(balance);
+
   return (
     <div className={cn(className)} {...props}>
       <Typography level="h4">
