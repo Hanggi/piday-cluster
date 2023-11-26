@@ -4,6 +4,7 @@ import { H3HexagonLayer } from "@deck.gl/geo-layers/typed";
 import DeckGL from "@deck.gl/react/typed";
 import "mapbox-gl/dist/mapbox-gl.css";
 
+import { ElementRef, useRef } from "react";
 import { GeolocateControl, Map, NavigationControl } from "react-map-gl";
 
 import { bboxFromViewport, getH3IndicesForBB } from "../_lib/utils";
@@ -40,12 +41,10 @@ const HexagonMap = ({
   setAddress,
   setHexId,
 }: any) => {
-  // const [viewport, setViewPort] = useState(INITIAL_VIEW_PORT);
-
-  console.log("viewport", newPlace);
   const boundingBox = bboxFromViewport(newPlace);
   const h3Indices = getH3IndicesForBB(boundingBox);
-  console.log("h3Indices", h3Indices);
+
+  const mapRef = useRef<ElementRef<typeof Map>>(null);
 
   const data = h3Indices.map((h3): any => ({
     hex: h3,
@@ -69,33 +68,24 @@ const HexagonMap = ({
   return (
     <div className="App">
       <DeckGL
-        onClick={({ object }: any) => setHexId(object.hex)}
+        onClick={({ object }) => setHexId(object.hex)}
         initialViewState={newPlace}
         controller={true}
+        style={{
+          width: "100%",
+          aspectRatio: "1/1",
+          borderRadius: "10px",
+          overflow: "hidden",
+        }}
         layers={layers}
       >
         <Map
+          ref={mapRef}
           mapboxAccessToken={TOKEN}
           initialViewState={newPlace}
-          style={{ width: "100%", height: "545px", borderRadius: "10px" }}
           mapStyle="mapbox://styles/mapbox/streets-v9"
-          // onDblClick={handleClick}
           doubleClickZoom={false}
         >
-          {/* {
-                        newPlace &&
-                        <>
-                            <Marker
-                                longitude={`${newPlace?.longitude}`}
-                                latitude={`${newPlace?.latitude}`}
-                                anchor="bottom"
-                                draggable={true}
-                                onDragEnd={handleClick}
-                            >
-                                <MapPinIcon className='w-10 h-10 text-blue-600' />
-                            </Marker>
-                        </>
-                    } */}
           <NavigationControl position="bottom-right" />
           <GeolocateControl
             trackUserLocation
