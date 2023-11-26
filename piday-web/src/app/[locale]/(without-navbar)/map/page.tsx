@@ -62,7 +62,7 @@ const HomePage = () => {
         ) : (
           <Marker
             longitude={viewPort?.longitude}
-            latitude={viewPort.latitude}
+            latitude={viewPort?.latitude}
             anchor="bottom"
           >
             <i className="ri-map-pin-fill text-4xl text-blue-600"></i>

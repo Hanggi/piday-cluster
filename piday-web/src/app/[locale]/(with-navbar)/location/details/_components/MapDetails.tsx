@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 
 import { useContext, useState } from "react";
 
-import HexagonMap from "../../_components/HeaxagonMap";
+import HexagonMap from "./HeaxagonMap";
 
 type addressState = {
   [key: string]: any;

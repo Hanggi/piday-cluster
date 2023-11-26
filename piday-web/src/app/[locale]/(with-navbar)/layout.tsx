@@ -7,14 +7,13 @@ import ThemeRegistry from "@src/components/ThemeRegistry/ThemeRegistry";
 import { dir } from "i18next";
 import type { Metadata } from "next";
 import "remixicon/fonts/remixicon.css";
-import "remixicon/fonts/remixicon.css";
 
 import { Inter } from "next/font/google";
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-import initTranslations from "../i18n";
+import initTranslations from "../../i18n";
 import Footer from "./_components/layout/Footer";
 import Header from "./_components/layout/Header";
 import "./globals.css";
