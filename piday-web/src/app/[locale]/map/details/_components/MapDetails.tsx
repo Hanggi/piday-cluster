@@ -14,8 +14,7 @@ type addressState = {
 
 export const MapDetails = () => {
   const { viewPort, newPlace, setNewPlace, country } = useContext(MapContext);
-  const router = useRouter();
-  const [address, setAddress] = useState<addressState>({});
+  const [, setAddress] = useState<addressState>({});
   const [hexId, setHexId] = useState<string | number>("");
 
   console.log(country);

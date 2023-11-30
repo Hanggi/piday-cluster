@@ -2,15 +2,13 @@
 
 import { H3HexagonLayer } from "@deck.gl/geo-layers/typed";
 import DeckGL from "@deck.gl/react/typed";
-import "mapbox-gl/dist/mapbox-gl.css";
 
 import { ElementRef, useRef } from "react";
 import { GeolocateControl, Map, NavigationControl } from "react-map-gl";
 
 import { bboxFromViewport, getH3IndicesForBB } from "../_lib/utils";
 
-const TOKEN =
-  "pk.eyJ1Ijoic2VhbmJvcmFtbGVlIiwiYSI6ImNrbTJlcnFqejE3NGQydXFtZng1cXR4eGgifQ.oZ0mZBtUX5u72QTPtPITfA";
+const TOKEN = process.env.mapboxToken;
 
 // Viewport settings
 const INITIAL_VIEW_PORT = {

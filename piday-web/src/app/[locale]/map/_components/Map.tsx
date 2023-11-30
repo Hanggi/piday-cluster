@@ -16,8 +16,7 @@ const Map = () => {
   const router = useRouter();
   const { viewPort, setViewPort, newPlace, setNewPlace, setCountry, country } =
     useContext(MapContext);
-  const Token =
-    "pk.eyJ1IjoiaGFuZ2dpIiwiYSI6ImNsb3BoZ2pwZjA4Z2Iyam83NzhiOTR1c2wifQ.44mLv--JS8miDmE-XP8d6g";
+  const Token = process.env.mapboxToken;
 
   useEffect(() => {
     fetch(
@@ -48,7 +47,7 @@ const Map = () => {
       <ReactMap
         mapboxAccessToken={Token}
         initialViewState={viewPort}
-        style={{ width: "100%", height: "60vh", borderRadius: "10px" }}
+        style={{ width: "100%", height: "80vh", borderRadius: "10px" }}
         mapStyle="mapbox://styles/mapbox/streets-v9"
         onDblClick={handleClick}
         doubleClickZoom={false}
