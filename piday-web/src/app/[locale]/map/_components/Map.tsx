@@ -47,7 +47,7 @@ const Map = () => {
       <ReactMap
         mapboxAccessToken={Token}
         initialViewState={viewPort}
-        style={{ width: "100%", height: "80vh", borderRadius: "10px" }}
+        style={{ width: "100%", height: "70vh", borderRadius: "10px" }}
         mapStyle="mapbox://styles/mapbox/streets-v9"
         onDblClick={handleClick}
         doubleClickZoom={false}

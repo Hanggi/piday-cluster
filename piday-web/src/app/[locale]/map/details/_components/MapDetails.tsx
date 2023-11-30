@@ -2,8 +2,6 @@
 
 import { MapContext } from "@/src/contexts/MapProvider";
 
-import { useRouter } from "next/navigation";
-
 import { useContext, useState } from "react";
 
 import HexagonMap from "../../_components/HeaxagonMap";
@@ -15,19 +13,12 @@ type addressState = {
 export const MapDetails = () => {
   const { viewPort, newPlace, setNewPlace, country } = useContext(MapContext);
   const [, setAddress] = useState<addressState>({});
-  const [hexId, setHexId] = useState<string | number>("");
 
   console.log(country);
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-5 py-4">
       <div className="w-full relative rounded-lg">
-        <HexagonMap
-          viewPort={viewPort}
-          newPlace={newPlace}
-          setNewPlace={setNewPlace}
-          setAddress={setAddress}
-          setHexId={setHexId}
-        />
+        <HexagonMap newPlace={newPlace} />
       </div>
       <div className="w-full relative pt-5">
         <h1 className="text-3xl font-semibold">{country.country}</h1>
@@ -39,7 +30,7 @@ export const MapDetails = () => {
             </div>
             <div>
               <p className="opacity-40">哈希值</p>
-              <p>{hexId ? hexId : "Id not found"}</p>
+              <p>8a283082a89ffff</p>
             </div>
           </div>
           <hr />

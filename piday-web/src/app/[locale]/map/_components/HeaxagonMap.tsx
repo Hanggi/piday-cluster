@@ -3,7 +3,7 @@
 import { H3HexagonLayer } from "@deck.gl/geo-layers/typed";
 import DeckGL from "@deck.gl/react/typed";
 
-import { ElementRef, useRef } from "react";
+import { ElementRef, useRef, useState } from "react";
 import { GeolocateControl, Map, NavigationControl } from "react-map-gl";
 
 import { bboxFromViewport, getH3IndicesForBB } from "../_lib/utils";
@@ -31,14 +31,8 @@ const data = [
   },
 ];
 
-const HexagonMap = ({
-  viewPort,
-  setViewPort,
-  newPlace,
-  setNewPlace,
-  setAddress,
-  setHexId,
-}: any) => {
+const HexagonMap = ({ newPlace }: { newPlace: any }) => {
+  const [hexagons, setHexagons] = useState<string[]>([]);
   const boundingBox = bboxFromViewport(newPlace);
   const h3Indices = getH3IndicesForBB(boundingBox);
 
@@ -59,14 +53,35 @@ const HexagonMap = ({
       elevationScale: 0,
       getHexagon: (d) => d.hex,
       getElevation: (d) => d.count,
-      getFillColor: (d) => [255, 255, 255, 1],
+      getLineColor: () => [255, 192, 0, 255],
+      getFillColor: (d) => {
+        if (hexagons.includes(d.hex)) return [255, 192, 0, 150];
+        return [255, 255, 255, 150];
+      },
+      getPolygon: (d) => {
+        return [
+          [
+            [-122.41669, 37.7853],
+            [-122.41669, 37.8153],
+            [-122.44669, 37.8153],
+            [-122.44669, 37.7853],
+            [-122.41669, 37.7853],
+          ],
+        ];
+      },
     }),
   ];
 
   return (
     <div className="App">
       <DeckGL
-        onClick={({ object }) => setHexId(object.hex)}
+        onClick={({ object }) =>
+          setHexagons((p) =>
+            p.find((predicate) => predicate === object.hex)
+              ? p.filter((predicate) => predicate !== object.hex)
+              : [...p, object.hex],
+          )
+        }
         initialViewState={newPlace}
         controller={true}
         style={{
