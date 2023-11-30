@@ -7,7 +7,6 @@ import ThemeRegistry from "@src/components/ThemeRegistry/ThemeRegistry";
 import { dir } from "i18next";
 import type { Metadata } from "next";
 import "remixicon/fonts/remixicon.css";
-import "remixicon/fonts/remixicon.css";
 
 import { Inter } from "next/font/google";
 
@@ -45,16 +44,16 @@ export default async function RootLayout({
         <ThemeRegistry>
           <SessionProviderWrapper>
             <ReduxProviderWrapper>
-              <MapProvider>
-                <TranslationsProvider
-                  locale={locale}
-                  namespaces={options.ns as string[]}
-                >
+              <TranslationsProvider
+                locale={locale}
+                namespaces={options.ns as string[]}
+              >
+                <MapProvider>
                   <Header />
                   <main className="mt-40 relative z-10">{children}</main>
                   <Footer />
-                </TranslationsProvider>
-              </MapProvider>
+                </MapProvider>
+              </TranslationsProvider>
             </ReduxProviderWrapper>
           </SessionProviderWrapper>
         </ThemeRegistry>
