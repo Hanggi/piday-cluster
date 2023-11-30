@@ -33,12 +33,13 @@ const data = [
 
 const HexagonMap = ({ newPlace }: { newPlace: any }) => {
   const [hexagons, setHexagons] = useState<string[]>([]);
-  const boundingBox = bboxFromViewport(newPlace);
+  const [zoomLevel, setZoomLevel] = useState(13);
+  const boundingBox = bboxFromViewport({ ...newPlace, zoom: zoomLevel });
   const h3Indices = getH3IndicesForBB(boundingBox);
 
   const mapRef = useRef<ElementRef<typeof Map>>(null);
 
-  const data = h3Indices.map((h3): any => ({
+  const data = h3Indices.map((h3) => ({
     hex: h3,
   }));
 
@@ -55,34 +56,26 @@ const HexagonMap = ({ newPlace }: { newPlace: any }) => {
       getElevation: (d) => d.count,
       getLineColor: () => [255, 192, 0, 255],
       getFillColor: (d) => {
-        if (hexagons.includes(d.hex)) return [255, 192, 0, 150];
+        if (hexagons.includes(d.hex)) return [255, 192, 0, 220];
         return [255, 255, 255, 150];
-      },
-      getPolygon: (d) => {
-        return [
-          [
-            [-122.41669, 37.7853],
-            [-122.41669, 37.8153],
-            [-122.44669, 37.8153],
-            [-122.44669, 37.7853],
-            [-122.41669, 37.7853],
-          ],
-        ];
       },
     }),
   ];
 
+  function handleHexClick(object: { hex: string }) {
+    setHexagons((p) =>
+      p.find((predicate) => predicate === object?.hex)
+        ? p.filter((predicate) => predicate !== object.hex)
+        : [...p, object?.hex],
+    );
+    setZoomLevel(17.5);
+  }
+
   return (
     <div className="App">
       <DeckGL
-        onClick={({ object }) =>
-          setHexagons((p) =>
-            p.find((predicate) => predicate === object.hex)
-              ? p.filter((predicate) => predicate !== object.hex)
-              : [...p, object.hex],
-          )
-        }
-        initialViewState={newPlace}
+        onClick={({ object }) => handleHexClick(object)}
+        initialViewState={{ ...newPlace, zoom: zoomLevel }}
         controller={true}
         style={{
           width: "100%",
@@ -95,7 +88,7 @@ const HexagonMap = ({ newPlace }: { newPlace: any }) => {
         <Map
           ref={mapRef}
           mapboxAccessToken={TOKEN}
-          initialViewState={newPlace}
+          initialViewState={{ ...newPlace, zoom: zoomLevel }}
           mapStyle="mapbox://styles/mapbox/streets-v9"
           doubleClickZoom={false}
         >

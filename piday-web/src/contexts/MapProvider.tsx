@@ -23,7 +23,6 @@ const MapProvider = ({ children }: { children: React.ReactNode }) => {
     latitude: 37.7853,
     width: 800,
     height: 800,
-    zoom: 13,
     pitch: 0,
     bearing: 0,
   });

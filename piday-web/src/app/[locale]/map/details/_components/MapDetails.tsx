@@ -11,10 +11,8 @@ type addressState = {
 };
 
 export const MapDetails = () => {
-  const { viewPort, newPlace, setNewPlace, country } = useContext(MapContext);
-  const [, setAddress] = useState<addressState>({});
+  const { newPlace, country } = useContext(MapContext);
 
-  console.log(country);
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-5 py-4">
       <div className="w-full relative rounded-lg">
