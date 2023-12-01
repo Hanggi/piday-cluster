@@ -17,7 +17,7 @@ model RechargeRecords {
   ownerID   String // Keycloak user ID
   createdAt DateTime @default(now())
 
-  amount Decimal @db.Decimal(10, 8)
+  amount Decimal @db.Decimal(18, 8)
 }
 
 model VirtualEstate {
@@ -42,7 +42,7 @@ model VirtualEstateListing {
   virtualEstateID String // Hex ID
   ownerID         String // Keycloak user ID, who made the listing
 
-  price Decimal         @db.Decimal(10, 8)
+  price Decimal         @db.Decimal(18, 8)
   type  TransactionType
 
   createdAt DateTime @default(now())
@@ -57,7 +57,7 @@ model VirtualEstateTransactionRecords {
   buyerID  String? // Keycloak user ID
   sellerID String? // Keycloak user ID
 
-  price Decimal @db.Decimal(10, 8)
+  price Decimal @db.Decimal(18, 8)
 
   createdAt DateTime @default(now())
 }
