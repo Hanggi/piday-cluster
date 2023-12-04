@@ -1,4 +1,4 @@
-import VirtualEstateMap from "@/src/components/virtual-estate-map/VirtualEstateMap";
+import HomeVirtualEstateMap from "./_components/home-ve-map/HomeVirtualEstateMap";
 
 export const metadata = {
   title: "Home",
@@ -6,14 +6,18 @@ export const metadata = {
 
 const MAPBOX_ACCESS_TOKEN = process.env.MAPBOX_ACCESS_TOKEN;
 
-export default function HomePage() {
+interface Props {
+  params: { hexID: string };
+}
+
+export default function HomePage({ params }: Props) {
   return (
     <section className="container mx-auto  py-4 mb-8">
       <div>Home page</div>
 
       <div className="h-[800px] w-full relative pb-8">
         start:
-        <VirtualEstateMap token={MAPBOX_ACCESS_TOKEN as string} />
+        <HomeVirtualEstateMap token={MAPBOX_ACCESS_TOKEN as string} />
         :end
       </div>
     </section>

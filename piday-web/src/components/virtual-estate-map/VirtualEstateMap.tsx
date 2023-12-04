@@ -1,10 +1,11 @@
 "use client";
 
+import { FlyToInterpolator, MapViewState } from "@deck.gl/core/typed";
 import type { ViewStateChangeParameters } from "@deck.gl/core/typed/controllers/controller";
 import { PickingInfo } from "@deck.gl/core/typed/lib/picking/pick-info";
 import { H3HexagonLayer } from "@deck.gl/geo-layers/typed";
 import DeckGL from "@deck.gl/react/typed";
-import { geoToH3, kRing } from "h3-js";
+import { geoToH3, h3ToGeo, kRing } from "h3-js";
 import { debounce } from "lodash";
 
 import Card from "@mui/joy/Card";
@@ -13,10 +14,12 @@ import Typography from "@mui/joy/Typography";
 import { useCallback, useEffect, useState } from "react";
 import Map, { GeolocateControl, NavigationControl } from "react-map-gl";
 
-const INITIAL_VIEW_STATE = {
+const SHOW_HEXAGON_LAYER_FROM_ZOOM = 15;
+
+const INITIAL_VIEW_STATE: MapViewState = {
   longitude: -122.41669,
   latitude: 37.7853,
-  zoom: 13,
+  zoom: 3,
   pitch: 0,
   bearing: 0,
 };
@@ -27,14 +30,20 @@ interface VirtualEstate {
 
 interface Props {
   token: string;
+  defaultHexID?: string;
+  onVirtualEstateClick?: (hexID: string) => void;
 }
 
-export default function VirtualEstateMap({ token }: Props) {
-  const [viewState, setViewState] = useState(INITIAL_VIEW_STATE);
+export default function VirtualEstateMap({
+  token,
+  defaultHexID,
+  onVirtualEstateClick,
+}: Props) {
+  const [viewState, setViewState] = useState<MapViewState>(INITIAL_VIEW_STATE);
   const [hexagons, setHexagons] = useState<VirtualEstate[]>([]);
   const [centerHex, setCenterHex] = useState<string>("");
 
-  const [selectedHexId, setSelectedHexId] = useState<string>("");
+  const [selectedHexID, setSelectedHexID] = useState<string>("");
 
   useEffect(() => {
     const ch = centerHex; // 示例中心六边形
@@ -45,7 +54,7 @@ export default function VirtualEstateMap({ token }: Props) {
       };
     });
 
-    if (viewState.zoom >= 15) {
+    if (viewState.zoom >= SHOW_HEXAGON_LAYER_FROM_ZOOM) {
       setHexagons(hexagons as any);
     } else {
       setHexagons([]);
@@ -64,13 +73,35 @@ export default function VirtualEstateMap({ token }: Props) {
       getLineColor: (d) => [112, 48, 160], // 设置六边形的边线颜色
       getHexagon: (d) => d.hexID, // 从数据对象中获取H3索引
       getFillColor: (d) => {
-        return selectedHexId == d.hexID
+        return selectedHexID == d.hexID
           ? [112, 48, 160, 200]
           : [255, 255, 255, 0];
       },
       // getElevation: (d) => 10, // 设置六边形的高度，仅当extruded为true时有效
     }),
   ];
+
+  // When the default hex id is non-empty, initialize coordinate animation
+  useEffect(() => {
+    if (defaultHexID) {
+      const target = h3ToGeo(defaultHexID);
+
+      setSelectedHexID(defaultHexID);
+      setCenterHex(defaultHexID);
+      setTimeout(() => {
+        setViewState((vs) => ({
+          ...vs,
+          longitude: target[1],
+          latitude: target[0],
+          zoom: 17,
+
+          transitionDuration: 3000, // 设置较长的过渡时间，例如 3 秒
+          transitionInterpolator: new FlyToInterpolator(),
+        }));
+        setSelectedHexID(defaultHexID);
+      }, 100);
+    }
+  }, [defaultHexID]);
 
   // Debounce to set center hexagon
   const debounceToSetCenterHex = debounce((viewState) => {
@@ -80,9 +111,11 @@ export default function VirtualEstateMap({ token }: Props) {
     setCenterHex(hexID);
   }, 500);
 
-  const onMapViewChange = useCallback(
+  const handleMapViewChange = useCallback(
     (params: ViewStateChangeParameters) => {
-      debounceToSetCenterHex(params.viewState);
+      if (params.viewState.zoom >= SHOW_HEXAGON_LAYER_FROM_ZOOM) {
+        debounceToSetCenterHex(params.viewState);
+      }
     },
     [debounceToSetCenterHex],
   );
@@ -91,27 +124,29 @@ export default function VirtualEstateMap({ token }: Props) {
     (e: PickingInfo) => {
       if (e.coordinate) {
         const hexID = geoToH3(e.coordinate[1], e.coordinate[0], 12);
-        setSelectedHexId(hexID);
+        setSelectedHexID(hexID);
         setViewState({
           ...viewState,
           zoom: viewState.zoom + 0.001,
         });
+        onVirtualEstateClick && onVirtualEstateClick(hexID);
       }
     },
-    [viewState],
+    [onVirtualEstateClick, viewState],
   );
 
   return (
     <div className="relative pb-[-20px] w-full h-full">
       <DeckGL
         controller={true}
-        initialViewState={INITIAL_VIEW_STATE}
+        initialViewState={viewState}
         layers={layers}
         onClick={handleClickHexagon}
-        onViewStateChange={onMapViewChange}
+        onViewStateChange={handleMapViewChange}
       >
         <Map
-          initialViewState={INITIAL_VIEW_STATE}
+          // {...viewState}
+          // initialViewState={INITIAL_VIEW_STATE}
           mapStyle="mapbox://styles/mapbox/streets-v9"
           mapboxAccessToken={token}
           style={{
