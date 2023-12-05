@@ -22,7 +22,6 @@ export default function Navbar({
 }) {
   const { t } = useTranslation("common");
   const path = usePathname();
-  const Wrapper = navType;
 
   return (
     <div
@@ -89,11 +88,11 @@ const navData = [
     translationKey: "common:nav.store",
   },
   {
-    icon: "img/icons/tools.svg",
+    icon: "/img/icons/tools.svg",
     translationKey: "common:nav.mining",
   },
   {
-    icon: "img/icons/wallet.svg",
+    icon: "/img/icons/wallet.svg",
     translationKey: "common:nav.wallet",
   },
 ];

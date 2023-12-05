@@ -1,7 +1,8 @@
-import VirtualEstateMap from "@/src/components/virtual-estate-map/VirtualEstateMap";
 import { decimalToHexID } from "@/src/components/virtual-estate-map/h3";
 
 import Button from "@mui/joy/Button";
+
+import VirtualEstateMapClientWrapper from "../../_components/home-ve-map/VirtualEstateMapClientWrapper";
 
 const MAPBOX_ACCESS_TOKEN = process.env.MAPBOX_ACCESS_TOKEN;
 
@@ -17,7 +18,7 @@ export default function VirtualEstateDetailPage({
   return (
     <div className="container mx-auto h-screen grid grid-cols-1 md:grid-cols-2 gap-5 py-4 ">
       <div className="w-full max-h-[500px] relative rounded-lg">
-        <VirtualEstateMap
+        <VirtualEstateMapClientWrapper
           defaultHexID={hexID}
           token={MAPBOX_ACCESS_TOKEN as string}
         />

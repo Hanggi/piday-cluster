@@ -31,12 +31,14 @@ interface VirtualEstate {
 interface Props {
   token: string;
   defaultHexID?: string;
+  withoutAnimation?: boolean;
   onVirtualEstateClick?: (hexID: string) => void;
 }
 
 export default function VirtualEstateMap({
   token,
   defaultHexID,
+  withoutAnimation,
   onVirtualEstateClick,
 }: Props) {
   const [viewState, setViewState] = useState<MapViewState>(INITIAL_VIEW_STATE);
@@ -95,35 +97,38 @@ export default function VirtualEstateMap({
           latitude: target[0],
           zoom: 17,
 
-          transitionDuration: 3000, // 设置较长的过渡时间，例如 3 秒
-          transitionInterpolator: new FlyToInterpolator(),
+          transitionDuration: withoutAnimation ? 0 : 3000, // 设置较长的过渡时间，例如 3 秒
+          transitionInterpolator: withoutAnimation
+            ? undefined
+            : new FlyToInterpolator(),
         }));
         setSelectedHexID(defaultHexID);
-      }, 100);
+      }, 200);
     }
-  }, [defaultHexID]);
+  }, [defaultHexID, withoutAnimation]);
 
   // Debounce to set center hexagon
   const debounceToSetCenterHex = debounce((viewState) => {
-    setViewState(viewState);
-    const hexID = geoToH3(viewState.latitude, viewState.longitude, 12);
-
-    setCenterHex(hexID);
-  }, 500);
+    if (viewState.zoom >= SHOW_HEXAGON_LAYER_FROM_ZOOM) {
+      const hexID = geoToH3(viewState.latitude, viewState.longitude, 12);
+      setCenterHex(hexID);
+    }
+  }, 100);
 
   const handleMapViewChange = useCallback(
     (params: ViewStateChangeParameters) => {
       if (params.viewState.zoom >= SHOW_HEXAGON_LAYER_FROM_ZOOM) {
         debounceToSetCenterHex(params.viewState);
       }
+      setViewState(params.viewState as MapViewState);
     },
     [debounceToSetCenterHex],
   );
 
   const handleClickHexagon = useCallback(
-    (e: PickingInfo) => {
-      if (e.coordinate) {
-        const hexID = geoToH3(e.coordinate[1], e.coordinate[0], 12);
+    (pi: PickingInfo) => {
+      if (pi.coordinate) {
+        const hexID = geoToH3(pi.coordinate[1], pi.coordinate[0], 12);
         setSelectedHexID(hexID);
         setViewState({
           ...viewState,
@@ -141,6 +146,7 @@ export default function VirtualEstateMap({
         controller={true}
         initialViewState={viewState}
         layers={layers}
+        // viewState={viewState}
         onClick={handleClickHexagon}
         onViewStateChange={handleMapViewChange}
       >

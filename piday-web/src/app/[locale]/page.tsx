@@ -1,4 +1,4 @@
-import HomeVirtualEstateMap from "./_components/home-ve-map/HomeVirtualEstateMap";
+import VirtualEstateMapClientWrapper from "./_components/home-ve-map/VirtualEstateMapClientWrapper";
 
 export const metadata = {
   title: "Home",
@@ -17,7 +17,7 @@ export default function HomePage({ params }: Props) {
 
       <div className="h-[800px] w-full relative pb-8">
         start:
-        <HomeVirtualEstateMap token={MAPBOX_ACCESS_TOKEN as string} />
+        <VirtualEstateMapClientWrapper token={MAPBOX_ACCESS_TOKEN as string} />
         :end
       </div>
     </section>
