@@ -5,7 +5,7 @@ import { hexIDtoDecimal } from "@/src/components/virtual-estate-map/h3";
 import {
   setInitialMapAnimation,
   showInitialMapAnimationValue,
-} from "@/src/features/virtual-estate/virtualEstateSlice";
+} from "@/src/features/virtual-estate/virtual-estate-slice";
 
 import { usePathname, useRouter } from "next/navigation";
 

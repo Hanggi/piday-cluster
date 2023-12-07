@@ -12,14 +12,40 @@ datasource db {
 
 // --------------------------------------
 
-model RechargeRecords {
-  id        Int      @id @default(autoincrement())
-  ownerID   String // Keycloak user ID
-  createdAt DateTime @default(now())
+model User {
+  id Int @id @default(autoincrement())
 
-  amount Decimal @db.Decimal(18, 8)
+  keycloakID String  @unique
+  email      String  @unique
+  username   String  @unique
+  avatar     String?
+
+  // VirtualEstate[]
+  virtualEstates                        VirtualEstate[]
+  // VirtualEstateListing[]
+  virtualEstateListings                 VirtualEstateListing[]
+  // VirtualEstateTransactionRecords[]
+  virtualEstateBuyerTransactionRecords  VirtualEstateTransactionRecords[] @relation("BuyerTransaction")
+  virtualEstateSellerTransactionRecords VirtualEstateTransactionRecords[] @relation("SellerTransaction")
+  // RechargeRecords[]
+  rechargeRecords                       RechargeRecords[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 }
 
+// Recharge record contains the amount of money that the user has recharged and consumed
+model RechargeRecords {
+  id     Int     @id @default(autoincrement())
+  amount Decimal @db.Decimal(18, 8)
+
+  ownerID String // Keycloak user ID
+  owner   User   @relation(fields: [ownerID], references: [keycloakID])
+
+  createdAt DateTime @default(now())
+}
+
+// When a user buys a virtual estate, the record will be stored here
 model VirtualEstate {
   id              Int    @id @default(autoincrement())
   virtualEstateID String @unique // Hex ID
@@ -27,35 +53,44 @@ model VirtualEstate {
   lastPrice Decimal
   address   String?
 
-  ownerID   String // Keycloak user ID
+  ownerID String // Keycloak user ID
+  owner   User   @relation(fields: [ownerID], references: [keycloakID])
+
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  updatedAt DateTime @default(now()) @updatedAt
 }
 
+// If a user wants to buy a virtual estate, the transaction type will be BID, vice versa
 enum TransactionType {
   BID
   ASK
 }
 
+// When a user tries to sell or buy a virtual estate, the record will be stored here
 model VirtualEstateListing {
   id              Int    @id @default(autoincrement())
   virtualEstateID String // Hex ID
-  ownerID         String // Keycloak user ID, who made the listing
 
   price Decimal         @db.Decimal(18, 8)
   type  TransactionType
 
+  ownerID String // Keycloak user ID
+  owner   User   @relation(fields: [ownerID], references: [keycloakID])
+
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  updatedAt DateTime @default(now()) @updatedAt
   expiresAt DateTime
 }
 
+// This is a record of a transaction, and it's unchangeable
 model VirtualEstateTransactionRecords {
   id              Int    @id @default(autoincrement())
   virtualEstateID String // Hex ID
 
-  buyerID  String? // Keycloak user ID
-  sellerID String? // Keycloak user ID
+  buyerID  String // Keycloak user ID
+  buyer    User   @relation("BuyerTransaction", fields: [buyerID], references: [keycloakID])
+  sellerID String // Keycloak user ID
+  seller   User   @relation("SellerTransaction", fields: [sellerID], references: [keycloakID])
 
   price Decimal @db.Decimal(18, 8)
 

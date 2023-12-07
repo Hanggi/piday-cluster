@@ -1,4 +1,5 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
+import { AxiosResponse } from "axios";
 
 import { baseQuery } from "../../rtk-utils/fetch-base-query";
 
@@ -24,6 +25,13 @@ export const authRTKApi = createApi({
           locale,
         },
       }),
+      transformResponse: (response: AxiosResponse) => {
+        return response.data;
+      },
+      transformErrorResponse: (error: any) => {
+        console.log(error);
+        return error.data;
+      },
     }),
   }),
 });

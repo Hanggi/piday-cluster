@@ -1,4 +1,6 @@
 import initTranslations from "@/src/app/i18n";
+import instance from "@/src/features/axios/instance";
+import { AxiosError } from "axios";
 import { StatusCodes } from "http-status-codes";
 
 import { NextRequest } from "next/server";
@@ -7,15 +9,14 @@ export async function GET(request: NextRequest, res: Response) {
   const searchParams = request.nextUrl.searchParams;
   const email = searchParams.get("email");
 
-
   const { t, options } = await initTranslations("en", ["common"]);
 
   try {
-    const fetchRes = await fetch(
-      `${process.env.BACKEND_BASE_URL}/auth/send-email-verification?email=${email}`,
+    const fetchRes = await instance.get(
+      `/auth/send-email-verification?email=${email}`,
     );
-    
-    if (fetchRes.ok) {
+
+    if (fetchRes.status == StatusCodes.OK) {
       return new Response(
         JSON.stringify({
           success: true,
@@ -69,14 +70,15 @@ export async function GET(request: NextRequest, res: Response) {
       );
     }
   } catch (error) {
-    console.error("User registration failed!!", error);
+    const axiosError = error as AxiosError;
+    console.error("Send verification email!!", error);
     return new Response(
       JSON.stringify({
         success: false,
-        message: "User registration failed",
+        message: "Send verification email failed",
       }),
       {
-        status: StatusCodes.INTERNAL_SERVER_ERROR,
+        status: axiosError.response?.status,
       },
     );
   }

@@ -44,6 +44,7 @@ export default function VirtualEstateMap({
   const [viewState, setViewState] = useState<MapViewState>(INITIAL_VIEW_STATE);
   const [hexagons, setHexagons] = useState<VirtualEstate[]>([]);
   const [centerHex, setCenterHex] = useState<string>("");
+  const [mounted, setMounted] = useState<boolean>(false);
 
   const [selectedHexID, setSelectedHexID] = useState<string>("");
 
@@ -120,9 +121,11 @@ export default function VirtualEstateMap({
       if (params.viewState.zoom >= SHOW_HEXAGON_LAYER_FROM_ZOOM) {
         debounceToSetCenterHex(params.viewState);
       }
-      setViewState(params.viewState as MapViewState);
+      if (mounted) {
+        setViewState(params.viewState as MapViewState);
+      }
     },
-    [debounceToSetCenterHex],
+    [debounceToSetCenterHex, mounted],
   );
 
   const handleClickHexagon = useCallback(
@@ -146,13 +149,15 @@ export default function VirtualEstateMap({
         controller={true}
         initialViewState={viewState}
         layers={layers}
-        // viewState={viewState}
+        onAfterRender={() => {
+          setTimeout(() => {
+            setMounted(true);
+          }, 100);
+        }}
         onClick={handleClickHexagon}
         onViewStateChange={handleMapViewChange}
       >
         <Map
-          // {...viewState}
-          // initialViewState={INITIAL_VIEW_STATE}
           mapStyle="mapbox://styles/mapbox/streets-v9"
           mapboxAccessToken={token}
           style={{

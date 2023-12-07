@@ -4,6 +4,7 @@ import { ThrottlerGuard, ThrottlerModule } from "@nestjs/throttler";
 
 import { KeycloakModule } from "../lib/keycloak/keycloak.module";
 import { MailgunModule } from "../lib/mailgun/mailgun.module";
+import { PrismaService } from "../lib/prisma/prisma.service";
 import { RedisModule } from "../lib/redis/redis.module";
 import { AuthController } from "./auth.controller";
 import { AuthService } from "./auth.service";
@@ -22,6 +23,7 @@ import { AuthService } from "./auth.service";
   ],
   controllers: [AuthController],
   providers: [
+    PrismaService,
     AuthService,
     {
       provide: APP_GUARD,

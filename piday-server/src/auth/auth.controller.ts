@@ -28,6 +28,7 @@ export class AuthController {
     try {
       await this.authService.setVerificationCodeAndSendEmail(email);
     } catch (err) {
+      console.error(err);
       switch (err.code) {
         case "EMAIL_ALREADY_EXISTS":
           throw new HttpException(
@@ -55,6 +56,7 @@ export class AuthController {
     try {
       await this.authService.emailSignup(email, code, password);
     } catch (err) {
+      console.error(err);
       switch (err.code) {
         case "EMAIL_ALREADY_EXISTS":
           throw new HttpException(

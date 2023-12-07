@@ -6,6 +6,7 @@ import { Inject, Injectable } from "@nestjs/common";
 
 import { ServiceException } from "../lib/exceptions/service-exception";
 import { KeycloakService } from "../lib/keycloak/keycloak.service";
+import { PrismaService } from "../lib/prisma/prisma.service";
 import { generateUsername } from "../lib/utils/extract-username-from-email";
 
 @Injectable()
@@ -14,6 +15,7 @@ export class AuthService {
     @Inject("REDIS_CLIENT") readonly redis: Redis,
     @Inject("MAILGUN_CLIENT") readonly mailgun: IMailgunClient,
     private readonly keycloakService: KeycloakService,
+    private prisma: PrismaService,
   ) {}
 
   async setVerificationCodeAndSendEmail(email: string) {
@@ -95,6 +97,14 @@ export class AuthService {
           temporary: false,
         },
       ],
+    });
+
+    await this.prisma.user.create({
+      data: {
+        email,
+        username: randomUserName,
+        keycloakID: createdUser.id,
+      },
     });
 
     return createdUser;

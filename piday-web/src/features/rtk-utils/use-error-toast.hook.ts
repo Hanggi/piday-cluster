@@ -1,16 +1,17 @@
-import { SerializedError } from "@reduxjs/toolkit";
-import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
-
+// import { SerializedError } from "@reduxjs/toolkit";
+// import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
 
 export function useErrorToast(
-  error: FetchBaseQueryError | SerializedError | undefined,
+  error: any,
+  // FetchBaseQueryError | SerializedError | undefined,
   optional?: { message: string },
 ) {
   useEffect(() => {
+    console.log("error", error);
     if (error) {
-      toast.error(`${optional?.message || error}`);
+      toast.error(`${optional?.message || error?.message || error}`);
     }
   }, [error, optional, optional?.message]);
 }

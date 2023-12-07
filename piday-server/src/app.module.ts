@@ -7,6 +7,7 @@ import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
 import { AuthModule } from "./auth/auth.module";
 import { HttpExceptionFilter } from "./lib/exceptions/http-exception.filter";
+import { VirtualEstateModule } from "./virtual-estate/virtual-estate.module";
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { HttpExceptionFilter } from "./lib/exceptions/http-exception.filter";
     // Logic Modules
     AuthModule,
     AccountModule,
+    VirtualEstateModule,
   ],
   controllers: [AppController],
   providers: [

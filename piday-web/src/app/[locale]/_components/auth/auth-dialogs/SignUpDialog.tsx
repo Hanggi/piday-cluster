@@ -69,9 +69,6 @@ export default function SignUpDialog({
       setDisabledSendButton(true);
     },
   );
-  // test9@dvqdev.com
-
-  const [isLoding, setIsLoding] = useState(false); // 登录状态标志
 
   // Timer for 60 seconds verification code
   const [seconds, setSeconds] = useState(0);
