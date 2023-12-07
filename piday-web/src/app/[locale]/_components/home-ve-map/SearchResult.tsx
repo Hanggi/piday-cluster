@@ -3,7 +3,7 @@
 import { WrapperCard } from "@/src/components/WrapperCard";
 import { cn } from "@/src/utils/cn";
 
-import { Stack, Typography } from "@mui/joy";
+import { Button, Stack, Typography } from "@mui/joy";
 
 import { ComponentProps } from "react";
 import { useTranslation } from "react-i18next";
@@ -20,8 +20,22 @@ export function SearchResult({ className, ...props }: SearchResultProps) {
       </Typography>
       <Stack direction={"row"} justifyContent={"center"} gap={2}>
         {searchData.map((data) => (
-          <WrapperCard>
-            <Typography>{data.value}</Typography>
+          <WrapperCard className="flex flex-col items-center">
+            <Typography level="h4" className="font-semibold !text-secondary">
+              {data.value}
+              <span className="text-xs">个</span>
+            </Typography>
+            <Typography className="!text-sm pt-1.5 pb-4">
+              {t(data.translationKey)}
+            </Typography>
+            <Button
+              className="!rounded-full inline-flex gap-1 !font-normal !text-gray-400"
+              color="neutral"
+              size="sm"
+              variant="outlined"
+            >
+              {t("view")} <i className="ri-arrow-right-line" />
+            </Button>
           </WrapperCard>
         ))}
       </Stack>
@@ -31,23 +45,23 @@ export function SearchResult({ className, ...props }: SearchResultProps) {
 
 const searchData = [
   {
-    value: "10210个",
+    value: "10210",
     translationKey: "totalLandCount",
   },
   {
-    value: "2513个",
+    value: "2513",
     translationKey: "pendingLandForSaleCount",
   },
   {
-    value: "124个",
+    value: "124",
     translationKey: "landPurchase24h",
   },
   {
-    value: "554个",
+    value: "554",
     translationKey: "landSell24h",
   },
   {
-    value: "1124PI",
+    value: "1124",
     translationKey: "latestLandDealPrice",
   },
 ];
