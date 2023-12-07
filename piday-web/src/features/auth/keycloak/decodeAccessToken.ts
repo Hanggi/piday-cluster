@@ -9,6 +9,7 @@ export function decodeAccessToken(accessToken: string): User {
     email: userInfo.email ?? "",
     emailVerified: userInfo.email_verified ?? false,
 
+    username: userInfo.username ?? "",
     name: userInfo.name ?? "",
     givenName: userInfo.given_name ?? "",
     familyName: userInfo.family_name ?? "",
