@@ -6,6 +6,7 @@ import ThemeRegistry from "@src/components/ThemeRegistry/ThemeRegistry";
 import { dir } from "i18next";
 import type { Metadata } from "next";
 import "remixicon/fonts/remixicon.css";
+import "remixicon/fonts/remixicon.css";
 
 import { Inter } from "next/font/google";
 
@@ -39,7 +40,7 @@ export default async function RootLayout({
 
   return (
     <html dir={dir(locale)} lang={locale}>
-      <body className={inter.className + " " + "flex flex-col"}>
+      <body className={inter.className}>
         <ThemeRegistry>
           <SessionProviderWrapper>
             <ReduxProviderWrapper>
@@ -48,7 +49,7 @@ export default async function RootLayout({
                 namespaces={options.ns as string[]}
               >
                 <Header />
-                <main className="mt-40 flex-1 relative z-10">{children}</main>
+                <main className="mt-40 relative z-10">{children}</main>
                 <Footer />
               </TranslationsProvider>
             </ReduxProviderWrapper>

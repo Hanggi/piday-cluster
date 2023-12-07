@@ -16,12 +16,12 @@ export default function HomePage({ params }: Props) {
     <section className="container mx-auto  py-4 mb-8">
       <div>Home page</div>
 
-      <div className="h-[800px] w-full relative pb-8">
+      <div className="h-[800px] w-full pb-8">
         start:
         <VirtualEstateMapClientWrapper token={MAPBOX_ACCESS_TOKEN as string} />
         :end
-        <SearchResult />
       </div>
+      <SearchResult />
     </section>
   );
 }
