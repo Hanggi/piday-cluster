@@ -3,7 +3,7 @@
 import { WrapperCard } from "@/src/components/WrapperCard";
 import { cn } from "@/src/utils/cn";
 
-import { Button, Stack, Typography } from "@mui/joy";
+import { Button, Typography } from "@mui/joy";
 
 import { ComponentProps } from "react";
 import { useTranslation } from "react-i18next";
@@ -18,14 +18,14 @@ export function SearchResult({ className, ...props }: SearchResultProps) {
         {t("userCount")}（189898） {t("landOwnersCount")}（39824）{" "}
         {t("onlineUsersCount")}（12289）
       </Typography>
-      <Stack direction={"row"} justifyContent={"center"} gap={2}>
+      <section className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 container-mini gap-6">
         {searchData.map((data) => (
           <WrapperCard className="flex flex-col items-center">
             <Typography level="h4" className="font-semibold !text-secondary">
               {data.value}
               <span className="text-xs">个</span>
             </Typography>
-            <Typography className="!text-sm pt-1.5 pb-4">
+            <Typography className="!text-sm text-center pt-1.5 pb-4">
               {t(data.translationKey)}
             </Typography>
             <Button
@@ -38,7 +38,7 @@ export function SearchResult({ className, ...props }: SearchResultProps) {
             </Button>
           </WrapperCard>
         ))}
-      </Stack>
+      </section>
     </div>
   );
 }
