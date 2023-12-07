@@ -5,9 +5,6 @@ metadata:
   namespace: piday-dev
 spec:
   replicas: 1
-  selector:
-    matchLabels:
-      app: piday-server-deployment
   template:
     spec:
       containers:
@@ -23,4 +20,4 @@ spec:
               cpu: "1000m"
           envFrom:
             - configMapRef:
-                name: piday-web-env
+                name: piday-server-env
