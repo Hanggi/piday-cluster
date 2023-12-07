@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: piday-server-deployment
+  namespace: piday-dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: piday-server-deployment
+  template:
+    spec:
+      containers:
+        - image: registry.digitalocean.com/davinqi/piday-server:v0.0.1
+          imagePullPolicy: Always
+          name: piday-server-deployment
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "100m"
+            limits:
+              memory: "1024Mi"
+              cpu: "1000m"
+          envFrom:
+            - configMapRef:
+                name: piday-web-env

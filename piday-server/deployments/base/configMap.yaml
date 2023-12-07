@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: piday-server-env
+#  namespace: staging
+data:
+  GIN_MODE: release
