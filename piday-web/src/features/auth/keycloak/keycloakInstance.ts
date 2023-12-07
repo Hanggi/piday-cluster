@@ -10,7 +10,7 @@ export function getKeycloakInstance() {
       clientId: "dev-auth-client",
     });
     // keycloakInstance.init({}).then((auth) => {
-    //   console.log(auth);
+
     // });
   }
   return keycloakInstance;

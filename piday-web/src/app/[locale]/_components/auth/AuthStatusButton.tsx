@@ -22,8 +22,6 @@ export default function AuthStatusButton() {
 
   const { data: session, status } = useSession();
 
-  console.info(session, status);
-
   useEffect(() => {
     if (session?.error == "RefreshAccessTokenError") {
       keycloakSessionLogOut().then(() => {

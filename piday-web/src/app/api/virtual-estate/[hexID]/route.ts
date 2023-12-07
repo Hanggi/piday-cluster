@@ -13,6 +13,7 @@ export async function GET(
   try {
     const res = await instance.get("/virtual-estate/" + hexID);
 
+    
     return new Response(JSON.stringify(res.data), {
       status: StatusCodes.OK,
     });
@@ -37,7 +38,8 @@ export async function GET(
         message: "Fail to get virtual estate",
       }),
       {
-        status: StatusCodes.INTERNAL_SERVER_ERROR,
+        status:
+          axiosError.response?.status || StatusCodes.INTERNAL_SERVER_ERROR,
       },
     );
   }

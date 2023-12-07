@@ -17,7 +17,6 @@ export function MyProperties({ className, ...props }: StatisticsProps) {
   const { t } = useTranslation("profile");
 
   const { data: balance } = useGetBalanceQuery({});
-  console.log(balance);
 
   return (
     <div className={cn(className)} {...props}>

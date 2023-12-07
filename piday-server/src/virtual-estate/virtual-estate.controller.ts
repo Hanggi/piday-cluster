@@ -36,10 +36,21 @@ export class VirtualEstateController {
         return;
       }
 
+      // console.log(virtualEstate);
+      // console.log(typeof virtualEstate.lastPrice);
+      // console.log(
+      //   plainToClass(VirtualEstateResponseDto, virtualEstate, {
+      //     excludeExtraneousValues: true,
+      //   }),
+      // );
+
       res.status(HttpStatus.OK).json({
-        ve: plainToClass(VirtualEstateResponseDto, virtualEstate),
+        ve: plainToClass(VirtualEstateResponseDto, virtualEstate, {
+          excludeExtraneousValues: true,
+        }),
       });
     } catch (err) {
+      console.error(err);
       throw new HttpException(
         "Internal Server Error",
         HttpStatus.INTERNAL_SERVER_ERROR,

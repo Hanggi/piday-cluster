@@ -2,9 +2,11 @@
 
 import { useGetPlacesQuery } from "@/src/features/virtual-estate/api/mapboxAPI";
 import { useGetOneVirtualEstateQuery } from "@/src/features/virtual-estate/api/virtualEstateAPI";
+import { format } from "date-fns";
 import { h3ToGeo } from "h3-js";
 
 import Button from "@mui/joy/Button";
+import Typography from "@mui/joy/Typography";
 
 interface Props {
   hexID: string;
@@ -18,7 +20,6 @@ export default function VirtualEstateDetailCard({ hexID }: Props) {
   });
 
   const { data: virtualEstate } = useGetOneVirtualEstateQuery({ hexID });
-  console.log(virtualEstate);
 
   return (
     <div className="w-full relative pt-5">
@@ -26,29 +27,45 @@ export default function VirtualEstateDetailCard({ hexID }: Props) {
       <div className="mt-5 p-6 bg-[#F7F7F7] rounded-xl">
         <div className="grid grid-cols-2 py-5">
           <div>
-            <p className="opacity-40">地址</p>
-            <p>{place?.features[0].place_name}</p>
+            <Typography className="opacity-40" level="title-md">
+              地址
+            </Typography>
+            <Typography>{place?.features[0].place_name}</Typography>
           </div>
           <div>
-            <p className="opacity-40">哈希值</p>
-            <p>{hexID}</p>
+            <Typography className="opacity-40" level="title-md">
+              哈希值
+            </Typography>
+            <Typography>{hexID}</Typography>
           </div>
         </div>
         <hr />
         <div className="grid grid-cols-2 py-5">
           <div>
-            <p className="opacity-40">土地铸造时间</p>
-            <p>2023-08-25 16:00:21</p>
+            <Typography className="opacity-40" level="title-md">
+              土地铸造时间
+            </Typography>
+            <Typography>
+              {virtualEstate &&
+                format(
+                  new Date(virtualEstate?.createdAt),
+                  "yyyy-MM-dd HH:mm:ss",
+                )}
+            </Typography>
           </div>
           <div>
-            <p className="opacity-40">持有人</p>
-            <p>张三</p>
+            <Typography className="opacity-40">持有人</Typography>
+            <Typography>{virtualEstate?.owner.username}</Typography>
           </div>
         </div>
         <hr />
         <div className="py-5">
-          <p className="opacity-40">最后价格</p>
-          <h1 className="text-2xl">150</h1>
+          <Typography className="opacity-40" level="title-md">
+            最后价格
+          </Typography>
+          <Typography className="text-2xl">
+            {virtualEstate?.lastPrice || 25}
+          </Typography>
         </div>
       </div>
       <div className="mt-5 flex flex-wrap gap-7">

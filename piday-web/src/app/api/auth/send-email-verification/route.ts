@@ -12,11 +12,11 @@ export async function GET(request: NextRequest, res: Response) {
   const { t, options } = await initTranslations("en", ["common"]);
 
   try {
-    const fetchRes = await instance.get(
+    const axiosRes = await instance.get(
       `/auth/send-email-verification?email=${email}`,
     );
 
-    if (fetchRes.status == StatusCodes.OK) {
+    if (axiosRes.status == StatusCodes.OK) {
       return new Response(
         JSON.stringify({
           success: true,
@@ -27,38 +27,6 @@ export async function GET(request: NextRequest, res: Response) {
         },
       );
     } else {
-      if (fetchRes.status == StatusCodes.CONFLICT) {
-        return new Response(
-          JSON.stringify({
-            success: false,
-            message: t("common:auth.errors.emailAlreadyExists"),
-          }),
-          {
-            status: StatusCodes.CONFLICT,
-          },
-        );
-      } else if (fetchRes.status == StatusCodes.BAD_REQUEST) {
-        return new Response(
-          JSON.stringify({
-            success: false,
-            message: t("common:auth.errors.invalidEmail"),
-          }),
-          {
-            status: StatusCodes.BAD_REQUEST,
-          },
-        );
-      } else if (fetchRes.status == StatusCodes.TOO_MANY_REQUESTS) {
-        return new Response(
-          JSON.stringify({
-            success: false,
-            message: t("common:auth.errors.tooManyRequests"),
-          }),
-          {
-            status: StatusCodes.TOO_MANY_REQUESTS,
-          },
-        );
-      }
-
       return new Response(
         JSON.stringify({
           success: false,
@@ -71,6 +39,39 @@ export async function GET(request: NextRequest, res: Response) {
     }
   } catch (error) {
     const axiosError = error as AxiosError;
+
+    if (axiosError.response?.status == StatusCodes.CONFLICT) {
+      return new Response(
+        JSON.stringify({
+          success: false,
+          message: t("common:auth.errors.emailAlreadyExists"),
+        }),
+        {
+          status: StatusCodes.CONFLICT,
+        },
+      );
+    } else if (axiosError.response?.status == StatusCodes.BAD_REQUEST) {
+      return new Response(
+        JSON.stringify({
+          success: false,
+          message: t("common:auth.errors.invalidEmail"),
+        }),
+        {
+          status: StatusCodes.BAD_REQUEST,
+        },
+      );
+    } else if (axiosError.response?.status == StatusCodes.TOO_MANY_REQUESTS) {
+      return new Response(
+        JSON.stringify({
+          success: false,
+          message: t("common:auth.errors.tooManyRequests"),
+        }),
+        {
+          status: StatusCodes.TOO_MANY_REQUESTS,
+        },
+      );
+    }
+
     console.error("Send verification email!!", error);
     return new Response(
       JSON.stringify({
@@ -78,7 +79,8 @@ export async function GET(request: NextRequest, res: Response) {
         message: "Send verification email failed",
       }),
       {
-        status: axiosError.response?.status,
+        status:
+          axiosError.response?.status || StatusCodes.INTERNAL_SERVER_ERROR,
       },
     );
   }

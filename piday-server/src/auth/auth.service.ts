@@ -22,6 +22,23 @@ export class AuthService {
     const user = await this.keycloakService.findUserByEmail(email);
 
     if (user && user.emailVerified) {
+      const prismaUser = await this.prisma.user.findUnique({
+        where: {
+          keycloakID: user.id,
+        },
+      });
+
+      console.log(prismaUser);
+      if (!prismaUser) {
+        await this.prisma.user.create({
+          data: {
+            email,
+            username: generateUsername(email),
+            keycloakID: user.id,
+          },
+        });
+      }
+
       throw new ServiceException(
         "Email already verified!",
         "EMAIL_ALREADY_EXISTS",

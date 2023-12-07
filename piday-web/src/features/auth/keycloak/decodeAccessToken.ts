@@ -3,7 +3,6 @@ import { jwtDecode } from "jwt-decode";
 
 export function decodeAccessToken(accessToken: string): User {
   const userInfo: any = jwtDecode(accessToken);
-  console.log("userInfo", userInfo);
 
   return {
     sid: userInfo.sub ?? "",

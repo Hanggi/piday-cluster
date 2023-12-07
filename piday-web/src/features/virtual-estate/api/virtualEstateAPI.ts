@@ -1,18 +1,19 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 
 import { baseQuery } from "../../rtk-utils/fetch-base-query";
+import { VirtualEstate } from "../interface/virtual-estate.interface";
 
 export const virtualEstateRTKApi = createApi({
   reducerPath: "virtualEstateAPI",
   baseQuery: baseQuery,
   endpoints: (builder) => ({
-    getOneVirtualEstate: builder.query({
+    getOneVirtualEstate: builder.query<VirtualEstate, { hexID: string }>({
       query: ({ hexID }) => ({
         url: `/virtual-estate/${hexID}`,
         method: "GET",
       }),
-      transformResponse: (response) => {
-        return response.ve;
+      transformResponse: (response: { ve: VirtualEstate }) => {
+        return response?.ve;
       },
     }),
   }),
