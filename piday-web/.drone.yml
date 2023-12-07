@@ -60,7 +60,7 @@ steps:
       username: dev@mg.darenstar.com
       password:
         from_secret: DEV_EMAIL_PASSWORD
-      from: dev@darenstar.com
+      from: piday-@darenstar.com
       recipients:
         - hanggicrown@gmail.com
       subject: "[Piday Web](DEV) Build success!"
@@ -83,7 +83,7 @@ steps:
       username: dev@mg.darenstar.com
       password:
         from_secret: DEV_EMAIL_PASSWORD
-      from: dev@darenstar.com
+      from: piday-@darenstar.com
       recipients:
         - hanggicrown@gmail.com
       subject: "[Piday Web](DEV) Build failed!"

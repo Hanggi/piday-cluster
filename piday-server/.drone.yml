@@ -78,13 +78,13 @@ steps:
         from_secret: DEV_EMAIL_PASSWORD
     settings:
       host: smtp.mailgun.org
-      username: dev@mg.darenstar.com
+      username: piday-dev@mg.darenstar.com
       password:
         from_secret: DEV_EMAIL_PASSWORD
       from: piday-dev@darenstar.com
       recipients:
         - hanggicrown@gmail.com
-      subject: "[Piday Web](DEV) Build failed!"
+      subject: "[Piday Server](DEV) Build failed!"
       body: |
         Build failed!
         Please check the result at: https://
