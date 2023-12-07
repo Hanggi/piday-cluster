@@ -23,9 +23,9 @@ steps:
         from_secret: DOCKER_USERNAME
       password:
         from_secret: DOCKER_USERNAME
-      repo: registry.digitalocean.com/davinqi/maltese-socket-io
+      repo: registry.digitalocean.com/davinqi/piday-server
       registry: registry.digitalocean.com
-      dockerfile: piday-server/Dockerfile
+      dockerfile: piday-server/Dockerfile.drone
       build_args_from_env:
         - VERSION
         - TIME

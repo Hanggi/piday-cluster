@@ -14,4 +14,4 @@ spec:
         - destination:
             port:
               number: 80
-            host: maltese-socket-io-service
+            host: piday-server-service
