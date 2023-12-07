@@ -1,3 +1,4 @@
+import { WrapperCard } from "@/src/components/WrapperCard";
 import { decimalToHexID } from "@/src/components/virtual-estate-map/h3";
 
 import VirtualEstateMapClientWrapper from "../../_components/home-ve-map/VirtualEstateMapClientWrapper";
@@ -17,7 +18,7 @@ export default function VirtualEstateDetailPage({
 
   return (
     <main>
-      <div className="container mx-auto h-screen grid grid-cols-1 md:grid-cols-2 gap-5 py-4 ">
+      <WrapperCard className="container mx-auto grid grid-cols-1 md:grid-cols-2 gap-5 py-4 ">
         <div className="w-full max-h-[500px] relative rounded-lg">
           <VirtualEstateMapClientWrapper
             defaultHexID={hexID}
@@ -25,8 +26,8 @@ export default function VirtualEstateDetailPage({
           />
         </div>
         <VirtualEstateDetailCard hexID={hexID} />
-      </div>
-      <Table />
+      </WrapperCard>
+      <Table className="mt-20" />
       <br />
     </main>
   );

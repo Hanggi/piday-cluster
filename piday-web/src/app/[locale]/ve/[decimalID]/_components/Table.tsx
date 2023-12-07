@@ -34,7 +34,7 @@ export function Table({ className, ...props }: TableProps) {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {Array.from(Array(10).keys()).map((idx) => (
+          {Array.from(Array(4).keys()).map((idx) => (
             <TableRow key={idx}>
               {data.map((el, idx) => (
                 <TableCell key={el}>

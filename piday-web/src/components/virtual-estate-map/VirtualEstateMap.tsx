@@ -144,7 +144,7 @@ export default function VirtualEstateMap({
   );
 
   return (
-    <div className="relative pb-[-20px] w-full h-full">
+    <div className="w-full h-full">
       <DeckGL
         controller={true}
         initialViewState={viewState}
