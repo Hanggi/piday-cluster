@@ -39,8 +39,9 @@ export function ForSale({ className, ...props }: ForSaleProps) {
         }
         endDecorator={<i className="ri-search-line"></i>}
       />
-      <section className="grid container-mini grid-cols-1 gap-7 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {Array.from({ length: 6 }).map((_, index) => (
+      <br />
+      <section className="grid py-6 container-mini grid-cols-1 gap-7 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        {Array.from({ length: 8 }).map((_, index) => (
           <LandCard key={index} />
         ))}
       </section>
