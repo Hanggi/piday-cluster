@@ -5,3 +5,4 @@ metadata:
 #  namespace: staging
 data:
   GIN_MODE: release
+  NODE_ENV: dev

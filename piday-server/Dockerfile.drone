@@ -4,12 +4,13 @@ COPY ./piday-server/package.json ./
 RUN yarn
 COPY ./piday-server .
 ENV TZ Asia/Shanghai
-ENV NODE_ENV production
+# ENV NODE_ENV production
+RUN npx prisma generate
 RUN yarn build
 
 FROM node:20-alpine
 WORKDIR /app
-ENV NODE_ENV production
+# ENV NODE_ENV production
 ENV TZ Asia/Shanghai
 COPY --from=builder /app ./piday-server/
 CMD ["yarn", "start:prod"]

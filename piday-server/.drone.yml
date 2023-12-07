@@ -78,7 +78,7 @@ steps:
         from_secret: DEV_EMAIL_PASSWORD
     settings:
       host: smtp.mailgun.org
-      username: piday-dev@mg.darenstar.com
+      username: dev@mg.darenstar.com
       password:
         from_secret: DEV_EMAIL_PASSWORD
       from: piday-dev@darenstar.com

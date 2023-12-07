@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: piday-server-env
+#  namespace: staging
+data:
+  NODE_ENV: dev
+  DATABASE_URL: "postgresql://postgres@localhost:5432/piday_local?schema=public"
