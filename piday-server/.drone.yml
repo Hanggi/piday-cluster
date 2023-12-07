@@ -92,6 +92,9 @@ steps:
       status:
         - failure
 
+node_selector:
+  kubernetes.io/os: linux
+
 trigger:
   branch:
     - main
