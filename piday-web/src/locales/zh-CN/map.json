@@ -1,0 +1,9 @@
+{
+  "landHistory": "土地历史",
+  "column": {
+    "type": "类型",
+    "price": "价格",
+    "date": "日期",
+    "user": "用户"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "landHistory": "Land History",
+  "column": {
+    "type": "Type",
+    "price": "Price",
+    "date": "Date",
+    "user": "User"
+  }
+}
