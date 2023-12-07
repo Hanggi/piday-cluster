@@ -4,12 +4,13 @@ kind: Kustomization
 namespace: piday-staging
 
 resources:
-- ../../base
+  - ../../base
 
 labels:
-- includeSelectors: true
-  pairs:
-    env: dostaging
+  - includeSelectors: true
+    pairs:
+      env: dostaging
 
 patches:
-- path: deployment.yaml
+  - path: deployment.yaml
+  - path: configMap.yaml
