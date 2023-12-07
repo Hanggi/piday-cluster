@@ -89,10 +89,12 @@ const navData = [
   },
   {
     icon: "/img/icons/tools.svg",
+    href: "/mining",
     translationKey: "common:nav.mining",
   },
   {
     icon: "/img/icons/wallet.svg",
+    href: "/wallet",
     translationKey: "common:nav.wallet",
   },
 ];
