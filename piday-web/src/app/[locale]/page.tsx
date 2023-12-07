@@ -1,3 +1,4 @@
+import { ForSale } from "./_components/home-ve-map/ForSale";
 import { SearchResult } from "./_components/home-ve-map/SearchResult";
 import VirtualEstateMapClientWrapper from "./_components/home-ve-map/VirtualEstateMapClientWrapper";
 
@@ -22,6 +23,7 @@ export default function HomePage({ params }: Props) {
         :end
       </div>
       <SearchResult />
+      <ForSale />
     </section>
   );
 }
