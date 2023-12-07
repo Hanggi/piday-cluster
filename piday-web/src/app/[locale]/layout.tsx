@@ -17,8 +17,6 @@ import Footer from "./_components/layout/Footer";
 import Header from "./_components/layout/Header";
 import "./globals.css";
 
-import "remixicon/fonts/remixicon.css";
-
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -41,7 +39,7 @@ export default async function RootLayout({
 
   return (
     <html dir={dir(locale)} lang={locale}>
-      <body className={inter.className}>
+      <body className={inter.className + " " + "flex flex-col"}>
         <ThemeRegistry>
           <SessionProviderWrapper>
             <ReduxProviderWrapper>
@@ -50,7 +48,7 @@ export default async function RootLayout({
                 namespaces={options.ns as string[]}
               >
                 <Header />
-                <main className="mt-40 relative z-10">{children}</main>
+                <main className="mt-40 flex-1 relative z-10">{children}</main>
                 <Footer />
               </TranslationsProvider>
             </ReduxProviderWrapper>

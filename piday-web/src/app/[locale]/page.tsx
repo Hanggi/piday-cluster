@@ -1,3 +1,4 @@
+import { SearchResult } from "./_components/home-ve-map/SearchResult";
 import VirtualEstateMapClientWrapper from "./_components/home-ve-map/VirtualEstateMapClientWrapper";
 
 export const metadata = {
@@ -19,6 +20,7 @@ export default function HomePage({ params }: Props) {
         start:
         <VirtualEstateMapClientWrapper token={MAPBOX_ACCESS_TOKEN as string} />
         :end
+        <SearchResult />
       </div>
     </section>
   );

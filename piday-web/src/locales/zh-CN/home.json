@@ -1,0 +1,15 @@
+{
+  "userCount": "用户数量",
+  "landOwnersCount": "持有土地人数",
+  "onlineUsersCount": "在线人数",
+  "totalLandCount": "总土地数量",
+  "pendingLandForSaleCount": "挂单待售土地数量",
+  "landPurchase24h": "24小时土地购买量",
+  "landSell24h": "24小时土地卖出量",
+  "latestLandDealPrice": "土地最新成交价格",
+  "view": "查看",
+  "onSaleLand": "在售土地",
+  "allLand": "全部土地",
+  "enterLandToQuery": "请输入需要查询的土地",
+  "genesisLand": "创世土地"
+}

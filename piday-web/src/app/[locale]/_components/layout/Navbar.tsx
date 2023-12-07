@@ -25,8 +25,8 @@ export default function Navbar({
 
   return (
     <div
-      className={cn(" top-0 w-full h-20", {
-        fixed: navType === NavType.header,
+      className={cn("top-0 w-full h-20", {
+        absolute: navType === NavType.header,
       })}
     >
       {navType === NavType.header && (

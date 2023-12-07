@@ -8,7 +8,7 @@ import Navbar, { NavType } from "./Navbar";
 
 export default function Footer() {
   return (
-    <section className="w-full  bg-primary">
+    <section className="w-full bg-primary">
       <Navbar navType={NavType.footer}>
         <div className="flex items-center gap-5">
           {socials.map((social) => (
