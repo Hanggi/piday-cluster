@@ -1,0 +1,53 @@
+version: "3"
+
+dotenv: [".env"]
+
+vars:
+  REGISTRY: '{{default "registry.digitalocean.com/davinqi" .REGISTRY}}'
+  BINARY: maltese-socket-io
+
+tasks:
+  run:
+    cmds:
+      - node -v
+      - yarn start:dev
+    env:
+      GIN_MODE: release
+
+  do-docker:
+    cmds:
+      - docker build -t {{.REGISTRY}}/{{.BINARY}}:{{.VERSION}} .
+
+  do-push:
+    cmds:
+      - docker push {{.REGISTRY}}/{{.BINARY}}:{{.VERSION}}
+
+  do-dev:
+    cmds:
+      - kubectl apply -k deployments/dok8s/overlays/dodev
+
+  do-staging:
+    cmds:
+      - kubectl apply -k deployments/dok8s/overlays/dostaging
+
+  do-prod:
+    cmds:
+      - kubectl apply -k deployments/dok8s/overlays/doprod
+
+  do-dp:
+    cmds:
+      - task: do-docker
+      - task: do-push
+
+  go-dev:
+    cmds:
+      - task: do-dp
+      - task: do-dev
+  go-staging:
+    cmds:
+      - task: do-dp
+      - task: do-staging
+  go-prod:
+    cmds:
+      - task: do-dp
+      - task: do-prod
