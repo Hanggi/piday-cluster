@@ -23,4 +23,4 @@ spec:
               cpu: "1000m"
           envFrom:
             - configMapRef:
-                name: piday-sever-env
+                name: piday-server-env
