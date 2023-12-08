@@ -12,5 +12,5 @@ FROM node:20-alpine
 WORKDIR /app
 # ENV NODE_ENV production
 ENV TZ Asia/Shanghai
-COPY --from=builder /app ./piday-server/
+COPY --from=builder /app ./
 CMD ["yarn", "start:prod"]
