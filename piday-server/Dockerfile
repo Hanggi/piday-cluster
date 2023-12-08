@@ -5,6 +5,7 @@ RUN yarn
 COPY . .
 ENV TZ Asia/Shanghai
 ENV NODE_ENV production
+RUN npx prisma generate
 RUN yarn build
 
 FROM node:20-alpine
