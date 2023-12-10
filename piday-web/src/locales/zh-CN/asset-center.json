@@ -6,5 +6,7 @@
   "minted": "已铸造",
   "sold": "已售出",
   "forSale": "待售中",
-  "owned": "已拥有"
+  "owned": "已拥有",
+  "city": "城市",
+  "quantity": "数量"
 }

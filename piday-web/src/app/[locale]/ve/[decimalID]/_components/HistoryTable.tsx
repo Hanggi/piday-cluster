@@ -22,9 +22,7 @@ export function HistoryTable({ className, ...props }: TableProps) {
   const { t } = useTranslation("map");
   return (
     <WrapperCard className={cn("w-full mb-6 container", className)} {...props}>
-      <h4 className="text-black text-xl font-semibold font-['PingFang SC']">
-        {t("landHistory")}
-      </h4>
+      <h4 className="text-xl font-semibold">{t("landHistory")}</h4>
       <TableRoot className="mt-5">
         <TableHeader>
           <TableRow>

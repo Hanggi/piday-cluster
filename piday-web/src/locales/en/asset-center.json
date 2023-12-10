@@ -6,5 +6,7 @@
   "minted": "Minted",
   "sold": "Sold",
   "forSale": "For Sale",
-  "owned": "Owned"
+  "owned": "Owned",
+  "city": "City",
+  "quantity": "Quantity"
 }
