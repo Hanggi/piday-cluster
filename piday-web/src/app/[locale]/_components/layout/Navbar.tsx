@@ -1,3 +1,4 @@
+import { useMediaQuery } from "@/src/hooks/navigation-events/media-query";
 import { cn } from "@/src/utils/cn";
 
 import { Dropdown, Menu, MenuButton } from "@mui/joy";
@@ -19,6 +20,7 @@ export default function Navbar({
   children: React.ReactNode;
   navType: NavType;
 }) {
+  const isMd = useMediaQuery("md");
   return (
     <div
       className={cn("top-0 w-full max-md:py-4 md:h-20", {
@@ -56,15 +58,20 @@ export default function Navbar({
             />
           </div>
         </Link>
+
         {navType === NavType.header ? (
-          <Dropdown>
-            <MenuButton>
-              <i className="ri-menu-3-line"></i>
-            </MenuButton>
-            <Menu className="!bg-primary  [&>ul]:flex items-center [&>ul]:flex-col">
-              <NavMenu navType={navType}>{children}</NavMenu>
-            </Menu>
-          </Dropdown>
+          isMd ? (
+            <NavMenu navType={navType}>{children}</NavMenu>
+          ) : (
+            <Dropdown>
+              <MenuButton>
+                <i className="ri-menu-3-line"></i>
+              </MenuButton>
+              <Menu className="!bg-primary  [&>ul]:flex items-center [&>ul]:flex-col">
+                <NavMenu navType={navType}>{children}</NavMenu>
+              </Menu>
+            </Dropdown>
+          )
         ) : (
           <NavMenu navType={navType}>{children}</NavMenu>
         )}
