@@ -25,20 +25,25 @@ export default function Navbar({
 
   return (
     <div
-      className={cn("top-0 w-full h-20", {
+      className={cn("top-0 w-full max-md:py-4 md:h-20", {
         absolute: navType === NavType.header,
       })}
     >
       {navType === NavType.header && (
         <Image
           alt="banner"
-          className="w-full h-[240px] object-cover object-bottom -z-10 absolute "
+          className="w-full md:hs-[240px] object-cover object-bottom -z-10 absolute "
           height={240}
           src={`/img/banner.png`}
           width={1024}
         />
       )}
-      <nav className="container mx-auto px-2 h-full flex  justify-between items-center">
+      <nav
+        className={cn(
+          "container mx-auto px-2 h-full flex  justify-between items-center",
+          { "max-md:flex-col": navType === NavType.footer },
+        )}
+      >
         <Link href="/">
           <div
             className={cn("relative h-12 w-28", {
