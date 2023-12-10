@@ -1,0 +1,10 @@
+{
+  "landOwnershipCount": "土地持有数量",
+  "goToMarket": "前往市场",
+  "landOwnershipByCity": "持有对应城市的土地数量",
+  "totalLand": "全部土地",
+  "minted": "已铸造",
+  "sold": "已售出",
+  "forSale": "待售中",
+  "owned": "已拥有"
+}
