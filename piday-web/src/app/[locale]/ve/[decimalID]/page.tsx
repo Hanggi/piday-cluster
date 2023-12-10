@@ -2,7 +2,7 @@ import { WrapperCard } from "@/src/components/WrapperCard";
 import { decimalToHexID } from "@/src/components/virtual-estate-map/h3";
 
 import VirtualEstateMapClientWrapper from "../../_components/home-ve-map/VirtualEstateMapClientWrapper";
-import { Table } from "./_components/Table";
+import { HistoryTable } from "./_components/HistoryTable";
 import VirtualEstateDetailCard from "./_components/VirtualEstateDetailCard";
 
 const MAPBOX_ACCESS_TOKEN = process.env.MAPBOX_ACCESS_TOKEN;
@@ -27,7 +27,7 @@ export default function VirtualEstateDetailPage({
         </div>
         <VirtualEstateDetailCard hexID={hexID} />
       </WrapperCard>
-      <Table className="mt-20" />
+      <HistoryTable className="mt-20" />
       <br />
     </main>
   );

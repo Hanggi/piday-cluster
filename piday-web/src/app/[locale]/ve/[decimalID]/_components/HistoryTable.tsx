@@ -18,7 +18,7 @@ import { useTranslation } from "react-i18next";
 
 type TableProps = ComponentProps<typeof WrapperCard>;
 
-export function Table({ className, ...props }: TableProps) {
+export function HistoryTable({ className, ...props }: TableProps) {
   const { t } = useTranslation("map");
   return (
     <WrapperCard className={cn("w-full mb-6 container", className)} {...props}>
