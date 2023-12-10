@@ -14,13 +14,16 @@ export function TabList({ className, categories, ...props }: TabListProps) {
   const { t } = useTranslation("asset-center");
   return (
     <RadixTab.List
-      className={cn("container gap-5 flex items-center mb-6", className)}
+      className={cn(
+        "container overflow-auto gap-5 flex items-center mb-6",
+        className,
+      )}
       {...props}
     >
       {categories.map((tab) => (
         <>
           <RadixTab.Trigger key={tab} asChild value={tab}>
-            <Button className="!rounded-full !text-stone-600 aria-selected:!text-black aria-selected:!bg-primary !bg-transparent">
+            <Button className="!rounded-full whitespace-nowrap !text-stone-600 aria-selected:!text-black aria-selected:!bg-primary !bg-transparent">
               {t(tab)}
             </Button>
           </RadixTab.Trigger>
