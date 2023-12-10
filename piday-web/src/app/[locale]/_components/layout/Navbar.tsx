@@ -24,7 +24,7 @@ export default function Navbar({
   return (
     <div
       className={cn("top-0 w-full max-md:py-4 md:h-20", {
-        absolute: navType === NavType.header,
+        "absolute max-md:pt-0": navType === NavType.header,
       })}
     >
       {navType === NavType.header && (
