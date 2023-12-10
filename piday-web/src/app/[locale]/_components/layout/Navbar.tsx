@@ -1,12 +1,11 @@
 import { cn } from "@/src/utils/cn";
 
+import { Dropdown, Menu, MenuButton } from "@mui/joy";
+
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 
-import { useTranslation } from "react-i18next";
-
-import { isNavActive } from "../../_lib/utils";
+import { NavMenu } from "./NavMenu";
 
 export enum NavType {
   header = "header",
@@ -20,9 +19,6 @@ export default function Navbar({
   children: React.ReactNode;
   navType: NavType;
 }) {
-  const { t } = useTranslation("common");
-  const path = usePathname();
-
   return (
     <div
       className={cn("top-0 w-full max-md:py-4 md:h-20", {
@@ -60,46 +56,19 @@ export default function Navbar({
             />
           </div>
         </Link>
-        <ul className="flex items-center capitalize gap-5">
-          {navData.map((el) => (
-            <Link
-              className={cn("flex items-center gap-1.5 py-2.5 rounded px-5", {
-                "bg-white/40":
-                  isNavActive(el.href!, path) && navType === "header",
-              })}
-              href={el.href || ""}
-              key={el.translationKey}
-            >
-              <Image
-                alt={el.translationKey}
-                height={20}
-                src={el.icon}
-                width={20}
-              />
-              <span>{t(el.translationKey)}</span>
-            </Link>
-          ))}
-        </ul>
-        <div>{children}</div>
+        {navType === NavType.header ? (
+          <Dropdown>
+            <MenuButton>
+              <i className="ri-menu-3-line"></i>
+            </MenuButton>
+            <Menu className="!bg-primary  [&>ul]:flex items-center [&>ul]:flex-col">
+              <NavMenu navType={navType}>{children}</NavMenu>
+            </Menu>
+          </Dropdown>
+        ) : (
+          <NavMenu navType={navType}>{children}</NavMenu>
+        )}
       </nav>
     </div>
   );
 }
-
-const navData = [
-  {
-    icon: "/img/icons/handbag.svg",
-    href: "/store",
-    translationKey: "common:nav.store",
-  },
-  {
-    icon: "/img/icons/tools.svg",
-    href: "/mining",
-    translationKey: "common:nav.mining",
-  },
-  {
-    icon: "/img/icons/wallet.svg",
-    href: "/wallet",
-    translationKey: "common:nav.wallet",
-  },
-];
