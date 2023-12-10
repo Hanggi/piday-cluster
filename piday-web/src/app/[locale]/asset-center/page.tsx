@@ -1,6 +1,7 @@
 import { BreadCrumb } from "@/src/components/BreadCrumb";
 
 import { Banner } from "./_components/Banner";
+import { LandByCategories } from "./_components/LandByCategories";
 import { LandPerCityTable } from "./_components/LandPerCityTable";
 
 export const metadata = {
@@ -14,7 +15,9 @@ export default function AssetCenterPage() {
       <Banner />
       <br />
       <LandPerCityTable />
-      AssetCenterPage
+      <br />
+      <LandByCategories />
+      <br />
     </main>
   );
 }

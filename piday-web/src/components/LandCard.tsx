@@ -1,13 +1,13 @@
-import { Chip } from "@mui/joy";
+import { Button, Chip } from "@mui/joy";
 
 import Image from "next/image";
 
 import { ComponentProps } from "react";
 import { useTranslation } from "react-i18next";
 
-type LandCardProps = ComponentProps<"div">;
+type LandCardProps = ComponentProps<"div"> & { noBtn?: boolean };
 
-export function LandCard({ className, ...props }: LandCardProps) {
+export function LandCard({ className, noBtn, ...props }: LandCardProps) {
   const { t } = useTranslation("home");
 
   return (
@@ -36,21 +36,27 @@ export function LandCard({ className, ...props }: LandCardProps) {
             className="absolute inset-0 m-auto"
           />
         </div>
-        <p className="font-semibold ml-5 mt-5 max-md:ml-2.5">
-          United Arab Emirates
-        </p>
-        <p className="text-black/40 text-sm ml-5 max-md:ml-2.5">
-          The day before
-        </p>
-        <div className="flex gap-2.5 ml-5 mt-3 max-md:ml-2.5">
-          <Image
-            src={"/img/icons/pid.png"}
-            alt="pid"
-            width={24}
-            height={24}
-            className="aspect-square object-contain object-center w-6 overflow-hidden shrink-0 max-w-full"
-          />
-          <span>30</span>
+        <div className="px-4 pt-4 flex flex-col gap-3">
+          <p className="font-semibold">United Arab Emirates</p>
+          <p className="text-black/40 text-sm -mt-2">The day before</p>
+          <div className="flex gap-2.5">
+            <Image
+              src={"/img/icons/pid.png"}
+              alt="pid"
+              width={24}
+              height={24}
+              className="aspect-square object-contain object-center w-6 overflow-hidden shrink-0 max-w-full"
+            />
+            <span>30</span>
+          </div>{" "}
+          {noBtn ?? (
+            <Button
+              variant="outlined"
+              className="relative z-10 !bg-transparent !min-w-[200px]  !text-primary"
+            >
+              已铸造
+            </Button>
+          )}
         </div>
       </div>
     </div>
