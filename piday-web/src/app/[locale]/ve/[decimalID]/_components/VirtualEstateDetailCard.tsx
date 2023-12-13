@@ -4,6 +4,7 @@ import { useGetPlacesQuery } from "@/src/features/virtual-estate/api/mapboxAPI";
 import { useGetOneVirtualEstateQuery } from "@/src/features/virtual-estate/api/virtualEstateAPI";
 import { format } from "date-fns";
 import { h3ToGeo } from "h3-js";
+import { useSession } from "next-auth/react";
 
 import Button from "@mui/joy/Button";
 import Typography from "@mui/joy/Typography";
@@ -13,6 +14,7 @@ interface Props {
 }
 
 export default function VirtualEstateDetailCard({ hexID }: Props) {
+  const { data: session, status } = useSession();
   const geo = h3ToGeo(hexID);
   const { data: place } = useGetPlacesQuery({
     lat: geo[0],
@@ -20,6 +22,8 @@ export default function VirtualEstateDetailCard({ hexID }: Props) {
   });
 
   const { data: virtualEstate } = useGetOneVirtualEstateQuery({ hexID });
+  console.log(session);
+  console.log(virtualEstate);
 
   return (
     <div className="w-full relative pt-5">
@@ -46,16 +50,17 @@ export default function VirtualEstateDetailCard({ hexID }: Props) {
               土地铸造时间
             </Typography>
             <Typography>
-              {virtualEstate &&
-                format(
-                  new Date(virtualEstate?.createdAt),
-                  "yyyy-MM-dd HH:mm:ss",
-                )}
+              {virtualEstate
+                ? format(
+                    new Date(virtualEstate?.createdAt),
+                    "yyyy-MM-dd HH:mm:ss",
+                  )
+                : "NaN"}
             </Typography>
           </div>
           <div>
             <Typography className="opacity-40">持有人</Typography>
-            <Typography>{virtualEstate?.owner.username}</Typography>
+            <Typography>{virtualEstate?.owner.username || "None"}</Typography>
           </div>
         </div>
         <hr />
@@ -69,6 +74,9 @@ export default function VirtualEstateDetailCard({ hexID }: Props) {
         </div>
       </div>
       <div className="mt-5 flex flex-wrap gap-7">
+        {!virtualEstate && <Button>Buy</Button>}
+
+        {virtualEstate?.owner.id == session?.user.id && <div></div>}
         <Button className="py-3 grow" size="lg">
           上架
         </Button>
