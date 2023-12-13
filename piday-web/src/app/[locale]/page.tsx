@@ -1,3 +1,5 @@
+import { ForSale } from "./_components/home-ve-map/ForSale";
+import { SearchResult } from "./_components/home-ve-map/SearchResult";
 import VirtualEstateMapClientWrapper from "./_components/home-ve-map/VirtualEstateMapClientWrapper";
 
 export const metadata = {
@@ -15,11 +17,11 @@ export default function HomePage({ params }: Props) {
     <section className="container mx-auto  py-4 mb-8">
       <div>Home page</div>
 
-      <div className="h-[800px] w-full relative pb-8">
-        start:
+      <div className="w-full h-[800px] relative pb-8">
         <VirtualEstateMapClientWrapper token={MAPBOX_ACCESS_TOKEN as string} />
-        :end
       </div>
+      <SearchResult />
+      <ForSale />
     </section>
   );
 }

@@ -17,7 +17,7 @@ export function Information({ className, ...props }: InformationProps) {
       className={cn("grid grid-cols-4 gap-5 grid-rows-2", className)}
       {...props}
     >
-      <WrapperCard className="col-span-2 row-span-2">
+      <WrapperCard className="col-span-2 row-span-2 max-md:col-span-full">
         <p className="text-xl font-normal">{t("mining:information.title")}</p>
         <section className="md:grid-cols-3 mt-7 grid divide-x divide-zinc-100 gap-y-10">
           {informationData.map((info) => (
@@ -32,7 +32,10 @@ export function Information({ className, ...props }: InformationProps) {
         </section>
       </WrapperCard>
       {pointsData.map((data) => (
-        <WrapperCard className="relative" key={data.translationKey}>
+        <WrapperCard
+          className="relative max-md:row-span-2 max-md:col-span-full"
+          key={data.translationKey}
+        >
           <h4 className="text-black/40">{t(data.translationKey)}</h4>
           <p className="text-secondary text-[32px]">{t(data.value)}</p>
           <Image

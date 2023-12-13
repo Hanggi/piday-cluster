@@ -27,7 +27,7 @@ export default function VirtualEstateMapClientWrapper({
   const showInitialMapAnimation = useSelector(showInitialMapAnimationValue);
 
   return (
-    <div className="h-full">
+    <div>
       <VirtualEstateMap
         defaultHexID={defaultHexID}
         token={token}

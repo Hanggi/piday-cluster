@@ -16,6 +16,9 @@ export const tailwindCssUtilities = plugin(
       ".center": {
         "@apply left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%]": {},
       },
+      ".container-mini": {
+        "@apply max-w-6xl mx-auto w-full": {},
+      },
     });
   },
 );
