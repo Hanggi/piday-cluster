@@ -14,17 +14,17 @@ export const Banner = () => {
         <h4 className="relative z-10  text-5xl font-bold">24</h4>
         <p className="relative z-10 text-sm ">{t("landOwnershipCount")}</p>
         <Button
-          variant="outlined"
           className="relative z-10 !bg-transparent !min-w-[200px] !text-primary"
+          variant="outlined"
         >
           {t("goToMarket")}
         </Button>{" "}
         <Image
-          src="/img/mining/dashboard.svg"
-          className="absolute inset-0 scale-125 opacity-20"
-          width={200}
-          height={200}
           alt=""
+          className="absolute inset-0 scale-125 opacity-20"
+          height={200}
+          src="/img/mining/dashboard.svg"
+          width={200}
         />
       </div>
     </header>

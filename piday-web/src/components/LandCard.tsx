@@ -19,21 +19,21 @@ export function LandCard({ className, noBtn, ...props }: LandCardProps) {
         <div className="flex-col overflow-hidden self-stretch relative flex aspect-[1.5] w-full pl-20 pr-4 pt-4 pb-12 items-end max-md:pl-5">
           <Image
             alt="map"
-            width={280}
+            className="absolute h-full w-full object-cover object-center inset-0"
             height={180}
             src="/img/map/map.png"
-            className="absolute h-full w-full object-cover object-center inset-0"
+            width={280}
           />
           <Chip className="relative !py-2 !text-white !text-xs !rounded !bg-sky-500">
             {t("genesisLand")}
           </Chip>
 
           <Image
-            src={"/img/map/globe.svg"}
             alt="pid"
-            width={140}
-            height={140}
             className="absolute inset-0 m-auto"
+            height={140}
+            src={"/img/map/globe.svg"}
+            width={140}
           />
         </div>
         <div className="px-4 pt-4 flex flex-col gap-3">
@@ -41,18 +41,18 @@ export function LandCard({ className, noBtn, ...props }: LandCardProps) {
           <p className="text-black/40 text-sm -mt-2">The day before</p>
           <div className="flex gap-2.5">
             <Image
-              src={"/img/icons/pid.png"}
               alt="pid"
-              width={24}
-              height={24}
               className="aspect-square object-contain object-center w-6 overflow-hidden shrink-0 max-w-full"
+              height={24}
+              src={"/img/icons/pid.png"}
+              width={24}
             />
             <span>30</span>
           </div>{" "}
           {noBtn ?? (
             <Button
-              variant="outlined"
               className="relative z-10 !bg-transparent !min-w-[200px]  !text-primary"
+              variant="outlined"
             >
               已铸造
             </Button>

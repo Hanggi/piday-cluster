@@ -38,11 +38,11 @@ export function HistoryTable({ className, ...props }: TableProps) {
                 <TableCell key={el}>
                   {idx === 1 && (
                     <Image
-                      src={"/img/icons/pid.png"}
                       alt="pid"
-                      width={24}
-                      height={24}
                       className="aspect-square inline-block object-contain w-5 mr-1"
+                      height={24}
+                      src={"/img/icons/pid.png"}
+                      width={24}
                     />
                   )}
                   {el}

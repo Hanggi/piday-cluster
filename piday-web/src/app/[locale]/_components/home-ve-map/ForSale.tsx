@@ -15,14 +15,15 @@ export function ForSale({ className, ...props }: ForSaleProps) {
 
   return (
     <div className={cn("py-10", className)} {...props}>
-      <Typography level="h4" className="text-center font-semibold">
+      <Typography className="text-center font-semibold" level="h4">
         {t("onSaleLand")}
       </Typography>
       <br />
       <Input
+        className="[&_.MuiSelect-root]:!border-0 mx-auto !rounded-full [&_.MuiSelect-root]:hover:!bg-transparent max-w-xl"
+        endDecorator={<i className="ri-search-line"></i>}
         placeholder={t("enterLandToQuery")}
         size="lg"
-        className="[&_.MuiSelect-root]:!border-0 mx-auto !rounded-full [&_.MuiSelect-root]:hover:!bg-transparent max-w-xl"
         startDecorator={
           <>
             <Select
@@ -37,12 +38,11 @@ export function ForSale({ className, ...props }: ForSaleProps) {
             <div className="h-4 w-px bg-zinc-300"></div>
           </>
         }
-        endDecorator={<i className="ri-search-line"></i>}
       />
       <br />
       <section className="grid py-6 container-mini grid-cols-1 gap-7 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {Array.from({ length: 8 }).map((_, index) => (
-          <LandCard noBtn key={index} />
+          <LandCard key={index} noBtn />
         ))}
       </section>
     </div>

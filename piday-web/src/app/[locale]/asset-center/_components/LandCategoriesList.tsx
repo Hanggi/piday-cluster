@@ -22,7 +22,7 @@ export function TabList({ className, categories, ...props }: TabListProps) {
     >
       {categories.map((tab) => (
         <>
-          <RadixTab.Trigger key={tab} asChild value={tab}>
+          <RadixTab.Trigger asChild key={tab} value={tab}>
             <Button className="!rounded-full whitespace-nowrap !text-stone-600 aria-selected:!text-black aria-selected:!bg-primary !bg-transparent">
               {t(tab)}
             </Button>

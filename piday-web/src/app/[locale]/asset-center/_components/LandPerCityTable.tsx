@@ -25,8 +25,8 @@ export function LandPerCityTable({ className, ...props }: TableProps) {
     <WrapperCard className={cn("w-full", className)} {...props}>
       <h4 className="text-xl font-semibold">{t("landOwnershipByCity")}</h4>
       <Select
-        placeholder="全部城市"
         className="!bg-transparent !max-w-[200px] mt-5"
+        placeholder="全部城市"
       >
         <Option value="one">One</Option>
         <Option value="two">Two</Option>
