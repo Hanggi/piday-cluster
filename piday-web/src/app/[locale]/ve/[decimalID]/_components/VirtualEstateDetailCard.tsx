@@ -76,7 +76,7 @@ export default function VirtualEstateDetailCard({ hexID }: Props) {
       <div className="mt-5 flex flex-wrap gap-7">
         {!virtualEstate && <Button>Buy</Button>}
 
-        {virtualEstate?.owner.id == session?.user.id && <div></div>}
+        {/* {virtualEstate?.owner?.id == session?.user?.id && <div></div>} */}
         <Button className="py-3 grow" size="lg">
           上架
         </Button>
