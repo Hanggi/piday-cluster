@@ -1,13 +1,18 @@
 "use client";
 
 import { useGetPlacesQuery } from "@/src/features/virtual-estate/api/mapboxAPI";
-import { useGetOneVirtualEstateQuery } from "@/src/features/virtual-estate/api/virtualEstateAPI";
+import {
+  useGetOneVirtualEstateQuery,
+  useMintOneVirtualEstateMutation,
+} from "@/src/features/virtual-estate/api/virtualEstateAPI";
 import { format } from "date-fns";
 import { h3ToGeo } from "h3-js";
 import { useSession } from "next-auth/react";
 
 import Button from "@mui/joy/Button";
 import Typography from "@mui/joy/Typography";
+
+import { useCallback } from "react";
 
 interface Props {
   hexID: string;
@@ -24,6 +29,13 @@ export default function VirtualEstateDetailCard({ hexID }: Props) {
   const { data: virtualEstate } = useGetOneVirtualEstateQuery({ hexID });
   console.log(session);
   console.log(virtualEstate);
+
+  const [mintVirtualEstate, mintVirtualEstateResult] =
+    useMintOneVirtualEstateMutation();
+
+  const handleMintClick = useCallback(() => {
+    mintVirtualEstate({ hexID });
+  }, [hexID, mintVirtualEstate]);
 
   return (
     <div className="w-full relative pt-5">
@@ -77,8 +89,8 @@ export default function VirtualEstateDetailCard({ hexID }: Props) {
         {!virtualEstate && <Button>Buy</Button>}
 
         {/* {virtualEstate?.owner?.id == session?.user?.id && <div></div>} */}
-        <Button className="py-3 grow" size="lg">
-          上架
+        <Button className="py-3 grow" size="lg" onClick={handleMintClick}>
+          购买
         </Button>
         <Button className="py-3 grow" size="lg">
           转移

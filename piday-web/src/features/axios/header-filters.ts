@@ -7,7 +7,6 @@ export function HeaderFilters(headers: Headers) {
       authorization.split(" ")[0] + " " + decrypt(authorization.split(" ")[1]);
   }
 
-  console.log(authorization);
   return {
     "user-agent": headers.get("user-agent") || "",
     "accept-language": headers.get("accept-language") || "",
