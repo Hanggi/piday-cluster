@@ -29,19 +29,19 @@ export class VirtualEstateController {
     private readonly virtualEstateService: VirtualEstateService,
   ) {}
 
-  @Get("all-by-user")
+  @Get("all")
   @UseGuards(KeycloakJwtGuard)
   async getAllVirtualEstates(
     @Req() req: AuthenticatedRequest,
     @Res() res: Response,
     @Query("page") page = "1", // default to page 1
-    @Query("pageSize") pageSize ,
+    @Query("pageSize") size = "10", //default to size 10,
   ) {
     try {
       const virtualEstates =
         await this.virtualEstateService.getAllVirtualEstatesForSignedUser(
           req.user.userID,
-          parseInt(pageSize),
+          parseInt(size),
           parseInt(page),
         );
 

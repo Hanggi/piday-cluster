@@ -25,7 +25,7 @@ export class VirtualEstateService {
 
   async getAllVirtualEstatesForSignedUser(
     userId: string,
-    pageSize: number,
+    size: number,
     page: number,
   ): Promise<VirtualEstate[]> {
     console.log("Got The Request in the service", userId);
@@ -36,8 +36,8 @@ export class VirtualEstateService {
       include: {
         owner: true,
       },
-      take: pageSize,
-      skip: (page - 1) * pageSize,
+      take: size,
+      skip: (page - 1) * size,
     });
     console.log(virtualEstates);
     return virtualEstates;
