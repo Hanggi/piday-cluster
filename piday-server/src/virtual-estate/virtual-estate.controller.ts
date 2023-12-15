@@ -7,19 +7,26 @@ import {
   HttpException,
   HttpStatus,
   Param,
+  Post,
   Req,
   Res,
   UseGuards,
+  UsePipes,
 } from "@nestjs/common";
 
+import { AccountService } from "../account/account.service";
 import { AuthenticatedRequest } from "../lib/keycloak/interfaces/authenticated-request";
 import { KeycloakJwtGuard } from "../lib/keycloak/keycloak-jwt.guard";
 import { VirtualEstateResponseDto } from "./dto/virtual-estate.dto";
+import { HexIdValidationPipe } from "./pipes/hex-id-validation.pipe";
 import { VirtualEstateService } from "./virtual-estate.service";
 
 @Controller("virtual-estate")
 export class VirtualEstateController {
-  constructor(private readonly virtualEstateService: VirtualEstateService) {}
+  constructor(
+    private readonly accountService: AccountService,
+    private readonly virtualEstateService: VirtualEstateService,
+  ) {}
 
   @Get("all-by-user")
   @UseGuards(KeycloakJwtGuard)
@@ -55,6 +62,8 @@ export class VirtualEstateController {
     }
   }
 
+ 
+
   @Get(":hexID")
   async getHexID(
     @Param("hexID") hexID,
@@ -71,14 +80,6 @@ export class VirtualEstateController {
         });
         return;
       }
-
-      // console.log(virtualEstate);
-      // console.log(typeof virtualEstate.lastPrice);
-      // console.log(
-      //   plainToClass(VirtualEstateResponseDto, virtualEstate, {
-      //     excludeExtraneousValues: true,
-      //   }),
-      // );
 
       res.status(HttpStatus.OK).json({
         ve: plainToClass(VirtualEstateResponseDto, virtualEstate, {

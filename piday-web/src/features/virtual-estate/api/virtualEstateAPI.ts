@@ -16,7 +16,19 @@ export const virtualEstateRTKApi = createApi({
         return response?.ve;
       },
     }),
+
+    mintOneVirtualEstate: builder.mutation<VirtualEstate, { hexID: string }>({
+      query: ({ hexID }) => ({
+        url: `/virtual-estate/${hexID}`,
+        method: "POST",
+        body: {},
+      }),
+      transformResponse: (response: { ve: VirtualEstate }) => {
+        return response?.ve;
+      },
+    }),
   }),
 });
 
-export const { useGetOneVirtualEstateQuery } = virtualEstateRTKApi;
+export const { useGetOneVirtualEstateQuery, useMintOneVirtualEstateMutation } =
+  virtualEstateRTKApi;
