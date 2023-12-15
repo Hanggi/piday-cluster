@@ -23,6 +23,22 @@ export class VirtualEstateService {
     return virtualEstate;
   }
 
+  async getAllVirtualEstatesForSignedUser(
+    userId: string,
+  ): Promise<VirtualEstate[]> {
+    console.log("Got The Request in the service", userId);
+    const virtualEstates = await this.prisma.virtualEstate.findMany({
+      where: {
+        ownerID: userId,
+      },
+      include: {
+        owner: true,
+      },
+    });
+    console.log(virtualEstates);
+    return virtualEstates;
+  }
+  
   async mintVirtualEstate({
     userID,
     hexID,
@@ -47,21 +63,5 @@ export class VirtualEstateService {
     // TODO(Hanggi): Update the user's balance by leaving a recharge record
 
     return virtualEstate;
-  }
-
-  async getAllVirtualEstatesForSignedUser(
-    userId: string,
-  ): Promise<VirtualEstate[]> {
-    console.log("Got The Request in the service", userId);
-    const virtualEstates = await this.prisma.virtualEstate.findMany({
-      where: {
-        ownerID: userId,
-      },
-      include: {
-        owner: true,
-      },
-    });
-    console.log(virtualEstates);
-    return virtualEstates;
   }
 }

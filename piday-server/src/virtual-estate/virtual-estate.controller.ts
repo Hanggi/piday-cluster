@@ -62,7 +62,39 @@ export class VirtualEstateController {
     }
   }
 
- 
+  @UseGuards(KeycloakJwtGuard)
+  @Post(":hexID")
+  @UsePipes(new HexIdValidationPipe())
+  async mintVirtualEstate(
+    @Param("hexID") hexID,
+    @Req() req: AuthenticatedRequest,
+  ) {
+    try {
+      // TODO(Hanggi): Check the virtual estate is already minted or not
+      const existing =
+        await this.virtualEstateService.getOneVirtualEstate(hexID);
+
+      if (existing) {
+        throw new HttpException(
+          "Virtual Estate already minted",
+          HttpStatus.BAD_REQUEST,
+        );
+      }
+
+      const virtualEstate = await this.virtualEstateService.mintVirtualEstate({
+        userID: req.user.userID,
+        hexID,
+      });
+
+      return virtualEstate;
+    } catch (err) {
+      console.error(err);
+      throw new HttpException(
+        "Internal Server Error",
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
 
   @Get(":hexID")
   async getHexID(
