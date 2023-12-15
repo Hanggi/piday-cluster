@@ -40,6 +40,9 @@ model RechargeRecords {
   id     Int     @id @default(autoincrement())
   amount Decimal @db.Decimal(18, 8)
 
+  reason     String // Used to record the reasons for each recharge or consumption
+  externalID String // A unique identifier stored in an external system or database associated with the record
+
   ownerID String // Keycloak user ID
   owner   User   @relation(fields: [ownerID], references: [keycloakID])
 
