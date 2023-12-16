@@ -23,6 +23,26 @@ export class VirtualEstateService {
     return virtualEstate;
   }
 
+  async getAllVirtualEstatesForSignedUser(
+    userId: string,
+    size: number,
+    page: number,
+  ): Promise<VirtualEstate[]> {
+    console.log("Got The Request in the service", userId);
+    const virtualEstates = await this.prisma.virtualEstate.findMany({
+      where: {
+        ownerID: userId,
+      },
+      include: {
+        owner: true,
+      },
+      take: size,
+      skip: (page - 1) * size,
+    });
+    console.log(virtualEstates);
+    return virtualEstates;
+  }
+
   async mintVirtualEstate({
     userID,
     hexID,

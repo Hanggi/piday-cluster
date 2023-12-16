@@ -17,7 +17,7 @@ export class KeycloakJwtGuard implements CanActivate {
     if (bearer !== "Bearer" || !token) {
       return false; // 格式不正确
     }
-
+    // console.log(bearer ,token)
     const certs = await fetch(process.env.KEYCLOAK_CERTS_URL);
     const certsJson = await certs.json();
 

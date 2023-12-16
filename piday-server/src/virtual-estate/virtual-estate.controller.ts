@@ -8,6 +8,7 @@ import {
   HttpStatus,
   Param,
   Post,
+  Query,
   Req,
   Res,
   UseGuards,
@@ -27,6 +28,44 @@ export class VirtualEstateController {
     private readonly accountService: AccountService,
     private readonly virtualEstateService: VirtualEstateService,
   ) {}
+
+  @Get("all")
+  @UseGuards(KeycloakJwtGuard)
+  async getAllVirtualEstates(
+    @Req() req: AuthenticatedRequest,
+    @Res() res: Response,
+    @Query("page") page = "1", // default to page 1
+    @Query("pageSize") size = "10", //default to size 10,
+  ) {
+    try {
+      const virtualEstates =
+        await this.virtualEstateService.getAllVirtualEstatesForSignedUser(
+          req.user.userID,
+          parseInt(size),
+          parseInt(page),
+        );
+
+      if (!virtualEstates) {
+        res.status(HttpStatus.NOT_FOUND).json({
+          success: false,
+          data: null,
+          message: "No virtual estates found by this user",
+        });
+      }
+
+      res.status(HttpStatus.OK).json({
+        data: virtualEstates,
+        success: true,
+        message: "Virtual states found successfully",
+      });
+    } catch (error) {
+      console.error(error);
+      throw new HttpException(
+        "Internal Server Error",
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
 
   @UseGuards(KeycloakJwtGuard)
   @Post(":hexID")
