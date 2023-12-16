@@ -14,7 +14,6 @@ export async function GET(
   const page = searchParams.get("page");
   const size = searchParams.get("size");
   try {
-    console.log("Getting it here ");
     const res = await instance.get(
       `/virtual-estate/all?page=${page}&size=${size}`,
       {
