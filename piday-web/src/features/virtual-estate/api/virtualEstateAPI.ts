@@ -27,8 +27,23 @@ export const virtualEstateRTKApi = createApi({
         return response?.ve;
       },
     }),
+    getMyVirtualEstates: builder.query<
+      VirtualEstate[],
+      { page: string; size: string }
+    >({
+      query: ({ page, size }) => ({
+        url: `/virtual-estates?page=${page}&size=${size}`,
+        method: "GET",
+      }),
+      transformResponse: (response: { data: VirtualEstate[] }) => {
+        return response?.data;
+      },
+    }),
   }),
 });
 
-export const { useGetOneVirtualEstateQuery, useMintOneVirtualEstateMutation } =
-  virtualEstateRTKApi;
+export const {
+  useGetOneVirtualEstateQuery,
+  useMintOneVirtualEstateMutation,
+  useGetMyVirtualEstatesQuery,
+} = virtualEstateRTKApi;

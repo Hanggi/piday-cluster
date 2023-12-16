@@ -35,7 +35,7 @@ export class VirtualEstateController {
     @Req() req: AuthenticatedRequest,
     @Res() res: Response,
     @Query("page") page = "1", // default to page 1
-    @Query("pageSize") size = "10", //default to size 10,
+    @Query("size") size = "10", //default to size 10,
   ) {
     try {
       const virtualEstates =
