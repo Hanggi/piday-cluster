@@ -48,13 +48,13 @@ export class VirtualEstateController {
       if (!virtualEstates) {
         res.status(HttpStatus.NOT_FOUND).json({
           success: false,
-          data: null,
+          virtualEstates: null,
           message: "No virtual estates found by this user",
         });
       }
 
       res.status(HttpStatus.OK).json({
-        data: virtualEstates,
+        virtualEstates: virtualEstates,
         success: true,
         message: "Virtual states found successfully",
       });
