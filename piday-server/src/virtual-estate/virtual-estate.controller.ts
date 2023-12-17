@@ -35,7 +35,7 @@ export class VirtualEstateController {
     @Req() req: AuthenticatedRequest,
     @Res() res: Response,
     @Query("page") page = "1", // default to page 1
-    @Query("pageSize") size = "10", //default to size 10,
+    @Query("size") size = "10", //default to size 10,
   ) {
     try {
       const virtualEstates =
@@ -48,13 +48,13 @@ export class VirtualEstateController {
       if (!virtualEstates) {
         res.status(HttpStatus.NOT_FOUND).json({
           success: false,
-          data: null,
+          virtualEstates: null,
           message: "No virtual estates found by this user",
         });
       }
 
       res.status(HttpStatus.OK).json({
-        data: virtualEstates,
+        virtualEstates: virtualEstates,
         success: true,
         message: "Virtual states found successfully",
       });
