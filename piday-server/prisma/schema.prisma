@@ -74,6 +74,7 @@ enum TransactionType {
 model VirtualEstateListing {
   id              Int    @id @default(autoincrement())
   virtualEstateID String // Hex ID
+  listingID BigInt // listing ID
 
   price Decimal         @db.Decimal(18, 8)
   type  TransactionType
@@ -90,7 +91,8 @@ model VirtualEstateListing {
 model VirtualEstateTransactionRecords {
   id              Int    @id @default(autoincrement())
   virtualEstateID String // Hex ID
-
+  transactionID BigInt // transaction ID
+  
   buyerID  String // Keycloak user ID
   buyer    User   @relation("BuyerTransaction", fields: [buyerID], references: [keycloakID])
   sellerID String // Keycloak user ID
