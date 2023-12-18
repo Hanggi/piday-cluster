@@ -1,8 +1,10 @@
-import { TransactionType } from "@/src/utils/types";
 import { createApi } from "@reduxjs/toolkit/query/react";
 
 import { baseQuery } from "../../rtk-utils/fetch-base-query";
-import { VirtualEstateListing } from "../interface/virtual-estate-listing.interface";
+import {
+  TransactionType,
+  VirtualEstateListing,
+} from "../interface/virtual-estate-listing.interface";
 
 export const virtualEstateListingRTKApi = createApi({
   reducerPath: "virtualEstateListingApi",
@@ -10,12 +12,12 @@ export const virtualEstateListingRTKApi = createApi({
   endpoints: (builder) => ({
     createVirtualEstateListing: builder.mutation<
       VirtualEstateListing,
-      { hexID: string; price: number; type: TransactionType; expiresAt?: Date }
+      { hexID: string; price: number; type: TransactionType }
     >({
-      query: ({ hexID, price, type, expiresAt }) => ({
+      query: ({ hexID, price, type }) => ({
         url: `/virtual-estate-listing/${hexID}/bid`,
         method: "POST",
-        body: { price, type, expiresAt },
+        body: { price, type },
       }),
       transformResponse: (response: { ve: VirtualEstateListing }) => {
         return response?.ve;

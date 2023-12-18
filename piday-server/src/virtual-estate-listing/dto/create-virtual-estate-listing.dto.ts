@@ -13,7 +13,5 @@ export class CreateVirtualEstateListingDto {
   @IsNotEmpty()
   type: TransactionType;
   @IsOptional()
-  expiresAt: Date;
-  @IsOptional()
-  listingID: number;
+  expiresAt?: Date;
 }

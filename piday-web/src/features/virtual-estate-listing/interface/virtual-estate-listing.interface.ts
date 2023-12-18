@@ -1,5 +1,3 @@
-import { TransactionType } from "@/src/utils/types";
-
 import { User } from "../../auth/interface/User.interface";
 
 export interface VirtualEstateListing {
@@ -10,4 +8,9 @@ export interface VirtualEstateListing {
   type: TransactionType;
   createdAt: Date;
   updatedAt: Date;
+}
+
+export enum TransactionType {
+  BID = "BID",
+  ASK = "ASK",
 }

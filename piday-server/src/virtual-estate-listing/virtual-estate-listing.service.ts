@@ -1,3 +1,5 @@
+import FlakeIdGen from "flake-idgen";
+
 import { Injectable } from "@nestjs/common";
 
 import { PrismaService } from "../lib/prisma/prisma.service";
@@ -6,11 +8,18 @@ import { CreateVirtualEstateListingDto } from "./dto/create-virtual-estate-listi
 @Injectable()
 export class VirtualEstateListingService {
   constructor(private prisma: PrismaService) {}
-  async create(createVirtualEstateListingDto: CreateVirtualEstateListingDto) {
+  async createVirtualEstateListing(createVirtualEstateListingDto: CreateVirtualEstateListingDto) {
     try {
+      const { price, type, expiresAt, ownerID, virtualEstateID } =
+        createVirtualEstateListingDto;
       const newVirtualEstate = await this.prisma.virtualEstateListing.create({
         data: {
-          ...createVirtualEstateListingDto,
+          price,
+          type,
+          expiresAt,
+          ownerID,
+          virtualEstateID,
+          listingID: this.createListingID(),
         },
       });
 
@@ -28,15 +37,14 @@ export class VirtualEstateListingService {
     }
   }
 
-  findAll() {
-    return `This action returns all virtualEstateListing`;
-  }
+  createListingID(): number {
+    const generator = new FlakeIdGen();
 
-  findOne(id: number) {
-    return `This action returns a #${id} virtualEstateListing`;
-  }
+    const idBuffer = generator.next();
 
-  remove(id: number) {
-    return `This action removes a #${id} virtualEstateListing`;
+    // 将 Buffer 转换为 BigInt，然后转换为十进制字符串
+    const idDecimalString = BigInt("0x" + idBuffer.toString("hex")).toString();
+
+    return parseInt(idDecimalString);
   }
 }

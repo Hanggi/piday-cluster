@@ -1,11 +1,8 @@
 import { Response } from "express";
-import FlakeIdGen from "flake-idgen";
 
 import {
   Body,
   Controller,
-  Delete,
-  Get,
   HttpException,
   HttpStatus,
   Param,
@@ -13,7 +10,7 @@ import {
   Req,
   Res,
   UseGuards,
-  UsePipes, // UsePipes, // UsePipes,
+  UsePipes
 } from "@nestjs/common";
 
 import { AuthenticatedRequest } from "../lib/keycloak/interfaces/authenticated-request";
@@ -40,23 +37,14 @@ export class VirtualEstateListingController {
     @Body() createVirtualEstateListingDto: CreateVirtualEstateListingDto,
   ) {
     try {
-      console.log("In side post virtual estate listing ");
-      const generator = new FlakeIdGen();
-
-      const idBuffer = generator.next();
-
-      // 将 Buffer 转换为 BigInt，然后转换为十进制字符串
-      const idDecimalString = BigInt(
-        "0x" + idBuffer.toString("hex"),
-      ).toString();
-
+      console.log("Got in the backend controller")
+      //TODO : Check for existing bids and invalidate them 
       const { price, type } = createVirtualEstateListingDto;
       const virtualEstateListing =
-        await this.virtualEstateListingService.create({
+        await this.virtualEstateListingService.createVirtualEstateListing({
           virtualEstateID: hexID,
           ownerID: req.user.userID,
           expiresAt: new Date(new Date().getDate() + 30),
-          listingID: parseInt(idDecimalString),
           price,
           type,
         });
@@ -83,19 +71,5 @@ export class VirtualEstateListingController {
     }
   }
 
-  @Get()
-  findAll() {
-    console.log("Find all ");
-    return this.virtualEstateListingService.findAll();
-  }
-
-  @Get(":id")
-  findOne(@Param("id") id: string) {
-    return this.virtualEstateListingService.findOne(+id);
-  }
-
-  @Delete(":id")
-  remove(@Param("id") id: string) {
-    return this.virtualEstateListingService.remove(+id);
-  }
+  
 }
