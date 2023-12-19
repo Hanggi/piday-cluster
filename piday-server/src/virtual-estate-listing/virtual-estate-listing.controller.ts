@@ -29,15 +29,13 @@ export class VirtualEstateListingController {
 
   @UseGuards(KeycloakJwtGuard)
   @Post(":hexID/bid")
-  @UsePipes(new HexIdValidationPipe())
-  async create(
-    @Param("hexID") hexID,
+  async createVirtualEstateListing(
+    @Param("hexID" , HexIdValidationPipe) hexID,
     @Req() req: AuthenticatedRequest,
     @Res() res: Response,
     @Body() createVirtualEstateListingDto: CreateVirtualEstateListingDto,
   ) {
     try {
-      console.log("Got in the backend controller")
       //TODO : Check for existing bids and invalidate them 
       const { price, type } = createVirtualEstateListingDto;
       const virtualEstateListing =
