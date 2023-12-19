@@ -16,8 +16,6 @@ import {
 import { AuthenticatedRequest } from "../lib/keycloak/interfaces/authenticated-request";
 import { KeycloakJwtGuard } from "../lib/keycloak/keycloak-jwt.guard";
 import { HexIdValidationPipe } from "../virtual-estate/pipes/hex-id-validation.pipe";
-// import { HexIdValidationPipe } from "../virtual-estate/pipes/hex-id-validation.pipe";
-// import { HexIdValidationPipe } from "../virtual-estate/pipes/hex-id-validation.pipe";
 import { CreateVirtualEstateListingDto } from "./dto/create-virtual-estate-listing.dto";
 import { VirtualEstateListingService } from "./virtual-estate-listing.service";
 
