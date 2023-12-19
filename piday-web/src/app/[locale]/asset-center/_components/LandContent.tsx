@@ -14,7 +14,6 @@ type TabContentProps = ComponentProps<"div"> & {
 };
 export function TabContent({ className, tabList, ...props }: TabContentProps) {
   const { data } = useGetMyVirtualEstatesQuery({ page: "1", size: "2" });
-  console.log("Data", data);
   return (
     <div className={cn("container ", className)} {...props}>
       {tabList.map((tab) => (

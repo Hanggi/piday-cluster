@@ -7,6 +7,7 @@ import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
 import { AuthModule } from "./auth/auth.module";
 import { HttpExceptionFilter } from "./lib/exceptions/http-exception.filter";
+import { VirtualEstateListingModule } from "./virtual-estate-listing/virtual-estate-listing.module";
 import { VirtualEstateModule } from "./virtual-estate/virtual-estate.module";
 
 @Module({
@@ -22,6 +23,7 @@ import { VirtualEstateModule } from "./virtual-estate/virtual-estate.module";
     AuthModule,
     AccountModule,
     VirtualEstateModule,
+    VirtualEstateListingModule,
   ],
   controllers: [AppController],
   providers: [

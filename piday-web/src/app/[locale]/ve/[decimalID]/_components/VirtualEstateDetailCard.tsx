@@ -1,5 +1,6 @@
 "use client";
 
+import { useCreateVirtualEstateListingMutation } from "@/src/features/virtual-estate-listing/api/virtualEstateListingAPI";
 import { useGetPlacesQuery } from "@/src/features/virtual-estate/api/mapboxAPI";
 import {
   useGetOneVirtualEstateQuery,
@@ -12,7 +13,8 @@ import { useSession } from "next-auth/react";
 import Button from "@mui/joy/Button";
 import Typography from "@mui/joy/Typography";
 
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
+import { TransactionType } from "@/src/features/virtual-estate-listing/interface/virtual-estate-listing.interface";
 
 interface Props {
   hexID: string;
@@ -36,6 +38,17 @@ export default function VirtualEstateDetailCard({ hexID }: Props) {
   const handleMintClick = useCallback(() => {
     mintVirtualEstate({ hexID });
   }, [hexID, mintVirtualEstate]);
+  const [createVirtualEstateListing, createVirtualEstateListingResult] =
+    useCreateVirtualEstateListingMutation();
+
+  const handleBidClick = useCallback(() => {
+    createVirtualEstateListing({
+      hexID,
+      price: 12,
+      type: TransactionType.BID,
+    });
+  }, [hexID, createVirtualEstateListing]);
+
 
   return (
     <div className="w-full relative pt-5">
