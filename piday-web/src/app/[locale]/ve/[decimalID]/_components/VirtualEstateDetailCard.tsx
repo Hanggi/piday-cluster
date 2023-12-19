@@ -49,13 +49,6 @@ export default function VirtualEstateDetailCard({ hexID }: Props) {
     });
   }, [hexID, createVirtualEstateListing]);
 
-  useEffect(()=>{
-    createVirtualEstateListing({
-      hexID,
-      price: 12,
-      type: TransactionType.BID,
-    });
-  }, [])
 
   return (
     <div className="w-full relative pt-5">
