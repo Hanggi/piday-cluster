@@ -18,6 +18,7 @@ import {
 import { AccountService } from "../account/account.service";
 import { AuthenticatedRequest } from "../lib/keycloak/interfaces/authenticated-request";
 import { KeycloakJwtGuard } from "../lib/keycloak/keycloak-jwt.guard";
+import { VirtualEstateListingDto } from "../virtual-estate-listing/dto/virtual-estate-listing.dto";
 import { VirtualEstateResponseDto } from "./dto/virtual-estate.dto";
 import { HexIdValidationPipe } from "./pipes/hex-id-validation.pipe";
 import { VirtualEstateService } from "./virtual-estate.service";
@@ -100,6 +101,7 @@ export class VirtualEstateController {
       );
     }
   }
+  @UseGuards(KeycloakJwtGuard)
   @Get(":hexID/listing")
   async getVirtualEstateListingOffers(
     @Param("hexID") hexID,
@@ -118,9 +120,13 @@ export class VirtualEstateController {
       }
 
       res.status(HttpStatus.OK).json({
-        ve: plainToClass(VirtualEstateResponseDto, virtualEstate, {
-          excludeExtraneousValues: true,
-        }),
+        virtualEstateListings: plainToClass(
+          VirtualEstateListingDto,
+          virtualEstate,
+          {
+            excludeExtraneousValues: true,
+          },
+        ),
       });
     } catch (err) {
       console.error(err);

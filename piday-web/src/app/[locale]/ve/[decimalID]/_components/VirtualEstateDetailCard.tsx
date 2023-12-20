@@ -1,9 +1,11 @@
 "use client";
 
 import { useCreateVirtualEstateListingMutation } from "@/src/features/virtual-estate-listing/api/virtualEstateListingAPI";
+import { TransactionType } from "@/src/features/virtual-estate-listing/interface/virtual-estate-listing.interface";
 import { useGetPlacesQuery } from "@/src/features/virtual-estate/api/mapboxAPI";
 import {
   useGetOneVirtualEstateQuery,
+  useGetVirtualEstateBidsAndOffersQuery,
   useMintOneVirtualEstateMutation,
 } from "@/src/features/virtual-estate/api/virtualEstateAPI";
 import { format } from "date-fns";
@@ -14,7 +16,6 @@ import Button from "@mui/joy/Button";
 import Typography from "@mui/joy/Typography";
 
 import { useCallback, useEffect } from "react";
-import { TransactionType } from "@/src/features/virtual-estate-listing/interface/virtual-estate-listing.interface";
 
 interface Props {
   hexID: string;
@@ -29,8 +30,14 @@ export default function VirtualEstateDetailCard({ hexID }: Props) {
   });
 
   const { data: virtualEstate } = useGetOneVirtualEstateQuery({ hexID });
-  console.log(session);
-  console.log(virtualEstate);
+  // console.log(session);
+  // console.log(virtualEstate);
+
+  const { data: virtualEstateListings } = useGetVirtualEstateBidsAndOffersQuery(
+    { hexID },
+  );
+
+  console.log("Listings ", virtualEstateListings);
 
   const [mintVirtualEstate, mintVirtualEstateResult] =
     useMintOneVirtualEstateMutation();
@@ -48,7 +55,6 @@ export default function VirtualEstateDetailCard({ hexID }: Props) {
       type: TransactionType.BID,
     });
   }, [hexID, createVirtualEstateListing]);
-
 
   return (
     <div className="w-full relative pt-5">

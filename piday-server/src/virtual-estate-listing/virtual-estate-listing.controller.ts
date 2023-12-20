@@ -10,7 +10,6 @@ import {
   Req,
   Res,
   UseGuards,
-  UsePipes
 } from "@nestjs/common";
 
 import { AuthenticatedRequest } from "../lib/keycloak/interfaces/authenticated-request";
@@ -28,13 +27,13 @@ export class VirtualEstateListingController {
   @UseGuards(KeycloakJwtGuard)
   @Post(":hexID/bid")
   async createVirtualEstateListing(
-    @Param("hexID" , HexIdValidationPipe) hexID,
+    @Param("hexID", HexIdValidationPipe) hexID,
     @Req() req: AuthenticatedRequest,
     @Res() res: Response,
     @Body() createVirtualEstateListingDto: CreateVirtualEstateListingDto,
   ) {
     try {
-      //TODO : Check for existing bids and invalidate them 
+      //TODO : Check for existing bids and invalidate them
       const { price, type } = createVirtualEstateListingDto;
       const virtualEstateListing =
         await this.virtualEstateListingService.createVirtualEstateListing({
@@ -66,6 +65,4 @@ export class VirtualEstateListingController {
       );
     }
   }
-
-  
 }

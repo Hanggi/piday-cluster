@@ -1,6 +1,7 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 
 import { baseQuery } from "../../rtk-utils/fetch-base-query";
+import { VirtualEstateListing } from "../../virtual-estate-listing/interface/virtual-estate-listing.interface";
 import { VirtualEstate } from "../interface/virtual-estate.interface";
 
 export const virtualEstateRTKApi = createApi({
@@ -39,6 +40,20 @@ export const virtualEstateRTKApi = createApi({
         return response?.virtualEstates;
       },
     }),
+    getVirtualEstateBidsAndOffers: builder.query<
+      VirtualEstateListing[],
+      { hexID: string }
+    >({
+      query: ({ hexID }) => ({
+        url: `/virtual-estate/${hexID}/listing`,
+        method: "GET",
+      }),
+      transformResponse: (response: {
+        virtualEstateListings: VirtualEstateListing[];
+      }) => {
+        return response?.virtualEstateListings;
+      },
+    }),
   }),
 });
 
@@ -46,4 +61,5 @@ export const {
   useGetOneVirtualEstateQuery,
   useMintOneVirtualEstateMutation,
   useGetMyVirtualEstatesQuery,
+  useGetVirtualEstateBidsAndOffersQuery,
 } = virtualEstateRTKApi;
