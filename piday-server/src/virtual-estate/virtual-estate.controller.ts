@@ -100,6 +100,36 @@ export class VirtualEstateController {
       );
     }
   }
+  @Get(":hexID/listing")
+  async getVirtualEstateListingOffers(
+    @Param("hexID") hexID,
+    @Req() req: AuthenticatedRequest,
+    @Res() res: Response,
+  ) {
+    try {
+      const virtualEstate =
+        await this.virtualEstateService.getVirtualEstateOffersAndBidding(hexID);
+
+      if (!virtualEstate) {
+        res.status(HttpStatus.NOT_FOUND).json({
+          message: "Virtual Estate not found",
+        });
+        return;
+      }
+
+      res.status(HttpStatus.OK).json({
+        ve: plainToClass(VirtualEstateResponseDto, virtualEstate, {
+          excludeExtraneousValues: true,
+        }),
+      });
+    } catch (err) {
+      console.error(err);
+      throw new HttpException(
+        "Internal Server Error",
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
 
   @Get(":hexID")
   async getHexID(
