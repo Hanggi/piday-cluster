@@ -1204,7 +1204,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mui/joy@npm:^5.0.0-beta.18":
+"@mui/joy@npm:^5.0.0-beta.19":
   version: 5.0.0-beta.19
   resolution: "@mui/joy@npm:5.0.0-beta.19"
   dependencies:
@@ -1935,7 +1935,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^20.10.4":
+"@types/node@npm:^20.10.5":
   version: 20.10.5
   resolution: "@types/node@npm:20.10.5"
   dependencies:
@@ -1965,7 +1965,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-dom@npm:^18.2.17":
+"@types/react-dom@npm:^18.2.18":
   version: 18.2.18
   resolution: "@types/react-dom@npm:18.2.18"
   dependencies:
@@ -1974,7 +1974,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:*, @types/react@npm:^18.2.42":
+"@types/react@npm:*, @types/react@npm:^18.2.45":
   version: 18.2.45
   resolution: "@types/react@npm:18.2.45"
   dependencies:
@@ -3452,7 +3452,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint@npm:^8.55.0":
+"eslint@npm:^8.56.0":
   version: 8.56.0
   resolution: "eslint@npm:8.56.0"
   dependencies:
@@ -4738,7 +4738,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"keycloak-js@npm:^23.0.2":
+"keycloak-js@npm:^23.0.3":
   version: 23.0.3
   resolution: "keycloak-js@npm:23.0.3"
   dependencies:
@@ -5597,14 +5597,14 @@ __metadata:
     "@deck.gl/react": "npm:^8.9.33"
     "@emotion/react": "npm:^11.11.1"
     "@emotion/styled": "npm:^11.11.0"
-    "@mui/joy": "npm:^5.0.0-beta.18"
+    "@mui/joy": "npm:^5.0.0-beta.19"
     "@radix-ui/react-tabs": "npm:^1.0.4"
     "@reduxjs/toolkit": "npm:^2.0.1"
     "@trivago/prettier-plugin-sort-imports": "npm:^4.3.0"
     "@types/lodash": "npm:^4.14.202"
-    "@types/node": "npm:^20.10.4"
-    "@types/react": "npm:^18.2.42"
-    "@types/react-dom": "npm:^18.2.17"
+    "@types/node": "npm:^20.10.5"
+    "@types/react": "npm:^18.2.45"
+    "@types/react-dom": "npm:^18.2.18"
     "@types/validator": "npm:^13.11.7"
     autoprefixer: "npm:^10.4.16"
     axios: "npm:^1.6.2"
@@ -5613,7 +5613,7 @@ __metadata:
     date-fns: "npm:^2.30.0"
     deck.gl: "npm:^8.9.33"
     env-cmd: "npm:^10.1.0"
-    eslint: "npm:^8.55.0"
+    eslint: "npm:^8.56.0"
     eslint-config-next: "npm:14.0.4"
     eslint-plugin-unused-imports: "npm:^3.0.0"
     h3-js: "npm:^3.7.2"
@@ -5621,7 +5621,7 @@ __metadata:
     i18next: "npm:^23.7.11"
     i18next-resources-to-backend: "npm:^1.2.0"
     jwt-decode: "npm:^4.0.0"
-    keycloak-js: "npm:^23.0.2"
+    keycloak-js: "npm:^23.0.3"
     lodash: "npm:^4.17.21"
     mapbox-gl: "npm:^3.0.1"
     next: "npm:14.0.4"
@@ -5632,14 +5632,14 @@ __metadata:
     react: "npm:^18.2.0"
     react-dom: "npm:^18.2.0"
     react-hook-form: "npm:^7.49.2"
-    react-i18next: "npm:^13.5.0"
-    react-map-gl: "npm:^7.1.6"
+    react-i18next: "npm:^14.0.0"
+    react-map-gl: "npm:^7.1.7"
     react-redux: "npm:^9.0.4"
     react-spinners: "npm:^0.13.8"
     react-toastify: "npm:^9.1.3"
-    remixicon: "npm:^3.7.0"
+    remixicon: "npm:^4.0.1"
     tailwind-merge: "npm:^2.1.0"
-    tailwindcss: "npm:^3.3.6"
+    tailwindcss: "npm:^3.4.0"
     typescript: "npm:^5.3.3"
     validator: "npm:^13.11.0"
   languageName: unknown
@@ -5892,9 +5892,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-i18next@npm:^13.5.0":
-  version: 13.5.0
-  resolution: "react-i18next@npm:13.5.0"
+"react-i18next@npm:^14.0.0":
+  version: 14.0.0
+  resolution: "react-i18next@npm:14.0.0"
   dependencies:
     "@babel/runtime": "npm:^7.22.5"
     html-parse-stringify: "npm:^3.0.1"
@@ -5906,7 +5906,7 @@ __metadata:
       optional: true
     react-native:
       optional: true
-  checksum: 955db09fb83bc68aa9fe7ed11c95fb3e9dc5ab95e85854f169c07a9e71f9154d2cc01f46e343801e2478d5de86475e7a19ec677bec532c3870cb7a01246a6a86
+  checksum: 923990e941cdc9ca73bb34fca8a408f850c6ce7ca490661d83c808c5a91f33997882d40e0d2da64664c91a064e12002164c8dd843d75542a7e7e261a3d4198d8
   languageName: node
   linkType: hard
 
@@ -5924,7 +5924,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-map-gl@npm:^7.1.6":
+"react-map-gl@npm:^7.1.7":
   version: 7.1.7
   resolution: "react-map-gl@npm:7.1.7"
   dependencies:
@@ -6063,10 +6063,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"remixicon@npm:^3.7.0":
-  version: 3.7.0
-  resolution: "remixicon@npm:3.7.0"
-  checksum: ad48960a0a0a3ac1cc9a807fca1043064c65ffb18a9bcd1e35d986ee948db47a49d8174f279b3cf34f7716b751cbfc84c9633257b7611db8ada2feeb1ebbcf0d
+"remixicon@npm:^4.0.1":
+  version: 4.0.1
+  resolution: "remixicon@npm:4.0.1"
+  checksum: 7c59af768ce5f95ed2f14e957f6475a36bb1dac22794f76ffe9babf8644e0d7203bf518cb523520efbf921d922cbd2e74a0c748e94947b0551e219fa7194a77b
   languageName: node
   linkType: hard
 
@@ -6625,7 +6625,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tailwindcss@npm:^3.3.6":
+"tailwindcss@npm:^3.4.0":
   version: 3.4.0
   resolution: "tailwindcss@npm:3.4.0"
   dependencies:
