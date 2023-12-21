@@ -1,3 +1,4 @@
+import { HeaderFilters } from "@/src/features/axios/header-filters";
 import instance from "@/src/features/axios/instance";
 import { AxiosError } from "axios";
 import { StatusCodes } from "http-status-codes";
@@ -9,7 +10,10 @@ export async function GET(
   const hexID = params.hexID;
 
   try {
-    const res = await instance.get("/virtual-estate/" + hexID + "/listing");
+    const { headers } = request;
+    const res = await instance.get("/virtual-estate/" + hexID + "/listing", {
+      headers: HeaderFilters(headers),
+    });
 
     console.log("At the frontend api", JSON.stringify(res.data));
     return new Response(JSON.stringify(res.data), {
