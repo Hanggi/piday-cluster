@@ -18,6 +18,8 @@ import {
 import { AccountService } from "../account/account.service";
 import { AuthenticatedRequest } from "../lib/keycloak/interfaces/authenticated-request";
 import { KeycloakJwtGuard } from "../lib/keycloak/keycloak-jwt.guard";
+import { VirtualEstateListingDto } from "../virtual-estate-listing/dto/virtual-estate-listing.dto";
+import { VirtualEstateListingService } from "../virtual-estate-listing/virtual-estate-listing.service";
 import { VirtualEstateResponseDto } from "./dto/virtual-estate.dto";
 import { HexIdValidationPipe } from "./pipes/hex-id-validation.pipe";
 import { VirtualEstateService } from "./virtual-estate.service";
@@ -27,6 +29,7 @@ export class VirtualEstateController {
   constructor(
     private readonly accountService: AccountService,
     private readonly virtualEstateService: VirtualEstateService,
+    private readonly virtualEstateListingService: VirtualEstateListingService,
   ) {}
 
   @Get("all")
@@ -92,6 +95,43 @@ export class VirtualEstateController {
       });
 
       return virtualEstate;
+    } catch (err) {
+      console.error(err);
+      throw new HttpException(
+        "Internal Server Error",
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+  
+  @Get(":hexID/listing")
+  async getVirtualEstateListingOffers(
+    @Param("hexID") hexID,
+    @Req() req: AuthenticatedRequest,
+    @Res() res: Response,
+  ) {
+    try {
+      const virtualEstate =
+        await this.virtualEstateListingService.getVirtualEstateOffersAndBidding(
+          hexID,
+        );
+
+      if (!virtualEstate) {
+        res.status(HttpStatus.NOT_FOUND).json({
+          message: "Virtual Estate not found",
+        });
+        return;
+      }
+
+      res.status(HttpStatus.OK).json({
+        virtualEstateListings: plainToClass(
+          VirtualEstateListingDto,
+          virtualEstate,
+          {
+            excludeExtraneousValues: true,
+          },
+        ),
+      });
     } catch (err) {
       console.error(err);
       throw new HttpException(
