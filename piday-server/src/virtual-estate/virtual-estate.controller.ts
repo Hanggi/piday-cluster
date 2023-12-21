@@ -103,7 +103,7 @@ export class VirtualEstateController {
       );
     }
   }
-  @UseGuards(KeycloakJwtGuard)
+  
   @Get(":hexID/listing")
   async getVirtualEstateListingOffers(
     @Param("hexID") hexID,
