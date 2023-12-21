@@ -8,7 +8,9 @@ import { CreateVirtualEstateListingDto } from "./dto/create-virtual-estate-listi
 @Injectable()
 export class VirtualEstateListingService {
   constructor(private prisma: PrismaService) {}
-  async createVirtualEstateListing(createVirtualEstateListingDto: CreateVirtualEstateListingDto) {
+  async createVirtualEstateListing(
+    createVirtualEstateListingDto: CreateVirtualEstateListingDto,
+  ) {
     try {
       const { price, type, expiresAt, ownerID, virtualEstateID } =
         createVirtualEstateListingDto;
@@ -46,5 +48,15 @@ export class VirtualEstateListingService {
     const idDecimalString = BigInt("0x" + idBuffer.toString("hex")).toString();
 
     return parseInt(idDecimalString);
+  }
+
+  async getVirtualEstateOffersAndBidding(hexID: string) {
+    const virtualEstateListingOffersAndBids =
+      await this.prisma.virtualEstateListing.findMany({
+        where: {
+          virtualEstateID: hexID,
+        },
+      });
+    return virtualEstateListingOffersAndBids;
   }
 }

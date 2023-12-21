@@ -68,13 +68,4 @@ export class VirtualEstateService {
 
     return virtualEstate;
   }
-  async getVirtualEstateOffersAndBidding(hexID: string) {
-    const virtualEstateListingOffersAndBids =
-      await this.prisma.virtualEstateListing.findMany({
-        where: {
-          virtualEstateID: hexID,
-        },
-      });
-    return virtualEstateListingOffersAndBids;
-  }
 }

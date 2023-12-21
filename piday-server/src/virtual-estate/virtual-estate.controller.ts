@@ -19,6 +19,7 @@ import { AccountService } from "../account/account.service";
 import { AuthenticatedRequest } from "../lib/keycloak/interfaces/authenticated-request";
 import { KeycloakJwtGuard } from "../lib/keycloak/keycloak-jwt.guard";
 import { VirtualEstateListingDto } from "../virtual-estate-listing/dto/virtual-estate-listing.dto";
+import { VirtualEstateListingService } from "../virtual-estate-listing/virtual-estate-listing.service";
 import { VirtualEstateResponseDto } from "./dto/virtual-estate.dto";
 import { HexIdValidationPipe } from "./pipes/hex-id-validation.pipe";
 import { VirtualEstateService } from "./virtual-estate.service";
@@ -28,6 +29,7 @@ export class VirtualEstateController {
   constructor(
     private readonly accountService: AccountService,
     private readonly virtualEstateService: VirtualEstateService,
+    private readonly virtualEstateListingService: VirtualEstateListingService,
   ) {}
 
   @Get("all")
@@ -110,7 +112,9 @@ export class VirtualEstateController {
   ) {
     try {
       const virtualEstate =
-        await this.virtualEstateService.getVirtualEstateOffersAndBidding(hexID);
+        await this.virtualEstateListingService.getVirtualEstateOffersAndBidding(
+          hexID,
+        );
 
       if (!virtualEstate) {
         res.status(HttpStatus.NOT_FOUND).json({
