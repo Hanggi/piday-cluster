@@ -29,7 +29,7 @@ export async function GET(
       );
     }
 
-    console.error("Fail to get virtual estate!!", axiosError);
+    console.error("Fail to get virtual estate listing!!", axiosError);
     return new Response(
       JSON.stringify({
         success: false,
