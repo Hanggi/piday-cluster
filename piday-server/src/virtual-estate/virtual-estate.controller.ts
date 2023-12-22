@@ -7,6 +7,7 @@ import {
   HttpException,
   HttpStatus,
   Param,
+  Patch,
   Post,
   Query,
   Req,
@@ -20,6 +21,7 @@ import { AuthenticatedRequest } from "../lib/keycloak/interfaces/authenticated-r
 import { KeycloakJwtGuard } from "../lib/keycloak/keycloak-jwt.guard";
 import { VirtualEstateListingDto } from "../virtual-estate-listing/dto/virtual-estate-listing.dto";
 import { VirtualEstateListingService } from "../virtual-estate-listing/virtual-estate-listing.service";
+import { VirtualEstateTransactionRecordsService } from "../virtual-estate-transaction-records/virtual-estate-transaction-records.service";
 import { VirtualEstateResponseDto } from "./dto/virtual-estate.dto";
 import { HexIdValidationPipe } from "./pipes/hex-id-validation.pipe";
 import { VirtualEstateService } from "./virtual-estate.service";
@@ -30,6 +32,7 @@ export class VirtualEstateController {
     private readonly accountService: AccountService,
     private readonly virtualEstateService: VirtualEstateService,
     private readonly virtualEstateListingService: VirtualEstateListingService,
+    private readonly virtualEstateTransactionRecordsService: VirtualEstateTransactionRecordsService,
   ) {}
 
   @Get("all")
@@ -103,7 +106,7 @@ export class VirtualEstateController {
       );
     }
   }
-  
+
   @Get(":hexID/listing")
   async getVirtualEstateListingOffers(
     @Param("hexID") hexID,
@@ -140,7 +143,54 @@ export class VirtualEstateController {
       );
     }
   }
+  @UseGuards(KeycloakJwtGuard)
+  @Patch(":hexID/bid/:bidID/accept")
+  async sellVirtualEstate(
+    @Param("hexID") hexID,
+    @Param("bidID") bidID,
+    @Req() req: AuthenticatedRequest,
+    @Res() res: Response,
+  ) {
+    try {
+      const biddingDetail =
+        await this.virtualEstateListingService.getSingleListingDetail(bidID);
+      if (!biddingDetail) {
+        res.status(HttpStatus.BAD_REQUEST).json({
+          success: false,
+          transactionRecord: null,
+          message: "No bidding details found.",
+        });
+      }
+      const buyerID = biddingDetail.ownerID;
+      const price = biddingDetail.price.toString();
+      const sellerID = req.user.userID;
 
+      const transactionRecord =
+        await this.virtualEstateTransactionRecordsService.sellVirtualEstate({
+          virtualEstateID: hexID,
+          price,
+          buyerID,
+          sellerID,
+        });
+
+      if (!transactionRecord) {
+        res.status(HttpStatus.BAD_REQUEST).json({
+          success: false,
+          transactionRecord: null,
+        });
+      }
+      res.status(HttpStatus.OK).json({
+        success: true,
+        transactionRecord,
+      });
+    } catch (error) {
+      console.error(error);
+      throw new HttpException(
+        "Internal Server Error",
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
   @Get(":hexID")
   async getHexID(
     @Param("hexID") hexID,
@@ -163,8 +213,8 @@ export class VirtualEstateController {
           excludeExtraneousValues: true,
         }),
       });
-    } catch (err) {
-      console.error(err);
+    } catch (error) {
+      console.error(error);
       throw new HttpException(
         "Internal Server Error",
         HttpStatus.INTERNAL_SERVER_ERROR,

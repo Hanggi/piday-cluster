@@ -1,8 +1,7 @@
-import FlakeIdGen from "flake-idgen";
-
 import { Injectable } from "@nestjs/common";
 
 import { PrismaService } from "../lib/prisma/prisma.service";
+import { createFlakeGenID } from "../lib/utils/create-flake-gen-id";
 import { CreateVirtualEstateListingDto } from "./dto/create-virtual-estate-listing.dto";
 
 @Injectable()
@@ -21,7 +20,7 @@ export class VirtualEstateListingService {
           expiresAt,
           ownerID,
           virtualEstateID,
-          listingID: this.createListingID(),
+          listingID: createFlakeGenID(),
         },
       });
 
@@ -39,22 +38,21 @@ export class VirtualEstateListingService {
     }
   }
 
-  createListingID(): number {
-    const generator = new FlakeIdGen();
-
-    const idBuffer = generator.next();
-
-    // 将 Buffer 转换为 BigInt，然后转换为十进制字符串
-    const idDecimalString = BigInt("0x" + idBuffer.toString("hex")).toString();
-
-    return parseInt(idDecimalString);
-  }
-
   async getVirtualEstateOffersAndBidding(hexID: string) {
     const virtualEstateListingOffersAndBids =
       await this.prisma.virtualEstateListing.findMany({
         where: {
           virtualEstateID: hexID,
+        },
+      });
+    return virtualEstateListingOffersAndBids;
+  }
+
+  async getSingleListingDetail(bidId: string) {
+    const virtualEstateListingOffersAndBids =
+      await this.prisma.virtualEstateListing.findFirst({
+        where: {
+          listingID: parseInt(bidId),
         },
       });
     return virtualEstateListingOffersAndBids;
