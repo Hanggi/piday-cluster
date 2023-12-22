@@ -54,6 +54,18 @@ export const virtualEstateRTKApi = createApi({
         return response?.virtualEstateListings;
       },
     }),
+    getHexIDsStatusInArea: builder.query<
+      { onSale: string[]; sold: string[] },
+      { hexID: string }
+    >({
+      query: ({ hexID }) => ({
+        url: `/virtual-estate/${hexID}/in-area`,
+        method: "GET",
+      }),
+      transformResponse: (response: { onSale: string[]; sold: string[] }) => {
+        return response;
+      },
+    }),
   }),
 });
 
@@ -62,4 +74,5 @@ export const {
   useMintOneVirtualEstateMutation,
   useGetMyVirtualEstatesQuery,
   useGetVirtualEstateBidsAndOffersQuery,
+  useGetHexIDsStatusInAreaQuery,
 } = virtualEstateRTKApi;

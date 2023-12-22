@@ -2,6 +2,7 @@
 
 import VirtualEstateMap from "@/src/components/virtual-estate-map/VirtualEstateMap";
 import { hexIDtoDecimal } from "@/src/components/virtual-estate-map/h3";
+import { useGetHexIDsStatusInAreaQuery } from "@/src/features/virtual-estate/api/virtualEstateAPI";
 import {
   setInitialMapAnimation,
   showInitialMapAnimationValue,
@@ -26,12 +27,18 @@ export default function VirtualEstateMapClientWrapper({
   const dispatch = useDispatch();
   const showInitialMapAnimation = useSelector(showInitialMapAnimationValue);
 
+  const { data: hexIDsStatus } = useGetHexIDsStatusInAreaQuery({
+    hexID: defaultHexID as string,
+  });
+
   return (
     <div>
       <VirtualEstateMap
         defaultHexID={defaultHexID}
+        soldList={hexIDsStatus?.sold || []}
         token={token}
         withoutAnimation={!showInitialMapAnimation}
+        onSaleList={hexIDsStatus?.onSale || []}
         onVirtualEstateClick={(hexID) => {
           const decimalID = hexIDtoDecimal(hexID);
           router.push(`/ve/${decimalID}`);

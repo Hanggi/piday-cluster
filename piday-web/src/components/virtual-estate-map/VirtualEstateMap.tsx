@@ -24,6 +24,8 @@ const INITIAL_VIEW_STATE: MapViewState = {
   bearing: 0,
 };
 
+// Component
+
 interface VirtualEstate {
   hexID: string;
 }
@@ -32,6 +34,10 @@ interface Props {
   token: string;
   defaultHexID?: string;
   withoutAnimation?: boolean;
+
+  onSaleList?: string[];
+  soldList?: string[];
+
   onVirtualEstateClick?: (hexID: string) => void;
 }
 
@@ -39,50 +45,102 @@ export default function VirtualEstateMap({
   token,
   defaultHexID,
   withoutAnimation,
+  onSaleList,
+  soldList,
   onVirtualEstateClick,
 }: Props) {
   const [viewState, setViewState] = useState<MapViewState>(INITIAL_VIEW_STATE);
   const [hexagons, setHexagons] = useState<VirtualEstate[]>([]);
-  const [centerHex, setCenterHex] = useState<string>("");
+  const [hexagonsCenter, setHexagonCenter] = useState<string>(""); // hex ID
+  const [centerHex, setCenterHex] = useState<string>(""); // hex ID
   const [mounted, setMounted] = useState<boolean>(false);
+  const [layers, setLayers] = useState<any[]>([]); // [H3HexagonLayer
 
   const [selectedHexID, setSelectedHexID] = useState<string>("");
 
   useEffect(() => {
     const ch = centerHex; // 示例中心六边形
-    const hexagons = kRing(ch, 60).map((hex) => {
-      return {
-        hexID: hex,
-        // boundary: h3ToGeoBoundary(hex),
-      };
-    });
 
     if (viewState.zoom >= SHOW_HEXAGON_LAYER_FROM_ZOOM) {
-      setHexagons(hexagons as any);
+      if (ch == hexagonsCenter && hexagons.length > 0) {
+        return;
+      }
+      const hexagonsMatirx = kRing(ch, 60).map((hex) => {
+        return {
+          hexID: hex,
+        };
+      });
+      setHexagonCenter(ch);
+      setHexagons(hexagonsMatirx as any);
     } else {
-      setHexagons([]);
+      if (hexagons.length != 0) {
+        setHexagons([]);
+      }
     }
-  }, [centerHex, viewState.zoom]);
+  }, [centerHex, hexagons.length, hexagonsCenter, viewState.zoom]);
 
-  const layers = [
-    new H3HexagonLayer({
-      id: "h3-hexagon-layer",
-      data: hexagons,
-      pickable: true,
-      wireframe: true,
-      extruded: false, // 确保六边形不是挤出的
-      filled: true, // 使六边形为空心
-      elevationScale: 0,
-      getLineColor: (d) => [112, 48, 160], // 设置六边形的边线颜色
-      getHexagon: (d) => d.hexID, // 从数据对象中获取H3索引
-      getFillColor: (d) => {
-        return selectedHexID == d.hexID
-          ? [112, 48, 160, 200]
-          : [255, 255, 255, 0];
-      },
-      // getElevation: (d) => 10, // 设置六边形的高度，仅当extruded为true时有效
-    }),
-  ];
+  useEffect(() => {
+    setLayers([
+      new H3HexagonLayer({
+        id: "h3-hexagon-layer",
+        data: hexagons,
+        pickable: true,
+        wireframe: true,
+        extruded: false, // 确保六边形不是挤出的
+        filled: true, // 使六边形为空心
+        elevationScale: 1,
+        getLineWidth: () => {
+          return 0.1;
+        },
+        getText: () => {
+          return "hihi";
+        },
+        getLineColor: (d) => {
+          if (selectedHexID == d.hexID) {
+            // returen yellow selected color
+            return [255, 255, 0, 200];
+          }
+
+          // If hex ID is in onSale, return green
+          if (onSaleList?.includes(d.hexID)) {
+            return [0, 255, 0, 200];
+          }
+
+          if (soldList?.includes(d.hexID)) {
+            return [255, 0, 0, 200];
+          }
+
+          return [112, 48, 160];
+        }, // 设置六边形的边线颜色
+        getHexagon: (d) => d.hexID, // 从数据对象中获取H3索引
+        getFillColor: (d) => {
+          if (selectedHexID == d.hexID) {
+            return [112, 48, 160, 200];
+          }
+
+          // If hex ID is in onSale, return green
+          if (onSaleList?.includes(d.hexID)) {
+            return [0, 255, 0, 200];
+          }
+
+          if (soldList?.includes(d.hexID)) {
+            return [255, 0, 0, 200];
+          }
+
+          return [255, 255, 255, 0];
+        },
+        // getElevation: (d) => 10, // 设置六边形的高度，仅当extruded为true时有效
+        updateTriggers: {
+          getFillColor: [selectedHexID, onSaleList, soldList],
+        },
+      }),
+    ]);
+    setViewState((vs) => {
+      return {
+        ...vs,
+      };
+    });
+  }, [hexagons, onSaleList, selectedHexID, soldList]);
 
   // When the default hex id is non-empty, initialize coordinate animation
   useEffect(() => {
@@ -103,18 +161,19 @@ export default function VirtualEstateMap({
             ? undefined
             : new FlyToInterpolator(),
         }));
-        setSelectedHexID(defaultHexID);
       }, 200);
     }
   }, [defaultHexID, withoutAnimation]);
 
   // Debounce to set center hexagon
-  const debounceToSetCenterHex = debounce((viewState) => {
-    if (viewState.zoom >= SHOW_HEXAGON_LAYER_FROM_ZOOM) {
-      const hexID = geoToH3(viewState.latitude, viewState.longitude, 12);
-      setCenterHex(hexID);
+  const debounceToSetCenterHex = debounce((vs) => {
+    if (vs.zoom >= SHOW_HEXAGON_LAYER_FROM_ZOOM) {
+      const hexID = geoToH3(vs.latitude, vs.longitude, 12);
+      if (hexID != centerHex) {
+        setCenterHex(hexID);
+      }
     }
-  }, 100);
+  }, 200);
 
   const handleMapViewChange = useCallback(
     (params: ViewStateChangeParameters) => {
@@ -152,7 +211,7 @@ export default function VirtualEstateMap({
         onAfterRender={() => {
           setTimeout(() => {
             setMounted(true);
-          }, 100);
+          }, 500);
         }}
         onClick={handleClickHexagon}
         onViewStateChange={handleMapViewChange}

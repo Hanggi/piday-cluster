@@ -4062,7 +4062,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"h3-js@npm:3.7.2":
+"h3-js@npm:^3.7.2":
   version: 3.7.2
   resolution: "h3-js@npm:3.7.2"
   checksum: c5a85743619809b81874630d6583fa6153ffa12e8f0aa4edb44bc9f78b2581a3aa84da47a5b1d0a69a20f127f8d943bf0a9c30c8344f1c7de41025486c0177ae
@@ -6213,7 +6213,7 @@ __metadata:
     eslint-plugin-prettier: "npm:^5.1.0"
     flake-idgen: "npm:^1.4.0"
     form-data: "npm:^4.0.0"
-    h3-js: "npm:3.7.2"
+    h3-js: "npm:^3.7.2"
     ioredis: "npm:^5.3.2"
     jest: "npm:^29.7.0"
     jsonwebtoken: "npm:^9.0.2"

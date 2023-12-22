@@ -1,4 +1,5 @@
 import { VirtualEstate } from "@prisma/client";
+import { kRing } from "h3-js";
 
 import { Injectable } from "@nestjs/common";
 
@@ -67,5 +68,32 @@ export class VirtualEstateService {
     // TODO(Hanggi): Update the user's balance by leaving a recharge record
 
     return virtualEstate;
+  }
+
+  async getHexIDsStatusInArea({
+    hexID,
+  }: {
+    hexID: string;
+  }): Promise<{ onSale: string[]; sold?: string[] }> {
+    const hexIDsInArea = kRing(hexID, 15).map((hex) => {
+      return hex;
+    });
+    const virtualEstatesHasOwner = await this.prisma.virtualEstate.findMany({
+      select: {
+        virtualEstateID: true, // 只选择 id 字段
+      },
+      where: {
+        virtualEstateID: {
+          in: hexIDsInArea,
+        },
+      },
+    });
+
+    console.log(virtualEstatesHasOwner);
+
+    return {
+      onSale: [],
+      sold: virtualEstatesHasOwner.map((ve) => ve.virtualEstateID) || [],
+    };
   }
 }
