@@ -1,4 +1,3 @@
-import { HeaderFilters } from "@/src/features/axios/header-filters";
 import instance from "@/src/features/axios/instance";
 import { AxiosError } from "axios";
 import { StatusCodes } from "http-status-codes";
@@ -10,21 +9,19 @@ export async function GET(
   const hexID = params.hexID;
 
   try {
-    const { headers } = request;
-    const res = await instance.get("/virtual-estate/" + hexID + "/listing", {
-      headers: HeaderFilters(headers),
-    });
+    const res = await instance.get("/virtual-estate/" + hexID + "/in-area");
 
     return new Response(JSON.stringify(res.data), {
       status: StatusCodes.OK,
     });
   } catch (error) {
     const axiosError = error as AxiosError;
+    console.log(axiosError);
     if (axiosError.response?.status === StatusCodes.NOT_FOUND) {
       return new Response(
         JSON.stringify({
           success: false,
-          message: "virtual estate not found",
+          message: "virtual estate not found in area",
         }),
         {
           status: StatusCodes.NOT_FOUND,
@@ -32,11 +29,11 @@ export async function GET(
       );
     }
 
-    console.error("Fail to get virtual estate listing!!", axiosError);
+    console.error("Fail to get virtual estate status in area", axiosError);
     return new Response(
       JSON.stringify({
         success: false,
-        message: "Fail to get virtual estate",
+        message: "Fail to get virtual estate status in area",
       }),
       {
         status:
