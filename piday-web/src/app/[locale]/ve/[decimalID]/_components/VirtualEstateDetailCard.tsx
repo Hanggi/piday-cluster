@@ -15,7 +15,7 @@ import { useSession } from "next-auth/react";
 import Button from "@mui/joy/Button";
 import Typography from "@mui/joy/Typography";
 
-import { useCallback, useEffect } from "react";
+import { useCallback } from "react";
 
 interface Props {
   hexID: string;
@@ -30,14 +30,10 @@ export default function VirtualEstateDetailCard({ hexID }: Props) {
   });
 
   const { data: virtualEstate } = useGetOneVirtualEstateQuery({ hexID });
-  // console.log(session);
-  // console.log(virtualEstate);
 
   const { data: virtualEstateListings } = useGetVirtualEstateBidsAndOffersQuery(
     { hexID },
   );
-
-  console.log("Listings ", virtualEstateListings);
 
   const [mintVirtualEstate, mintVirtualEstateResult] =
     useMintOneVirtualEstateMutation();

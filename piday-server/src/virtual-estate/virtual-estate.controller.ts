@@ -81,7 +81,6 @@ export class VirtualEstateController {
     @Req() req: AuthenticatedRequest,
   ) {
     try {
-      // TODO(Hanggi): Check the virtual estate is already minted or not
       const existing =
         await this.virtualEstateService.getOneVirtualEstate(hexID);
 
@@ -215,6 +214,26 @@ export class VirtualEstateController {
       });
     } catch (error) {
       console.error(error);
+      throw new HttpException(
+        "Internal Server Error",
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+
+  @Get(":hexID/in-area")
+  async getHexIDsStatusInArea(@Param("hexID") hexID, @Res() res: Response) {
+    try {
+      console.log(hexID);
+      const hexIDs = await this.virtualEstateService.getHexIDsStatusInArea({
+        hexID,
+      });
+
+      res.status(HttpStatus.OK).json({
+        ...hexIDs,
+      });
+    } catch (err) {
+      console.error(err);
       throw new HttpException(
         "Internal Server Error",
         HttpStatus.INTERNAL_SERVER_ERROR,

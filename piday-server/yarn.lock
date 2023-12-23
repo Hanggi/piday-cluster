@@ -1446,6 +1446,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/flake-idgen@npm:^0.1.34":
+  version: 0.1.34
+  resolution: "@types/flake-idgen@npm:0.1.34"
+  dependencies:
+    "@types/node": "npm:*"
+  checksum: ce8dbded244fbc63aaa82d19b8222580ef09483f0085f3efd69e971fb67de0c115cbbf41368778b29822c3e96bf82335ecff89a6809e0804c0a56d6c296a36f8
+  languageName: node
+  linkType: hard
+
 "@types/form-data@npm:^2.5.0":
   version: 2.5.0
   resolution: "@types/form-data@npm:2.5.0"
@@ -4062,7 +4071,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"h3-js@npm:3.7.2":
+"h3-js@npm:^3.7.2":
   version: 3.7.2
   resolution: "h3-js@npm:3.7.2"
   checksum: c5a85743619809b81874630d6583fa6153ffa12e8f0aa4edb44bc9f78b2581a3aa84da47a5b1d0a69a20f127f8d943bf0a9c30c8344f1c7de41025486c0177ae
@@ -4325,6 +4334,13 @@ __metadata:
     through: "npm:^2.3.6"
     wrap-ansi: "npm:^6.0.1"
   checksum: eb5724de1778265323f3a68c80acfa899378cb43c24cdcb58661386500e5696b6b0b6c700e046b7aa767fe7b4823c6f04e6ddc268173e3f84116112529016296
+  languageName: node
+  linkType: hard
+
+"int64-buffer@npm:^1.0.1":
+  version: 1.0.1
+  resolution: "int64-buffer@npm:1.0.1"
+  checksum: 8226f1cb1c1c80ab54bc1a21cac786cfe7869b80043509204122c32f95a23f9556b62e265fa43cd5450424b788a2cd4ccc72e29d7e74dc10a83d71b500dc4ffd
   languageName: node
   linkType: hard
 
@@ -6198,6 +6214,7 @@ __metadata:
     "@trivago/prettier-plugin-sort-imports": "npm:^4.3.0"
     "@types/config": "npm:^3.3.3"
     "@types/express": "npm:^4.17.21"
+    "@types/flake-idgen": "npm:^0.1.34"
     "@types/form-data": "npm:^2.5.0"
     "@types/jest": "npm:^29.5.11"
     "@types/jsonwebtoken": "npm:^9.0.5"
@@ -6213,7 +6230,8 @@ __metadata:
     eslint-plugin-prettier: "npm:^5.1.0"
     flake-idgen: "npm:^1.4.0"
     form-data: "npm:^4.0.0"
-    h3-js: "npm:3.7.2"
+    h3-js: "npm:^3.7.2"
+    int64-buffer: "npm:^1.0.1"
     ioredis: "npm:^5.3.2"
     jest: "npm:^29.7.0"
     jsonwebtoken: "npm:^9.0.2"
