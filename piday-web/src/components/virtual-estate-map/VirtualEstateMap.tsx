@@ -4,6 +4,7 @@ import { FlyToInterpolator, MapViewState } from "@deck.gl/core/typed";
 import type { ViewStateChangeParameters } from "@deck.gl/core/typed/controllers/controller";
 import { PickingInfo } from "@deck.gl/core/typed/lib/picking/pick-info";
 import { H3HexagonLayer } from "@deck.gl/geo-layers/typed";
+import { TextLayer } from "@deck.gl/layers/typed";
 import DeckGL from "@deck.gl/react/typed";
 import { geoToH3, h3ToGeo, kRing } from "h3-js";
 import { debounce } from "lodash";
@@ -124,7 +125,7 @@ export default function VirtualEstateMap({
           }
 
           if (soldList?.includes(d.hexID)) {
-            return [255, 0, 0, 200];
+            return [112, 48, 160, 100];
           }
 
           return [255, 255, 255, 0];
@@ -132,6 +133,27 @@ export default function VirtualEstateMap({
         // getElevation: (d) => 10, // 设置六边形的高度，仅当extruded为true时有效
         updateTriggers: {
           getFillColor: [selectedHexID, onSaleList, soldList],
+        },
+      }),
+      new TextLayer({
+        id: "h3-text-layer",
+        data: hexagons,
+        getPosition: (d) => d.coordinates,
+        getText: (d) => {
+          return "FFFFF";
+          if (soldList?.includes(d.hexID)) {
+            return "SOLD";
+          }
+
+          return "VV";
+        },
+        // getColor: [255, 255, 255, 1000], // 文本颜色
+        getSize: 32,
+        getAngle: 0,
+        getTextAnchor: "middle",
+        getAlignmentBaseline: "center",
+        updateTriggers: {
+          getText: [soldList],
         },
       }),
     ]);
