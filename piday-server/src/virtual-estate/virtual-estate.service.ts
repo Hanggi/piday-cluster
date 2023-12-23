@@ -23,8 +23,6 @@ export class VirtualEstateService {
       },
     });
 
-    console.log(virtualEstate);
-
     return virtualEstate;
   }
 
@@ -33,7 +31,6 @@ export class VirtualEstateService {
     size: number,
     page: number,
   ): Promise<VirtualEstate[]> {
-    console.log("Got The Request in the service", userId);
     const virtualEstates = await this.prisma.virtualEstate.findMany({
       where: {
         ownerID: userId,
@@ -44,7 +41,6 @@ export class VirtualEstateService {
       take: size,
       skip: (page - 1) * size,
     });
-    console.log(virtualEstates);
     return virtualEstates;
   }
 
