@@ -78,7 +78,6 @@ export class VirtualEstateController {
     @Req() req: AuthenticatedRequest,
   ) {
     try {
-      // TODO(Hanggi): Check the virtual estate is already minted or not
       const existing =
         await this.virtualEstateService.getOneVirtualEstate(hexID);
 
