@@ -144,32 +144,21 @@ export class VirtualEstateController {
   }
   @UseGuards(KeycloakJwtGuard)
   @Patch(":hexID/bid/:bidID/accept")
-  async sellVirtualEstate(
+  async acceptBidToSellVirtualEstate(
     @Param("hexID") hexID,
     @Param("bidID") bidID,
     @Req() req: AuthenticatedRequest,
     @Res() res: Response,
   ) {
     try {
-      const biddingDetail =
-        await this.virtualEstateListingService.getSingleListingDetail(bidID);
-      if (!biddingDetail) {
-        res.status(HttpStatus.BAD_REQUEST).json({
-          success: false,
-          transactionRecord: null,
-          message: "No bidding details found.",
-        });
-      }
-      const buyerID = biddingDetail.ownerID;
-      const price = biddingDetail.price.toString();
+    
       const sellerID = req.user.userID;
-
+      
       const transactionRecord =
-        await this.virtualEstateTransactionRecordsService.sellVirtualEstate({
+        await this.virtualEstateTransactionRecordsService.acceptBidToSellVirtualEstate({
           virtualEstateID: hexID,
-          price,
-          buyerID,
           sellerID,
+          bidID
         });
 
       if (!transactionRecord) {

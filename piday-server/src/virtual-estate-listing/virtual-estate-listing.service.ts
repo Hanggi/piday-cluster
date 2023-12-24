@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 
+import { generateFlakeID } from "../lib/generate-id/generate-flake-id";
 import { PrismaService } from "../lib/prisma/prisma.service";
-import { createFlakeGenID } from "../lib/utils/create-flake-gen-id";
 import { CreateVirtualEstateListingDto } from "./dto/create-virtual-estate-listing.dto";
 
 @Injectable()
@@ -13,6 +13,7 @@ export class VirtualEstateListingService {
     try {
       const { price, type, expiresAt, ownerID, virtualEstateID } =
         createVirtualEstateListingDto;
+      const listingID = BigInt(generateFlakeID());
       const newVirtualEstate = await this.prisma.virtualEstateListing.create({
         data: {
           price,
@@ -20,7 +21,7 @@ export class VirtualEstateListingService {
           expiresAt,
           ownerID,
           virtualEstateID,
-          listingID: createFlakeGenID(),
+          listingID: listingID,
         },
       });
 
@@ -48,11 +49,11 @@ export class VirtualEstateListingService {
     return virtualEstateListingOffersAndBids;
   }
 
-  async getSingleListingDetail(bidId: string) {
+  async getOneListingDetail(bidID: string) {
     const virtualEstateListingOffersAndBids =
       await this.prisma.virtualEstateListing.findFirst({
         where: {
-          listingID: parseInt(bidId),
+          listingID: parseInt(bidID),
         },
       });
     return virtualEstateListingOffersAndBids;
