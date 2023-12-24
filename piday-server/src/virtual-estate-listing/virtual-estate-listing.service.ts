@@ -53,6 +53,7 @@ export class VirtualEstateListingService {
     const virtualEstateListingOffersAndBids =
       await this.prisma.virtualEstateListing.findFirst({
         where: {
+          // TODO: Use bigint not parseInt
           listingID: parseInt(bidID),
         },
       });
