@@ -9,6 +9,7 @@ import { AuthModule } from "./auth/auth.module";
 import { HttpExceptionFilter } from "./lib/exceptions/http-exception.filter";
 import { VirtualEstateListingModule } from "./virtual-estate-listing/virtual-estate-listing.module";
 import { VirtualEstateModule } from "./virtual-estate/virtual-estate.module";
+import { VirtualEstateTransactionRecordsModule } from './virtual-estate-transaction-records/virtual-estate-transaction-records.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { VirtualEstateModule } from "./virtual-estate/virtual-estate.module";
     AccountModule,
     VirtualEstateModule,
     VirtualEstateListingModule,
+    VirtualEstateTransactionRecordsModule,
   ],
   controllers: [AppController],
   providers: [
