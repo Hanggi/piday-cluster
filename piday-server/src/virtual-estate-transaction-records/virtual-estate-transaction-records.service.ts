@@ -16,30 +16,30 @@ export class VirtualEstateTransactionRecordsService {
   async acceptBidToSellVirtualEstate(
     createVirtualEstateTransactionRecordDto: CreateVirtualEstateTransactionRecordDto,
   ) {
-    const { bidID, sellerID, virtualEstateID } =
-      createVirtualEstateTransactionRecordDto;
-    const biddingDetail =
-      await this.virtualEstateListingService.getOneListingDetail(bidID);
-    if (!biddingDetail) {
-      throw new Error("No bidding details found.");
-    }
-    const buyerID = biddingDetail.ownerID;
-    const price = biddingDetail.price.toString();
-    const transactionID = BigInt(generateFlakeID());
-    const balance = await this.prisma.rechargeRecords.aggregate({
-      where: {
-        ownerID: buyerID,
-      },
-      _sum: {
-        amount: true,
-      },
-    });
-    if (balance._sum.amount < new Decimal(price)) {
-      throw new Error("Not enough balance");
-    }
+    return this.prisma.$transaction(async (prisma) => {
+      const { bidID, sellerID, virtualEstateID } =
+        createVirtualEstateTransactionRecordDto;
+      const biddingDetail =
+        await this.virtualEstateListingService.getOneListingDetail(bidID);
+      if (!biddingDetail) {
+        throw new Error("No bidding details found.");
+      }
+      const buyerID = biddingDetail.ownerID;
+      const price = biddingDetail.price.toString();
+      const balance = await prisma.rechargeRecords.aggregate({
+        where: {
+          ownerID: buyerID,
+        },
+        _sum: {
+          amount: true,
+        },
+      });
+      if (balance._sum.amount < new Decimal(price)) {
+        throw new Error("Not enough balance");
+      }
 
-    const transaction =
-      await this.prisma.virtualEstateTransactionRecords.create({
+      const transactionID = BigInt(generateFlakeID());
+      const transaction = await prisma.virtualEstateTransactionRecords.create({
         data: {
           transactionID: transactionID,
           buyerID,
@@ -49,22 +49,40 @@ export class VirtualEstateTransactionRecordsService {
         },
       });
 
-    if (!transaction) {
-      throw new Error("Transaction not successful");
-    }
+      if (!transaction) {
+        throw new Error("Transaction not successful");
+      }
+      
+      const sellerRechargeRecords =await prisma.rechargeRecords.create({
+        data: {
+          amount: price,
+          externalID: transactionID.toString(),
+          reason: "SELL_ASK",
+          ownerID: sellerID,
+        },
+      });
+      const buyerRechargeRecords =await prisma.rechargeRecords.create({
+        data: {
+          amount: -price,
+          externalID: transactionID.toString(),
+          reason: "BUY_BID",
+          ownerID: buyerID,
+        },
+      });
+      
+      const updateOwner = await prisma.virtualEstate.update({
+        data: {
+          ownerID: buyerID,
+        },
+        where: {
+          virtualEstateID,
+        },
+      });
 
-    const updateOwner = await this.prisma.virtualEstate.update({
-      data: {
-        ownerID: buyerID,
-      },
-      where: {
-        virtualEstateID,
-      },
+      return {
+        ...transaction,
+        transactionID: transaction.transactionID.toString(),
+      };
     });
-    // TODO(): charge recharge records of both buyers and sellers
-    return {
-      ...transaction,
-      transactionID: transaction.transactionID.toString(),
-    };
   }
 }
