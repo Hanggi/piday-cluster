@@ -68,7 +68,7 @@ export const virtualEstateRTKApi = createApi({
       },
     }),
 
-    sellVirtualEstate: builder.mutation<any, { hexID: string; bidID: string }>({
+    acceptBidToSellVirtualEstate: builder.mutation<any, { hexID: string; bidID: string }>({
       query: ({ hexID, bidID }) => ({
         url: `/virtual-estate/${hexID}/bid/${bidID}/accept`,
         method: "PATCH",
@@ -88,5 +88,5 @@ export const {
   useGetMyVirtualEstatesQuery,
   useGetVirtualEstateBidsAndOffersQuery,
   useGetHexIDsStatusInAreaQuery,
-  useSellVirtualEstateMutation,
+  useAcceptBidToSellVirtualEstateMutation,
 } = virtualEstateRTKApi;

@@ -7,7 +7,7 @@ import {
   useGetOneVirtualEstateQuery,
   useGetVirtualEstateBidsAndOffersQuery,
   useMintOneVirtualEstateMutation,
-  useSellVirtualEstateMutation,
+  useAcceptBidToSellVirtualEstateMutation,
 } from "@/src/features/virtual-estate/api/virtualEstateAPI";
 import { format } from "date-fns";
 import { h3ToGeo } from "h3-js";
@@ -16,7 +16,7 @@ import { useSession } from "next-auth/react";
 import Button from "@mui/joy/Button";
 import Typography from "@mui/joy/Typography";
 
-import { useCallback,useState } from "react";
+import { useCallback,useEffect,useState } from "react";
 
 interface Props {
   hexID: string;
@@ -41,8 +41,8 @@ export default function VirtualEstateDetailCard({ hexID }: Props) {
   const [mintVirtualEstate, mintVirtualEstateResult] =
     useMintOneVirtualEstateMutation();
 
-  const [sellVirtualEstate, sellVirtualEstateResult] =
-    useSellVirtualEstateMutation();
+  const [acceptBidToSellVirtualEstate, acceptBidToSellVirtualEstateResult] =
+  useAcceptBidToSellVirtualEstateMutation();
 
   const handleMintClick = useCallback(() => {
     mintVirtualEstate({ hexID });
@@ -58,12 +58,12 @@ export default function VirtualEstateDetailCard({ hexID }: Props) {
     });
   }, [hexID, createVirtualEstateListing]);
 
-  const handelSellVirtualEstate = useCallback(() => {
-    sellVirtualEstate({
+  const handelAcceptBidToSellVirtualEstate = useCallback(() => {
+    acceptBidToSellVirtualEstate({
       hexID,
       bidID,
     });
-  }, [hexID, bidID, sellVirtualEstate]);
+  }, [hexID, bidID, acceptBidToSellVirtualEstate]);
 
   return (
     <div className="w-full relative pt-5">
