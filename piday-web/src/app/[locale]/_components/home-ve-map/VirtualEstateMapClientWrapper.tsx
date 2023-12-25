@@ -10,6 +10,7 @@ import {
 
 import { usePathname, useRouter } from "next/navigation";
 
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 interface Props {
@@ -24,11 +25,15 @@ export default function VirtualEstateMapClientWrapper({
   const pathname = usePathname();
   const router = useRouter();
 
+  const [currentCenterHexID, setCurrentCenterHexID] = useState(
+    defaultHexID as string,
+  );
+
   const dispatch = useDispatch();
   const showInitialMapAnimation = useSelector(showInitialMapAnimationValue);
 
   const { data: hexIDsStatus } = useGetHexIDsStatusInAreaQuery({
-    hexID: defaultHexID as string,
+    hexID: currentCenterHexID,
   });
 
   return (
@@ -38,6 +43,9 @@ export default function VirtualEstateMapClientWrapper({
         soldList={hexIDsStatus?.sold || []}
         token={token}
         withoutAnimation={!showInitialMapAnimation}
+        onCenterHexChange={(hexID) => {
+          setCurrentCenterHexID(hexID);
+        }}
         onSaleList={hexIDsStatus?.onSale || []}
         onVirtualEstateClick={(hexID) => {
           const decimalID = hexIDtoDecimal(hexID);

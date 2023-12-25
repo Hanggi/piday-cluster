@@ -1,5 +1,7 @@
 import { WrapperCard } from "@/src/components/WrapperCard";
 import { decimalToHexID } from "@/src/components/virtual-estate-map/h3";
+import instance from "@/src/features/axios/instance";
+import { VirtualEstate } from "@/src/features/virtual-estate/interface/virtual-estate.interface";
 
 import VirtualEstateMapClientWrapper from "../../_components/home-ve-map/VirtualEstateMapClientWrapper";
 import { HistoryTable } from "./_components/HistoryTable";
@@ -11,10 +13,19 @@ interface Props {
   params: { decimalID: string };
 }
 
-export default function VirtualEstateDetailPage({
+export default async function VirtualEstateDetailPage({
   params: { decimalID },
 }: Props) {
   const hexID = decimalToHexID(decimalID);
+
+  let virtualEstate: VirtualEstate | undefined;
+  try {
+    const res = await instance.get(`/virtual-estate/${hexID}`);
+
+    virtualEstate = res.data.ve;
+  } catch (err) {
+    console.error(err);
+  }
 
   return (
     <main>
@@ -25,7 +36,7 @@ export default function VirtualEstateDetailPage({
             token={MAPBOX_ACCESS_TOKEN as string}
           />
         </div>
-        <VirtualEstateDetailCard hexID={hexID} />
+        <VirtualEstateDetailCard hexID={hexID} virtualEstate={virtualEstate} />
       </WrapperCard>
       <HistoryTable className="mt-20" />
       <br />

@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString, isString } from "class-validator";
+import { IsNotEmpty, IsString } from "class-validator";
 
 export class CreateVirtualEstateTransactionRecordDto {
   @IsNotEmpty()
@@ -11,5 +11,5 @@ export class CreateVirtualEstateTransactionRecordDto {
 
   @IsNotEmpty()
   @IsString()
-  bidID: string
+  bidID: string;
 }

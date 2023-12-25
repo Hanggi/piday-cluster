@@ -2,6 +2,10 @@ import { UserResponseDto } from "@/src/user/dto/user.dto";
 import { Exclude, Expose, Type } from "class-transformer";
 
 export class VirtualEstateResponseDto {
+  constructor(partial: Partial<VirtualEstateResponseDto>) {
+    Object.assign(this, partial);
+  }
+
   @Exclude()
   id: number;
 
@@ -15,6 +19,7 @@ export class VirtualEstateResponseDto {
   address?: string;
 
   @Expose()
+  @Type(() => UserResponseDto)
   owner: UserResponseDto;
 
   @Expose()

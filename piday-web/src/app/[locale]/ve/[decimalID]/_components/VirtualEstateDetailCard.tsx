@@ -5,10 +5,10 @@ import { TransactionType } from "@/src/features/virtual-estate-listing/interface
 import { useGetPlacesQuery } from "@/src/features/virtual-estate/api/mapboxAPI";
 import {
   useAcceptBidToSellVirtualEstateMutation,
-  useGetOneVirtualEstateQuery,
   useGetVirtualEstateBidsAndOffersQuery,
   useMintOneVirtualEstateMutation,
 } from "@/src/features/virtual-estate/api/virtualEstateAPI";
+import { VirtualEstate } from "@/src/features/virtual-estate/interface/virtual-estate.interface";
 import { format } from "date-fns";
 import { h3ToGeo } from "h3-js";
 import { useSession } from "next-auth/react";
@@ -17,20 +17,24 @@ import Button from "@mui/joy/Button";
 import Typography from "@mui/joy/Typography";
 
 import { useCallback, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   hexID: string;
+  virtualEstate?: VirtualEstate;
 }
 
-export default function VirtualEstateDetailCard({ hexID }: Props) {
+export default function VirtualEstateDetailCard({
+  hexID,
+  virtualEstate,
+}: Props) {
+  const { t } = useTranslation("virtual-estate");
   const { data: session, status } = useSession();
   const geo = h3ToGeo(hexID);
   const { data: place } = useGetPlacesQuery({
     lat: geo[0],
     lng: geo[1],
   });
-
-  const { data: virtualEstate } = useGetOneVirtualEstateQuery({ hexID });
 
   const { data: virtualEstateListings } = useGetVirtualEstateBidsAndOffersQuery(
     { hexID },
@@ -42,7 +46,7 @@ export default function VirtualEstateDetailCard({ hexID }: Props) {
     useMintOneVirtualEstateMutation();
 
   const [acceptBidToSellVirtualEstate, acceptBidToSellVirtualEstateResult] =
-  useAcceptBidToSellVirtualEstateMutation();
+    useAcceptBidToSellVirtualEstateMutation();
 
   const handleMintClick = useCallback(() => {
     mintVirtualEstate({ hexID });
@@ -64,6 +68,13 @@ export default function VirtualEstateDetailCard({ hexID }: Props) {
       bidID,
     });
   }, [hexID, bidID, acceptBidToSellVirtualEstate]);
+
+  const isMyVirtualEstate = useCallback(() => {
+    return (
+      !!virtualEstate?.owner?.id &&
+      virtualEstate?.owner?.id == session?.user?.id
+    );
+  }, [session, virtualEstate?.owner]);
 
   return (
     <div className="w-full relative pt-5">
@@ -114,15 +125,21 @@ export default function VirtualEstateDetailCard({ hexID }: Props) {
         </div>
       </div>
       <div className="mt-5 flex flex-wrap gap-7">
-        {!virtualEstate && <Button>Buy</Button>}
-
-        {/* {virtualEstate?.owner?.id == session?.user?.id && <div></div>} */}
-        <Button className="py-3 grow" size="lg" onClick={handleMintClick}>
-          购买
-        </Button>
-        <Button className="py-3 grow" size="lg">
-          转移
-        </Button>
+        {isMyVirtualEstate() && (
+          <div className="w-full flex gap-4">
+            <Button className="grow" size="lg">
+              {t("virtual-estate:button.sell")}
+            </Button>
+            <Button className="py-3 grow" size="lg">
+              {t("virtual-estate:button.transfer")}
+            </Button>
+          </div>
+        )}
+        {!virtualEstate?.owner && (
+          <Button className="py-3 grow" size="lg" onClick={handleMintClick}>
+            {t("virtual-estate:button.buy")}
+          </Button>
+        )}
       </div>
     </div>
   );

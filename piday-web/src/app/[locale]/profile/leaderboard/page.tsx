@@ -1,4 +1,4 @@
-import { MyProperties } from "./_components/MyProperties";
+import { MyPropertiesOverview } from "./_components/MyProperties";
 import { Table } from "./_components/Table";
 
 export const metadata = {
@@ -8,7 +8,7 @@ export const metadata = {
 export default function LeaderboardPage() {
   return (
     <main>
-      <MyProperties />
+      <MyPropertiesOverview />
       <Table />
     </main>
   );

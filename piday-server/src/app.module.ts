@@ -8,8 +8,8 @@ import { AppService } from "./app.service";
 import { AuthModule } from "./auth/auth.module";
 import { HttpExceptionFilter } from "./lib/exceptions/http-exception.filter";
 import { VirtualEstateListingModule } from "./virtual-estate-listing/virtual-estate-listing.module";
+import { VirtualEstateTransactionRecordsModule } from "./virtual-estate-transaction-records/virtual-estate-transaction-records.module";
 import { VirtualEstateModule } from "./virtual-estate/virtual-estate.module";
-import { VirtualEstateTransactionRecordsModule } from './virtual-estate-transaction-records/virtual-estate-transaction-records.module';
 
 @Module({
   imports: [

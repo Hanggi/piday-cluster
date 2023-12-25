@@ -52,8 +52,8 @@ export class VirtualEstateTransactionRecordsService {
       if (!transaction) {
         throw new Error("Transaction not successful");
       }
-      
-      const sellerRechargeRecords =await prisma.rechargeRecords.create({
+
+      const sellerRechargeRecords = await prisma.rechargeRecords.create({
         data: {
           amount: price,
           externalID: transactionID.toString(),
@@ -61,7 +61,7 @@ export class VirtualEstateTransactionRecordsService {
           ownerID: sellerID,
         },
       });
-      const buyerRechargeRecords =await prisma.rechargeRecords.create({
+      const buyerRechargeRecords = await prisma.rechargeRecords.create({
         data: {
           amount: -price,
           externalID: transactionID.toString(),
@@ -69,7 +69,7 @@ export class VirtualEstateTransactionRecordsService {
           ownerID: buyerID,
         },
       });
-      
+
       const updateOwner = await prisma.virtualEstate.update({
         data: {
           ownerID: buyerID,

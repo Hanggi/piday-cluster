@@ -40,6 +40,7 @@ interface Props {
   soldList?: string[];
 
   onVirtualEstateClick?: (hexID: string) => void;
+  onCenterHexChange?: (hexID: string) => void;
 }
 
 export default function VirtualEstateMap({
@@ -49,11 +50,15 @@ export default function VirtualEstateMap({
   onSaleList,
   soldList,
   onVirtualEstateClick,
+  onCenterHexChange,
 }: Props) {
   const [viewState, setViewState] = useState<MapViewState>(INITIAL_VIEW_STATE);
   const [hexagons, setHexagons] = useState<VirtualEstate[]>([]);
+  // hexagonsCenter is the hexagon that is currently in the center of the hexagons array
   const [hexagonsCenter, setHexagonCenter] = useState<string>(""); // hex ID
+  // centerHex is the hexagon that is currently in the center of the map
   const [centerHex, setCenterHex] = useState<string>(""); // hex ID
+  // mounted is used to prevent the map from rendering before the hexagons are ready
   const [mounted, setMounted] = useState<boolean>(false);
   const [layers, setLayers] = useState<any[]>([]); // [H3HexagonLayer
 
@@ -193,9 +198,10 @@ export default function VirtualEstateMap({
       const hexID = geoToH3(vs.latitude, vs.longitude, 12);
       if (hexID != centerHex) {
         setCenterHex(hexID);
+        onCenterHexChange && onCenterHexChange(hexID);
       }
     }
-  }, 200);
+  }, 1000);
 
   const handleMapViewChange = useCallback(
     (params: ViewStateChangeParameters) => {

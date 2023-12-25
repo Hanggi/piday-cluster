@@ -14,7 +14,7 @@ import { AuthService } from "./auth.service";
     ThrottlerModule.forRoot([
       {
         ttl: 60000, // 1 minute
-        limit: 10,
+        limit: 100,
       },
     ]),
     RedisModule,

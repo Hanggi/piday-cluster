@@ -1,8 +1,8 @@
-import { Exclude, Expose } from "class-transformer";
+import { Expose } from "class-transformer";
 
 export class UserResponseDto {
-  @Exclude()
-  id?: string; // keycloak UUID
+  @Expose({ name: "keycloakID" })
+  id: string;
 
   @Expose()
   username: string;

@@ -1,4 +1,4 @@
-import { plainToClass } from "class-transformer";
+import { plainToClass, plainToInstance } from "class-transformer";
 import { Response } from "express";
 
 import {
@@ -142,6 +142,7 @@ export class VirtualEstateController {
       );
     }
   }
+
   @UseGuards(KeycloakJwtGuard)
   @Patch(":hexID/bid/:bidID/accept")
   async acceptBidToSellVirtualEstate(
@@ -151,15 +152,16 @@ export class VirtualEstateController {
     @Res() res: Response,
   ) {
     try {
-    
       const sellerID = req.user.userID;
-      
+
       const transactionRecord =
-        await this.virtualEstateTransactionRecordsService.acceptBidToSellVirtualEstate({
-          virtualEstateID: hexID,
-          sellerID,
-          bidID
-        });
+        await this.virtualEstateTransactionRecordsService.acceptBidToSellVirtualEstate(
+          {
+            virtualEstateID: hexID,
+            sellerID,
+            bidID,
+          },
+        );
 
       if (!transactionRecord) {
         res.status(HttpStatus.BAD_REQUEST).json({
@@ -179,8 +181,9 @@ export class VirtualEstateController {
       );
     }
   }
+
   @Get(":hexID")
-  async getHexID(
+  async getOneVirtualEstate(
     @Param("hexID") hexID,
     @Req() req: AuthenticatedRequest,
     @Res() res: Response,
@@ -197,7 +200,7 @@ export class VirtualEstateController {
       }
 
       res.status(HttpStatus.OK).json({
-        ve: plainToClass(VirtualEstateResponseDto, virtualEstate, {
+        ve: plainToInstance(VirtualEstateResponseDto, virtualEstate, {
           excludeExtraneousValues: true,
         }),
       });

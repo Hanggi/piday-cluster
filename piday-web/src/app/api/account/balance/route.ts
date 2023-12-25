@@ -13,7 +13,7 @@ export async function GET(request: Request) {
     return new Response(
       JSON.stringify({
         message: "Get balance successfully.",
-        data: res.data.balance,
+        balance: res.data.balance,
       }),
       {
         status: StatusCodes.OK,

@@ -83,6 +83,7 @@ export const authOptions: AuthOptions = {
       session.error = token.error;
       session.expiresAt = token.expiresAt;
 
+      session.user.id = token.sub;
       // try {
       //   fetch(
       //     `${process.env.KEYCLOAK_BASE_URL}/realms/piday/protocol/openid-connect/userinfo`,

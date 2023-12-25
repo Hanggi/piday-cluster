@@ -15,7 +15,6 @@ import { AuthenticatedRequest } from "../lib/keycloak/interfaces/authenticated-r
 import { KeycloakJwtGuard } from "../lib/keycloak/keycloak-jwt.guard";
 import { KeycloakService } from "../lib/keycloak/keycloak.service";
 import { AccountService } from "./account.service";
-import { RechargeRecordResponseDto } from "./dto/rechargeRecords.dto";
 
 @Controller("account")
 export class AccountController {
@@ -33,16 +32,17 @@ export class AccountController {
     @Query("size") size = "10", //default to size 10,
   ) {
     try {
-      const allRechargeRecords = await this.accountService.getMyAllRechargeRecords(
-        req.user.userID,
-        parseInt(size),
-        parseInt(page),
-      );
+      const allRechargeRecords =
+        await this.accountService.getMyAllRechargeRecords(
+          req.user.userID,
+          parseInt(size),
+          parseInt(page),
+        );
 
-      if(!allRechargeRecords){
+      if (!allRechargeRecords) {
         res.status(HttpStatus.NOT_FOUND).json({
-          rechargeRecords:null
-        })
+          rechargeRecords: null,
+        });
       }
       res.status(HttpStatus.OK).json({
         rechargeRecords: allRechargeRecords,

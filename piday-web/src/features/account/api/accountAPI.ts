@@ -12,6 +12,9 @@ export const accountRTKApi = createApi({
         url: `/account/balance`,
         method: "GET",
       }),
+      transformResponse: (res: any) => {
+        return res.balance;
+      },
     }),
     getAllRechargeRecords: builder.query<
       RechargeRecordInterface[],
