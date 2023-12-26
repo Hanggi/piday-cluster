@@ -85,4 +85,36 @@ export class VirtualEstateTransactionRecordsService {
       };
     });
   }
+
+  async getAllTransactionRecordsForUserBasedOnType(
+    userID: string,
+    type: string,
+  ) {
+    try {
+      const whereClause = (() => {
+        switch (type) {
+          case "buyer":
+            return { buyerID: userID };
+          case "seller":
+            return { sellerID: userID };
+          default:
+            return {
+              OR: [{ buyerID: userID }, { sellerID: userID }],
+            };
+        }
+      })();
+      const transactionRecordsForUser =
+        await this.prisma.virtualEstateTransactionRecords.findMany({
+          where: whereClause,
+        });
+      return transactionRecordsForUser.map((singleTransactionRecords) => {
+        return {
+          ...singleTransactionRecords,
+          transactionID: singleTransactionRecords.transactionID.toString(),
+        };
+      });
+    } catch (error) {
+      throw new Error("Internal Server");
+    }
+  }
 }
