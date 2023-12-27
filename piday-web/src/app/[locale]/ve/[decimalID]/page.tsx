@@ -21,8 +21,8 @@ export default async function VirtualEstateDetailPage({
 
   let virtualEstate: VirtualEstate | undefined;
   try {
-    const res = await instance.get(`/virtual-estate/${hexID}`);
-
+    // This request send to the backend directly.
+    const res = await instance.get(`/virtual-estates/${hexID}`);
     virtualEstate = res.data.ve;
   } catch (err) {
     const axiosError = err as AxiosError;

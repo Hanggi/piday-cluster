@@ -239,6 +239,8 @@ export class VirtualEstateController {
       const virtualEstate =
         await this.virtualEstateService.getOneVirtualEstate(hexID);
 
+      console.log("????", virtualEstate);
+
       if (!virtualEstate) {
         res.status(HttpStatus.NOT_FOUND).json({
           message: "Virtual Estate not found",

@@ -16,7 +16,7 @@ import { VirtualEstateModule } from "./virtual-estate/virtual-estate.module";
     ThrottlerModule.forRoot([
       {
         ttl: 60000, // 1 minute
-        limit: 10,
+        limit: 100,
       },
     ]),
 

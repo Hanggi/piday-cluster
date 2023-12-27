@@ -16,7 +16,12 @@ export async function GET(
     });
   } catch (error) {
     const axiosError = error as AxiosError;
-    console.log(axiosError);
+
+    console.error(
+      "Fail to get virtual estate status in area",
+      axiosError.response?.status,
+      axiosError?.response?.data,
+    );
     if (axiosError.response?.status === StatusCodes.NOT_FOUND) {
       return new Response(
         JSON.stringify({
@@ -29,7 +34,6 @@ export async function GET(
       );
     }
 
-    console.error("Fail to get virtual estate status in area", axiosError);
     return new Response(
       JSON.stringify({
         success: false,

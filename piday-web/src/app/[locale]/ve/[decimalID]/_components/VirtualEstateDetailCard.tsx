@@ -46,11 +46,18 @@ export default function VirtualEstateDetailCard({
 
   const [bidID, setBidID] = useState("");
 
+  console.log(virtualEstate);
+  // TODO: Show confirm dialog before minting
   const [mintVirtualEstate, mintVirtualEstateResult] =
     useMintOneVirtualEstateMutation();
-  console.log(mintVirtualEstateResult.error);
   useErrorToast(mintVirtualEstateResult.error);
-  useSuccessToast(mintVirtualEstateResult.isSuccess, "Mint successfully");
+  useSuccessToast(
+    mintVirtualEstateResult.isSuccess,
+    "Mint successfully",
+    () => {
+      window.location.reload();
+    },
+  );
 
   const [acceptBidToSellVirtualEstate, acceptBidToSellVirtualEstateResult] =
     useAcceptBidToSellVirtualEstateMutation();
