@@ -1,6 +1,7 @@
 import * as RadixTab from "@radix-ui/react-tabs";
 import { LandCard } from "@/src/components/LandCard";
 import { Pagination } from "@/src/components/Pagination";
+import { useGetAllTransactionRecordsForUserQuery } from "@/src/features/virtual-estate-transaction-record/api/virtualEstateTransactionRecordAPI";
 import { useGetMyVirtualEstatesQuery } from "@/src/features/virtual-estate/api/virtualEstateAPI";
 import { VirtualEstate } from "@/src/features/virtual-estate/interface/virtual-estate.interface";
 import { cn } from "@/src/utils/cn";
@@ -14,6 +15,9 @@ type TabContentProps = ComponentProps<"div"> & {
 };
 export function TabContent({ className, tabList, ...props }: TabContentProps) {
   const { data } = useGetMyVirtualEstatesQuery({ page: "1", size: "2" });
+  const { data: transactionRecords } = useGetAllTransactionRecordsForUserQuery({
+    side: "buyer",
+  });
   return (
     <div className={cn("container ", className)} {...props}>
       {tabList.map((tab) => (
