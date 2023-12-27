@@ -8,7 +8,7 @@ import { cn } from "@/src/utils/cn";
 
 import { ComponentProps } from "react";
 
-import { TabListDataType } from "../../ranking/page";
+import { TabListDataType } from "../../../../ranking/page";
 
 type TabContentProps = ComponentProps<"div"> & {
   tabList: TabListDataType["label"][];

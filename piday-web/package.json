@@ -18,7 +18,7 @@
     "@deck.gl/react": "^8.9.33",
     "@emotion/react": "^11.11.3",
     "@emotion/styled": "^11.11.0",
-    "@mui/joy": "^5.0.0-beta.19",
+    "@mui/joy": "^5.0.0-beta.20",
     "@radix-ui/react-tabs": "^1.0.4",
     "@reduxjs/toolkit": "^2.0.1",
     "axios": "^1.6.2",

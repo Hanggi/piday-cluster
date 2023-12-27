@@ -10,7 +10,7 @@ export async function GET(
   const hexID = params.hexID;
 
   try {
-    const res = await instance.get("/virtual-estate/" + hexID);
+    const res = await instance.get("/virtual-estates/" + hexID);
 
     return new Response(JSON.stringify(res.data), {
       status: StatusCodes.OK,
@@ -52,7 +52,7 @@ export async function POST(
 
   try {
     const res = await instance.post(
-      "/virtual-estate/" + hexID,
+      "/virtual-estates/" + hexID,
       {},
       {
         headers: HeaderFilters(headers),

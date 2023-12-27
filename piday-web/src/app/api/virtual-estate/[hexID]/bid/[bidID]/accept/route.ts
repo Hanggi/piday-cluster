@@ -16,7 +16,7 @@ export async function PATCH(
   const bidID = params.bidID;
   try {
     const res = await instance.patch(
-      "/virtual-estate/" + hexID + "/bid/" + bidID + "/accept",
+      "/virtual-estates/" + hexID + "/bid/" + bidID + "/accept",
       {},
       {
         headers: HeaderFilters(headers),

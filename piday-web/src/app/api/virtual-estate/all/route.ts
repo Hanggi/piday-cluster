@@ -15,7 +15,7 @@ export async function GET(
   const size = searchParams.get("size");
   try {
     const res = await instance.get(
-      `/virtual-estate/all?page=${page}&size=${size}`,
+      `/virtual-estates?page=${page}&size=${size}`,
       {
         headers: HeaderFilters(headers),
       },

@@ -9,7 +9,7 @@ export async function GET(
   const hexID = params.hexID;
 
   try {
-    const res = await instance.get("/virtual-estate/" + hexID + "/in-area");
+    const res = await instance.get("/virtual-estates/" + hexID + "/in-area");
 
     return new Response(JSON.stringify(res.data), {
       status: StatusCodes.OK,

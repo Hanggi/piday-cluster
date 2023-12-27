@@ -10,6 +10,8 @@ export class VirtualEstateListingService {
   async createVirtualEstateListing(
     createVirtualEstateListingDto: CreateVirtualEstateListingDto,
   ) {
+    // TODO: If listing already exists, expire it and create a new one
+
     try {
       const { price, type, expiresAt, ownerID, virtualEstateID } =
         createVirtualEstateListingDto;

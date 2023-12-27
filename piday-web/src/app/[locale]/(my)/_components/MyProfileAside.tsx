@@ -5,15 +5,19 @@ import dynamic from "next/dynamic";
 import { ComponentProps } from "react";
 
 const SideNav = dynamic(() =>
-  import("./SideNav").then((module) => ({ default: module.SideNav })),
+  import("./MySideNav").then((module) => ({
+    default: module.MySideNav,
+  })),
 );
 const User = dynamic(() =>
-  import("./User").then((module) => ({ default: module.User })),
+  import("./User").then((module) => ({
+    default: module.User,
+  })),
 );
 
-type AsideProps = ComponentProps<"aside">;
+type MyProfileAsideProps = ComponentProps<"aside">;
 
-export function Aside({ className, ...props }: AsideProps) {
+export function MyProfileAside({ className, ...props }: MyProfileAsideProps) {
   return (
     <aside className={cn("relative", className)} {...props}>
       <User />

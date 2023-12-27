@@ -26,7 +26,7 @@ import { VirtualEstateResponseDto } from "./dto/virtual-estate.dto";
 import { HexIdValidationPipe } from "./pipes/hex-id-validation.pipe";
 import { VirtualEstateService } from "./virtual-estate.service";
 
-@Controller("virtual-estate")
+@Controller("virtual-estates")
 export class VirtualEstateController {
   constructor(
     private readonly accountService: AccountService,
@@ -35,7 +35,7 @@ export class VirtualEstateController {
     private readonly virtualEstateTransactionRecordsService: VirtualEstateTransactionRecordsService,
   ) {}
 
-  @Get("all")
+  @Get()
   @UseGuards(KeycloakJwtGuard)
   async getAllVirtualEstates(
     @Req() req: AuthenticatedRequest,
