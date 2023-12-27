@@ -1,7 +1,10 @@
+import { HeaderFilters } from "@/src/features/axios/header-filters";
+import instance from "@/src/features/axios/instance";
 import { AxiosError } from "axios";
 import { StatusCodes } from "http-status-codes";
 
 export async function POST(request: Request, res: Response) {
+  const { headers } = request;
   const req = await request.json();
 
   const body = {
@@ -12,29 +15,15 @@ export async function POST(request: Request, res: Response) {
   };
 
   try {
-    const res = await fetch(
+    const res = await instance.post(
       `${process.env.BACKEND_BASE_URL}/auth/email-signup`,
       {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(body),
+        ...body,
+      },
+      {
+        headers: HeaderFilters(headers),
       },
     );
-    const jsonRes = await res.json();
-
-    if (!res.ok) {
-      return new Response(
-        JSON.stringify({
-          success: false,
-          message: jsonRes.message,
-        }),
-        {
-          status: jsonRes.statusCode,
-        },
-      );
-    }
 
     return new Response(
       JSON.stringify({ message: "User registered successfully." }),
@@ -44,7 +33,11 @@ export async function POST(request: Request, res: Response) {
     );
   } catch (error) {
     const axiosError = error as AxiosError;
-    console.error("User registration failed!!", axiosError);
+    console.error(
+      "User registration failed!!",
+      axiosError.response?.status,
+      axiosError?.response?.data,
+    );
     return new Response(
       JSON.stringify({
         success: false,

@@ -29,7 +29,11 @@ export async function GET(
       );
     }
 
-    console.error("Fail to get virtual estate!!", axiosError);
+    console.error(
+      "Fail to get virtual estate!!",
+      axiosError.response?.status,
+      axiosError?.response?.data,
+    );
     return new Response(
       JSON.stringify({
         success: false,
@@ -43,6 +47,7 @@ export async function GET(
   }
 }
 
+// Mint a new virtual estate
 export async function POST(
   request: Request,
   { params, body }: { params: { hexID: string }; body: {} },
@@ -63,12 +68,18 @@ export async function POST(
       status: StatusCodes.OK,
     });
   } catch (error) {
-    const axiosError = error as AxiosError;
-    console.error("Fail to mint virtual estate!!", axiosError);
+    const axiosError = error as AxiosError<{ message: string }>;
+    console.error(
+      "Fail to mint virtual estate!!",
+      axiosError.response?.status,
+      axiosError?.response?.data,
+    );
+
+    const message = axiosError?.response?.data?.message;
     return new Response(
       JSON.stringify({
         success: false,
-        message: "Fail to mint virtual estate",
+        message: message || "Fail to mint virtual estate",
       }),
       {
         status:

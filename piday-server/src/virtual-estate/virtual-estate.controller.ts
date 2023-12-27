@@ -102,6 +102,7 @@ export class VirtualEstateController {
       });
     } catch (error) {
       console.error(error);
+
       throw new HttpException(
         "Internal Server Error",
         HttpStatus.INTERNAL_SERVER_ERROR,
@@ -135,6 +136,16 @@ export class VirtualEstateController {
       return virtualEstate;
     } catch (err) {
       console.error(err);
+      switch (err.code) {
+        case "NOT_ENOUGH_BALANCE":
+          throw new HttpException(
+            {
+              message: "Not enough balance",
+            },
+            HttpStatus.FORBIDDEN,
+          );
+      }
+
       throw new HttpException(
         "Internal Server Error",
         HttpStatus.INTERNAL_SERVER_ERROR,

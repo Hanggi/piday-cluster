@@ -1,5 +1,9 @@
 "use client";
 
+import {
+  useErrorToast,
+  useSuccessToast,
+} from "@/src/features/rtk-utils/use-error-toast.hook";
 import { useCreateVirtualEstateListingMutation } from "@/src/features/virtual-estate-listing/api/virtualEstateListingAPI";
 import { TransactionType } from "@/src/features/virtual-estate-listing/interface/virtual-estate-listing.interface";
 import { useGetPlacesQuery } from "@/src/features/virtual-estate/api/mapboxAPI";
@@ -44,6 +48,9 @@ export default function VirtualEstateDetailCard({
 
   const [mintVirtualEstate, mintVirtualEstateResult] =
     useMintOneVirtualEstateMutation();
+  console.log(mintVirtualEstateResult.error);
+  useErrorToast(mintVirtualEstateResult.error);
+  useSuccessToast(mintVirtualEstateResult.isSuccess, "Mint successfully");
 
   const [acceptBidToSellVirtualEstate, acceptBidToSellVirtualEstateResult] =
     useAcceptBidToSellVirtualEstateMutation();

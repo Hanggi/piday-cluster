@@ -4,6 +4,7 @@ import { kRing } from "h3-js";
 
 import { Injectable } from "@nestjs/common";
 
+import { ServiceException } from "../lib/exceptions/service-exception";
 import { generateFlakeID } from "../lib/generate-id/generate-flake-id";
 import { PrismaService } from "../lib/prisma/prisma.service";
 
@@ -62,7 +63,7 @@ export class VirtualEstateService {
       });
 
       if (balance._sum.amount < new Decimal(GENESIS_VIRTUAL_ESTATE_PRICE)) {
-        throw new Error("Not enough balance");
+        throw new ServiceException("Not enough balance", "NOT_ENOUGH_BALANCE");
       }
 
       // Create a virtual estate with the given hexID and the ownerID

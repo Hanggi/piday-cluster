@@ -2,6 +2,7 @@ import { WrapperCard } from "@/src/components/WrapperCard";
 import { decimalToHexID } from "@/src/components/virtual-estate-map/h3";
 import instance from "@/src/features/axios/instance";
 import { VirtualEstate } from "@/src/features/virtual-estate/interface/virtual-estate.interface";
+import { AxiosError } from "axios";
 
 import VirtualEstateMapClientWrapper from "../../_components/home-ve-map/VirtualEstateMapClientWrapper";
 import { HistoryTable } from "./_components/HistoryTable";
@@ -24,7 +25,8 @@ export default async function VirtualEstateDetailPage({
 
     virtualEstate = res.data.ve;
   } catch (err) {
-    console.error(err);
+    const axiosError = err as AxiosError;
+    console.error(axiosError?.response?.data);
   }
 
   return (

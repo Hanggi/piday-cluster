@@ -9,9 +9,13 @@ export function useErrorToast(
   optional?: { message: string },
 ) {
   useEffect(() => {
-    console.log("error", error);
+    console.log("error:", error);
     if (error) {
-      toast.error(`${optional?.message || error?.message || error}`);
+      toast.error(
+        `${
+          optional?.message || error?.data?.message || error?.message || error
+        }`,
+      );
     }
   }, [error, optional, optional?.message]);
 }

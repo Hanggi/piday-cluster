@@ -2,7 +2,6 @@ import { Response } from "express";
 
 import {
   ArgumentsHost,
-  BadRequestException,
   Catch,
   ExceptionFilter,
   HttpException,
@@ -19,7 +18,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
 
     let messages = [];
     if (
-      exception instanceof BadRequestException &&
+      exception instanceof HttpException &&
       exceptionResponse.hasOwnProperty("message")
     ) {
       messages = exceptionResponse["message"];
