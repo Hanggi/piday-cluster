@@ -43,4 +43,20 @@ export class AccountService {
       throw new Error("Internal Server Error");
     }
   }
+
+  async updateWalletAddress(userId: string, walletAddress:string){
+    try {
+      const user = await this.prisma.user.update({
+        where:{
+          keycloakID:userId
+        },
+        data:{
+          piWalletAddress:walletAddress
+        }
+      })
+      return user
+    } catch (error) {
+      throw new Error("Internal Server Error");
+    }
+  }
 }
