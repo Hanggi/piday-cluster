@@ -1,16 +1,11 @@
 "use client";
 
-import {
-  useErrorToast,
-  useSuccessToast,
-} from "@/src/features/rtk-utils/use-error-toast.hook";
 import { useCreateVirtualEstateListingMutation } from "@/src/features/virtual-estate-listing/api/virtualEstateListingAPI";
 import { TransactionType } from "@/src/features/virtual-estate-listing/interface/virtual-estate-listing.interface";
 import { useGetPlacesQuery } from "@/src/features/virtual-estate/api/mapboxAPI";
 import {
   useAcceptBidToSellVirtualEstateMutation,
   useGetVirtualEstateBidsAndOffersQuery,
-  useMintOneVirtualEstateMutation,
 } from "@/src/features/virtual-estate/api/virtualEstateAPI";
 import { VirtualEstate } from "@/src/features/virtual-estate/interface/virtual-estate.interface";
 import { format } from "date-fns";
@@ -23,6 +18,8 @@ import Typography from "@mui/joy/Typography";
 import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 
+import MintVirtualEstateDialog from "./dialogs/MintVirtualEstateDialog";
+
 interface Props {
   hexID: string;
   virtualEstate?: VirtualEstate;
@@ -32,7 +29,7 @@ export default function VirtualEstateDetailCard({
   hexID,
   virtualEstate,
 }: Props) {
-  const { t } = useTranslation("virtual-estate");
+  const { t } = useTranslation(["virtual-estate"]);
   const { data: session, status } = useSession();
   const geo = h3ToGeo(hexID);
   const { data: place } = useGetPlacesQuery({
@@ -40,31 +37,21 @@ export default function VirtualEstateDetailCard({
     lng: geo[1],
   });
 
+  const [openMintVirtualEstateDialog, setOpenMintVirtualEstateDialog] =
+    useState(false);
+
   const { data: virtualEstateListings } = useGetVirtualEstateBidsAndOffersQuery(
     { hexID },
   );
 
   const [bidID, setBidID] = useState("");
 
-  console.log(virtualEstate);
-  // TODO: Show confirm dialog before minting
-  const [mintVirtualEstate, mintVirtualEstateResult] =
-    useMintOneVirtualEstateMutation();
-  useErrorToast(mintVirtualEstateResult.error);
-  useSuccessToast(
-    mintVirtualEstateResult.isSuccess,
-    "Mint successfully",
-    () => {
-      window.location.reload();
-    },
-  );
-
   const [acceptBidToSellVirtualEstate, acceptBidToSellVirtualEstateResult] =
     useAcceptBidToSellVirtualEstateMutation();
 
   const handleMintClick = useCallback(() => {
-    mintVirtualEstate({ hexID });
-  }, [hexID, mintVirtualEstate]);
+    setOpenMintVirtualEstateDialog(true);
+  }, []);
   const [createVirtualEstateListing, createVirtualEstateListingResult] =
     useCreateVirtualEstateListingMutation();
 
@@ -90,20 +77,23 @@ export default function VirtualEstateDetailCard({
     );
   }, [session, virtualEstate?.owner]);
 
+  const placeName = place?.features[0].text;
+  const placeAddress = place?.features[0].place_name;
+
   return (
     <div className="w-full relative pt-5">
-      <h1 className="text-3xl font-semibold">country.country</h1>
+      <h1 className="text-3xl font-semibold">{placeName}</h1>
       <div className="mt-5 p-6 bg-[#F7F7F7] rounded-xl">
         <div className="grid grid-cols-2 py-5">
           <div>
             <Typography className="opacity-40" level="title-md">
-              地址
+              {t("virtual-estate:label.address")}
             </Typography>
-            <Typography>{place?.features[0].place_name}</Typography>
+            <Typography>{placeAddress}</Typography>
           </div>
           <div>
             <Typography className="opacity-40" level="title-md">
-              哈希值
+              {t("virtual-estate:label.hashValue")}
             </Typography>
             <Typography>{hexID}</Typography>
           </div>
@@ -112,7 +102,7 @@ export default function VirtualEstateDetailCard({
         <div className="grid grid-cols-2 py-5">
           <div>
             <Typography className="opacity-40" level="title-md">
-              土地铸造时间
+              {t("virtual-estate:label.estateMintTime")}
             </Typography>
             <Typography>
               {virtualEstate
@@ -124,17 +114,19 @@ export default function VirtualEstateDetailCard({
             </Typography>
           </div>
           <div>
-            <Typography className="opacity-40">持有人</Typography>
+            <Typography className="opacity-40">
+              {t("virtual-estate:label.owner")}
+            </Typography>
             <Typography>{virtualEstate?.owner.username || "None"}</Typography>
           </div>
         </div>
         <hr />
         <div className="py-5">
           <Typography className="opacity-40" level="title-md">
-            最后价格
+            {t("virtual-estate:label.lastPrice")}
           </Typography>
           <Typography className="text-2xl">
-            {virtualEstate?.lastPrice || 25}
+            {virtualEstate?.lastPrice || 10}
           </Typography>
         </div>
       </div>
@@ -142,7 +134,7 @@ export default function VirtualEstateDetailCard({
         {isMyVirtualEstate() && (
           <div className="w-full flex gap-4">
             <Button className="grow" size="lg">
-              {t("virtual-estate:button.sell")}
+              {t("virtual-estate:button.askToSell")}
             </Button>
             <Button className="py-3 grow" size="lg">
               {t("virtual-estate:button.transfer")}
@@ -151,10 +143,28 @@ export default function VirtualEstateDetailCard({
         )}
         {!virtualEstate?.owner && (
           <Button className="py-3 grow" size="lg" onClick={handleMintClick}>
-            {t("virtual-estate:button.buy")}
+            {t("virtual-estate:button.genesisMint")}
+          </Button>
+        )}
+        {!isMyVirtualEstate() && !!virtualEstate?.owner && (
+          <Button className="py-3 grow" size="lg" onClick={handleBidClick}>
+            {t("virtual-estate:button.bidToBuy")}
           </Button>
         )}
       </div>
+
+      {/* Dialogs */}
+      <MintVirtualEstateDialog
+        hexID={hexID}
+        open={openMintVirtualEstateDialog}
+        placeName={placeName}
+        onCancel={() => {
+          setOpenMintVirtualEstateDialog(false);
+        }}
+        onConfirm={() => {
+          setOpenMintVirtualEstateDialog(false);
+        }}
+      />
     </div>
   );
 }

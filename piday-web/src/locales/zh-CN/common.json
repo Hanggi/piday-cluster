@@ -45,6 +45,8 @@
     }
   },
   "button": {
-    "send": "发送"
+    "send": "发送",
+    "cancel": "取消",
+    "confirm": "确定"
   }
 }

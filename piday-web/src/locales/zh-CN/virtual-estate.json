@@ -1,7 +1,22 @@
 {
   "button": {
+    "genesisMint": "创世铸造",
     "buy": "购买",
     "sell": "出售",
+    "bidToBuy": "出价购买",
+    "askToSell": "要价出售",
     "transfer": "转账"
+  },
+  "label": {
+    "name": "名称",
+    "lastPrice": "最后价格",
+    "price": "价格",
+    "address": "地址",
+    "hashValue": "哈希值",
+    "estateMintTime": "土地创建时间",
+    "owner": "所有者"
+  },
+  "title": {
+    "confirmMintVirtualEstate": "您要铸造这个土地吗?"
   }
 }

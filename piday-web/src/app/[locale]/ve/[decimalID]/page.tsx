@@ -32,7 +32,7 @@ export default async function VirtualEstateDetailPage({
   return (
     <main>
       <WrapperCard className="container mx-auto grid grid-cols-1 md:grid-cols-2 gap-5 py-4 ">
-        <div className="w-full aspect-square max-h-[500px] relative rounded-lg">
+        <div className="w-full aspect-square max-h-[500px] relative rounded-lg overflow-hidden">
           <VirtualEstateMapClientWrapper
             defaultHexID={hexID}
             token={MAPBOX_ACCESS_TOKEN as string}
