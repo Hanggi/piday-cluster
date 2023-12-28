@@ -1,26 +1,23 @@
 import * as RadixTab from "@radix-ui/react-tabs";
 import { LandCard } from "@/src/components/LandCard";
 import { Pagination } from "@/src/components/Pagination";
-import { useUpdateMyPiWalletAddressMutation } from "@/src/features/account/api/accountAPI";
+import { useGetAllTransactionRecordsForUserQuery } from "@/src/features/virtual-estate-transaction-record/api/virtualEstateTransactionRecordAPI";
 import { useGetMyVirtualEstatesQuery } from "@/src/features/virtual-estate/api/virtualEstateAPI";
 import { VirtualEstate } from "@/src/features/virtual-estate/interface/virtual-estate.interface";
 import { cn } from "@/src/utils/cn";
 
-import { ComponentProps, useEffect } from "react";
+import { ComponentProps } from "react";
 
-import { TabListDataType } from "../../ranking/page";
+import { TabListDataType } from "../../../../ranking/page";
 
 type TabContentProps = ComponentProps<"div"> & {
   tabList: TabListDataType["label"][];
 };
 export function TabContent({ className, tabList, ...props }: TabContentProps) {
   const { data } = useGetMyVirtualEstatesQuery({ page: "1", size: "2" });
-  const [updatePiWalletAddressMutation, updatePiWalletAddressResult] =
-    useUpdateMyPiWalletAddressMutation();
-
-  useEffect(() => {
-    updatePiWalletAddressMutation({ piWalletAddress: "test-address-update" });
-  }, []);
+  const { data: transactionRecords } = useGetAllTransactionRecordsForUserQuery({
+    side: "buyer",
+  });
   return (
     <div className={cn("container ", className)} {...props}>
       {tabList.map((tab) => (

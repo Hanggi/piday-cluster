@@ -11,7 +11,7 @@ export async function GET(
 
   try {
     const { headers } = request;
-    const res = await instance.get("/virtual-estate/" + hexID + "/listing", {
+    const res = await instance.get("/virtual-estates/" + hexID + "/listing", {
       headers: HeaderFilters(headers),
     });
 

@@ -15,9 +15,10 @@ import { isNavActive } from "../../_lib/utils";
 
 type SideNavProps = ComponentProps<"div">;
 
-export function SideNav({ className, ...props }: SideNavProps) {
+export function MySideNav({ className, ...props }: SideNavProps) {
   const { t } = useTranslation("profile");
   const pathname = usePathname();
+
   return (
     <div className={cn(className)} {...props}>
       {navItems.map((nav) => (
@@ -28,16 +29,17 @@ export function SideNav({ className, ...props }: SideNavProps) {
               "bg-secondary/10 rounded-md": isNavActive(nav.href, pathname),
             },
           )}
-          href={`${pathname}/${nav.href}`}
+          href={nav.href}
           key={nav.translationKey}
         >
-          <Image
+          {/* <Image
             alt=""
             className="brightness-0"
             height={20}
             src={nav.icon}
             width={20}
-          />
+          /> */}
+          <div>{nav.icon}</div>
           <Typography className="text-sm grow">
             {t(nav.translationKey)}
           </Typography>{" "}
@@ -60,23 +62,23 @@ export function SideNav({ className, ...props }: SideNavProps) {
 
 const navItems = [
   {
-    translationKey: "nav.enterTeam",
-    href: "user",
-    icon: "/img/profile/users.svg",
+    translationKey: "nav.myProfile",
+    href: "/profile",
+    icon: <i className="ri-profile-line"></i>,
   },
   {
-    translationKey: "nav.leaderboard",
-    href: "leaderboard",
-    icon: "/img/profile/trophy.svg",
+    translationKey: "nav.myBalance",
+    href: "/my/balance",
+    icon: <i className="ri-wallet-3-line"></i>,
   },
   {
-    translationKey: "nav.blogCenter",
-    href: "blog",
-    icon: "/img/profile/newspaper.svg",
+    translationKey: "nav.myAssets",
+    href: "/my/assets",
+    icon: <i className="ri-community-line"></i>,
   },
   {
-    translationKey: "nav.aboutParty",
-    href: "pid",
-    icon: "/img/profile/pid.png",
+    translationKey: "nav.settings",
+    href: "/my/settings",
+    icon: <i className="ri-settings-3-line"></i>,
   },
 ];

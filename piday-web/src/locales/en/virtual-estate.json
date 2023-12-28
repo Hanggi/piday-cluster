@@ -1,7 +1,22 @@
 {
   "button": {
+    "genesisMint": "Genesis Mint",
     "buy": "Buy",
     "sell": "Sell",
+    "bidToBuy": "Bid to Buy",
+    "askToSell": "Ask to Sell",
     "transfer": "Transfer"
+  },
+  "label": {
+    "name": "Name",
+    "lastPrice": "Last Price",
+    "price": "Price",
+    "address": "Address",
+    "hashValue": "Hash Value",
+    "estateMintTime": "Estate Mint Time",
+    "owner": "Owner"
+  },
+  "title": {
+    "confirmMintVirtualEstate": "Do you want to mint this estate??"
   }
 }

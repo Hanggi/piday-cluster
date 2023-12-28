@@ -26,7 +26,7 @@ import { VirtualEstateResponseDto } from "./dto/virtual-estate.dto";
 import { HexIdValidationPipe } from "./pipes/hex-id-validation.pipe";
 import { VirtualEstateService } from "./virtual-estate.service";
 
-@Controller("virtual-estate")
+@Controller("virtual-estates")
 export class VirtualEstateController {
   constructor(
     private readonly accountService: AccountService,
@@ -35,7 +35,7 @@ export class VirtualEstateController {
     private readonly virtualEstateTransactionRecordsService: VirtualEstateTransactionRecordsService,
   ) {}
 
-  @Get("all")
+  @Get()
   @UseGuards(KeycloakJwtGuard)
   async getAllVirtualEstates(
     @Req() req: AuthenticatedRequest,
@@ -73,6 +73,43 @@ export class VirtualEstateController {
     }
   }
 
+  @Get("transaction")
+  @UseGuards(KeycloakJwtGuard)
+  async getAllTransactionRecordsForUserBasedOnType(
+    @Req() req: AuthenticatedRequest,
+    @Res() res: Response,
+    @Query("side") side = "both", // default to both
+  ) {
+    try {
+      const transactionRecordsForUser =
+        await this.virtualEstateTransactionRecordsService.getAllTransactionRecordsForUserBasedOnType(
+          req.user.userID,
+          side,
+        );
+
+      if (!transactionRecordsForUser) {
+        res.status(HttpStatus.NOT_FOUND).json({
+          success: false,
+          virtualEstates: null,
+          message: "No Transaction records found by this user",
+        });
+      }
+
+      res.status(HttpStatus.OK).json({
+        transactionRecords: transactionRecordsForUser,
+        success: true,
+        message: "Transaction records found successfully",
+      });
+    } catch (error) {
+      console.error(error);
+
+      throw new HttpException(
+        "Internal Server Error",
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+
   @UseGuards(KeycloakJwtGuard)
   @Post(":hexID")
   @UsePipes(new HexIdValidationPipe())
@@ -99,6 +136,16 @@ export class VirtualEstateController {
       return virtualEstate;
     } catch (err) {
       console.error(err);
+      switch (err.code) {
+        case "NOT_ENOUGH_BALANCE":
+          throw new HttpException(
+            {
+              message: "Not enough balance",
+            },
+            HttpStatus.FORBIDDEN,
+          );
+      }
+
       throw new HttpException(
         "Internal Server Error",
         HttpStatus.INTERNAL_SERVER_ERROR,
@@ -191,6 +238,8 @@ export class VirtualEstateController {
     try {
       const virtualEstate =
         await this.virtualEstateService.getOneVirtualEstate(hexID);
+
+      console.log("????", virtualEstate);
 
       if (!virtualEstate) {
         res.status(HttpStatus.NOT_FOUND).json({

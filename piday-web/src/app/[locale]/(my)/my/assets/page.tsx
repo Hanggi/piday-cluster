@@ -1,6 +1,6 @@
 import { BreadCrumb } from "@/src/components/BreadCrumb";
 
-import { Banner } from "./_components/Banner";
+import { MyAssetsBanner } from "./_components/Banner";
 import { LandByCategories } from "./_components/LandByCategories";
 import { LandPerCityTable } from "./_components/LandPerCityTable";
 
@@ -8,11 +8,11 @@ export const metadata = {
   title: "Asset Center",
 };
 
-export default function AssetCenterPage() {
+export default function MyAssetsPage() {
   return (
     <main className="container">
       <BreadCrumb />
-      <Banner />
+      <MyAssetsBanner />
       <br />
       <LandPerCityTable />
       <br />

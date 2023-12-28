@@ -4,7 +4,11 @@
     "leaderboard": "Leaderboard",
     "blogCenter": "Blog Center",
     "aboutParty": "About Party",
-    "logout": "Logout"
+    "logout": "Logout",
+    "myProfile": "My Profile",
+    "myBalance": "My Balance",
+    "myAssets": "My Assets",
+    "settings": "Settings"
   },
   "leaderboard": {
     "overviewStatistics": "Overview Statistics",
@@ -23,5 +27,10 @@
       "numberOfPeopleInvited": "Number Of People Invited",
       "globalRanking": "Global Ranking"
     }
+  },
+  "profile": {
+    "myProfile": "My Profile",
+    "username": "Username",
+    "email": "Email"
   }
 }

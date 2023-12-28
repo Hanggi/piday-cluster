@@ -10,6 +10,7 @@ import { cn } from "@/src/utils/cn";
 import { Typography } from "@mui/joy";
 
 import Image from "next/image";
+import Link from "next/link";
 
 import { ComponentProps } from "react";
 import { useTranslation } from "react-i18next";
@@ -31,49 +32,53 @@ export function MyPropertiesOverview({ className, ...props }: StatisticsProps) {
         {t("profile:leaderboard.overviewStatistics")}
       </Typography>
       <div className="grid grid-cols-1 gap-5 my-4 lg:grid-cols-2 xl:grid-cols-3">
-        <WrapperCard
-          className="relative"
-          key={"profile:leaderboard.totalWalletAssets"}
-          style={{
-            background: "linear-gradient(98deg, #FFB800 0%, #FF7A00 100%)",
-          }}
-        >
-          <Typography className="!text-white">
-            {t("profile:leaderboard.totalWalletAssets")}
-          </Typography>
-          <Typography className="!text-white" level="h2">
-            {balance || 0}
-          </Typography>
-          <Image
-            alt="icon"
-            className="absolute right-0 bottom-0 opacity-40 grayscale invert"
-            height={106}
-            src={"/img/mining/database.svg"}
-            width={106}
-          />
-        </WrapperCard>
+        <Link href="/my/balance">
+          <WrapperCard
+            className="relative"
+            key={"profile:leaderboard.totalWalletAssets"}
+            style={{
+              background: "linear-gradient(98deg, #FFB800 0%, #FF7A00 100%)",
+            }}
+          >
+            <Typography className="!text-white">
+              {t("profile:leaderboard.totalWalletAssets")}
+            </Typography>
+            <Typography className="!text-white" level="h2">
+              {balance || 0}
+            </Typography>
+            <Image
+              alt="icon"
+              className="absolute right-0 bottom-0 opacity-40 grayscale invert"
+              height={106}
+              src={"/img/mining/database.svg"}
+              width={106}
+            />
+          </WrapperCard>
+        </Link>
 
-        <WrapperCard
-          className="relative"
-          key={"profile:leaderboard.landAssetQuantity"}
-          style={{
-            background: "linear-gradient(98deg, #B479E0 0%, #7030A0 100%)",
-          }}
-        >
-          <Typography className="!text-white">
-            {t("profile:leaderboard.landAssetQuantity")}
-          </Typography>
-          <Typography className="!text-white" level="h2">
-            0
-          </Typography>
-          <Image
-            alt="icon"
-            className="absolute right-0 bottom-0 opacity-40 grayscale invert"
-            height={106}
-            src={"/img/mining/dashboard.svg"}
-            width={106}
-          />
-        </WrapperCard>
+        <Link href="/my/assets">
+          <WrapperCard
+            className="relative"
+            key={"profile:leaderboard.landAssetQuantity"}
+            style={{
+              background: "linear-gradient(98deg, #B479E0 0%, #7030A0 100%)",
+            }}
+          >
+            <Typography className="!text-white">
+              {t("profile:leaderboard.landAssetQuantity")}
+            </Typography>
+            <Typography className="!text-white" level="h2">
+              0
+            </Typography>
+            <Image
+              alt="icon"
+              className="absolute right-0 bottom-0 opacity-40 grayscale invert"
+              height={106}
+              src={"/img/mining/dashboard.svg"}
+              width={106}
+            />
+          </WrapperCard>
+        </Link>
 
         <WrapperCard
           className="relative"

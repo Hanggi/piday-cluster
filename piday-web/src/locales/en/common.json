@@ -44,6 +44,8 @@
     }
   },
   "button": {
-    "send": "Send"
+    "send": "Send",
+    "cancel": "Cancel",
+    "confirm": "Confirm"
   }
 }

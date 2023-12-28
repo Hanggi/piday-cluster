@@ -6,7 +6,7 @@ import Image from "next/image";
 
 import { useTranslation } from "react-i18next";
 
-export const Banner = () => {
+export const MyAssetsBanner = () => {
   const { t } = useTranslation("asset-center");
   return (
     <header className=" h-[220px] bg-gradient-to-r grid place-content-center from-purple-400 to-purple-800 rounded-lg">

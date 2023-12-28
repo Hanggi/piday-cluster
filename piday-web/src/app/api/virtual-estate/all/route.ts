@@ -3,21 +3,19 @@ import instance from "@/src/features/axios/instance";
 import { AxiosError } from "axios";
 import { StatusCodes } from "http-status-codes";
 
-export async function PATCH(
-  request: Request,
-  {
-    params,
-  }: {
-    params: { hexID: string; bidID: string };
-  },
+import { NextRequest } from "next/server";
+
+export async function GET(
+  request: NextRequest,
+  { params, body }: { params: { page: string; pageSize: string }; body: {} },
 ) {
+  const searchParams = request.nextUrl.searchParams;
   const { headers } = request;
-  const hexID = params.hexID;
-  const bidID = params.bidID;
+  const page = searchParams.get("page");
+  const size = searchParams.get("size");
   try {
-    const res = await instance.patch(
-      "/virtual-estates/" + hexID + "/bid/" + bidID + "/accept",
-      {},
+    const res = await instance.get(
+      `/virtual-estates?page=${page}&size=${size}`,
       {
         headers: HeaderFilters(headers),
       },
@@ -28,11 +26,11 @@ export async function PATCH(
     });
   } catch (error) {
     const axiosError = error as AxiosError;
+    console.error("Fail to get virtual estates for user!!", axiosError);
     return new Response(
       JSON.stringify({
         success: false,
-        message: "Fail to sell virtual estate",
-        error: axiosError.response?.data || "Unknown error",
+        message: "Fail to get virtual estates for user",
       }),
       {
         status:

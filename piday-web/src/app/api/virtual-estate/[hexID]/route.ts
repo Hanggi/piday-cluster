@@ -10,13 +10,19 @@ export async function GET(
   const hexID = params.hexID;
 
   try {
-    const res = await instance.get("/virtual-estate/" + hexID);
+    const res = await instance.get("/virtual-estates/" + hexID);
 
     return new Response(JSON.stringify(res.data), {
       status: StatusCodes.OK,
     });
   } catch (error) {
     const axiosError = error as AxiosError;
+    console.error(
+      "Fail to get virtual estate!!",
+      axiosError.response?.status,
+      axiosError?.response?.data,
+    );
+
     if (axiosError.response?.status === StatusCodes.NOT_FOUND) {
       return new Response(
         JSON.stringify({
@@ -29,7 +35,6 @@ export async function GET(
       );
     }
 
-    console.error("Fail to get virtual estate!!", axiosError);
     return new Response(
       JSON.stringify({
         success: false,
@@ -43,6 +48,7 @@ export async function GET(
   }
 }
 
+// Mint a new virtual estate
 export async function POST(
   request: Request,
   { params, body }: { params: { hexID: string }; body: {} },
@@ -52,7 +58,7 @@ export async function POST(
 
   try {
     const res = await instance.post(
-      "/virtual-estate/" + hexID,
+      "/virtual-estates/" + hexID,
       {},
       {
         headers: HeaderFilters(headers),
@@ -63,12 +69,18 @@ export async function POST(
       status: StatusCodes.OK,
     });
   } catch (error) {
-    const axiosError = error as AxiosError;
-    console.error("Fail to mint virtual estate!!", axiosError);
+    const axiosError = error as AxiosError<{ message: string }>;
+    console.error(
+      "Fail to mint virtual estate!!",
+      axiosError.response?.status,
+      axiosError?.response?.data,
+    );
+
+    const message = axiosError?.response?.data?.message;
     return new Response(
       JSON.stringify({
         success: false,
-        message: "Fail to mint virtual estate",
+        message: message || "Fail to mint virtual estate",
       }),
       {
         status:

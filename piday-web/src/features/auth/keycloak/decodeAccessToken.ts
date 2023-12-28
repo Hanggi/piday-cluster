@@ -5,6 +5,7 @@ export function decodeAccessToken(accessToken: string): User {
   const userInfo: any = jwtDecode(accessToken);
 
   return {
+    id: userInfo.sub ?? "",
     sid: userInfo.sub ?? "",
     email: userInfo.email ?? "",
     emailVerified: userInfo.email_verified ?? false,

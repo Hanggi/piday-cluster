@@ -18,7 +18,7 @@ import { useTranslation } from "react-i18next";
 import SignInButton from "./SignInButton";
 
 export default function AuthStatusButton() {
-  const { t } = useTranslation("common");
+  const { t } = useTranslation(["common", "profile"]);
 
   const { data: session, status } = useSession();
 
@@ -40,7 +40,7 @@ export default function AuthStatusButton() {
         </MenuButton>
         <Menu>
           <MenuItem>
-            <Link href={"/profile"}>Profile</Link>
+            <Link href={"/profile"}> {t("profile:profile.myProfile")}</Link>
           </MenuItem>
           <Divider />
           <MenuItem

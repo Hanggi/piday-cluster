@@ -4,7 +4,11 @@
     "leaderboard": "排行榜单",
     "blogCenter": "博客中心",
     "aboutParty": "关于派对",
-    "logout": "退出登录"
+    "logout": "退出登录",
+    "myProfile": "我的资料",
+    "myBalance": "我的余额",
+    "myAssets": "我的资产",
+    "settings": "设置"
   },
   "leaderboard": {
     "overviewStatistics": "概况统计",
@@ -23,5 +27,10 @@
       "numberOfPeopleInvited": "邀请人数",
       "globalRanking": "全球排名"
     }
+  },
+  "profile": {
+    "myProfile": "我的资料",
+    "username": "用户名",
+    "email": "邮箱"
   }
 }
