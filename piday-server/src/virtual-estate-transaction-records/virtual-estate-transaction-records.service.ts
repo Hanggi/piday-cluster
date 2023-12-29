@@ -117,4 +117,27 @@ export class VirtualEstateTransactionRecordsService {
       throw new Error("Internal Server");
     }
   }
+
+
+  async getAllTransactionRecordsForVirtualEstate(
+    hexID: string,
+  ) {
+    try {
+    
+      const transactionRecordsForVirtualEstate =
+        await this.prisma.virtualEstateTransactionRecords.findMany({
+          where: {
+            virtualEstateID:hexID,
+          },
+        });
+      return transactionRecordsForVirtualEstate.map((singleTransactionRecords) => {
+        return {
+          ...singleTransactionRecords,
+          transactionID: singleTransactionRecords.transactionID.toString(),
+        };
+      });
+    } catch (error) {
+      throw new Error("Internal Server");
+    }
+  }
 }

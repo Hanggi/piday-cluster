@@ -69,7 +69,7 @@ export const virtualEstateRTKApi = createApi({
     }),
 
     acceptBidToSellVirtualEstate: builder.mutation<
-      any,
+      VirtualEstateTransactionRecordInterface,
       { hexID: string; bidID: string }
     >({
       query: ({ hexID, bidID }) => ({
@@ -82,6 +82,20 @@ export const virtualEstateRTKApi = createApi({
         return response?.transactionRecord;
       },
     }),
+    getVirtualEstateTransactionRecords: builder.query<
+      VirtualEstateTransactionRecordInterface[],
+      { hexID: string }
+    >({
+      query: ({ hexID }) => ({
+        url: `/virtual-estate/${hexID}/transactions`,
+        method: "GET",
+      }),
+      transformResponse: (response: {
+        virtualEstateTransactionRecords: VirtualEstateTransactionRecordInterface[];
+      }) => {
+        return response?.virtualEstateTransactionRecords;
+      },
+    }),
   }),
 });
 
@@ -92,4 +106,5 @@ export const {
   useGetVirtualEstateBidsAndOffersQuery,
   useGetHexIDsStatusInAreaQuery,
   useAcceptBidToSellVirtualEstateMutation,
+  useGetVirtualEstateTransactionRecordsQuery,
 } = virtualEstateRTKApi;
