@@ -1,10 +1,12 @@
 import { Response } from "express";
 
 import {
+  Body,
   Controller,
   Get,
   HttpException,
   HttpStatus,
+  Put,
   Query,
   Req,
   Res,
@@ -15,6 +17,7 @@ import { AuthenticatedRequest } from "../lib/keycloak/interfaces/authenticated-r
 import { KeycloakJwtGuard } from "../lib/keycloak/keycloak-jwt.guard";
 import { KeycloakService } from "../lib/keycloak/keycloak.service";
 import { AccountService } from "./account.service";
+import { UpdatePiWalletAddressDto } from "./dto/addPiWalletAddress.dto";
 
 @Controller("account")
 export class AccountController {
@@ -67,6 +70,37 @@ export class AccountController {
         balance: totalBalance,
       });
     } catch (err) {
+      throw new HttpException(
+        "Internal Server Error",
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+
+  @UseGuards(KeycloakJwtGuard)
+  @Put("pi-address")
+  async addPiWalletAddress(
+    @Req() req: AuthenticatedRequest,
+    @Res() res: Response,
+    @Body() body: UpdatePiWalletAddressDto,
+  ) {
+    try {
+      const user = await this.accountService.updateWalletAddress(
+        req.user.userID,
+        body.piWalletAddress,
+      );
+
+      if (!user) {
+        res
+          .status(HttpStatus.NOT_FOUND)
+          .json({ success: false, message: "User not updated", user: null });
+      }
+      res.status(HttpStatus.OK).json({
+        success: true,
+        message: "Pi wallet address updated successfully",
+        user: user,
+      });
+    } catch (error) {
       throw new HttpException(
         "Internal Server Error",
         HttpStatus.INTERNAL_SERVER_ERROR,

@@ -14,7 +14,7 @@ export async function GET(
   const side = searchParams.get("side");
   try {
     const res = await instance.get(
-      `/virtual-estate/transaction?side=${side}`,
+      `/virtual-estates/transaction?side=${side}`,
       {
         headers: HeaderFilters(headers),
       },

@@ -9,6 +9,7 @@ export interface User {
   preferredUsername: string;
   sid: string;
   emailVerified: boolean;
+  piWalletAddress: string;
 
   roles: string[];
 }

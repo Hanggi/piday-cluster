@@ -21,6 +21,8 @@ model User {
   username   String  @unique
   avatar     String?
 
+  piWalletAddress String? 
+
   // VirtualEstate[]
   virtualEstates                        VirtualEstate[]
   // VirtualEstateListing[]
@@ -30,7 +32,7 @@ model User {
   virtualEstateSellerTransactionRecords VirtualEstateTransactionRecords[] @relation("SellerTransaction")
   // RechargeRecords[]
   rechargeRecords                       RechargeRecords[]
-
+  
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
 }
