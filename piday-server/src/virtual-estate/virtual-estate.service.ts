@@ -136,8 +136,6 @@ export class VirtualEstateService {
       },
     });
 
-    console.log(virtualEstatesHasOwner);
-
     return {
       onSale: [],
       sold: virtualEstatesHasOwner.map((ve) => ve.virtualEstateID) || [],

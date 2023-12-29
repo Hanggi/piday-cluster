@@ -1,5 +1,4 @@
 import { TransactionType } from "@prisma/client";
-import { Transform } from "class-transformer";
 import {
   IsDate,
   IsNotEmpty,
@@ -25,9 +24,5 @@ export class CreateVirtualEstateListingDto {
 
   @IsOptional()
   @IsDate()
-  @Transform(({ value }) => {
-    console.log(value);
-    return new Date(value) || new Date(Date.now() + 15 * 24 * 60 * 60 * 1000);
-  })
-  expiresAt: Date; // current time + 30 days
+  expiresAt: Date = new Date(Date.now() + 15 * 24 * 60 * 60 * 1000); // current time + 15 days
 }

@@ -28,7 +28,6 @@ export class AuthService {
         },
       });
 
-      console.log(prismaUser);
       if (!prismaUser) {
         await this.prisma.user.create({
           data: {

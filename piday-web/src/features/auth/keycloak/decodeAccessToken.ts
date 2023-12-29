@@ -10,6 +10,8 @@ export function decodeAccessToken(accessToken: string): User {
     email: userInfo.email ?? "",
     emailVerified: userInfo.email_verified ?? false,
 
+    piWalletAddress: userInfo.pi_wallet_address ?? "", // TODO: get pi wallet address
+
     username: userInfo.username ?? "",
     name: userInfo.name ?? "",
     givenName: userInfo.given_name ?? "",
