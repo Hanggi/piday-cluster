@@ -39,7 +39,7 @@ export default function ConfirmDialog({
           <Button
             disabled={confirmClicked}
             onClick={() => {
-              setConfirmClicked(true);
+              // setConfirmClicked(true);
               onConfirm && onConfirm();
             }}
           >

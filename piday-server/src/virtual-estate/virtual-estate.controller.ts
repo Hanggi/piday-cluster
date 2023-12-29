@@ -239,8 +239,6 @@ export class VirtualEstateController {
       const virtualEstate =
         await this.virtualEstateService.getOneVirtualEstate(hexID);
 
-      console.log("????", virtualEstate);
-
       if (!virtualEstate) {
         res.status(HttpStatus.NOT_FOUND).json({
           message: "Virtual Estate not found",
@@ -265,7 +263,6 @@ export class VirtualEstateController {
   @Get(":hexID/in-area")
   async getHexIDsStatusInArea(@Param("hexID") hexID, @Res() res: Response) {
     try {
-      console.log(hexID);
       const hexIDs = await this.virtualEstateService.getHexIDsStatusInArea({
         hexID,
       });

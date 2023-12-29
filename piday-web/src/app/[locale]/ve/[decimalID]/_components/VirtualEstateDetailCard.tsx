@@ -1,7 +1,5 @@
 "use client";
 
-import { useCreateVirtualEstateListingMutation } from "@/src/features/virtual-estate-listing/api/virtualEstateListingAPI";
-import { TransactionType } from "@/src/features/virtual-estate-listing/interface/virtual-estate-listing.interface";
 import { useGetPlacesQuery } from "@/src/features/virtual-estate/api/mapboxAPI";
 import {
   useAcceptBidToSellVirtualEstateMutation,
@@ -18,6 +16,7 @@ import Typography from "@mui/joy/Typography";
 import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 
+import BidToBuyDialog from "./dialogs/BidToBuyDialog";
 import MintVirtualEstateDialog from "./dialogs/MintVirtualEstateDialog";
 
 interface Props {
@@ -37,9 +36,19 @@ export default function VirtualEstateDetailCard({
     lng: geo[1],
   });
 
+  // Dialogs
   const [openMintVirtualEstateDialog, setOpenMintVirtualEstateDialog] =
     useState(false);
+  const [openBidToBuyDialog, setOpenBidToBuyDialog] = useState(false);
 
+  const handleOpenMintDialog = useCallback(() => {
+    setOpenMintVirtualEstateDialog(true);
+  }, []);
+  const handleOpenBidToBuyDialog = useCallback(() => {
+    setOpenBidToBuyDialog(true);
+  }, []);
+
+  // Listings of bid and ask
   const { data: virtualEstateListings } = useGetVirtualEstateBidsAndOffersQuery(
     { hexID },
   );
@@ -48,20 +57,6 @@ export default function VirtualEstateDetailCard({
 
   const [acceptBidToSellVirtualEstate, acceptBidToSellVirtualEstateResult] =
     useAcceptBidToSellVirtualEstateMutation();
-
-  const handleMintClick = useCallback(() => {
-    setOpenMintVirtualEstateDialog(true);
-  }, []);
-  const [createVirtualEstateListing, createVirtualEstateListingResult] =
-    useCreateVirtualEstateListingMutation();
-
-  const handleBidClick = useCallback(() => {
-    createVirtualEstateListing({
-      hexID,
-      price: 12,
-      type: TransactionType.BID,
-    });
-  }, [hexID, createVirtualEstateListing]);
 
   const handelAcceptBidToSellVirtualEstate = useCallback(() => {
     acceptBidToSellVirtualEstate({
@@ -142,12 +137,20 @@ export default function VirtualEstateDetailCard({
           </div>
         )}
         {!virtualEstate?.owner && (
-          <Button className="py-3 grow" size="lg" onClick={handleMintClick}>
+          <Button
+            className="py-3 grow"
+            size="lg"
+            onClick={handleOpenMintDialog}
+          >
             {t("virtual-estate:button.genesisMint")}
           </Button>
         )}
         {!isMyVirtualEstate() && !!virtualEstate?.owner && (
-          <Button className="py-3 grow" size="lg" onClick={handleBidClick}>
+          <Button
+            className="py-3 grow"
+            size="lg"
+            onClick={handleOpenBidToBuyDialog}
+          >
             {t("virtual-estate:button.bidToBuy")}
           </Button>
         )}
@@ -158,11 +161,16 @@ export default function VirtualEstateDetailCard({
         hexID={hexID}
         open={openMintVirtualEstateDialog}
         placeName={placeName}
-        onCancel={() => {
+        onClose={() => {
           setOpenMintVirtualEstateDialog(false);
         }}
-        onConfirm={() => {
-          setOpenMintVirtualEstateDialog(false);
+      />
+
+      <BidToBuyDialog
+        hexID={hexID}
+        open={openBidToBuyDialog}
+        onClose={() => {
+          setOpenBidToBuyDialog(false);
         }}
       />
     </div>

@@ -14,9 +14,20 @@
     "address": "地址",
     "hashValue": "哈希值",
     "estateMintTime": "土地创建时间",
-    "owner": "所有者"
+    "owner": "所有者",
+    "bidAmount": "出价",
+    "availableBalance": "可用余额"
+  },
+  "placeholder": {
+    "bidAmountPlaceholder": "请输入出价"
   },
   "title": {
     "confirmMintVirtualEstate": "您要铸造这个土地吗?"
+  },
+  "form": {
+    "noEnoughBalance": "余额不足"
+  },
+  "toast": {
+    "invalidAmount": "无效的金额"
   }
 }

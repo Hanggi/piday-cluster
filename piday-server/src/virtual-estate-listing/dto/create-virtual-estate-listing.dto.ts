@@ -17,5 +17,5 @@ export class CreateVirtualEstateListingDto {
   type: TransactionType;
 
   @IsOptional()
-  expiresAt?: Date;
+  expiresAt?: Date = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000); // current time + 30 days
 }

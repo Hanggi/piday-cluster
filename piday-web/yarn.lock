@@ -5645,6 +5645,7 @@ __metadata:
     react-hook-form: "npm:^7.49.2"
     react-i18next: "npm:^14.0.0"
     react-map-gl: "npm:^7.1.7"
+    react-number-format: "npm:^5.3.1"
     react-redux: "npm:^9.0.4"
     react-spinners: "npm:^0.13.8"
     react-toastify: "npm:^9.1.3"
@@ -5827,7 +5828,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prop-types@npm:^15.8.1":
+"prop-types@npm:^15.7.2, prop-types@npm:^15.8.1":
   version: 15.8.1
   resolution: "prop-types@npm:15.8.1"
   dependencies:
@@ -5952,6 +5953,18 @@ __metadata:
     maplibre-gl:
       optional: true
   checksum: bd289f2f466a905d1ef23459c49deb9b71d51aa569f59e098e64fe984c5b8c04cce589ebf59642e09142a61077bd995ae4ad1641318a15640a63ffaf28c148b8
+  languageName: node
+  linkType: hard
+
+"react-number-format@npm:^5.3.1":
+  version: 5.3.1
+  resolution: "react-number-format@npm:5.3.1"
+  dependencies:
+    prop-types: "npm:^15.7.2"
+  peerDependencies:
+    react: ^0.14 || ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0
+    react-dom: ^0.14 || ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0
+  checksum: 9e37698ab3d8224fd6cf5a69845c0308720d04de8459757031de0304379cfd2c0c897834cc9f62869933c4702a97888ba51abeb6490b7282e237a4c19a5fab04
   languageName: node
   linkType: hard
 

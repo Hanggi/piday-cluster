@@ -14,9 +14,20 @@
     "address": "Address",
     "hashValue": "Hash Value",
     "estateMintTime": "Estate Mint Time",
-    "owner": "Owner"
+    "owner": "Owner",
+    "bidAmount": "Bid Amount",
+    "availableBalance": "Available Balance"
+  },
+  "placeholder": {
+    "bidAmountPlaceholder": "Please enter the bid amount"
   },
   "title": {
     "confirmMintVirtualEstate": "Do you want to mint this estate??"
+  },
+  "form": {
+    "noEnoughBalance": "No enough balance"
+  },
+  "toast": {
+    "invalidAmount": "Invalid amount"
   }
 }

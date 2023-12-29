@@ -15,16 +15,14 @@ interface Props {
   open: boolean;
   hexID: string;
   placeName: string;
-  onCancel: () => void;
-  onConfirm: () => void;
+  onClose: () => void;
 }
 
 export default function MintVirtualEstateDialog({
   open,
   hexID,
   placeName,
-  onCancel,
-  onConfirm,
+  onClose,
 }: Props) {
   const { t } = useTranslation(["virtual-estate"]);
 
@@ -45,11 +43,11 @@ export default function MintVirtualEstateDialog({
         open={open}
         title={t("virtual-estate:title.confirmMintVirtualEstate")}
         onCancel={() => {
-          onCancel();
+          onClose();
         }}
         onConfirm={() => {
           mintVirtualEstate({ hexID });
-          onConfirm();
+          onClose();
         }}
       >
         <div className="mt-4">
