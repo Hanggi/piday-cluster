@@ -7,14 +7,35 @@ import { CreateVirtualEstateListingDto } from "./dto/create-virtual-estate-listi
 @Injectable()
 export class VirtualEstateListingService {
   constructor(private prisma: PrismaService) {}
-  async createVirtualEstateListing(
-    createVirtualEstateListingDto: CreateVirtualEstateListingDto,
-  ) {
-    // TODO: If listing already exists, expire it and create a new one
+  async createVirtualEstateListing({
+    price,
+    type,
+    expiresAt,
+    ownerID,
+    virtualEstateID,
+  }: CreateVirtualEstateListingDto) {
+    // Check if there are any existing listings made by the same owner
+    const query = {
+      virtualEstateID: virtualEstateID,
+      ownerID,
+      expiresAt: {
+        gt: new Date(),
+      },
+    };
+    const existing = await this.prisma.virtualEstateListing.findMany({
+      where: query,
+    });
+
+    if (existing.length > 0) {
+      await this.prisma.virtualEstateListing.updateMany({
+        where: query,
+        data: {
+          expiresAt: new Date(),
+        },
+      });
+    }
 
     try {
-      const { price, type, expiresAt, ownerID, virtualEstateID } =
-        createVirtualEstateListingDto;
       const listingID = BigInt(generateFlakeID());
       const newVirtualEstate = await this.prisma.virtualEstateListing.create({
         data: {
@@ -46,8 +67,15 @@ export class VirtualEstateListingService {
       await this.prisma.virtualEstateListing.findMany({
         where: {
           virtualEstateID: hexID,
+          expiresAt: {
+            gt: new Date(),
+          },
+        },
+        include: {
+          owner: true,
         },
       });
+
     return virtualEstateListingOffersAndBids;
   }
 

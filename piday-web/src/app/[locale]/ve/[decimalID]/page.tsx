@@ -5,8 +5,9 @@ import { VirtualEstate } from "@/src/features/virtual-estate/interface/virtual-e
 import { AxiosError } from "axios";
 
 import VirtualEstateMapClientWrapper from "../../_components/home-ve-map/VirtualEstateMapClientWrapper";
-import { HistoryTable } from "./_components/HistoryTable";
 import VirtualEstateDetailCard from "./_components/VirtualEstateDetailCard";
+import VirtualEstateListings from "./_components/VirtualEstateListings";
+import { VirtualEstateTradingHisory } from "./_components/VirtualEstateTradingHistory";
 
 const MAPBOX_ACCESS_TOKEN = process.env.MAPBOX_ACCESS_TOKEN;
 
@@ -31,16 +32,26 @@ export default async function VirtualEstateDetailPage({
 
   return (
     <main>
-      <WrapperCard className="container mx-auto grid grid-cols-1 md:grid-cols-2 gap-5 py-4 ">
-        <div className="w-full aspect-square max-h-[500px] relative rounded-lg overflow-hidden">
-          <VirtualEstateMapClientWrapper
-            defaultHexID={hexID}
-            token={MAPBOX_ACCESS_TOKEN as string}
+      <div className="mb-8">
+        <WrapperCard className="container mx-auto grid grid-cols-1 md:grid-cols-2 gap-5 py-4 ">
+          <div className="w-full aspect-square max-h-[500px] relative rounded-lg overflow-hidden">
+            <VirtualEstateMapClientWrapper
+              defaultHexID={hexID}
+              token={MAPBOX_ACCESS_TOKEN as string}
+            />
+          </div>
+          <VirtualEstateDetailCard
+            hexID={hexID}
+            virtualEstate={virtualEstate}
           />
-        </div>
-        <VirtualEstateDetailCard hexID={hexID} virtualEstate={virtualEstate} />
-      </WrapperCard>
-      <HistoryTable className="mt-20" />
+        </WrapperCard>
+      </div>
+      <div className="mb-8">
+        <VirtualEstateListings hexID={hexID} />
+      </div>
+      <div className="mb-8">
+        <VirtualEstateTradingHisory />
+      </div>
       <br />
     </main>
   );

@@ -1987,7 +1987,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:*, @types/react@npm:^18.2.45":
+"@types/react@npm:*":
   version: 18.2.45
   resolution: "@types/react@npm:18.2.45"
   dependencies:
@@ -1995,6 +1995,17 @@ __metadata:
     "@types/scheduler": "npm:*"
     csstype: "npm:^3.0.2"
   checksum: 4cc650c47ffb88baac29fb7a74e842e4af4a55f437086ef70250fdc75f0a5f2fcf8adc272d05ab2e00b1de6e14613296881271caee037dadf9130fdeb498c59e
+  languageName: node
+  linkType: hard
+
+"@types/react@npm:^18.2.46":
+  version: 18.2.46
+  resolution: "@types/react@npm:18.2.46"
+  dependencies:
+    "@types/prop-types": "npm:*"
+    "@types/scheduler": "npm:*"
+    csstype: "npm:^3.0.2"
+  checksum: 814cc67107e5e69501d65bfc371cc2c716665d2a3608d395a2f81e24c3a2875db28e2cad717dfb17017eabcffd1d68ee2c9e09ecaba3f7108d5b7fbb9888ebab
   languageName: node
   linkType: hard
 
@@ -4160,12 +4171,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"i18next@npm:^23.7.11":
-  version: 23.7.11
-  resolution: "i18next@npm:23.7.11"
+"i18next@npm:^23.7.12":
+  version: 23.7.12
+  resolution: "i18next@npm:23.7.12"
   dependencies:
     "@babel/runtime": "npm:^7.23.2"
-  checksum: 66f166bebbde565d4e0ed98b0f046f49d97c591fa8e4919bd9badfb6be3b1057ec137b9332beb4835b2d6714af243726dc3996d60f54949cfd23c839b0f8a3b6
+  checksum: 0eca6398605120188449c47a6741d3e0edea790f0ac37d3185ee92d8ffa5411e21b708aadfe0dae91665578f2e997df633eb35876a5f6a981051d2019a09e48c
   languageName: node
   linkType: hard
 
@@ -5210,13 +5221,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"next-i18n-router@npm:^5.0.2":
-  version: 5.0.2
-  resolution: "next-i18n-router@npm:5.0.2"
+"next-i18n-router@npm:^5.1.0":
+  version: 5.1.0
+  resolution: "next-i18n-router@npm:5.1.0"
   dependencies:
     "@formatjs/intl-localematcher": "npm:^0.5.2"
     negotiator: "npm:^0.6.3"
-  checksum: 9206b9be02f28b797b2180f087e22807d2ff7ea0a4ff5888def62236964176a7f04a87bc30fecfb89910801c1ac4d7250eaf5274f5e4c1761c8df17a5f7434d9
+  checksum: fdb0548e32b34ea92ea83f0e2e15a266a4cf52f36750755bfc861027ac06f6c062c9d952324f129041c9c275bcf35220dac092c6cc612083fb0b10263acb4aca
   languageName: node
   linkType: hard
 
@@ -5614,7 +5625,7 @@ __metadata:
     "@trivago/prettier-plugin-sort-imports": "npm:^4.3.0"
     "@types/lodash": "npm:^4.14.202"
     "@types/node": "npm:^20.10.5"
-    "@types/react": "npm:^18.2.45"
+    "@types/react": "npm:^18.2.46"
     "@types/react-dom": "npm:^18.2.18"
     "@types/validator": "npm:^13.11.7"
     autoprefixer: "npm:^10.4.16"
@@ -5629,7 +5640,7 @@ __metadata:
     eslint-plugin-unused-imports: "npm:^3.0.0"
     h3-js: "npm:^3.7.2"
     http-status-codes: "npm:^2.3.0"
-    i18next: "npm:^23.7.11"
+    i18next: "npm:^23.7.12"
     i18next-resources-to-backend: "npm:^1.2.0"
     jwt-decode: "npm:^4.0.0"
     keycloak-js: "npm:^23.0.3"
@@ -5637,7 +5648,7 @@ __metadata:
     mapbox-gl: "npm:^3.0.1"
     next: "npm:14.0.4"
     next-auth: "npm:^4.24.5"
-    next-i18n-router: "npm:^5.0.2"
+    next-i18n-router: "npm:^5.1.0"
     postcss: "npm:^8.4.32"
     prettier: "npm:^3.1.1"
     react: "npm:^18.2.0"

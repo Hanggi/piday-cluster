@@ -1,9 +1,14 @@
+import { UserResponseDto } from "@/src/user/dto/user.dto";
 import { TransactionType } from "@prisma/client";
 import { Exclude, Expose, Type } from "class-transformer";
 
-export class VirtualEstateListingDto {
+export class VirtualEstateListingResponseDto {
   @Exclude()
   id: number;
+
+  @Expose()
+  @Type(() => String)
+  listingID: string;
 
   @Expose()
   virtualEstateID: string;
@@ -16,7 +21,8 @@ export class VirtualEstateListingDto {
   type: TransactionType;
 
   @Expose()
-  ownerID: string;
+  @Type(() => UserResponseDto)
+  owner: UserResponseDto;
 
   @Expose()
   createdAt: Date;

@@ -10,6 +10,8 @@ import {
   Req,
   Res,
   UseGuards,
+  UsePipes,
+  ValidationPipe,
 } from "@nestjs/common";
 
 import { AuthenticatedRequest } from "../lib/keycloak/interfaces/authenticated-request";
@@ -26,20 +28,19 @@ export class VirtualEstateListingController {
 
   @UseGuards(KeycloakJwtGuard)
   @Post(":hexID/bid")
+  @UsePipes(new ValidationPipe({ transform: true }))
   async createVirtualEstateListing(
     @Param("hexID", HexIdValidationPipe) hexID,
     @Req() req: AuthenticatedRequest,
     @Res() res: Response,
-    @Body() createVirtualEstateListingDto: CreateVirtualEstateListingDto,
+    @Body() { price, type, expiresAt }: CreateVirtualEstateListingDto,
   ) {
     try {
-      //TODO : Check for existing bids and invalidate them
-      const { price, type } = createVirtualEstateListingDto;
       const virtualEstateListing =
         await this.virtualEstateListingService.createVirtualEstateListing({
           virtualEstateID: hexID,
           ownerID: req.user.userID,
-          expiresAt: new Date(new Date().getDate() + 30),
+          expiresAt,
           price,
           type,
         });

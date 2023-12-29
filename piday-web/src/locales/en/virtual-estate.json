@@ -10,6 +10,7 @@
   "label": {
     "name": "Name",
     "lastPrice": "Last Price",
+    "currentBid": "Current Bid",
     "price": "Price",
     "address": "Address",
     "hashValue": "Hash Value",

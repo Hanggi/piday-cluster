@@ -1,10 +1,6 @@
 "use client";
 
 import { useGetPlacesQuery } from "@/src/features/virtual-estate/api/mapboxAPI";
-import {
-  useAcceptBidToSellVirtualEstateMutation,
-  useGetVirtualEstateBidsAndOffersQuery,
-} from "@/src/features/virtual-estate/api/virtualEstateAPI";
 import { VirtualEstate } from "@/src/features/virtual-estate/interface/virtual-estate.interface";
 import { format } from "date-fns";
 import { h3ToGeo } from "h3-js";
@@ -47,23 +43,6 @@ export default function VirtualEstateDetailCard({
   const handleOpenBidToBuyDialog = useCallback(() => {
     setOpenBidToBuyDialog(true);
   }, []);
-
-  // Listings of bid and ask
-  const { data: virtualEstateListings } = useGetVirtualEstateBidsAndOffersQuery(
-    { hexID },
-  );
-
-  const [bidID, setBidID] = useState("");
-
-  const [acceptBidToSellVirtualEstate, acceptBidToSellVirtualEstateResult] =
-    useAcceptBidToSellVirtualEstateMutation();
-
-  const handelAcceptBidToSellVirtualEstate = useCallback(() => {
-    acceptBidToSellVirtualEstate({
-      hexID,
-      bidID,
-    });
-  }, [hexID, bidID, acceptBidToSellVirtualEstate]);
 
   const isMyVirtualEstate = useCallback(() => {
     return (

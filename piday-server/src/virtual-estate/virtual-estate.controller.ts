@@ -1,4 +1,4 @@
-import { plainToClass, plainToInstance } from "class-transformer";
+import { plainToInstance } from "class-transformer";
 import { Response } from "express";
 
 import {
@@ -19,7 +19,7 @@ import {
 import { AccountService } from "../account/account.service";
 import { AuthenticatedRequest } from "../lib/keycloak/interfaces/authenticated-request";
 import { KeycloakJwtGuard } from "../lib/keycloak/keycloak-jwt.guard";
-import { VirtualEstateListingDto } from "../virtual-estate-listing/dto/virtual-estate-listing.dto";
+import { VirtualEstateListingResponseDto } from "../virtual-estate-listing/dto/virtual-estate-listing.dto";
 import { VirtualEstateListingService } from "../virtual-estate-listing/virtual-estate-listing.service";
 import { VirtualEstateTransactionRecordsService } from "../virtual-estate-transaction-records/virtual-estate-transaction-records.service";
 import { VirtualEstateResponseDto } from "./dto/virtual-estate.dto";
@@ -159,13 +159,14 @@ export class VirtualEstateController {
     @Req() req: AuthenticatedRequest,
     @Res() res: Response,
   ) {
+    // TODO: Add pagination
     try {
-      const virtualEstate =
+      const virtualEstateListings =
         await this.virtualEstateListingService.getVirtualEstateOffersAndBidding(
           hexID,
         );
 
-      if (!virtualEstate) {
+      if (!virtualEstateListings) {
         res.status(HttpStatus.NOT_FOUND).json({
           message: "Virtual Estate not found",
         });
@@ -173,9 +174,9 @@ export class VirtualEstateController {
       }
 
       res.status(HttpStatus.OK).json({
-        virtualEstateListings: plainToClass(
-          VirtualEstateListingDto,
-          virtualEstate,
+        virtualEstateListings: plainToInstance(
+          VirtualEstateListingResponseDto,
+          virtualEstateListings,
           {
             excludeExtraneousValues: true,
           },

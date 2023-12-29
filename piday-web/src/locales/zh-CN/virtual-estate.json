@@ -10,6 +10,7 @@
   "label": {
     "name": "名称",
     "lastPrice": "最后价格",
+    "currentBid": "当前出价",
     "price": "价格",
     "address": "地址",
     "hashValue": "哈希值",

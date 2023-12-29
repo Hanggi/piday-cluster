@@ -6,8 +6,12 @@ export interface VirtualEstateListing {
   listingID: string;
   price: string;
   type: TransactionType;
+
+  owner: User;
+
   createdAt: Date;
   updatedAt: Date;
+  expiresAt: Date;
 }
 
 export enum TransactionType {

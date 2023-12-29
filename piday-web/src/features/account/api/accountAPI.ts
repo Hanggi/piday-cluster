@@ -1,5 +1,4 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
-import { AxiosResponse } from "axios";
 
 import { User } from "../../auth/interface/User.interface";
 import { baseQuery } from "../../rtk-utils/fetch-base-query";
