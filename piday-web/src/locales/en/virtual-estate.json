@@ -5,6 +5,7 @@
     "sell": "Sell",
     "bidToBuy": "Bid to Buy",
     "askToSell": "Ask to Sell",
+    "acceptBid": "Accept Bid",
     "transfer": "Transfer"
   },
   "label": {
@@ -29,6 +30,7 @@
     "noEnoughBalance": "No enough balance"
   },
   "toast": {
+    "acceptBidSuccessfully": "Accept bid successfully",
     "invalidAmount": "Invalid amount"
   }
 }

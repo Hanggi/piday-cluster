@@ -5,6 +5,7 @@
     "sell": "出售",
     "bidToBuy": "出价购买",
     "askToSell": "要价出售",
+    "acceptBid": "接受出价",
     "transfer": "转账"
   },
   "label": {
@@ -29,6 +30,7 @@
     "noEnoughBalance": "余额不足"
   },
   "toast": {
+    "acceptBidSuccessfully": "接受出价成功",
     "invalidAmount": "无效的金额"
   }
 }

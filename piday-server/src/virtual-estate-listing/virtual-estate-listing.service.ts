@@ -16,7 +16,7 @@ export class VirtualEstateListingService {
   }: CreateVirtualEstateListingDto) {
     // Check if there are any existing listings made by the same owner
     const query = {
-      virtualEstateID: virtualEstateID,
+      virtualEstateID,
       ownerID,
       expiresAt: {
         gt: new Date(),
@@ -79,12 +79,15 @@ export class VirtualEstateListingService {
     return virtualEstateListingOffersAndBids;
   }
 
-  async getOneListingDetail(bidID: string) {
+  async getOneListingDetail(bidID: bigint) {
     const virtualEstateListingOffersAndBids =
       await this.prisma.virtualEstateListing.findFirst({
         where: {
-          // TODO: Use bigint not parseInt
-          listingID: parseInt(bidID),
+          listingID: bidID,
+          // Bid should not be expired
+          expiresAt: {
+            gt: new Date(),
+          },
         },
       });
     return virtualEstateListingOffersAndBids;

@@ -184,6 +184,17 @@ export class VirtualEstateController {
       });
     } catch (err) {
       console.error(err);
+
+      switch (err.code) {
+        case "BID_NOT_FOUND":
+          throw new HttpException(
+            {
+              message: "bid not found",
+            },
+            HttpStatus.NOT_FOUND,
+          );
+      }
+
       throw new HttpException(
         "Internal Server Error",
         HttpStatus.INTERNAL_SERVER_ERROR,
@@ -201,6 +212,15 @@ export class VirtualEstateController {
   ) {
     try {
       const sellerID = req.user.userID;
+
+      const virtualEstate =
+        await this.virtualEstateService.getOneVirtualEstate(hexID);
+      if (virtualEstate.ownerID !== sellerID) {
+        throw new HttpException(
+          "Virtual Estate not owned by seller",
+          HttpStatus.FORBIDDEN,
+        );
+      }
 
       const transactionRecord =
         await this.virtualEstateTransactionRecordsService.acceptBidToSellVirtualEstate(
