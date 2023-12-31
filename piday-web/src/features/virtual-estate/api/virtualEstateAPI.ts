@@ -84,10 +84,10 @@ export const virtualEstateRTKApi = createApi({
     }),
     getVirtualEstateTransactionRecords: builder.query<
       VirtualEstateTransactionRecordInterface[],
-      { hexID: string }
+      { hexID: string; page: string; size: string }
     >({
-      query: ({ hexID }) => ({
-        url: `/virtual-estate/${hexID}/transactions`,
+      query: ({ hexID, page, size }) => ({
+        url: `/virtual-estate/${hexID}/transactions?page=${page}&size=${size}`,
         method: "GET",
       }),
       transformResponse: (response: {

@@ -118,26 +118,27 @@ export class VirtualEstateTransactionRecordsService {
     }
   }
 
-
   async getAllTransactionRecordsForVirtualEstate(
     hexID: string,
+    size: number,
+    page: number,
   ) {
-    try {
-    
-      const transactionRecordsForVirtualEstate =
-        await this.prisma.virtualEstateTransactionRecords.findMany({
-          where: {
-            virtualEstateID:hexID,
-          },
-        });
-      return transactionRecordsForVirtualEstate.map((singleTransactionRecords) => {
+    const transactionRecordsForVirtualEstate =
+      await this.prisma.virtualEstateTransactionRecords.findMany({
+        where: {
+          virtualEstateID: hexID,
+        },
+        take: size,
+        skip: (page - 1) * size,
+      });
+
+    return transactionRecordsForVirtualEstate.map(
+      (singleTransactionRecords) => {
         return {
           ...singleTransactionRecords,
           transactionID: singleTransactionRecords.transactionID.toString(),
         };
-      });
-    } catch (error) {
-      throw new Error("Internal Server");
-    }
+      },
+    );
   }
 }

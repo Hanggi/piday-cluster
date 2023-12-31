@@ -12,6 +12,7 @@ import { WrapperCard } from "@/src/components/WrapperCard";
 import {
   useAcceptBidToSellVirtualEstateMutation,
   useGetVirtualEstateBidsAndOffersQuery,
+  useGetVirtualEstateTransactionRecordsQuery,
 } from "@/src/features/virtual-estate/api/virtualEstateAPI";
 import { format } from "date-fns";
 import { useSession } from "next-auth/react";
@@ -35,6 +36,13 @@ export default function VirtualEstateListings({ hexID }: Props) {
     { hexID },
   );
 
+  const { data: virtualEstateTransactionRecords } =
+    useGetVirtualEstateTransactionRecordsQuery({ hexID, page: "1", size: "2" });
+
+  console.log(
+    "virtualEstateTransactionRecords",
+    virtualEstateTransactionRecords,
+  );
   const [acceptBidToSellVirtualEstate, acceptBidToSellVirtualEstateResult] =
     useAcceptBidToSellVirtualEstateMutation();
 

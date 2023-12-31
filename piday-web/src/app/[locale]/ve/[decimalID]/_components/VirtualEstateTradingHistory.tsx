@@ -9,7 +9,6 @@ import {
   TableRow,
 } from "@/src/components/Table";
 import { WrapperCard } from "@/src/components/WrapperCard";
-import { useGetVirtualEstateTransactionRecordsQuery } from "@/src/features/virtual-estate/api/virtualEstateAPI";
 import { cn } from "@/src/utils/cn";
 
 import Image from "next/image";
@@ -24,9 +23,7 @@ export function VirtualEstateTradingHisory({
   ...props
 }: TableProps) {
   const { t } = useTranslation("map");
-  const { data:transactions } = useGetVirtualEstateTransactionRecordsQuery({
-    hexID: "8c26c028b0a07ff",
-  });
+  
   return (
     <WrapperCard className={cn("w-full mb-6 container", className)} {...props}>
       <h4 className="text-xl font-semibold">{t("landHistory")}</h4>
