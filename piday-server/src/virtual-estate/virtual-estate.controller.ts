@@ -279,4 +279,21 @@ export class VirtualEstateController {
       );
     }
   }
+
+  // @UseGuards(KeycloakJwtGuard)
+  @Get("statistics")
+  async getVirtualEstatesStatistics(@Req() req: AuthenticatedRequest, @Res() res: Response) {
+    try {
+      const end = new Date(req.body.endDate);
+      const start = new Date(req.body.startDate);
+      
+      this.virtualEstateService.getVirtualEstateStatistics(end , start)
+    } catch (err) {
+      console.error(err);
+      throw new HttpException(
+        "Internal Server Error",
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
 }
