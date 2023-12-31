@@ -12,6 +12,7 @@ import { WrapperCard } from "@/src/components/WrapperCard";
 import {
   useAcceptBidToSellVirtualEstateMutation,
   useGetVirtualEstateBidsAndOffersQuery,
+  useGetVirtualEstateStatisticsQuery,
 } from "@/src/features/virtual-estate/api/virtualEstateAPI";
 import { format } from "date-fns";
 import { useSession } from "next-auth/react";
@@ -46,6 +47,15 @@ export default function VirtualEstateListings({ hexID }: Props) {
       bidID,
     });
   }, [hexID, bidID, acceptBidToSellVirtualEstate]);
+
+  const { data: virtualEstateStatistics } = useGetVirtualEstateStatisticsQuery({
+    listings: true,
+    totalMinted: false,
+    transactionCount: true,
+    transactionVolume: false,
+    startDate: new Date("dec-22-2023").toISOString(),
+    endDate: new Date("dec-31-2023").toISOString(),
+  });
 
   return (
     <WrapperCard className="container mx-auto">

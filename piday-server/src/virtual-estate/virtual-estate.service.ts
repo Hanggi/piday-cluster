@@ -142,18 +142,15 @@ export class VirtualEstateService {
     };
   }
 
-  async getVirtualEstateStatistics(endDate: Date, startDate: Date) {
+  async getVirtualEstateTotalMinted(endDate: Date, startDate: Date) {
     try {
-      const virtualEstateMinted = this.prisma.virtualEstate.count({
+      const virtualEstateMinted = await this.prisma.virtualEstate.count({
         where: {
-          OR: [
-            { createdAt: { gte: startDate } },
-            { createdAt: { lte: endDate } },
-          ],
+          createdAt: { gte: startDate, lte: endDate },
         },
       });
 
-      console.log("count virtual estate minted" , virtualEstateMinted)
+      return virtualEstateMinted;
     } catch (error) {
       throw error;
     }

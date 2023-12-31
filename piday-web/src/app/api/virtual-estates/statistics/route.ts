@@ -5,16 +5,18 @@ import { StatusCodes } from "http-status-codes";
 
 import { NextRequest } from "next/server";
 
-export async function GET(
-  request: NextRequest,
-  { params, body }: { params: { side: string;}; body: {} },
-) {
+export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
   const { headers } = request;
-  const side = searchParams.get("side");
+  const totalMinted = searchParams.get("totalMinted");
+  const listings = searchParams.get("listings");
+  const transactionVolume = searchParams.get("transactionVolume");
+  const transactionCount = searchParams.get("transactionCount");
+  const startDate = searchParams.get("startDate");
+  const endDate = searchParams.get("endDate");
   try {
     const res = await instance.get(
-      `/virtual-estates/transaction?side=${side}`,
+      `/virtual-estates/statistics?totalMinted=${totalMinted}&listings=${listings}&transactionVolume=${transactionVolume}&transactionCount=${transactionCount}&startDate=${startDate}&endDate=${endDate}`,
       {
         headers: HeaderFilters(headers),
       },
@@ -25,11 +27,11 @@ export async function GET(
     });
   } catch (error) {
     const axiosError = error as AxiosError;
-    console.error("Fail to get virtual estates transaction records for user!!", axiosError);
+    console.error("Fail to get virtual estates statistics!!", axiosError);
     return new Response(
       JSON.stringify({
         success: false,
-        message: "Fail to get virtual estates transaction records for user",
+        message: "Fail to get virtual estates statistics",
       }),
       {
         status:

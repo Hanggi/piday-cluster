@@ -1,6 +1,5 @@
 import { plainToInstance } from "class-transformer";
 import { Response } from "express";
-
 import {
   Controller,
   Get,
@@ -22,6 +21,7 @@ import { KeycloakJwtGuard } from "../lib/keycloak/keycloak-jwt.guard";
 import { VirtualEstateListingResponseDto } from "../virtual-estate-listing/dto/virtual-estate-listing.dto";
 import { VirtualEstateListingService } from "../virtual-estate-listing/virtual-estate-listing.service";
 import { VirtualEstateTransactionRecordsService } from "../virtual-estate-transaction-records/virtual-estate-transaction-records.service";
+import { VirtualEstatesStatistics } from "./dto/statistics.dto";
 import { VirtualEstateResponseDto } from "./dto/virtual-estate.dto";
 import { HexIdValidationPipe } from "./pipes/hex-id-validation.pipe";
 import { VirtualEstateService } from "./virtual-estate.service";
@@ -230,6 +230,64 @@ export class VirtualEstateController {
     }
   }
 
+  @Get("statistics")
+  async getVirtualEstatesStatistics(
+    @Res() res: Response,
+    @Query("totalMinted") totalMinted ,
+    @Query("listings") listings ,
+    @Query("transactionVolume") transactionVolume ,
+    @Query("transactionCount") transactionCount ,
+    @Query("startDate") startDate: string,
+    @Query("endDate") endDate: string, 
+  ) {
+    try {
+      // TODO(): Add Redis Caching 
+      const start = startDate ? new Date(startDate) : new Date("30-oct-2023");
+      const end = endDate ? new Date(endDate) : new Date();
+      const responseObject: VirtualEstatesStatistics = {};
+
+      if (JSON.parse(totalMinted)) {
+        responseObject.totalVirtualEstatesMinted =
+          await this.virtualEstateService.getVirtualEstateTotalMinted(
+            end,
+            start,
+          );
+      }
+
+      if (JSON.parse(listings)) {
+        responseObject.virtualEstateListingCount =
+          await this.virtualEstateListingService.getVirtualEstateListingsCount(
+            end,
+            start,
+          );
+      }
+
+      if (JSON.parse(transactionVolume)) {
+        responseObject.totalTransactionVolume =
+          await this.virtualEstateTransactionRecordsService.getTotalTransactionVolume(
+            end,
+            start,
+          );
+      }
+
+      if (JSON.parse(transactionCount)) {
+        responseObject.transactionRecordsCount =
+          await this.virtualEstateTransactionRecordsService.getVirtualEstateTransactionRecordsCount(
+            end,
+            start,
+          );
+      }
+
+      res.status(200).json({ statistics: responseObject });
+    } catch (err) {
+      console.error(err);
+      throw new HttpException(
+        "Internal Server Error",
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+
   @Get(":hexID")
   async getOneVirtualEstate(
     @Param("hexID") hexID,
@@ -271,23 +329,6 @@ export class VirtualEstateController {
       res.status(HttpStatus.OK).json({
         ...hexIDs,
       });
-    } catch (err) {
-      console.error(err);
-      throw new HttpException(
-        "Internal Server Error",
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      );
-    }
-  }
-
-  // @UseGuards(KeycloakJwtGuard)
-  @Get("statistics")
-  async getVirtualEstatesStatistics(@Req() req: AuthenticatedRequest, @Res() res: Response) {
-    try {
-      const end = new Date(req.body.endDate);
-      const start = new Date(req.body.startDate);
-      
-      this.virtualEstateService.getVirtualEstateStatistics(end , start)
     } catch (err) {
       console.error(err);
       throw new HttpException(
