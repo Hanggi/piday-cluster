@@ -299,4 +299,31 @@ export class VirtualEstateController {
       );
     }
   }
+
+  @Get(":hexID/transactions")
+  async getVirtualEstateTransactionRecords(
+    @Param("hexID") hexID,
+    @Res() res: Response,
+    @Query("page") page = "1", // default to page 1
+    @Query("size") size = "10", //default to size 10,
+  ) {
+    try {
+      const virtualEstateTransactionRecords =
+        await this.virtualEstateTransactionRecordsService.getAllTransactionRecordsForVirtualEstate(
+          hexID,
+          parseInt(size),
+          parseInt(page),
+        );
+
+      res.status(HttpStatus.OK).json({
+        virtualEstateTransactionRecords,
+      });
+    } catch (err) {
+      console.error(err);
+      throw new HttpException(
+        "Internal Server Error",
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
 }

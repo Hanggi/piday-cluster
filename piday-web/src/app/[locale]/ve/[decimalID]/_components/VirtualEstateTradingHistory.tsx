@@ -23,6 +23,7 @@ export function VirtualEstateTradingHisory({
   ...props
 }: TableProps) {
   const { t } = useTranslation("map");
+  
   return (
     <WrapperCard className={cn("w-full mb-6 container", className)} {...props}>
       <h4 className="text-xl font-semibold">{t("landHistory")}</h4>

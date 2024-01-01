@@ -16,6 +16,7 @@ import {
 import {
   useAcceptBidToSellVirtualEstateMutation,
   useGetVirtualEstateBidsAndOffersQuery,
+  useGetVirtualEstateTransactionRecordsQuery,
 } from "@/src/features/virtual-estate/api/virtualEstateAPI";
 import { VirtualEstate } from "@/src/features/virtual-estate/interface/virtual-estate.interface";
 import { format } from "date-fns";
@@ -42,6 +43,13 @@ export default function VirtualEstateListings({ hexID, virtualEstate }: Props) {
     { hexID },
   );
 
+  const { data: virtualEstateTransactionRecords } =
+    useGetVirtualEstateTransactionRecordsQuery({ hexID, page: 1, size: 20 });
+
+  console.log(
+    "virtualEstateTransactionRecords",
+    virtualEstateTransactionRecords,
+  );
   const [acceptBidToSellVirtualEstate, acceptBidToSellVirtualEstateResult] =
     useAcceptBidToSellVirtualEstateMutation();
   useErrorToast(acceptBidToSellVirtualEstateResult.error);
