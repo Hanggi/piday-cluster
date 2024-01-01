@@ -141,18 +141,4 @@ export class VirtualEstateService {
       sold: virtualEstatesHasOwner.map((ve) => ve.virtualEstateID) || [],
     };
   }
-
-  async getVirtualEstateTotalMinted(endDate: Date, startDate: Date) {
-    try {
-      const virtualEstateMinted = await this.prisma.virtualEstate.count({
-        where: {
-          createdAt: { gte: startDate, lte: endDate },
-        },
-      });
-
-      return virtualEstateMinted;
-    } catch (error) {
-      throw error;
-    }
-  }
 }
