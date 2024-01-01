@@ -14,7 +14,7 @@ type TabContentProps = ComponentProps<"div"> & {
   tabList: TabListDataType["label"][];
 };
 export function TabContent({ className, tabList, ...props }: TabContentProps) {
-  const { data } = useGetMyVirtualEstatesQuery({ page: "1", size: "2" });
+  const { data } = useGetMyVirtualEstatesQuery({ page: 1, size: 20 });
   const { data: transactionRecords } = useGetAllTransactionRecordsForUserQuery({
     side: "buyer",
   });
