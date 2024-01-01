@@ -91,9 +91,10 @@ export const virtualEstateRTKApi = createApi({
         method: "GET",
       }),
       transformResponse: (response: {
-        virtualEstateTransactionRecords: VirtualEstateTransactionRecordInterface[];
+        transactions: VirtualEstateTransactionRecordInterface[];
       }) => {
-        return response?.virtualEstateTransactionRecords;
+        console.log(response);
+        return response?.transactions;
       },
     }),
   }),

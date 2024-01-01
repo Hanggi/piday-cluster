@@ -1,6 +1,7 @@
 "use client";
 
 import { NumericFormatAdapter } from "@/src/components/numeric-format/NumericFormatAdapter";
+import PiCoinLogo from "@/src/components/piday-ui/PiCoinLogo";
 import ConfirmDialog from "@/src/components/piday-ui/confirm-dialog/ConfirmDialog";
 import { useGetBalanceQuery } from "@/src/features/account/api/accountAPI";
 import {
@@ -89,7 +90,7 @@ export default function BidToBuyDialog({ open, hexID, onClose }: Props) {
               <Input
                 endDecorator={
                   <div className="w-6 h-6 relative">
-                    <Image alt="PiCoin" fill src="/images/pi-coin.png" />
+                    <PiCoinLogo />
                   </div>
                 }
                 placeholder={t(

@@ -21,6 +21,7 @@ import { AuthenticatedRequest } from "../lib/keycloak/interfaces/authenticated-r
 import { KeycloakJwtGuard } from "../lib/keycloak/keycloak-jwt.guard";
 import { VirtualEstateListingResponseDto } from "../virtual-estate-listing/dto/virtual-estate-listing.dto";
 import { VirtualEstateListingService } from "../virtual-estate-listing/virtual-estate-listing.service";
+import { VirtualEstateTransactionRecordResponseDto } from "../virtual-estate-transaction-records/dto/create-virtual-estate-transaction-record.dto";
 import { VirtualEstateTransactionRecordsService } from "../virtual-estate-transaction-records/virtual-estate-transaction-records.service";
 import { VirtualEstateResponseDto } from "./dto/virtual-estate.dto";
 import { HexIdValidationPipe } from "./pipes/hex-id-validation.pipe";
@@ -316,7 +317,13 @@ export class VirtualEstateController {
         );
 
       res.status(HttpStatus.OK).json({
-        virtualEstateTransactionRecords,
+        transactions: plainToInstance(
+          VirtualEstateTransactionRecordResponseDto,
+          virtualEstateTransactionRecords,
+          {
+            excludeExtraneousValues: true,
+          },
+        ),
       });
     } catch (err) {
       console.error(err);

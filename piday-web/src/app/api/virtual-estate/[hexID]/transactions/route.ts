@@ -1,7 +1,7 @@
-import { HeaderFilters } from "@/src/features/axios/header-filters";
 import instance from "@/src/features/axios/instance";
 import { AxiosError } from "axios";
 import { StatusCodes } from "http-status-codes";
+
 import { NextRequest } from "next/server";
 
 export async function GET(

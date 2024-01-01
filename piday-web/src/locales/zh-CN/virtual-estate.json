@@ -29,6 +29,14 @@
   "form": {
     "noEnoughBalance": "余额不足"
   },
+  "table": {
+    "listingID": "挂单ID",
+    "transactionID": "交易ID",
+    "user": "用户",
+    "price": "价格",
+    "createdAt": "创建时间",
+    "expiresAt": "过期时间"
+  },
   "toast": {
     "acceptBidSuccessfully": "接受出价成功",
     "invalidAmount": "无效的金额"

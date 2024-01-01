@@ -50,7 +50,7 @@ export default async function VirtualEstateDetailPage({
         <VirtualEstateListings hexID={hexID} virtualEstate={virtualEstate} />
       </div>
       <div className="mb-8">
-        <VirtualEstateTradingHisory />
+        <VirtualEstateTradingHisory hexID={hexID} />
       </div>
       <br />
     </main>

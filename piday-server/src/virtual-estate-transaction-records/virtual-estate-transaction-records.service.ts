@@ -140,6 +140,10 @@ export class VirtualEstateTransactionRecordsService {
         where: {
           virtualEstateID: hexID,
         },
+        include: {
+          buyer: true,
+          seller: true,
+        },
         take: size,
         skip: (page - 1) * size,
       });

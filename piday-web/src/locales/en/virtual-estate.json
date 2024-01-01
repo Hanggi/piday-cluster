@@ -29,6 +29,14 @@
   "form": {
     "noEnoughBalance": "No enough balance"
   },
+  "table": {
+    "listingID": "Listing ID",
+    "transactionID": "Transaction ID",
+    "user": "User",
+    "price": "Price",
+    "createdAt": "Created At",
+    "expiresAt": "Expires At"
+  },
   "toast": {
     "acceptBidSuccessfully": "Accept bid successfully",
     "invalidAmount": "Invalid amount"

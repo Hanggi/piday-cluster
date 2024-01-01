@@ -16,7 +16,6 @@ import {
 import {
   useAcceptBidToSellVirtualEstateMutation,
   useGetVirtualEstateBidsAndOffersQuery,
-  useGetVirtualEstateTransactionRecordsQuery,
 } from "@/src/features/virtual-estate/api/virtualEstateAPI";
 import { VirtualEstate } from "@/src/features/virtual-estate/interface/virtual-estate.interface";
 import { format } from "date-fns";
@@ -43,13 +42,6 @@ export default function VirtualEstateListings({ hexID, virtualEstate }: Props) {
     { hexID },
   );
 
-  const { data: virtualEstateTransactionRecords } =
-    useGetVirtualEstateTransactionRecordsQuery({ hexID, page: 1, size: 20 });
-
-  console.log(
-    "virtualEstateTransactionRecords",
-    virtualEstateTransactionRecords,
-  );
   const [acceptBidToSellVirtualEstate, acceptBidToSellVirtualEstateResult] =
     useAcceptBidToSellVirtualEstateMutation();
   useErrorToast(acceptBidToSellVirtualEstateResult.error);
@@ -84,28 +76,48 @@ export default function VirtualEstateListings({ hexID, virtualEstate }: Props) {
         <TableRoot aria-label="basic table">
           <TableHeader>
             <TableRow>
-              <TableHead>Listing ID</TableHead>
-              <TableHead>User</TableHead>
-              <TableHead>Price</TableHead>
-              <TableHead>Created At</TableHead>
-              <TableHead>Expires At</TableHead>
+              <TableHead>
+                <Typography>{t("virtual-estate:table.listingID")}</Typography>
+              </TableHead>
+              <TableHead>
+                <Typography>{t("virtual-estate:table.user")}</Typography>
+              </TableHead>
+              <TableHead>
+                <Typography>{t("virtual-estate:table.price")}</Typography>
+              </TableHead>
+              <TableHead>
+                <Typography>{t("virtual-estate:table.createdAt")}</Typography>
+              </TableHead>
+              <TableHead>
+                <Typography>{t("virtual-estate:table.expiresAt")}</Typography>
+              </TableHead>
               {isMyVirtualEstate() && <TableHead>Action</TableHead>}
             </TableRow>
           </TableHeader>
           <TableBody>
             {virtualEstateListings?.map((listing, i) => (
               <TableRow key={i}>
-                <TableCell>{listing.listingID}</TableCell>
                 <TableCell>
-                  <i className="ri-user-line"></i>
-                  {listing?.owner?.username}
-                </TableCell>
-                <TableCell>{listing.price}</TableCell>
-                <TableCell>
-                  {format(new Date(listing?.createdAt), "PPpp")}
+                  <Typography>{listing.listingID}</Typography>
                 </TableCell>
                 <TableCell>
-                  {format(new Date(listing?.expiresAt), "PPpp")}
+                  <Typography>
+                    <i className="ri-user-line"></i>
+                    {listing?.owner?.username}
+                  </Typography>
+                </TableCell>
+                <TableCell>
+                  <Typography>{listing.price}</Typography>
+                </TableCell>
+                <TableCell>
+                  <Typography>
+                    {format(new Date(listing?.createdAt), "PPpp")}
+                  </Typography>
+                </TableCell>
+                <TableCell>
+                  <Typography>
+                    {format(new Date(listing?.expiresAt), "PPpp")}
+                  </Typography>
                 </TableCell>
                 {isMyVirtualEstate() && (
                   <TableCell>
