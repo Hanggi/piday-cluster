@@ -31,7 +31,7 @@ export const virtualEstateRTKApi = createApi({
     }),
     getMyVirtualEstates: builder.query<
       VirtualEstate[],
-      { page: string; size: string }
+      { page: number; size: number }
     >({
       query: ({ page, size }) => ({
         url: `/virtual-estate/all?page=${page}&size=${size}`,
@@ -84,7 +84,7 @@ export const virtualEstateRTKApi = createApi({
     }),
     getVirtualEstateTransactionRecords: builder.query<
       VirtualEstateTransactionRecordInterface[],
-      { hexID: string; page: string; size: string }
+      { hexID: string; page: number; size: number }
     >({
       query: ({ hexID, page, size }) => ({
         url: `/virtual-estate/${hexID}/transactions?page=${page}&size=${size}`,
