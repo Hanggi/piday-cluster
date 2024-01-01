@@ -11,6 +11,8 @@
   "quantity": "Quantity",
   "table": {
     "amount": "Amount",
+    "hashValue": "Hash Value",
+    "transactionID": "Transaction ID",
     "createdAt": "Created At"
   },
   "title": {

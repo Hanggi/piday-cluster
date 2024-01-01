@@ -11,8 +11,10 @@ export async function GET(
 ) {
   const searchParams = request.nextUrl.searchParams;
   const { headers } = request;
+
   const page = searchParams.get("page");
   const size = searchParams.get("size");
+
   try {
     const res = await instance.get(
       `/virtual-estates?page=${page}&size=${size}`,

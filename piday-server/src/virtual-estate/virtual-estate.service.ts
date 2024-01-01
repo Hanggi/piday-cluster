@@ -31,18 +31,25 @@ export class VirtualEstateService {
     userId: string,
     size: number,
     page: number,
-  ): Promise<VirtualEstate[]> {
+  ): Promise<{ myVirtualEstates: VirtualEstate[]; totalCount: number }> {
+    const query = {
+      ownerID: userId,
+    };
+
     const virtualEstates = await this.prisma.virtualEstate.findMany({
-      where: {
-        ownerID: userId,
-      },
+      where: query,
       include: {
         owner: true,
       },
-      take: size,
-      skip: (page - 1) * size,
+      take: +size,
+      skip: +(page - 1) * size,
     });
-    return virtualEstates;
+
+    const totalCount = await this.prisma.virtualEstate.count({
+      where: query,
+    });
+
+    return { myVirtualEstates: virtualEstates, totalCount: totalCount };
   }
 
   async mintVirtualEstate({

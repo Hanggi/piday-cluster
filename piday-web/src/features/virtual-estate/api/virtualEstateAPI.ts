@@ -30,15 +30,21 @@ export const virtualEstateRTKApi = createApi({
       },
     }),
     getMyVirtualEstates: builder.query<
-      VirtualEstate[],
+      {
+        virtualEstates: VirtualEstate[];
+        totalCount: number;
+      },
       { page: number; size: number }
     >({
       query: ({ page, size }) => ({
         url: `/virtual-estate/all?page=${page}&size=${size}`,
         method: "GET",
       }),
-      transformResponse: (response: { virtualEstates: VirtualEstate[] }) => {
-        return response?.virtualEstates;
+      transformResponse: (response: {
+        virtualEstates: VirtualEstate[];
+        totalCount: number;
+      }) => {
+        return response;
       },
     }),
     getVirtualEstateBidsAndOffers: builder.query<

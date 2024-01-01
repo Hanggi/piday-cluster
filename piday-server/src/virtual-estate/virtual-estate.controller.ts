@@ -38,21 +38,21 @@ export class VirtualEstateController {
 
   @Get()
   @UseGuards(KeycloakJwtGuard)
-  async getAllVirtualEstates(
+  async getMyVirtualEstates(
     @Req() req: AuthenticatedRequest,
     @Res() res: Response,
-    @Query("page") page = "1", // default to page 1
-    @Query("size") size = "10", //default to size 10,
+    @Query("page") page = 1, // default to page 1
+    @Query("size") size = 10, //default to size 10,
   ) {
     try {
-      const virtualEstates =
+      const virtualEstatesRes =
         await this.virtualEstateService.getAllVirtualEstatesForSignedUser(
           req.user.userID,
-          parseInt(size),
-          parseInt(page),
+          size,
+          page,
         );
 
-      if (!virtualEstates) {
+      if (!virtualEstatesRes.myVirtualEstates) {
         res.status(HttpStatus.NOT_FOUND).json({
           success: false,
           virtualEstates: null,
@@ -61,7 +61,14 @@ export class VirtualEstateController {
       }
 
       res.status(HttpStatus.OK).json({
-        virtualEstates: virtualEstates,
+        virtualEstates: plainToInstance(
+          VirtualEstateResponseDto,
+          virtualEstatesRes.myVirtualEstates,
+          {
+            excludeExtraneousValues: true,
+          },
+        ),
+        totalCount: virtualEstatesRes.totalCount,
         success: true,
         message: "Virtual states found successfully",
       });
@@ -74,7 +81,7 @@ export class VirtualEstateController {
     }
   }
 
-  @Get("transaction")
+  @Get("transactions")
   @UseGuards(KeycloakJwtGuard)
   async getAllTransactionRecordsForUserBasedOnType(
     @Req() req: AuthenticatedRequest,
@@ -97,7 +104,13 @@ export class VirtualEstateController {
       }
 
       res.status(HttpStatus.OK).json({
-        transactionRecords: transactionRecordsForUser,
+        transactionRecords: plainToInstance(
+          VirtualEstateTransactionRecordResponseDto,
+          transactionRecordsForUser,
+          {
+            excludeExtraneousValues: true,
+          },
+        ),
         success: true,
         message: "Transaction records found successfully",
       });

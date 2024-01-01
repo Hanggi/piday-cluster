@@ -9,8 +9,6 @@ interface Props extends ReactPaginateProps {
 }
 
 export default function Pagination({ currentPage, pageCount, ...rest }: Props) {
-  console.log(currentPage);
-
   return (
     <div>
       <ReactPaginate

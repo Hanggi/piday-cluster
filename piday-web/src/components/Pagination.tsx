@@ -6,7 +6,7 @@ import { cn } from "../utils/cn";
 
 type PaginationProps = ComponentProps<"div">;
 
-export function Pagination({ className, ...props }: PaginationProps) {
+export function PaginationDeprecated({ className, ...props }: PaginationProps) {
   const [page, setPage] = useState(1);
   return (
     <div

@@ -1,6 +1,6 @@
 "use client";
 
-import { Pagination } from "@/src/components/Pagination";
+import { PaginationDeprecated } from "@/src/components/Pagination";
 import {
   TableBody,
   TableCell,
@@ -103,7 +103,7 @@ export const Table = () => {
           ))}
         </TableBody>
       </TableRoot>
-      <Pagination className="mb-2" />
+      <PaginationDeprecated className="mb-2" />
     </section>
   );
 };
