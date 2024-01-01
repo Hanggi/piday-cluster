@@ -1,3 +1,4 @@
+import { plainToInstance } from "class-transformer";
 import { Response } from "express";
 
 import {
@@ -18,6 +19,7 @@ import { KeycloakJwtGuard } from "../lib/keycloak/keycloak-jwt.guard";
 import { KeycloakService } from "../lib/keycloak/keycloak.service";
 import { AccountService } from "./account.service";
 import { UpdatePiWalletAddressDto } from "./dto/addPiWalletAddress.dto";
+import { RechargeRecordResponseDto } from "./dto/rechargeRecords.dto";
 
 @Controller("account")
 export class AccountController {
@@ -35,22 +37,26 @@ export class AccountController {
     @Query("size") size = "10", //default to size 10,
   ) {
     try {
-      const allRechargeRecords =
+      const { records, totalCount } =
         await this.accountService.getMyAllRechargeRecords(
           req.user.userID,
           parseInt(size),
           parseInt(page),
         );
 
-      if (!allRechargeRecords) {
+      if (!records) {
         res.status(HttpStatus.NOT_FOUND).json({
           rechargeRecords: null,
         });
       }
       res.status(HttpStatus.OK).json({
-        rechargeRecords: allRechargeRecords,
+        rechargeRecords: plainToInstance(RechargeRecordResponseDto, records, {
+          excludeExtraneousValues: true,
+        }),
+        totalCount,
       });
     } catch (err) {
+      console.error(err);
       throw new HttpException(
         "Internal Server Error",
         HttpStatus.INTERNAL_SERVER_ERROR,

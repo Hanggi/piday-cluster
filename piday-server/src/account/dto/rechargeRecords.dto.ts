@@ -6,10 +6,10 @@ export class RechargeRecordResponseDto {
   id: number;
 
   @Expose()
+  @Type(() => String)
   amount: Decimal;
 
   @Expose()
-  @Type(() => String)
   reason: string;
 
   @Expose()

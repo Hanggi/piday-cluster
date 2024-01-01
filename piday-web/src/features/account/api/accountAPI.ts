@@ -17,14 +17,24 @@ export const accountRTKApi = createApi({
         return res.balance;
       },
     }),
-    getAllRechargeRecords: builder.query<
-      RechargeRecordInterface[],
-      { page: string; size: string }
+    getMyRechargeRecords: builder.query<
+      {
+        records: RechargeRecordInterface[];
+        totalCount: number;
+      },
+      { page: number; size: number }
     >({
       query: ({ page, size }) => ({
         url: `/account/balance/records?page=${page}&size=${size}`,
         method: "GET",
       }),
+
+      transformResponse: (response: {
+        records: RechargeRecordInterface[];
+        totalCount: number;
+      }) => {
+        return { records: response.records, totalCount: response.totalCount };
+      },
     }),
     updateMyPiWalletAddress: builder.mutation<
       User,
@@ -48,6 +58,6 @@ export const accountRTKApi = createApi({
 
 export const {
   useGetBalanceQuery,
-  useGetAllRechargeRecordsQuery,
+  useGetMyRechargeRecordsQuery,
   useUpdateMyPiWalletAddressMutation,
 } = accountRTKApi;

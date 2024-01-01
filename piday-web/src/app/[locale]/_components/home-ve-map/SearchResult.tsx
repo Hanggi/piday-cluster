@@ -13,10 +13,8 @@ type SearchResultProps = ComponentProps<"div">;
 export function SearchResult({ className, ...props }: SearchResultProps) {
   const { t } = useTranslation("home");
 
-  
-
   return (
-    <div className={cn("", className)} {...props}>
+    <div className={cn("mt-8 ", className)} {...props}>
       {/* <Typography className="text-center py-10" level="h4">
         {t("userCount")}（189898） {t("landOwnersCount")}（39824）{" "}
         {t("onlineUsersCount")}（12289）

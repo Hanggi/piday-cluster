@@ -1,7 +1,9 @@
 export interface RechargeRecordInterface {
   id: number;
-  amount: string;
+
+  amount: number;
   reason: string;
   externalID: string;
+
   createdAt: Date;
 }

@@ -2,8 +2,8 @@
 
 import { WrapperCard } from "@/src/components/WrapperCard";
 import {
-  useGetAllRechargeRecordsQuery,
   useGetBalanceQuery,
+  useGetMyRechargeRecordsQuery,
 } from "@/src/features/account/api/accountAPI";
 import { cn } from "@/src/utils/cn";
 
@@ -21,7 +21,7 @@ export function MyPropertiesOverview({ className, ...props }: StatisticsProps) {
   const { t } = useTranslation("profile");
 
   const { data: balance } = useGetBalanceQuery({});
-  const { data: rechargeRecords } = useGetAllRechargeRecordsQuery({
+  const { data: rechargeRecords } = useGetMyRechargeRecordsQuery({
     page: "1",
     size: "2",
   });

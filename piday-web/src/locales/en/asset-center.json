@@ -8,5 +8,12 @@
   "forSale": "For Sale",
   "owned": "Owned",
   "city": "City",
-  "quantity": "Quantity"
+  "quantity": "Quantity",
+  "table": {
+    "amount": "Amount",
+    "createdAt": "Created At"
+  },
+  "title": {
+    "myBalance": "My Balance"
+  }
 }
