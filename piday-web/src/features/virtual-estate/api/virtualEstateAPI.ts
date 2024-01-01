@@ -11,7 +11,7 @@ export const virtualEstateRTKApi = createApi({
   endpoints: (builder) => ({
     getOneVirtualEstate: builder.query<VirtualEstate, { hexID: string }>({
       query: ({ hexID }) => ({
-        url: `/virtual-estate/${hexID}`,
+        url: `/virtual-estates/${hexID}`,
         method: "GET",
       }),
       transformResponse: (response: { ve: VirtualEstate }) => {
@@ -21,7 +21,7 @@ export const virtualEstateRTKApi = createApi({
 
     mintOneVirtualEstate: builder.mutation<VirtualEstate, { hexID: string }>({
       query: ({ hexID }) => ({
-        url: `/virtual-estate/${hexID}`,
+        url: `/virtual-estates/${hexID}`,
         method: "POST",
         body: {},
       }),
@@ -31,10 +31,10 @@ export const virtualEstateRTKApi = createApi({
     }),
     getMyVirtualEstates: builder.query<
       VirtualEstate[],
-      { page: number; size: number }
+      { page: string; size: string }
     >({
       query: ({ page, size }) => ({
-        url: `/virtual-estate/all?page=${page}&size=${size}`,
+        url: `/virtual-estates/all?page=${page}&size=${size}`,
         method: "GET",
       }),
       transformResponse: (response: { virtualEstates: VirtualEstate[] }) => {
@@ -46,7 +46,7 @@ export const virtualEstateRTKApi = createApi({
       { hexID: string }
     >({
       query: ({ hexID }) => ({
-        url: `/virtual-estate/${hexID}/listing`,
+        url: `/virtual-estates/${hexID}/listing`,
         method: "GET",
       }),
       transformResponse: (response: {
@@ -60,7 +60,7 @@ export const virtualEstateRTKApi = createApi({
       { hexID: string }
     >({
       query: ({ hexID }) => ({
-        url: `/virtual-estate/${hexID}/in-area`,
+        url: `/virtual-estates/${hexID}/in-area`,
         method: "GET",
       }),
       transformResponse: (response: { onSale: string[]; sold: string[] }) => {
@@ -69,11 +69,11 @@ export const virtualEstateRTKApi = createApi({
     }),
 
     acceptBidToSellVirtualEstate: builder.mutation<
-      VirtualEstateTransactionRecordInterface,
+      any,
       { hexID: string; bidID: string }
     >({
       query: ({ hexID, bidID }) => ({
-        url: `/virtual-estate/${hexID}/bid/${bidID}/accept`,
+        url: `/virtual-estates/${hexID}/bid/${bidID}/accept`,
         method: "PATCH",
       }),
       transformResponse: (response: {
@@ -82,19 +82,30 @@ export const virtualEstateRTKApi = createApi({
         return response?.transactionRecord;
       },
     }),
-    getVirtualEstateTransactionRecords: builder.query<
-      VirtualEstateTransactionRecordInterface[],
-      { hexID: string; page: number; size: number }
+    getVirtualEstateStatistics: builder.query<
+      VirtualEstate[],
+      {
+        totalMinted: boolean;
+        listings: boolean;
+        transactionVolume: boolean;
+        transactionCount: boolean;
+        startDate: string;
+        endDate: string;
+      }
     >({
-      query: ({ hexID, page, size }) => ({
-        url: `/virtual-estate/${hexID}/transactions?page=${page}&size=${size}`,
+      query: ({
+        totalMinted,
+        listings,
+        transactionVolume,
+        transactionCount,
+        startDate,
+        endDate,
+      }) => ({
+        url: `/virtual-estates/statistics?totalMinted=${totalMinted}&listings=${listings}&transactionVolume=${transactionVolume}&transactionCount=${transactionCount}&startDate=${startDate}&endDate=${endDate}`,
         method: "GET",
       }),
-      transformResponse: (response: {
-        transactions: VirtualEstateTransactionRecordInterface[];
-      }) => {
-        console.log(response);
-        return response?.transactions;
+      transformResponse: (response: { virtualEstates: VirtualEstate[] }) => {
+        return response?.virtualEstates;
       },
     }),
   }),
@@ -107,5 +118,5 @@ export const {
   useGetVirtualEstateBidsAndOffersQuery,
   useGetHexIDsStatusInAreaQuery,
   useAcceptBidToSellVirtualEstateMutation,
-  useGetVirtualEstateTransactionRecordsQuery,
+  useGetVirtualEstateStatisticsQuery,
 } = virtualEstateRTKApi;

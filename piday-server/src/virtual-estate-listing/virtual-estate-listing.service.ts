@@ -92,4 +92,18 @@ export class VirtualEstateListingService {
       });
     return virtualEstateListingOffersAndBids;
   }
+
+  async getVirtualEstateListingsCount(endDate: Date, startDate: Date) {
+    try {
+      const virtualEstateListingCount = await this.prisma.virtualEstateListing.count({
+        where: {
+          createdAt: { gte: startDate, lte: endDate },
+        },
+      });
+
+      return virtualEstateListingCount
+    } catch (error) {
+      throw error;
+    }
+  }
 }

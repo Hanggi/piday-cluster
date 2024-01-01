@@ -16,6 +16,7 @@ import {
 import {
   useAcceptBidToSellVirtualEstateMutation,
   useGetVirtualEstateBidsAndOffersQuery,
+  useGetVirtualEstateStatisticsQuery,
 } from "@/src/features/virtual-estate/api/virtualEstateAPI";
 import { VirtualEstate } from "@/src/features/virtual-estate/interface/virtual-estate.interface";
 import { format } from "date-fns";
@@ -68,6 +69,15 @@ export default function VirtualEstateListings({ hexID, virtualEstate }: Props) {
       virtualEstate?.owner?.id == session?.user?.id
     );
   }, [session, virtualEstate?.owner]);
+
+  const { data: virtualEstateStatistics } = useGetVirtualEstateStatisticsQuery({
+    listings: true,
+    totalMinted: false,
+    transactionCount: true,
+    transactionVolume: false,
+    startDate: new Date("dec-22-2023").toISOString(),
+    endDate: new Date("dec-31-2023").toISOString(),
+  });
 
   return (
     <WrapperCard className="container mx-auto">
