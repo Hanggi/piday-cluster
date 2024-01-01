@@ -37,7 +37,7 @@ export default function VirtualEstateListings({ hexID }: Props) {
   );
 
   const { data: virtualEstateTransactionRecords } =
-    useGetVirtualEstateTransactionRecordsQuery({ hexID, page: "1", size: "2" });
+    useGetVirtualEstateTransactionRecordsQuery({ hexID, page: 1, size: 20 });
 
   console.log(
     "virtualEstateTransactionRecords",
