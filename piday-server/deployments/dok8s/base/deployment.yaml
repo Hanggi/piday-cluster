@@ -16,7 +16,7 @@ spec:
       nodeSelector:
         kubernetes.io/os: linux
       containers:
-        - image: registry.digitalocean.com/davinqi/piday-server:v0.0.2
+        - image: registry.digitalocean.com/davinqi/piday-server:v0.0.3
           imagePullPolicy: Always
           name: piday-server-deployment
           #        ports: # Is it useful?

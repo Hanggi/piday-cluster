@@ -8,6 +8,7 @@ export const redisProvider = [
       const redis = new Redis({
         host: config?.get<string>("redis.host"),
         port: config?.get<number>("redis.port"),
+        password: config?.get<string>("redis.password"),
         db: config?.get<number>("redis.db") || 3,
       });
       return redis;

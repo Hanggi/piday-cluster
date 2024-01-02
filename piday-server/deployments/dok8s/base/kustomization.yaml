@@ -7,7 +7,7 @@ kind: Kustomization
 resources:
   #  - ingress.yaml
   - deployment.yaml
-  - configMap.yaml
+  # - configMap.yaml
   - service.yaml
   # - routing.yaml
 #kubectl patch serviceaccount default -p '{"imagePullSecrets": [{"name": "registry-registry.digitalocean.com"}]}'
