@@ -8,14 +8,13 @@ import { VirtualEstate } from "../features/virtual-estate/interface/virtual-esta
 import PiCoinLogo from "./piday-ui/PiCoinLogo";
 
 interface Props {
-  // TODO(Hanggi): Make it as requreid  
+  // TODO(Hanggi): Make it as requreid
   ve?: VirtualEstate;
 }
 
 export function VirtualEstateCard({ ve }: Props) {
   const { t } = useTranslation("home");
 
-  console.log(ve);
   return (
     <div className="flex flex-col items-stretch max-md:w-full max-md:ml-0">
       <div className="shadow-sm bg-gray-50 flex w-full grow flex-col mx-auto pb-5 rounded-2xl max-md:mt-7">

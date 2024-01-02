@@ -11,5 +11,11 @@
   "onSaleLand": "在售土地",
   "allLand": "全部土地",
   "enterLandToQuery": "请输入需要查询的土地",
-  "genesisLand": "创世土地"
+  "genesisLand": "创世土地",
+  "statistics": {
+    "totalVirtualEstatesMinted": "总土地数量",
+    "virtualEstateListingCount": "挂单土地数量",
+    "totalTransactionVolume": "总交易量",
+    "transactionRecordsCount": "交易记录数量"
+  }
 }

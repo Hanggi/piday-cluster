@@ -158,7 +158,6 @@ export class VirtualEstateTransactionRecordsService {
     );
   }
 
-
   async getTotalTransactionVolume(endDate: Date, startDate: Date) {
     try {
       const totalTransactionVolume =
@@ -177,15 +176,19 @@ export class VirtualEstateTransactionRecordsService {
     }
   }
 
-  async getVirtualEstateTransactionRecordsCount(endDate: Date, startDate: Date) {
+  async getVirtualEstateTransactionRecordsCount(
+    endDate: Date,
+    startDate: Date,
+  ) {
     try {
-      const virtualEstateTransactionRecords = await this.prisma.virtualEstateTransactionRecords.count({
-        where: {
-          createdAt: { gte: startDate, lte: endDate },
-        },
-      });
+      const virtualEstateTransactionRecords =
+        await this.prisma.virtualEstateTransactionRecords.count({
+          where: {
+            createdAt: { gte: startDate, lte: endDate },
+          },
+        });
 
-      return virtualEstateTransactionRecords
+      return virtualEstateTransactionRecords;
     } catch (error) {
       throw error;
     }

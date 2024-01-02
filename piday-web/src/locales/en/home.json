@@ -11,5 +11,11 @@
   "onSaleLand": "On Sale Land",
   "allLand": "All Land",
   "enterLandToQuery": "Enter the land you want to query",
-  "genesisLand": "Genesis Land"
+  "genesisLand": "Genesis Land",
+  "statistics": {
+    "totalVirtualEstatesMinted": "Total Virtual Estates Minted",
+    "virtualEstateListingCount": "Virtual Estate Listing Count",
+    "totalTransactionVolume": "Total Transaction Volume",
+    "transactionRecordsCount": "Transaction Records Count"
+  }
 }

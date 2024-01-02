@@ -23,10 +23,10 @@ import { VirtualEstateListingResponseDto } from "../virtual-estate-listing/dto/v
 import { VirtualEstateListingService } from "../virtual-estate-listing/virtual-estate-listing.service";
 import { VirtualEstateTransactionRecordResponseDto } from "../virtual-estate-transaction-records/dto/create-virtual-estate-transaction-record.dto";
 import { VirtualEstateTransactionRecordsService } from "../virtual-estate-transaction-records/virtual-estate-transaction-records.service";
+import { VirtualEstatesStatistics } from "./dto/statistics.dto";
 import { VirtualEstateResponseDto } from "./dto/virtual-estate.dto";
 import { HexIdValidationPipe } from "./pipes/hex-id-validation.pipe";
 import { VirtualEstateService } from "./virtual-estate.service";
-import { VirtualEstatesStatistics } from "./dto/statistics.dto";
 
 @Controller("virtual-estates")
 export class VirtualEstateController {
@@ -85,20 +85,20 @@ export class VirtualEstateController {
   @Get("statistics")
   async getVirtualEstatesStatistics(
     @Res() res: Response,
-    @Query("totalMinted") totalMinted ,
-    @Query("listings") listings ,
-    @Query("transactionVolume") transactionVolume ,
-    @Query("transactionCount") transactionCount ,
+    @Query("totalMinted") totalMinted,
+    @Query("listings") listings,
+    @Query("transactionVolume") transactionVolume,
+    @Query("transactionCount") transactionCount,
     @Query("startDate") startDate: string,
-    @Query("endDate") endDate: string, 
+    @Query("endDate") endDate: string,
   ) {
     try {
-      // TODO(Zawar): Add Redis Caching 
+      // TODO(Zawar): Add Redis Caching
       const start = startDate ? new Date(startDate) : new Date("30-oct-2023");
       const end = endDate ? new Date(endDate) : new Date();
       const responseObject: VirtualEstatesStatistics = {};
 
-      if (JSON.parse(totalMinted)) {
+      if ((totalMinted = "true")) {
         responseObject.totalVirtualEstatesMinted =
           await this.virtualEstateService.getVirtualEstateTotalMinted(
             end,
@@ -106,7 +106,7 @@ export class VirtualEstateController {
           );
       }
 
-      if (JSON.parse(listings)) {
+      if ((listings = "true")) {
         responseObject.virtualEstateListingCount =
           await this.virtualEstateListingService.getVirtualEstateListingsCount(
             end,
@@ -114,7 +114,7 @@ export class VirtualEstateController {
           );
       }
 
-      if (JSON.parse(transactionVolume)) {
+      if ((transactionVolume = "true")) {
         responseObject.totalTransactionVolume =
           await this.virtualEstateTransactionRecordsService.getTotalTransactionVolume(
             end,
@@ -122,7 +122,7 @@ export class VirtualEstateController {
           );
       }
 
-      if (JSON.parse(transactionCount)) {
+      if ((transactionCount = "true")) {
         responseObject.transactionRecordsCount =
           await this.virtualEstateTransactionRecordsService.getVirtualEstateTransactionRecordsCount(
             end,
