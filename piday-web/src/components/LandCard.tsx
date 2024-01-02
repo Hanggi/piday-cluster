@@ -8,7 +8,8 @@ import { VirtualEstate } from "../features/virtual-estate/interface/virtual-esta
 import PiCoinLogo from "./piday-ui/PiCoinLogo";
 
 interface Props {
-  ve: VirtualEstate;
+  // TODO(Hanggi): Make it as requreid  
+  ve?: VirtualEstate;
 }
 
 export function VirtualEstateCard({ ve }: Props) {
