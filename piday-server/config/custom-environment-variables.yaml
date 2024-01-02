@@ -1,0 +1,4 @@
+redis:
+  host: REDIS_ADDR
+  port: REDIS_PASSWORD
+  db: REDIS_DB

@@ -39,3 +39,6 @@ lerna-debug.log*
 /config/local*
 
 .env.local
+
+
+/deployments/dok8s/overlays/dodev/configMap.secret.yaml
