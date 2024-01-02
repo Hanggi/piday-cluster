@@ -18,6 +18,7 @@ import { KeycloakJwtGuard } from "../lib/keycloak/keycloak-jwt.guard";
 import { KeycloakService } from "../lib/keycloak/keycloak.service";
 import { AccountService } from "./account.service";
 import { UpdatePiWalletAddressDto } from "./dto/addPiWalletAddress.dto";
+import { RechargeRecordResponseDto } from "./dto/rechargeRecords.dto";
 
 @Controller("account")
 export class AccountController {

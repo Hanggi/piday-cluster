@@ -1,3 +1,5 @@
+import { VirtualEstateListing } from "@prisma/client";
+
 import { Injectable } from "@nestjs/common";
 
 import { generateFlakeID } from "../lib/generate-id/generate-flake-id";
@@ -37,7 +39,7 @@ export class VirtualEstateListingService {
 
     try {
       const listingID = BigInt(generateFlakeID());
-      const newVirtualEstate = await this.prisma.virtualEstateListing.create({
+      const newVirtualEstateListing = await this.prisma.virtualEstateListing.create({
         data: {
           price,
           type,
@@ -48,21 +50,22 @@ export class VirtualEstateListingService {
         },
       });
 
-      if (!newVirtualEstate) {
+      if (!newVirtualEstateListing) {
         return null;
       }
 
       return {
-        ...newVirtualEstate,
-        listingID: newVirtualEstate.listingID.toString(),
+        ...newVirtualEstateListing,
+        listingID: newVirtualEstateListing.listingID.toString(),
       };
     } catch (error) {
-      console.log("Error", error);
       return error;
     }
   }
 
-  async getVirtualEstateOffersAndBidding(hexID: string) {
+  async getVirtualEstateOffersAndBidding(
+    hexID: string,
+  ): Promise<VirtualEstateListing[]> {
     const virtualEstateListingOffersAndBids =
       await this.prisma.virtualEstateListing.findMany({
         where: {
@@ -79,7 +82,7 @@ export class VirtualEstateListingService {
     return virtualEstateListingOffersAndBids;
   }
 
-  async getOneListingDetail(bidID: string) {
+  async getOneListingDetail(bidID: string): Promise<VirtualEstateListing> {
     const virtualEstateListingOffersAndBids =
       await this.prisma.virtualEstateListing.findFirst({
         where: {
@@ -90,15 +93,19 @@ export class VirtualEstateListingService {
     return virtualEstateListingOffersAndBids;
   }
 
-  async getVirtualEstateListingsCount(endDate: Date, startDate: Date) {
+  async getVirtualEstateListingsCount(
+    endDate: Date,
+    startDate: Date,
+  ): Promise<number> {
     try {
-      const virtualEstateListingCount = await this.prisma.virtualEstateListing.count({
-        where: {
-          createdAt: { gte: startDate, lte: endDate },
-        },
-      });
+      const virtualEstateListingCount =
+        await this.prisma.virtualEstateListing.count({
+          where: {
+            createdAt: { gte: startDate, lte: endDate },
+          },
+        });
 
-      return virtualEstateListingCount
+      return virtualEstateListingCount;
     } catch (error) {
       throw error;
     }
