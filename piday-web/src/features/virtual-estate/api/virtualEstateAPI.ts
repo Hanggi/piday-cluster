@@ -11,7 +11,7 @@ export const virtualEstateRTKApi = createApi({
   endpoints: (builder) => ({
     getOneVirtualEstate: builder.query<VirtualEstate, { hexID: string }>({
       query: ({ hexID }) => ({
-        url: `/virtual-estate/${hexID}`,
+        url: `/virtual-estates/${hexID}`,
         method: "GET",
       }),
       transformResponse: (response: { ve: VirtualEstate }) => {
@@ -21,7 +21,7 @@ export const virtualEstateRTKApi = createApi({
 
     mintOneVirtualEstate: builder.mutation<VirtualEstate, { hexID: string }>({
       query: ({ hexID }) => ({
-        url: `/virtual-estate/${hexID}`,
+        url: `/virtual-estates/${hexID}`,
         method: "POST",
         body: {},
       }),
@@ -37,7 +37,7 @@ export const virtualEstateRTKApi = createApi({
       { page: number; size: number }
     >({
       query: ({ page, size }) => ({
-        url: `/virtual-estate/all?page=${page}&size=${size}`,
+        url: `/virtual-estates/all?page=${page}&size=${size}`,
         method: "GET",
       }),
       transformResponse: (response: {
@@ -52,7 +52,7 @@ export const virtualEstateRTKApi = createApi({
       { hexID: string }
     >({
       query: ({ hexID }) => ({
-        url: `/virtual-estate/${hexID}/listing`,
+        url: `/virtual-estates/${hexID}/listing`,
         method: "GET",
       }),
       transformResponse: (response: {
@@ -66,7 +66,7 @@ export const virtualEstateRTKApi = createApi({
       { hexID: string }
     >({
       query: ({ hexID }) => ({
-        url: `/virtual-estate/${hexID}/in-area`,
+        url: `/virtual-estates/${hexID}/in-area`,
         method: "GET",
       }),
       transformResponse: (response: { onSale: string[]; sold: string[] }) => {
@@ -79,7 +79,7 @@ export const virtualEstateRTKApi = createApi({
       { hexID: string; bidID: string }
     >({
       query: ({ hexID, bidID }) => ({
-        url: `/virtual-estate/${hexID}/bid/${bidID}/accept`,
+        url: `/virtual-estates/${hexID}/bid/${bidID}/accept`,
         method: "PATCH",
       }),
       transformResponse: (response: {
@@ -93,7 +93,7 @@ export const virtualEstateRTKApi = createApi({
       { hexID: string; page: number; size: number }
     >({
       query: ({ hexID, page, size }) => ({
-        url: `/virtual-estate/${hexID}/transactions?page=${page}&size=${size}`,
+        url: `/virtual-estates/${hexID}/transactions?page=${page}&size=${size}`,
         method: "GET",
       }),
       transformResponse: (response: {
