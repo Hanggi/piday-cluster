@@ -26,6 +26,7 @@ import { VirtualEstateTransactionRecordsService } from "../virtual-estate-transa
 import { VirtualEstateResponseDto } from "./dto/virtual-estate.dto";
 import { HexIdValidationPipe } from "./pipes/hex-id-validation.pipe";
 import { VirtualEstateService } from "./virtual-estate.service";
+import { VirtualEstatesStatistics } from "./dto/statistics.dto";
 
 @Controller("virtual-estates")
 export class VirtualEstateController {
@@ -74,6 +75,64 @@ export class VirtualEstateController {
       });
     } catch (error) {
       console.error(error);
+      throw new HttpException(
+        "Internal Server Error",
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+
+  @Get("statistics")
+  async getVirtualEstatesStatistics(
+    @Res() res: Response,
+    @Query("totalMinted") totalMinted ,
+    @Query("listings") listings ,
+    @Query("transactionVolume") transactionVolume ,
+    @Query("transactionCount") transactionCount ,
+    @Query("startDate") startDate: string,
+    @Query("endDate") endDate: string, 
+  ) {
+    try {
+      // TODO(Zawar): Add Redis Caching 
+      const start = startDate ? new Date(startDate) : new Date("30-oct-2023");
+      const end = endDate ? new Date(endDate) : new Date();
+      const responseObject: VirtualEstatesStatistics = {};
+
+      if (JSON.parse(totalMinted)) {
+        responseObject.totalVirtualEstatesMinted =
+          await this.virtualEstateService.getVirtualEstateTotalMinted(
+            end,
+            start,
+          );
+      }
+
+      if (JSON.parse(listings)) {
+        responseObject.virtualEstateListingCount =
+          await this.virtualEstateListingService.getVirtualEstateListingsCount(
+            end,
+            start,
+          );
+      }
+
+      if (JSON.parse(transactionVolume)) {
+        responseObject.totalTransactionVolume =
+          await this.virtualEstateTransactionRecordsService.getTotalTransactionVolume(
+            end,
+            start,
+          );
+      }
+
+      if (JSON.parse(transactionCount)) {
+        responseObject.transactionRecordsCount =
+          await this.virtualEstateTransactionRecordsService.getVirtualEstateTransactionRecordsCount(
+            end,
+            start,
+          );
+      }
+
+      res.status(200).json({ statistics: responseObject });
+    } catch (err) {
+      console.error(err);
       throw new HttpException(
         "Internal Server Error",
         HttpStatus.INTERNAL_SERVER_ERROR,

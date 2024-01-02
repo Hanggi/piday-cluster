@@ -12,7 +12,7 @@ export const virtualEstateTransactionRecordsRTKApi = createApi({
       { side: string;  }
     >({
       query: ({ side }) => ({
-        url: `/virtual-estate/transaction?side=${side}`,
+        url: `/virtual-estates/transaction?side=${side}`,
         method: "GET",
       }),
       transformResponse: (response: { transactionRecords: VirtualEstateTransactionRecordInterface[] }) => {

@@ -5,6 +5,7 @@ import { Injectable } from "@nestjs/common";
 import { PrismaService } from "../lib/prisma/prisma.service";
 import { ZERO_DECIMAL } from "../lib/prisma/utils/zerro-decimal";
 import { RechargeRecordResponseDto } from "./dto/rechargeRecords.dto";
+import { RechargeRecords } from "@prisma/client";
 
 @Injectable()
 export class AccountService {
