@@ -12,12 +12,13 @@ type SearchResultProps = ComponentProps<"div">;
 
 export function SearchResult({ className, ...props }: SearchResultProps) {
   const { t } = useTranslation("home");
+
   return (
-    <div className={cn("", className)} {...props}>
-      <Typography className="text-center py-10" level="h4">
+    <div className={cn("mt-8 ", className)} {...props}>
+      {/* <Typography className="text-center py-10" level="h4">
         {t("userCount")}（189898） {t("landOwnersCount")}（39824）{" "}
         {t("onlineUsersCount")}（12289）
-      </Typography>
+      </Typography> */}
       <section className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 container-mini gap-6">
         {searchData.map((data, i) => (
           <WrapperCard className="flex flex-col items-center" key={i}>

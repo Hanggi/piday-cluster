@@ -1,10 +1,7 @@
 "use client";
 
 import { WrapperCard } from "@/src/components/WrapperCard";
-import {
-  useGetAllRechargeRecordsQuery,
-  useGetBalanceQuery,
-} from "@/src/features/account/api/accountAPI";
+import { useGetBalanceQuery } from "@/src/features/account/api/accountAPI";
 import { cn } from "@/src/utils/cn";
 
 import { Typography } from "@mui/joy";
@@ -21,10 +18,6 @@ export function MyPropertiesOverview({ className, ...props }: StatisticsProps) {
   const { t } = useTranslation("profile");
 
   const { data: balance } = useGetBalanceQuery({});
-  const { data: rechargeRecords } = useGetAllRechargeRecordsQuery({
-    page: "1",
-    size: "2",
-  });
 
   return (
     <div className={cn(className)} {...props}>

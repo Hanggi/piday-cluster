@@ -2,6 +2,7 @@ import { Decimal } from "@prisma/client/runtime/library";
 
 import { Injectable } from "@nestjs/common";
 
+import { ServiceException } from "../lib/exceptions/service-exception";
 import { generateFlakeID } from "../lib/generate-id/generate-flake-id";
 import { PrismaService } from "../lib/prisma/prisma.service";
 import { VirtualEstateListingService } from "../virtual-estate-listing/virtual-estate-listing.service";
@@ -13,17 +14,19 @@ export class VirtualEstateTransactionRecordsService {
     private prisma: PrismaService,
     private virtualEstateListingService: VirtualEstateListingService,
   ) {}
-  async acceptBidToSellVirtualEstate(
-    createVirtualEstateTransactionRecordDto: CreateVirtualEstateTransactionRecordDto,
-  ) {
+
+  async acceptBidToSellVirtualEstate({
+    bidID,
+    sellerID,
+    virtualEstateID,
+  }: CreateVirtualEstateTransactionRecordDto) {
+    const biddingDetail =
+      await this.virtualEstateListingService.getOneListingDetail(BigInt(bidID));
+    if (!biddingDetail) {
+      throw new ServiceException("No bidding details found.", "BID_NOT_FOUND");
+    }
+
     return this.prisma.$transaction(async (prisma) => {
-      const { bidID, sellerID, virtualEstateID } =
-        createVirtualEstateTransactionRecordDto;
-      const biddingDetail =
-        await this.virtualEstateListingService.getOneListingDetail(bidID);
-      if (!biddingDetail) {
-        throw new Error("No bidding details found.");
-      }
       const buyerID = biddingDetail.ownerID;
       const price = biddingDetail.price.toString();
       const balance = await prisma.rechargeRecords.aggregate({
@@ -35,7 +38,7 @@ export class VirtualEstateTransactionRecordsService {
         },
       });
       if (balance._sum.amount < new Decimal(price)) {
-        throw new Error("Not enough balance");
+        throw new ServiceException("Not enough balance", "NOT_ENOUGH_BALANCE");
       }
 
       const transactionID = BigInt(generateFlakeID());
@@ -53,7 +56,7 @@ export class VirtualEstateTransactionRecordsService {
         throw new Error("Transaction not successful");
       }
 
-      const sellerRechargeRecords = await prisma.rechargeRecords.create({
+      await prisma.rechargeRecords.create({
         data: {
           amount: price,
           externalID: transactionID.toString(),
@@ -61,7 +64,7 @@ export class VirtualEstateTransactionRecordsService {
           ownerID: sellerID,
         },
       });
-      const buyerRechargeRecords = await prisma.rechargeRecords.create({
+      await prisma.rechargeRecords.create({
         data: {
           amount: -price,
           externalID: transactionID.toString(),
@@ -70,12 +73,21 @@ export class VirtualEstateTransactionRecordsService {
         },
       });
 
-      const updateOwner = await prisma.virtualEstate.update({
+      await prisma.virtualEstate.update({
+        where: {
+          virtualEstateID,
+        },
         data: {
           ownerID: buyerID,
         },
+      });
+
+      await prisma.virtualEstateListing.update({
         where: {
-          virtualEstateID,
+          listingID: BigInt(bidID),
+        },
+        data: {
+          expiresAt: new Date(),
         },
       });
 
@@ -118,35 +130,31 @@ export class VirtualEstateTransactionRecordsService {
     }
   }
 
-  async getTotalTransactionVolume(endDate: Date, startDate: Date) {
-    try {
-      const totalTransactionVolume =
-        await this.prisma.virtualEstateTransactionRecords.aggregate({
-          where: {
-            createdAt: { gte: startDate, lte: endDate },
-          },
-          _sum: {
-            price: true,
-          },
-        });
-        
-      return totalTransactionVolume._sum.price;
-    } catch (error) {
-      throw error;
-    }
-  }
-
-  async getVirtualEstateTransactionRecordsCount(endDate: Date, startDate: Date) {
-    try {
-      const virtualEstateTransactionRecords = await this.prisma.virtualEstateTransactionRecords.count({
+  async getAllTransactionRecordsForVirtualEstate(
+    hexID: string,
+    size: number,
+    page: number,
+  ) {
+    const transactionRecordsForVirtualEstate =
+      await this.prisma.virtualEstateTransactionRecords.findMany({
         where: {
-          createdAt: { gte: startDate, lte: endDate },
+          virtualEstateID: hexID,
         },
+        include: {
+          buyer: true,
+          seller: true,
+        },
+        take: size,
+        skip: (page - 1) * size,
       });
 
-      return virtualEstateTransactionRecords
-    } catch (error) {
-      throw error;
-    }
+    return transactionRecordsForVirtualEstate.map(
+      (singleTransactionRecords) => {
+        return {
+          ...singleTransactionRecords,
+          transactionID: singleTransactionRecords.transactionID.toString(),
+        };
+      },
+    );
   }
 }

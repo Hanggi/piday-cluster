@@ -7,13 +7,17 @@ import { NextRequest } from "next/server";
 
 export async function GET(
   request: NextRequest,
+  { params, body }: { params: { page: string; pageSize: string }; body: {} },
 ) {
   const searchParams = request.nextUrl.searchParams;
   const { headers } = request;
-  const side = searchParams.get("side");
+
+  const page = searchParams.get("page");
+  const size = searchParams.get("size");
+
   try {
     const res = await instance.get(
-      `/virtual-estates/transaction?side=${side}`,
+      `/virtual-estates?page=${page}&size=${size}`,
       {
         headers: HeaderFilters(headers),
       },
@@ -24,11 +28,11 @@ export async function GET(
     });
   } catch (error) {
     const axiosError = error as AxiosError;
-    console.error("Fail to get virtual estates transaction records for user!!", axiosError);
+    console.error("Fail to get virtual estates for user!!", axiosError);
     return new Response(
       JSON.stringify({
         success: false,
-        message: "Fail to get virtual estates transaction records for user",
+        message: "Fail to get virtual estates for user",
       }),
       {
         status:

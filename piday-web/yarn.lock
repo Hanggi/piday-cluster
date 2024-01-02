@@ -1948,12 +1948,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^20.10.5":
-  version: 20.10.5
-  resolution: "@types/node@npm:20.10.5"
+"@types/node@npm:^20.10.6":
+  version: 20.10.6
+  resolution: "@types/node@npm:20.10.6"
   dependencies:
     undici-types: "npm:~5.26.4"
-  checksum: be30609aae0bfe492097815f166ccc07f465220cb604647fa4e5ec05a1d16c012a41b82b5f11ecfe2485cbb479d4d20384b95b809ca0bcff6d94d5bbafa645bb
+  checksum: 6692ccfa8552ef60c4069fda3c8de726c23e8d403cdf788e3c7efa769987e80fbda5f02723dd857f9de7df24a5fa40b3ed4580ec3c5cbac04eba44cf7b2ab1dc
   languageName: node
   linkType: hard
 
@@ -1984,6 +1984,15 @@ __metadata:
   dependencies:
     "@types/react": "npm:*"
   checksum: 74dba11a1b8156f3a763f3fca1fb4ec1dcd349153279b8bf79210024a69f994bf2cf0728198c047f8130c5318420ea56281b0a4ef84c8ae943cd9a0cac705220
+  languageName: node
+  linkType: hard
+
+"@types/react-paginate@npm:^7.1.4":
+  version: 7.1.4
+  resolution: "@types/react-paginate@npm:7.1.4"
+  dependencies:
+    "@types/react": "npm:*"
+  checksum: d534daabad3f3d5221ab22f696b4de7287564362a818076675729f412fed3b5c83fcb9d1fa62c159d6f0a8551f20813cae427c2292a132af38812fc775efb0bd
   languageName: node
   linkType: hard
 
@@ -2677,6 +2686,13 @@ __metadata:
   version: 2.0.0
   resolution: "clsx@npm:2.0.0"
   checksum: c09f43b3144a0b7826b6b11b6a111b2c7440831004eecc02d333533c5e58ef0aa5f2dce071d3b25fbb8c8ea97b45df96c74bcc1d51c8c2027eb981931107b0cd
+  languageName: node
+  linkType: hard
+
+"clsx@npm:^2.1.0":
+  version: 2.1.0
+  resolution: "clsx@npm:2.1.0"
+  checksum: c09c00ad14f638366ca814097e6cab533dfa1972a358da5b557be487168acbb25b4c1395e89ffa842a8a61ba87a462d2b4885bc9d4f8410b598f3cb339599cdb
   languageName: node
   linkType: hard
 
@@ -4171,12 +4187,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"i18next@npm:^23.7.12":
-  version: 23.7.12
-  resolution: "i18next@npm:23.7.12"
+"i18next@npm:^23.7.13":
+  version: 23.7.13
+  resolution: "i18next@npm:23.7.13"
   dependencies:
     "@babel/runtime": "npm:^7.23.2"
-  checksum: 0eca6398605120188449c47a6741d3e0edea790f0ac37d3185ee92d8ffa5411e21b708aadfe0dae91665578f2e997df633eb35876a5f6a981051d2019a09e48c
+  checksum: a79c54856f9c2c8b9d807d690cb2a065ccd539e60f3509319eda0334acc9ae3e4cb59c40dda948a8726ae4ba2de153b1226edfabe9ff8eeb6a9211fbd57f179f
   languageName: node
   linkType: hard
 
@@ -5624,13 +5640,14 @@ __metadata:
     "@reduxjs/toolkit": "npm:^2.0.1"
     "@trivago/prettier-plugin-sort-imports": "npm:^4.3.0"
     "@types/lodash": "npm:^4.14.202"
-    "@types/node": "npm:^20.10.5"
+    "@types/node": "npm:^20.10.6"
     "@types/react": "npm:^18.2.46"
     "@types/react-dom": "npm:^18.2.18"
+    "@types/react-paginate": "npm:^7.1.4"
     "@types/validator": "npm:^13.11.7"
     autoprefixer: "npm:^10.4.16"
     axios: "npm:^1.6.3"
-    clsx: "npm:^2.0.0"
+    clsx: "npm:^2.1.0"
     cryptr: "npm:^6.3.0"
     date-fns: "npm:^3.0.6"
     deck.gl: "npm:^8.9.33"
@@ -5640,7 +5657,7 @@ __metadata:
     eslint-plugin-unused-imports: "npm:^3.0.0"
     h3-js: "npm:^3.7.2"
     http-status-codes: "npm:^2.3.0"
-    i18next: "npm:^23.7.12"
+    i18next: "npm:^23.7.13"
     i18next-resources-to-backend: "npm:^1.2.0"
     jwt-decode: "npm:^4.0.0"
     keycloak-js: "npm:^23.0.3"
@@ -5657,6 +5674,7 @@ __metadata:
     react-i18next: "npm:^14.0.0"
     react-map-gl: "npm:^7.1.7"
     react-number-format: "npm:^5.3.1"
+    react-paginate: "npm:^8.2.0"
     react-redux: "npm:^9.0.4"
     react-spinners: "npm:^0.13.8"
     react-toastify: "npm:^9.1.3"
@@ -5839,7 +5857,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prop-types@npm:^15.7.2, prop-types@npm:^15.8.1":
+"prop-types@npm:^15, prop-types@npm:^15.7.2, prop-types@npm:^15.8.1":
   version: 15.8.1
   resolution: "prop-types@npm:15.8.1"
   dependencies:
@@ -5976,6 +5994,17 @@ __metadata:
     react: ^0.14 || ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0
     react-dom: ^0.14 || ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0
   checksum: 9e37698ab3d8224fd6cf5a69845c0308720d04de8459757031de0304379cfd2c0c897834cc9f62869933c4702a97888ba51abeb6490b7282e237a4c19a5fab04
+  languageName: node
+  linkType: hard
+
+"react-paginate@npm:^8.2.0":
+  version: 8.2.0
+  resolution: "react-paginate@npm:8.2.0"
+  dependencies:
+    prop-types: "npm:^15"
+  peerDependencies:
+    react: ^16 || ^17 || ^18
+  checksum: 3d436f5e56e6b14b809767718da46f22d4315221c972c4990e7c22de3b8074235852fa2ad00f6849aad50fa0df16aa14adc2243e767fe4851f0c1ba154ef8b15
   languageName: node
   linkType: hard
 

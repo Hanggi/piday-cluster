@@ -10,23 +10,29 @@ import {
 } from "@/src/components/Table";
 import { WrapperCard } from "@/src/components/WrapperCard";
 import {
+  useErrorToast,
+  useSuccessToast,
+} from "@/src/features/rtk-utils/use-error-toast.hook";
+import {
   useAcceptBidToSellVirtualEstateMutation,
   useGetVirtualEstateBidsAndOffersQuery,
-  useGetVirtualEstateStatisticsQuery,
 } from "@/src/features/virtual-estate/api/virtualEstateAPI";
+import { VirtualEstate } from "@/src/features/virtual-estate/interface/virtual-estate.interface";
 import { format } from "date-fns";
 import { useSession } from "next-auth/react";
 
+import Button from "@mui/joy/Button";
 import Typography from "@mui/joy/Typography";
 
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 
 interface Props {
   hexID: string;
+  virtualEstate?: VirtualEstate;
 }
 
-export default function VirtualEstateListings({ hexID }: Props) {
+export default function VirtualEstateListings({ hexID, virtualEstate }: Props) {
   const { t } = useTranslation(["virtual-estate"]);
 
   const { data: session } = useSession();
@@ -38,24 +44,30 @@ export default function VirtualEstateListings({ hexID }: Props) {
 
   const [acceptBidToSellVirtualEstate, acceptBidToSellVirtualEstateResult] =
     useAcceptBidToSellVirtualEstateMutation();
+  useErrorToast(acceptBidToSellVirtualEstateResult.error);
+  useSuccessToast(
+    acceptBidToSellVirtualEstateResult.isSuccess,
+    t("virtual-estate:toast.acceptBidSuccessfully"),
+  );
 
-  const [bidID, setBidID] = useState("");
+  console.log(virtualEstateListings);
 
-  const handelAcceptBidToSellVirtualEstate = useCallback(() => {
-    acceptBidToSellVirtualEstate({
-      hexID,
-      bidID,
-    });
-  }, [hexID, bidID, acceptBidToSellVirtualEstate]);
+  const handelAcceptBidToSellVirtualEstate = useCallback(
+    (bidID: string) => {
+      acceptBidToSellVirtualEstate({
+        hexID,
+        bidID,
+      });
+    },
+    [hexID, acceptBidToSellVirtualEstate],
+  );
 
-  const { data: virtualEstateStatistics } = useGetVirtualEstateStatisticsQuery({
-    listings: true,
-    totalMinted: false,
-    transactionCount: true,
-    transactionVolume: false,
-    startDate: new Date("dec-22-2023").toISOString(),
-    endDate: new Date("dec-31-2023").toISOString(),
-  });
+  const isMyVirtualEstate = useCallback(() => {
+    return (
+      !!virtualEstate?.owner?.id &&
+      virtualEstate?.owner?.id == session?.user?.id
+    );
+  }, [session, virtualEstate?.owner]);
 
   return (
     <WrapperCard className="container mx-auto">
@@ -64,28 +76,60 @@ export default function VirtualEstateListings({ hexID }: Props) {
         <TableRoot aria-label="basic table">
           <TableHeader>
             <TableRow>
-              <TableHead>Listing ID</TableHead>
-              <TableHead>User</TableHead>
-              <TableHead>Price</TableHead>
-              <TableHead>Created At</TableHead>
-              <TableHead>Expires At</TableHead>
+              <TableHead>
+                <Typography>{t("virtual-estate:table.listingID")}</Typography>
+              </TableHead>
+              <TableHead>
+                <Typography>{t("virtual-estate:table.user")}</Typography>
+              </TableHead>
+              <TableHead>
+                <Typography>{t("virtual-estate:table.price")}</Typography>
+              </TableHead>
+              <TableHead>
+                <Typography>{t("virtual-estate:table.createdAt")}</Typography>
+              </TableHead>
+              <TableHead>
+                <Typography>{t("virtual-estate:table.expiresAt")}</Typography>
+              </TableHead>
+              {isMyVirtualEstate() && <TableHead>Action</TableHead>}
             </TableRow>
           </TableHeader>
           <TableBody>
             {virtualEstateListings?.map((listing, i) => (
               <TableRow key={i}>
-                <TableCell>{listing.listingID}</TableCell>
                 <TableCell>
-                  <i className="ri-user-line"></i>
-                  {listing?.owner?.username}
-                </TableCell>
-                <TableCell>{listing.price}</TableCell>
-                <TableCell>
-                  {format(new Date(listing?.createdAt), "PPpp")}
+                  <Typography>{listing.listingID}</Typography>
                 </TableCell>
                 <TableCell>
-                  {format(new Date(listing?.expiresAt), "PPpp")}
+                  <Typography>
+                    <i className="ri-user-line"></i>
+                    {listing?.owner?.username}
+                  </Typography>
                 </TableCell>
+                <TableCell>
+                  <Typography>{listing.price}</Typography>
+                </TableCell>
+                <TableCell>
+                  <Typography>
+                    {format(new Date(listing?.createdAt), "PPpp")}
+                  </Typography>
+                </TableCell>
+                <TableCell>
+                  <Typography>
+                    {format(new Date(listing?.expiresAt), "PPpp")}
+                  </Typography>
+                </TableCell>
+                {isMyVirtualEstate() && (
+                  <TableCell>
+                    <Button
+                      onClick={() =>
+                        handelAcceptBidToSellVirtualEstate(listing.listingID)
+                      }
+                    >
+                      {t("virtual-estate:button.acceptBid")}
+                    </Button>
+                  </TableCell>
+                )}
               </TableRow>
             ))}
           </TableBody>

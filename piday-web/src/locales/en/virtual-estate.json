@@ -5,6 +5,7 @@
     "sell": "Sell",
     "bidToBuy": "Bid to Buy",
     "askToSell": "Ask to Sell",
+    "acceptBid": "Accept Bid",
     "transfer": "Transfer"
   },
   "label": {
@@ -28,7 +29,16 @@
   "form": {
     "noEnoughBalance": "No enough balance"
   },
+  "table": {
+    "listingID": "Listing ID",
+    "transactionID": "Transaction ID",
+    "user": "User",
+    "price": "Price",
+    "createdAt": "Created At",
+    "expiresAt": "Expires At"
+  },
   "toast": {
+    "acceptBidSuccessfully": "Accept bid successfully",
     "invalidAmount": "Invalid amount"
   }
 }

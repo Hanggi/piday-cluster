@@ -47,10 +47,10 @@ export default async function VirtualEstateDetailPage({
         </WrapperCard>
       </div>
       <div className="mb-8">
-        <VirtualEstateListings hexID={hexID} />
+        <VirtualEstateListings hexID={hexID} virtualEstate={virtualEstate} />
       </div>
       <div className="mb-8">
-        <VirtualEstateTradingHisory />
+        <VirtualEstateTradingHisory hexID={hexID} />
       </div>
       <br />
     </main>

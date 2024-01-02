@@ -8,5 +8,14 @@
   "forSale": "待售中",
   "owned": "已拥有",
   "city": "城市",
-  "quantity": "数量"
+  "quantity": "数量",
+  "table": {
+    "amount": "金额",
+    "hashValue": "哈希值",
+    "transactionID": "交易ID",
+    "createdAt": "创建时间"
+  },
+  "title": {
+    "myBalance": "我的余额"
+  }
 }

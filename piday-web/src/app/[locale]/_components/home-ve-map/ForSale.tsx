@@ -1,6 +1,6 @@
 "use client";
 
-import { LandCard } from "@/src/components/LandCard";
+import { VirtualEstateCard } from "@/src/components/LandCard";
 import { cn } from "@/src/utils/cn";
 
 import { Input, Option, Select, Typography } from "@mui/joy";
@@ -42,7 +42,7 @@ export function ForSale({ className, ...props }: ForSaleProps) {
       <br />
       <section className="grid py-6 container-mini grid-cols-1 gap-7 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {Array.from({ length: 8 }).map((_, index) => (
-          <LandCard key={index} noBtn />
+          <VirtualEstateCard key={index} noBtn />
         ))}
       </section>
     </div>

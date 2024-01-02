@@ -30,16 +30,23 @@ export class AccountService {
     userId: string,
     size: number,
     page: number,
-  ): Promise<RechargeRecords[]> {
+  ): Promise<{ records: RechargeRecordResponseDto[]; totalCount: number }> {
+    const query = {
+      ownerID: userId,
+    };
+
     try {
       const rechargeRecords = await this.prisma.rechargeRecords.findMany({
-        where: {
-          ownerID: userId,
-        },
+        where: query,
         take: size,
         skip: (page - 1) * size,
       });
-      return rechargeRecords;
+
+      const totalCount = await this.prisma.rechargeRecords.count({
+        where: query,
+      });
+
+      return { records: rechargeRecords, totalCount };
     } catch (error) {
       throw new Error("Internal Server Error");
     }

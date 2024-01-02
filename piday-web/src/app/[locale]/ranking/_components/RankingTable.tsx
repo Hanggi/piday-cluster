@@ -1,4 +1,4 @@
-import { Pagination } from "@/src/components/Pagination";
+import { PaginationDeprecated } from "@/src/components/Pagination";
 import {
   Table,
   TableBody,
@@ -66,7 +66,7 @@ export function RankingTable({
           ))}
         </TableBody>
       </Table>
-      <Pagination />
+      <PaginationDeprecated />
     </>
   );
 }

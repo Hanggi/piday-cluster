@@ -9,48 +9,71 @@ import {
   TableRow,
 } from "@/src/components/Table";
 import { WrapperCard } from "@/src/components/WrapperCard";
+import PiCoinLogo from "@/src/components/piday-ui/PiCoinLogo";
+import { useGetVirtualEstateTransactionRecordsQuery } from "@/src/features/virtual-estate/api/virtualEstateAPI";
 import { cn } from "@/src/utils/cn";
+import { format } from "date-fns";
 
-import Image from "next/image";
+import Typography from "@mui/joy/Typography";
 
-import { ComponentProps } from "react";
 import { useTranslation } from "react-i18next";
 
-type TableProps = ComponentProps<typeof WrapperCard>;
+interface Props {
+  hexID: string;
+}
 
-export function VirtualEstateTradingHisory({
-  className,
-  ...props
-}: TableProps) {
-  const { t } = useTranslation("map");
+export function VirtualEstateTradingHisory({ hexID }: Props) {
+  const { t } = useTranslation(["map", "virtual-estate"]);
+
+  const { data: virtualEstateTransactionRecords } =
+    useGetVirtualEstateTransactionRecordsQuery({ hexID, page: 1, size: 20 });
+
+  console.log(
+    "virtualEstateTransactionRecords",
+    virtualEstateTransactionRecords,
+  );
+
   return (
-    <WrapperCard className={cn("w-full mb-6 container", className)} {...props}>
+    <WrapperCard className={cn("w-full mb-6 container")}>
       <h4 className="text-xl font-semibold">{t("landHistory")}</h4>
       <TableRoot className="mt-5">
         <TableHeader>
           <TableRow>
-            {[, "type", "price", "date", "user"].map((head) => (
-              <TableHead key={head}>{t(`column.${head}`)}</TableHead>
-            ))}
+            <TableHead>
+              <Typography>{t("virtual-estate:table.transactionID")}</Typography>
+            </TableHead>
+            <TableHead>
+              <Typography>{t("virtual-estate:table.price")}</Typography>
+            </TableHead>
+            <TableHead>
+              <Typography>{t("virtual-estate:table.user")}</Typography>
+            </TableHead>
+            <TableHead>
+              <Typography>{t("virtual-estate:table.createdAt")}</Typography>
+            </TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {Array.from(Array(4).keys()).map((idx) => (
+          {virtualEstateTransactionRecords?.map((record, idx) => (
             <TableRow key={idx}>
-              {data.map((el, idx) => (
-                <TableCell key={el}>
-                  {idx === 1 && (
-                    <Image
-                      alt="pid"
-                      className="aspect-square inline-block object-contain w-5 mr-1"
-                      height={24}
-                      src={"/img/icons/pid.png"}
-                      width={24}
-                    />
-                  )}
-                  {el}
-                </TableCell>
-              ))}
+              <TableCell>
+                <Typography></Typography>
+                {record.transactionID}
+              </TableCell>
+              <TableCell className="flex gap-2 items-center">
+                <div className="w-6 h-6 relative">
+                  <PiCoinLogo />
+                </div>
+                <Typography level="title-sm">{record.price}</Typography>
+              </TableCell>
+              <TableCell>
+                <Typography>{record.buyer.username}</Typography>
+              </TableCell>
+              <TableCell>
+                <Typography>
+                  {format(new Date(record?.createdAt), "PPpp")}
+                </Typography>
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
@@ -58,5 +81,3 @@ export function VirtualEstateTradingHisory({
     </WrapperCard>
   );
 }
-
-const data = ["拍卖开始", "150", "2023-08-25 16:00:21", "0x4bb...0707"];

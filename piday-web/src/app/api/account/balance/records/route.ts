@@ -3,6 +3,7 @@ import instance from "@/src/features/axios/instance";
 import { StatusCodes } from "http-status-codes";
 
 import { NextRequest } from "next/server";
+
 export async function GET(request: NextRequest) {
   const { headers } = request;
 
@@ -10,14 +11,18 @@ export async function GET(request: NextRequest) {
   const page = searchParams.get("page");
   const size = searchParams.get("size");
   try {
-    const res = await instance.get(`/account/balance/records?page=${page}&size=${size}`, {
-      headers: HeaderFilters(headers),
-    });
+    const res = await instance.get(
+      `/account/balance/records?page=${page}&size=${size}`,
+      {
+        headers: HeaderFilters(headers),
+      },
+    );
 
     return new Response(
       JSON.stringify({
         message: "Get all recharge records",
-        data: res.data.rechargeRecords,
+        records: res.data.rechargeRecords,
+        totalCount: res.data.totalCount,
       }),
       {
         status: StatusCodes.OK,
