@@ -157,4 +157,37 @@ export class VirtualEstateTransactionRecordsService {
       },
     );
   }
+
+
+  async getTotalTransactionVolume(endDate: Date, startDate: Date) {
+    try {
+      const totalTransactionVolume =
+        await this.prisma.virtualEstateTransactionRecords.aggregate({
+          where: {
+            createdAt: { gte: startDate, lte: endDate },
+          },
+          _sum: {
+            price: true,
+          },
+        });
+
+      return totalTransactionVolume._sum.price;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async getVirtualEstateTransactionRecordsCount(endDate: Date, startDate: Date) {
+    try {
+      const virtualEstateTransactionRecords = await this.prisma.virtualEstateTransactionRecords.count({
+        where: {
+          createdAt: { gte: startDate, lte: endDate },
+        },
+      });
+
+      return virtualEstateTransactionRecords
+    } catch (error) {
+      throw error;
+    }
+  }
 }
