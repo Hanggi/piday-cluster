@@ -20,6 +20,8 @@ export async function GET(request: Request) {
       },
     );
   } catch (err) {
+    console.error("Fail to get balance!!", err);
+
     return new Response(
       JSON.stringify({
         message: "Get balance failed.",
