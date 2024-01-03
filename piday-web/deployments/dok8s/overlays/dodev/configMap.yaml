@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: piday-web-env
+  namespace: piday-web
+data:
+  REACT_APP_VERSION: 0.0.1
+
+  BACKEND_BASE_URL: "piday-server-service.piday-dev"
