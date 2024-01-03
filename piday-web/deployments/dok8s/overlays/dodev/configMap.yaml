@@ -6,4 +6,4 @@ metadata:
 data:
   REACT_APP_VERSION: 0.0.1
 
-  BACKEND_BASE_URL: "piday-server-service.piday-dev"
+  BACKEND_BASE_URL: "http://piday-server-service.piday-dev"
