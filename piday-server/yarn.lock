@@ -937,6 +937,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@nestjs/axios@npm:^3.0.1":
+  version: 3.0.1
+  resolution: "@nestjs/axios@npm:3.0.1"
+  peerDependencies:
+    "@nestjs/common": ^7.0.0 || ^8.0.0 || ^9.0.0 || ^10.0.0
+    axios: ^1.3.1
+    reflect-metadata: ^0.1.12
+    rxjs: ^6.0.0 || ^7.0.0
+  checksum: 07f36e260a21fbc52be8f1dcc55d71f4de741264d467adaaf4b1c3926a5c9367bc77a2dac4462e638db3a39ec11051ccad36fe958f8513f54bc3e57fba6329a2
+  languageName: node
+  linkType: hard
+
 "@nestjs/cli@npm:^10.2.1":
   version: 10.2.1
   resolution: "@nestjs/cli@npm:10.2.1"
@@ -1057,6 +1069,20 @@ __metadata:
     "@nestjs/common": ^10.0.0
     "@nestjs/core": ^10.0.0
   checksum: 072ee855eeee057395beb4cf6f469ff18248c7a253a86e430973aa96c9c596aa3ad328bce0d38266b8fe54678c87a59e811f18477adce9434af8a470df2fa3dd
+  languageName: node
+  linkType: hard
+
+"@nestjs/schedule@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "@nestjs/schedule@npm:4.0.0"
+  dependencies:
+    cron: "npm:3.1.3"
+    uuid: "npm:9.0.1"
+  peerDependencies:
+    "@nestjs/common": ^8.0.0 || ^9.0.0 || ^10.0.0
+    "@nestjs/core": ^8.0.0 || ^9.0.0 || ^10.0.0
+    reflect-metadata: ^0.1.12
+  checksum: 8c3e5ef515fe94780da4c4a834fff264c817e781999d852d8ae6fc942b4a3b115da1a05f13a984985496467fe472cef2ac2830f8e0d466272a55346d52eeb821
   languageName: node
   linkType: hard
 
@@ -1528,6 +1554,13 @@ __metadata:
   dependencies:
     "@types/node": "npm:*"
   checksum: c582b8420586f3b9550f7e34992cb32be300bc953636f3b087ed9c180ce7ea5c2e4b35090be2d57f0d3168cc3ca1074932907caa2afe09f4e9c84cf5c0daefa8
+  languageName: node
+  linkType: hard
+
+"@types/luxon@npm:~3.3.0":
+  version: 3.3.8
+  resolution: "@types/luxon@npm:3.3.8"
+  checksum: f2ffa31364eb94ca0474a196f533d301025a203bb2758ce0cf209f338cece0af169edea230b5c0b1a68a71adb02f369faa5ec0bd824deb8f0a08cac6803b1b06
   languageName: node
   linkType: hard
 
@@ -2220,6 +2253,17 @@ __metadata:
     form-data: "npm:^4.0.0"
     proxy-from-env: "npm:^1.1.0"
   checksum: 9b77e030e85e4f9cbcba7bb52fbff67d6ce906c92d213e0bd932346a50140faf83733bf786f55bd58301bd92f9973885c7b87d6348023e10f7eaf286d0791a1d
+  languageName: node
+  linkType: hard
+
+"axios@npm:^1.6.5":
+  version: 1.6.5
+  resolution: "axios@npm:1.6.5"
+  dependencies:
+    follow-redirects: "npm:^1.15.4"
+    form-data: "npm:^4.0.0"
+    proxy-from-env: "npm:^1.1.0"
+  checksum: aeb9acf87590d8aa67946072ced38e01ca71f5dfe043782c0ccea667e5dd5c45830c08afac9be3d7c894f09684b8ab2a458f497d197b73621233bcf202d9d468
   languageName: node
   linkType: hard
 
@@ -2967,6 +3011,16 @@ __metadata:
   version: 1.1.1
   resolution: "create-require@npm:1.1.1"
   checksum: 157cbc59b2430ae9a90034a5f3a1b398b6738bf510f713edc4d4e45e169bc514d3d99dd34d8d01ca7ae7830b5b8b537e46ae8f3c8f932371b0875c0151d7ec91
+  languageName: node
+  linkType: hard
+
+"cron@npm:3.1.3":
+  version: 3.1.3
+  resolution: "cron@npm:3.1.3"
+  dependencies:
+    "@types/luxon": "npm:~3.3.0"
+    luxon: "npm:~3.4.0"
+  checksum: bc9048376a7fef8bc2abfaf99406be728370b94efd423c74c71085e7bf98ccb51656d16b5f0065c1fbe358aebc8ec1ea11eac3228b76a2e7a352ce41b3b28281
   languageName: node
   linkType: hard
 
@@ -3780,6 +3834,16 @@ __metadata:
     debug:
       optional: true
   checksum: 915a2cf22e667bdf47b1a43cc6b7dce14d95039e9bbf9a24d0e739abfbdfa00077dd43c86d4a7a19efefcc7a99af144920a175eedc3888d268af5df67c272ee5
+  languageName: node
+  linkType: hard
+
+"follow-redirects@npm:^1.15.4":
+  version: 1.15.4
+  resolution: "follow-redirects@npm:1.15.4"
+  peerDependenciesMeta:
+    debug:
+      optional: true
+  checksum: 5f37ed9170c9eb19448c5418fdb0f2b73f644b5364834e70791a76ecc7db215246f9773bbef4852cfae4067764ffc852e047f744b661b0211532155b73556a6a
   languageName: node
   linkType: hard
 
@@ -5453,6 +5517,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"luxon@npm:~3.4.0":
+  version: 3.4.4
+  resolution: "luxon@npm:3.4.4"
+  checksum: 02e26a0b039c11fd5b75e1d734c8f0332c95510f6a514a9a0991023e43fb233884da02d7f966823ffb230632a733fc86d4a4b1e63c3fbe00058b8ee0f8c728af
+  languageName: node
+  linkType: hard
+
 "macos-release@npm:^2.5.0":
   version: 2.5.1
   resolution: "macos-release@npm:2.5.1"
@@ -6221,11 +6292,13 @@ __metadata:
   resolution: "piday-server@workspace:."
   dependencies:
     "@keycloak/keycloak-admin-client": "npm:^23.0.3"
+    "@nestjs/axios": "npm:^3.0.1"
     "@nestjs/cli": "npm:^10.2.1"
     "@nestjs/common": "npm:^10.3.0"
     "@nestjs/core": "npm:^10.3.0"
     "@nestjs/mapped-types": "npm:^2.0.4"
     "@nestjs/platform-express": "npm:^10.3.0"
+    "@nestjs/schedule": "npm:^4.0.0"
     "@nestjs/schematics": "npm:^10.0.3"
     "@nestjs/testing": "npm:^10.3.0"
     "@nestjs/throttler": "npm:^5.1.1"
@@ -6241,6 +6314,7 @@ __metadata:
     "@types/supertest": "npm:^6.0.2"
     "@typescript-eslint/eslint-plugin": "npm:^6.16.0"
     "@typescript-eslint/parser": "npm:^6.16.0"
+    axios: "npm:^1.6.5"
     class-transformer: "npm:^0.5.1"
     class-validator: "npm:^0.14.0"
     config: "npm:^3.3.9"
@@ -7654,6 +7728,15 @@ __metadata:
   version: 1.0.1
   resolution: "utils-merge@npm:1.0.1"
   checksum: 02ba649de1b7ca8854bfe20a82f1dfbdda3fb57a22ab4a8972a63a34553cf7aa51bc9081cf7e001b035b88186d23689d69e71b510e610a09a4c66f68aa95b672
+  languageName: node
+  linkType: hard
+
+"uuid@npm:9.0.1":
+  version: 9.0.1
+  resolution: "uuid@npm:9.0.1"
+  bin:
+    uuid: dist/bin/uuid
+  checksum: 1607dd32ac7fc22f2d8f77051e6a64845c9bce5cd3dd8aa0070c074ec73e666a1f63c7b4e0f4bf2bc8b9d59dc85a15e17807446d9d2b17c8485fbc2147b27f9b
   languageName: node
   linkType: hard
 

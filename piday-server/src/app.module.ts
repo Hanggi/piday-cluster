@@ -2,6 +2,7 @@ import { Module, ValidationPipe } from "@nestjs/common";
 import { APP_FILTER, APP_PIPE } from "@nestjs/core";
 import { ThrottlerModule } from "@nestjs/throttler";
 
+import { ScheduleModule } from '@nestjs/schedule';
 import { AccountModule } from "./account/account.module";
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
@@ -10,6 +11,7 @@ import { HttpExceptionFilter } from "./lib/exceptions/http-exception.filter";
 import { VirtualEstateListingModule } from "./virtual-estate-listing/virtual-estate-listing.module";
 import { VirtualEstateTransactionRecordsModule } from "./virtual-estate-transaction-records/virtual-estate-transaction-records.module";
 import { VirtualEstateModule } from "./virtual-estate/virtual-estate.module";
+import { TaskModule } from "./task/task.module";
 
 @Module({
   imports: [
@@ -26,6 +28,8 @@ import { VirtualEstateModule } from "./virtual-estate/virtual-estate.module";
     VirtualEstateModule,
     VirtualEstateListingModule,
     VirtualEstateTransactionRecordsModule,
+    ScheduleModule.forRoot(),
+    TaskModule,
   ],
   controllers: [AppController],
   providers: [
