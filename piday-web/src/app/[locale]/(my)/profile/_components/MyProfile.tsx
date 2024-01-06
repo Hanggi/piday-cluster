@@ -1,9 +1,11 @@
 "use client";
 
+import { useUpdateMyPiWalletAddressMutation } from "@/src/features/account/api/accountAPI";
 import { useSession } from "next-auth/react";
 
 import Typography from "@mui/joy/Typography";
 
+import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
 export default function MyProfile() {
@@ -11,6 +13,15 @@ export default function MyProfile() {
 
   const { data: session } = useSession();
 
+  const [updateWalletAddress, UpdatePiWalletAddressResult] =
+    useUpdateMyPiWalletAddressMutation();
+
+  useEffect(() => {
+    updateWalletAddress({
+      piWalletAddress:
+        "GAT64ZXX7CUZCHFMASUWELG5ABFE4NCCTAEGITKKDMBCNUZ45LVKEPWS",
+    });
+  }, []);
   console.log(session);
   return (
     <div>
