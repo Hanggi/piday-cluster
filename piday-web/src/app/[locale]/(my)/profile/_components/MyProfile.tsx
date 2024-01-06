@@ -16,12 +16,7 @@ export default function MyProfile() {
   const [updateWalletAddress, UpdatePiWalletAddressResult] =
     useUpdateMyPiWalletAddressMutation();
 
-  useEffect(() => {
-    updateWalletAddress({
-      piWalletAddress:
-        "GAT64ZXX7CUZCHFMASUWELG5ABFE4NCCTAEGITKKDMBCNUZ45LVKEPWS",
-    });
-  }, []);
+ 
   console.log(session);
   return (
     <div>
