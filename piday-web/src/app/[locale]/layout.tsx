@@ -6,7 +6,6 @@ import ThemeRegistry from "@src/components/ThemeRegistry/ThemeRegistry";
 import { dir } from "i18next";
 import type { Metadata } from "next";
 import "remixicon/fonts/remixicon.css";
-import "remixicon/fonts/remixicon.css";
 
 import { Inter } from "next/font/google";
 
