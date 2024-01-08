@@ -82,7 +82,7 @@ export class VirtualEstateTransactionRecordsService {
         },
       });
       const listingID = BigInt(bidID);
-      await prisma.virtualEstateListing.updateMany({
+      await prisma.virtualEstateListing.update({
         where: {
           listingID,
         },

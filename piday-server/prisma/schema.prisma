@@ -49,6 +49,8 @@ model RechargeRecords {
   owner   User   @relation(fields: [ownerID], references: [keycloakID])
 
   createdAt DateTime @default(now())
+
+   @@unique([externalID, reason], name: "unique_externalID_reason")
 }
 
 // When a user buys a virtual estate, the record will be stored here
