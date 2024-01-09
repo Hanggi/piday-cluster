@@ -5,8 +5,10 @@ import { Inject, Injectable, Logger } from "@nestjs/common";
 import { Cron, CronExpression } from "@nestjs/schedule";
 
 import { PrismaService } from "../lib/prisma/prisma.service";
+import { acquireLock, releaseLock } from "./utils/redis-lock";
 
 const PI_NETWORK_PAYMENT_ID_CURSOR = "piday-server::externalIdCursor";
+const REDIS_LOCK_KEY = "piday-server::rechargeRecordCronLock";
 
 @Injectable()
 export class TasksService {
@@ -22,10 +24,14 @@ export class TasksService {
 
   @Cron(CronExpression.EVERY_10_SECONDS)
   async AddRechargeRecordCron() {
-    this.logger.debug("Called every 10 seconds");
+    const hasLock = await acquireLock(this.redis, REDIS_LOCK_KEY, 10);
+
+    if (!hasLock) {
+      console.log("Locked by another process. Skipping.");
+      return;
+    }
 
     const cursor = await this.redis.get(PI_NETWORK_PAYMENT_ID_CURSOR);
-    console.log("cursor:", cursor);
 
     const payments = await this.getAllAccountPayments(cursor);
 
@@ -37,8 +43,6 @@ export class TasksService {
             externalID: payment.id.toString(),
           },
         });
-
-      console.log(payment);
 
       if (existingRechargeRecord) {
         console.log(
@@ -53,6 +57,8 @@ export class TasksService {
           piWalletAddress: payment.from,
         },
       });
+
+      await this.redis.set(PI_NETWORK_PAYMENT_ID_CURSOR, payment.id.toString());
 
       if (!user) {
         console.log(
@@ -72,18 +78,13 @@ export class TasksService {
           },
         });
 
-        if (rechargeRecord) {
-          await this.redis.set(
-            PI_NETWORK_PAYMENT_ID_CURSOR,
-            payment.id.toString(),
-          );
-        }
-
-        console.log(
-          `Recharge record created for user ${user.username} with amount ${payment.amount}`,
+        console.info(
+          `Recharge record created for user ${user.username} with amount ${payment.amount}, externalID ${rechargeRecord.externalID}`,
         );
       });
     }
+
+    await releaseLock(this.redis, REDIS_LOCK_KEY);
   }
 
   async getAllAccountPayments(cursor?: string) {

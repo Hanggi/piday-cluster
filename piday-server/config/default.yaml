@@ -2,7 +2,7 @@ redis:
   host: localhost
   password:
   port: 6379
-  db: 1
+  db: 3
 
 mailgun:
   apiKey: "key-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
