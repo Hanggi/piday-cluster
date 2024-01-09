@@ -8,7 +8,7 @@ spec:
   template:
     spec:
       containers:
-        - image: registry.digitalocean.com/davinqi/piday-web:v0.0.13-dev
+        - image: registry.digitalocean.com/davinqi/piday-web:v0.0.14
           imagePullPolicy: Always
           name: piday-web-deployment
           resources:
