@@ -4,6 +4,9 @@ metadata:
   name: piday-web-deployment
   namespace: piday-staging
 spec:
+  selector:
+    matchLabels:
+      app: piday-web-deployment
   replicas: 2
   template:
     spec:
@@ -18,6 +21,6 @@ spec:
             limits:
               memory: "1024Mi"
               cpu: "1000m"
-          envFrom:
-            - configMapRef:
-                name: piday-web-env
+          # envFrom:
+          #   - configMapRef:
+          #       name: piday-web-env

@@ -13,3 +13,8 @@ labels:
 
 patches:
   - path: deployment.yaml
+    target:
+      namespace: piday-staging
+  - path: routing.yaml
+    target:
+      namespace: piday-staging

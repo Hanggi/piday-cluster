@@ -1,0 +1,16 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: piday-web-virtual-service
+  namespace: piday-staging
+spec:
+  hosts:
+    - "testnet.piday.world"
+  gateways:
+    - prod/istio-gateway
+  http:
+    - route:
+        - destination:
+            port:
+              number: 80
+            host: piday-web-service
