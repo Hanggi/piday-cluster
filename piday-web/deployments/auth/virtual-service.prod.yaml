@@ -1,0 +1,18 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: keycloak-virtual-service
+  namespace: piday-prod
+spec:
+  hosts:
+    - "auth.piday.world"
+  gateways:
+    - prod/istio-gateway
+  http:
+    - route:
+        - destination:
+            port:
+              number: 80
+            host: piday-prod-auth-keycloak
+---
+
