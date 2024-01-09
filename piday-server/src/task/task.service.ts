@@ -6,6 +6,8 @@ import { Cron, CronExpression } from "@nestjs/schedule";
 
 import { PrismaService } from "../lib/prisma/prisma.service";
 
+const PI_NETWORK_PAYMENT_ID_CURSOR = "piday-server::externalIdCursor";
+
 @Injectable()
 export class TasksService {
   private readonly pageSize = 100; // Adjust the page size as needed
@@ -20,42 +22,46 @@ export class TasksService {
 
   @Cron(CronExpression.EVERY_10_SECONDS)
   async AddRechargeRecordCron() {
-    this.prismaService.$transaction(async (prisma) => {
-      this.logger.debug("Called every 10 seconds");
+    this.logger.debug("Called every 10 seconds");
 
-      const cursor = await this.redis.get("externalIdCursor");
+    const cursor = await this.redis.get(PI_NETWORK_PAYMENT_ID_CURSOR);
+    console.log("cursor:", cursor);
 
-      const payments = await this.getAllAccountPayments(cursor);
+    const payments = await this.getAllAccountPayments(cursor);
 
-      for (const payment of payments) {
-        // Check if the payment has already been processed
-        const existingRechargeRecord = await prisma.rechargeRecords.findFirst({
+    for (const payment of payments) {
+      // Check if the payment has already been processed
+      const existingRechargeRecord =
+        await this.prismaService.rechargeRecords.findFirst({
           where: {
             externalID: payment.id.toString(),
           },
         });
 
-        if (existingRechargeRecord) {
-          console.log(
-            `Payment with ID ${payment.id} already processed. Skipping.`,
-          );
-          continue;
-        }
+      console.log(payment);
 
-        // Find the user associated with the payment
-        const user = await prisma.user.findFirst({
-          where: {
-            piWalletAddress: payment.from,
-          },
-        });
+      if (existingRechargeRecord) {
+        console.log(
+          `Payment with ID ${payment.id} already processed. Skipping.`,
+        );
+        continue;
+      }
 
-        if (!user) {
-          console.log(
-            `User with piWalletAddress ${payment.from} not found. Skipping.`,
-          );
-          continue;
-        }
+      // Find the user associated with the payment
+      const user = await this.prismaService.user.findFirst({
+        where: {
+          piWalletAddress: payment.from,
+        },
+      });
 
+      if (!user) {
+        console.log(
+          `User with piWalletAddress ${payment.from} not found. Skipping.`,
+        );
+        continue;
+      }
+
+      this.prismaService.$transaction(async (prisma) => {
         // Create a recharge record
         const rechargeRecord = await prisma.rechargeRecords.create({
           data: {
@@ -67,14 +73,17 @@ export class TasksService {
         });
 
         if (rechargeRecord) {
-          await this.redis.set("externalIdCursor", payment.id.toString());
+          await this.redis.set(
+            PI_NETWORK_PAYMENT_ID_CURSOR,
+            payment.id.toString(),
+          );
         }
 
         console.log(
           `Recharge record created for user ${user.username} with amount ${payment.amount}`,
         );
-      }
-    });
+      });
+    }
   }
 
   async getAllAccountPayments(cursor?: string) {
