@@ -9,6 +9,7 @@ import { acquireLock, releaseLock } from "./utils/redis-lock";
 
 const PI_NETWORK_PAYMENT_ID_CURSOR = "piday-server::externalIdCursor";
 const REDIS_LOCK_KEY = "piday-server::rechargeRecordCronLock";
+const PI_NETWORK_TRANSACTION_SCAN_INTERVAL = 10; // In seconds
 
 @Injectable()
 export class TasksService {
@@ -24,7 +25,11 @@ export class TasksService {
 
   @Cron(CronExpression.EVERY_10_SECONDS)
   async AddRechargeRecordCron() {
-    const hasLock = await acquireLock(this.redis, REDIS_LOCK_KEY, 10);
+    const hasLock = await acquireLock(
+      this.redis,
+      REDIS_LOCK_KEY,
+      PI_NETWORK_TRANSACTION_SCAN_INTERVAL,
+    );
 
     if (!hasLock) {
       console.log("Locked by another process. Skipping.");

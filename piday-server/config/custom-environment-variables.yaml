@@ -3,3 +3,13 @@ redis:
   password: REDIS_PASSWORD
   port: REDIS_PORT
   db: REDIS_DB
+
+
+mailgun:
+  apiKey: MAILGUN_API_KEY
+
+keycloak:
+  baseUrl: KEYCLOAK_BASE_URL
+  realm: KEYCLOAK_REALM
+  clientId: KEYCLOAK_CLIENT_ID
+  clientSecret: KEYCLOAK_CLIENT_SECRET

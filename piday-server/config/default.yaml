@@ -4,6 +4,12 @@ redis:
   port: 6379
   db: 3
 
+keycloak:
+  baseUrl: KEYCLOAK_BASE_URL
+  realm: "piday"
+  clientId: "auth-client"
+  clientSecret: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+
 mailgun:
   apiKey: "key-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
   domain: mg.piday.world

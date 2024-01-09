@@ -12,9 +12,6 @@ labels:
       env: dostaging
 
 patches:
-  - path: deployment.yaml
-    target:
-      namespace: piday-staging
-  - path: routing.yaml
-    target:
-      namespace: piday-staging
+  - path: ./deployment.yaml
+  - path: ./routing.yaml
+  - path: ./configMap.yaml
