@@ -21,6 +21,6 @@ spec:
             limits:
               memory: "1024Mi"
               cpu: "1000m"
-          envFrom:
-            - configMapRef:
-                name: piday-server-env
+          # envFrom:
+          #   - configMapRef:
+          #       name: piday-server-env
