@@ -39,16 +39,17 @@ export class VirtualEstateListingService {
 
     try {
       const listingID = BigInt(generateFlakeID());
-      const newVirtualEstateListing = await this.prisma.virtualEstateListing.create({
-        data: {
-          price,
-          type,
-          expiresAt,
-          ownerID,
-          virtualEstateID,
-          listingID: listingID,
-        },
-      });
+      const newVirtualEstateListing =
+        await this.prisma.virtualEstateListing.create({
+          data: {
+            price,
+            type,
+            expiresAt,
+            ownerID,
+            virtualEstateID,
+            listingID: listingID,
+          },
+        });
 
       if (!newVirtualEstateListing) {
         return null;
