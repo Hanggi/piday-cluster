@@ -18,6 +18,8 @@ spec:
       containers:
         - image: registry.digitalocean.com/davinqi/piday-web:v0.0.19
           imagePullPolicy: Always
+          command: ["sh", "-c"]
+          args: ["source /vault/secrets/config && node server.js"]
           name: piday-web-deployment
           resources:
             requests:
