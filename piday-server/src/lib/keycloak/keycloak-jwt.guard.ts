@@ -24,8 +24,9 @@ export class KeycloakJwtGuard implements CanActivate {
     });
 
     function getKey(header, callback: jwt.SigningKeyCallback) {
-      client.getSigningKey(header.kid, function (err, key) {
-        const signingKey = key.getPublicKey();
+      client.getSigningKey(header.kid, function (err, key: any) {
+        const signingKey =
+          key?.getPublicKey() || key?.publicKey || key?.rsaPublicKey;
         callback(null, signingKey);
       });
     }
