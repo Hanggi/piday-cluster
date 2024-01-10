@@ -1,4 +1,5 @@
 import * as jwt from "jsonwebtoken";
+import jwksClient from "jwks-rsa";
 
 import { CanActivate, ExecutionContext, Injectable } from "@nestjs/common";
 
@@ -17,17 +18,27 @@ export class KeycloakJwtGuard implements CanActivate {
     if (bearer !== "Bearer" || !token) {
       return false; // 格式不正确
     }
-    const certs = await fetch(process.env.KEYCLOAK_CERTS_URL);
-    const certsJson = await certs.json();
+    // const certs = await fetch(process.env.KEYCLOAK_CERTS_URL);
+    const client = jwksClient({
+      jwksUri: process.env.KEYCLOAK_CERTS_URL,
+    });
 
-    const rs256Key = certsJson.keys.find(
-      (key) => key.use === "sig" && key.alg === "RS256",
-    );
+    function getKey(header, callback: jwt.SigningKeyCallback) {
+      client.getSigningKey(header.kid, function (err, key) {
+        const signingKey = key.getPublicKey();
+        callback(null, signingKey);
+      });
+    }
 
-    const secret = `-----BEGIN CERTIFICATE-----\n${rs256Key.x5c[0]}\n-----END CERTIFICATE-----`;
+    // const certsJson = await certs.json();
+    // const rs256Key = certsJson.keys.find(
+    //   (key) => key.use === "sig" && key.alg === "RS256",
+    // );
+    // const secret = `-----BEGIN CERTIFICATE-----\n${rs256Key.x5c[0]}\n-----END CERTIFICATE-----`;
 
     try {
-      const decoded = jwt.verify(token, secret);
+      const decoded = await verifyToken(token, getKey);
+      // const decoded = jwt.verify(token, secret);
 
       const userID = decoded.sub;
 
@@ -41,4 +52,20 @@ export class KeycloakJwtGuard implements CanActivate {
       return false; // 验证失败
     }
   }
+}
+
+function verifyToken(
+  token: string,
+  secretOrPublicKey: jwt.Secret | jwt.GetPublicKeyOrSecret,
+  options?: jwt.VerifyOptions,
+): Promise<jwt.JwtPayload | string> {
+  return new Promise((resolve, reject) => {
+    jwt.verify(token, secretOrPublicKey, options, (err, decodedToken) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(decodedToken);
+      }
+    });
+  });
 }
