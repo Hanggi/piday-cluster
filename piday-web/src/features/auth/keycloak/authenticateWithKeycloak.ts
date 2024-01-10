@@ -21,6 +21,8 @@ export async function authenticateWithKeycloak(
 
   const data = await tokenResponse.json();
 
+  console.log(data);
+
   if (tokenResponse.ok) {
     return data;
   } else {
