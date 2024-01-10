@@ -7,8 +7,6 @@ spec:
   replicas: 2
   template:
     metadata:
-      labels:
-        app: piday-web-deployment
       annotations:
         vault.hashicorp.com/agent-inject: "true"
         vault.hashicorp.com/role: "piday-server"
