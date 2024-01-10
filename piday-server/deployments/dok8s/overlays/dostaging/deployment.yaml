@@ -25,11 +25,12 @@ spec:
             export REDIS_HOST="{{ .Data.data.REDIS_HOST }}"
             export REDIS_PASSWORD="{{ .Data.data.REDIS_PASSWORD }}"
             export REDIS_PORT="{{ .Data.data.REDIS_PORT }}"
+            export MAILGUN_API_KEY="{{ .Data.data.MAILGUN_API_KEY }}"
           {{- end }}
     spec:
       serviceAccountName: default
       containers:
-        - image: registry.digitalocean.com/davinqi/piday-server:v0.0.5
+        - image: registry.digitalocean.com/davinqi/piday-server:v0.0.6
           imagePullPolicy: Always
           name: piday-server-deployment
           resources:
