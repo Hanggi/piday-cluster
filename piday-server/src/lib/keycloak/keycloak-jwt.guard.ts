@@ -23,6 +23,7 @@ export class KeycloakJwtGuard implements CanActivate {
       jwksUri: process.env.KEYCLOAK_CERTS_URL,
     });
 
+    console.log(client);
     function getKey(header, callback: jwt.SigningKeyCallback) {
       client.getSigningKey(header.kid, function (err, key: any) {
         console.log("key", key);
