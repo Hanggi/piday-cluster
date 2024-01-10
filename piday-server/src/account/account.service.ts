@@ -11,7 +11,6 @@ export class AccountService {
   constructor(private prisma: PrismaService) {}
 
   async getMyBalance({ userID }: { userID: string }): Promise<Decimal> {
-    console.log("userID", userID);
     const totalBalance = await this.prisma.rechargeRecords.aggregate({
       _sum: {
         amount: true,
@@ -20,7 +19,6 @@ export class AccountService {
         ownerID: userID,
       },
     });
-    console.log("totalBalance", totalBalance);
 
     const balance = totalBalance._sum.amount || ZERO_DECIMAL;
 

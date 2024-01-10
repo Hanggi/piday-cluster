@@ -21,7 +21,7 @@ model User {
   username   String  @unique
   avatar     String?
 
-  piWalletAddress String?
+  piWalletAddress String? @unique
 
   // VirtualEstate[]
   virtualEstates                        VirtualEstate[]
@@ -50,7 +50,7 @@ model RechargeRecords {
 
   createdAt DateTime @default(now())
 
-   @@unique([externalID, reason], name: "unique_externalID_reason")
+  @@unique([externalID, reason], name: "unique_externalID_reason")
 }
 
 // When a user buys a virtual estate, the record will be stored here

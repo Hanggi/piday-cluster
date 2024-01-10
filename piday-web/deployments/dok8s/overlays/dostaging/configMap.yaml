@@ -7,5 +7,6 @@ data:
   REACT_APP_VERSION: 0.0.1
   BACKEND_BASE_URL: http://piday-server-service.piday-staging
 
+  KEYCLOAK_BASE_URL: "https://staging-auth.piday.world"
   KEYCLOAK_ISSUER: "https://staging-auth.piday.world/realms/piday"
   END_SESSION_URL: "https://staging-auth.piday.world/realms/piday/protocol/openid-connect/logout"
