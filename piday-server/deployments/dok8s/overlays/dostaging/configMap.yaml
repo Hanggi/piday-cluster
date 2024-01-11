@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: piday-server-env
-#  namespace: staging
+  # namespace: piday-staging
 data:
   GIN_MODE: release
   NODE_ENV: dev
