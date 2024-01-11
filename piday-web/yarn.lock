@@ -2132,12 +2132,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^20.10.7":
-  version: 20.10.7
-  resolution: "@types/node@npm:20.10.7"
+"@types/node@npm:^20.10.8":
+  version: 20.10.8
+  resolution: "@types/node@npm:20.10.8"
   dependencies:
     undici-types: "npm:~5.26.4"
-  checksum: d626cea1b7da4784ee7b335dcc54e64adba9725dab7ca51a690167de502ef89fec07b05ad8e25845d188d7ad7f72c192ec92964d456321ed5b9452113bf9351f
+  checksum: 93268c33c3bf0194427d696658160c77ab8661aa57107df5b248ff952898a372bf92cf0ba7fc07788fa35e59c69b6619cce63d45e4e67fca806e37da7ea42512
   languageName: node
   linkType: hard
 
@@ -2216,10 +2216,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/validator@npm:^13.11.7":
-  version: 13.11.7
-  resolution: "@types/validator@npm:13.11.7"
-  checksum: 9ca2a047d6e7c1d718c6dd28b12d6d893c4ac2acdb8a557b8d448dab17aaa044e92c7a13c8476601078f4c907ed66259e3b20525f7fa849378fbaf53a971d574
+"@types/validator@npm:^13.11.8":
+  version: 13.11.8
+  resolution: "@types/validator@npm:13.11.8"
+  checksum: 9e96e96b25a4ed2234fa081b9d99bcbd29e8714b7c48446ff386e3c47ea9c3bb482b5d03e4cb68da636c80c63350aee06a71f7c74bd7a8e3a08a1d75ec817d8a
   languageName: node
   linkType: hard
 
@@ -3145,10 +3145,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"date-fns@npm:^3.1.0":
-  version: 3.1.0
-  resolution: "date-fns@npm:3.1.0"
-  checksum: 60ded37aff397077780bf7b4e545b85041ee97e2acb24ffb99b84dcd8cf64d1c360d1f7bbf7e811840bb8df4f054508fa3dfb438f9e1558ddf5fe7645f4bdbf9
+"date-fns@npm:^3.2.0":
+  version: 3.2.0
+  resolution: "date-fns@npm:3.2.0"
+  checksum: f93e987f785d7f2b7349986d150b014ce21fa6425e2e1edea6f0e01731dceef68deabf0f723689c28604e857648ac708a52b924cb7584e4321835686aa665371
   languageName: node
   linkType: hard
 
@@ -4994,14 +4994,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"keycloak-js@npm:^23.0.3":
-  version: 23.0.3
-  resolution: "keycloak-js@npm:23.0.3"
+"keycloak-js@npm:^23.0.4":
+  version: 23.0.4
+  resolution: "keycloak-js@npm:23.0.4"
   dependencies:
     base64-js: "npm:^1.5.1"
     js-sha256: "npm:^0.10.1"
     jwt-decode: "npm:^4.0.0"
-  checksum: 4ffc02b4a6518c7f6cb7bfa93a3b9708ac8b34b0c1d573ce367a9775c8dc28225b2fea2089cd7d19f6814f0af79c6b9334a9397d2539110f989a3356789704c7
+  checksum: f46c5de8dfcd142631f167f05dca0580cbc7812f8ccc3cb498d13bad40ec4ea077e5041223da8a00c15ae36a449afb035df7287dbde93b1b94b36125abbcd1ba
   languageName: node
   linkType: hard
 
@@ -5858,16 +5858,16 @@ __metadata:
     "@reduxjs/toolkit": "npm:^2.0.1"
     "@trivago/prettier-plugin-sort-imports": "npm:^4.3.0"
     "@types/lodash": "npm:^4.14.202"
-    "@types/node": "npm:^20.10.7"
+    "@types/node": "npm:^20.10.8"
     "@types/react": "npm:^18.2.47"
     "@types/react-dom": "npm:^18.2.18"
     "@types/react-paginate": "npm:^7.1.4"
-    "@types/validator": "npm:^13.11.7"
+    "@types/validator": "npm:^13.11.8"
     autoprefixer: "npm:^10.4.16"
     axios: "npm:^1.6.5"
     clsx: "npm:^2.1.0"
     cryptr: "npm:^6.3.0"
-    date-fns: "npm:^3.1.0"
+    date-fns: "npm:^3.2.0"
     deck.gl: "npm:^8.9.33"
     env-cmd: "npm:^10.1.0"
     eslint: "npm:^8.56.0"
@@ -5878,7 +5878,7 @@ __metadata:
     i18next: "npm:^23.7.16"
     i18next-resources-to-backend: "npm:^1.2.0"
     jwt-decode: "npm:^4.0.0"
-    keycloak-js: "npm:^23.0.3"
+    keycloak-js: "npm:^23.0.4"
     lodash: "npm:^4.17.21"
     mapbox-gl: "npm:^3.0.1"
     next: "npm:14.0.4"
@@ -5888,7 +5888,7 @@ __metadata:
     prettier: "npm:^3.1.1"
     react: "npm:^18.2.0"
     react-dom: "npm:^18.2.0"
-    react-hook-form: "npm:^7.49.2"
+    react-hook-form: "npm:^7.49.3"
     react-i18next: "npm:^14.0.0"
     react-map-gl: "npm:^7.1.7"
     react-number-format: "npm:^5.3.1"
@@ -6154,12 +6154,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-hook-form@npm:^7.49.2":
-  version: 7.49.2
-  resolution: "react-hook-form@npm:7.49.2"
+"react-hook-form@npm:^7.49.3":
+  version: 7.49.3
+  resolution: "react-hook-form@npm:7.49.3"
   peerDependencies:
     react: ^16.8.0 || ^17 || ^18
-  checksum: 8e2d3209d49a816f08e61a3b1847e9edff5ecb6e5b3cd056780c2331f8bb32aa0b7a2542bece602b415ddd4009023c5d054a27a021dc5014672623d5990853c8
+  checksum: f8e5b2dcc3d97c820b4fbac262d7e914d74f385f26f34da31b8efc6c0f32ba995f2a2330bdfd3d8b7c8b56a52349a0cbc0c0dbe9053b3971e5e0c78003dfb7f0
   languageName: node
   linkType: hard
 
