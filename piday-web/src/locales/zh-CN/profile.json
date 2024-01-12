@@ -31,6 +31,16 @@
   "profile": {
     "myProfile": "我的资料",
     "username": "用户名",
-    "email": "邮箱"
+    "email": "邮箱",
+    "placeholder": {
+      "enterYourPiWalletAddress": "请输入您的Pi钱包地址"
+    }
+  },
+  "button": {
+    "save": "保存",
+    "cancel": "取消"
+  },
+  "toast": {
+    "updatePiWalletAddressSuccess": "更新Pi钱包地址成功"
   }
 }

@@ -15,7 +15,15 @@
     "transactionID": "Transaction ID",
     "createdAt": "Created At"
   },
+  "hint": {
+    "howToRecharge": "First, bind your wallet address, and then use this address to transfer funds to the official recharge address to complete the recharge process."
+  },
+  "label": {
+    "myAddress": "My Address",
+    "rechargeAddress": "Recharge Address"
+  },
   "title": {
-    "myBalance": "My Balance"
+    "myBalance": "My Balance",
+    "recharge": "Recharge"
   }
 }

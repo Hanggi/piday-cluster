@@ -31,6 +31,16 @@
   "profile": {
     "myProfile": "My Profile",
     "username": "Username",
-    "email": "Email"
+    "email": "Email",
+    "placeholder": {
+      "enterYourPiWalletAddress": "Enter Your Pi Wallet Address"
+    }
+  },
+  "button": {
+    "save": "Save",
+    "cancel": "Cancel"
+  },
+  "toast": {
+    "updatePiWalletAddressSuccess": "Update Pi Wallet Address Success"
   }
 }

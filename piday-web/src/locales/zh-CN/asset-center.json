@@ -15,7 +15,15 @@
     "transactionID": "交易ID",
     "createdAt": "创建时间"
   },
+  "hint": {
+    "howToRecharge": "首先绑定您的钱包地址，然后使用该地址向官方指定的充值地址进行转账，即可完成充值操作。"
+  },
+  "label": {
+    "myAddress": "我的地址",
+    "rechargeAddress": "充值地址"
+  },
   "title": {
-    "myBalance": "我的余额"
+    "myBalance": "我的余额",
+    "recharge": "充值"
   }
 }

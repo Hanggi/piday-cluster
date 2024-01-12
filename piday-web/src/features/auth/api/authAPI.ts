@@ -2,6 +2,7 @@ import { createApi } from "@reduxjs/toolkit/query/react";
 import { AxiosResponse } from "axios";
 
 import { baseQuery } from "../../rtk-utils/fetch-base-query";
+import { User } from "../interface/User.interface";
 
 export const authRTKApi = createApi({
   reducerPath: "authAPI",
@@ -33,8 +34,22 @@ export const authRTKApi = createApi({
         return error.data;
       },
     }),
+
+    getMyUser: builder.query<User, void>({
+      query: () => ({
+        url: `/user`,
+        method: "GET",
+      }),
+      transformResponse: (response: { user: User }) => {
+        return response.user;
+      },
+    }),
   }),
 });
 
-export const { useEmailSignUpMutation, useSendEmailVerificationMutation } =
-  authRTKApi;
+export const {
+  useEmailSignUpMutation,
+  useSendEmailVerificationMutation,
+
+  useGetMyUserQuery,
+} = authRTKApi;

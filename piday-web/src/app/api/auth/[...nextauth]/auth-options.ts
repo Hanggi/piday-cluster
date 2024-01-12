@@ -76,6 +76,9 @@ export const authOptions: AuthOptions = {
       }
     },
     async session({ session, token }: any) {
+      // console.log("session", session);
+      // console.log("token", token);
+
       // Send properties to the client
       session.accessToken = encrypt(token.accessToken); // see utils/sessionTokenAccessor.js
       // session.id_token = encrypt(token.id_token); // see utils/sessionTokenAccessor.js
