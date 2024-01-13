@@ -8,7 +8,7 @@ spec:
   template:
     metadata:
       labels:
-        app: piday-server-deployment
+        app: piday-web-deployment
       annotations:
         vault.hashicorp.com/agent-inject: "true"
         vault.hashicorp.com/role: "piday-server"
