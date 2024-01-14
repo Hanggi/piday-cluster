@@ -42,6 +42,7 @@ export const NavMenu = ({ children, className, navType }: NavMenuProps) => {
     </>
   );
 };
+
 const navData = [
   {
     icon: "/img/icons/handbag.svg",

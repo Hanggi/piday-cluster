@@ -21,6 +21,7 @@ export default function Navbar({
   navType: NavType;
 }) {
   const isMd = useMediaQuery("md");
+
   return (
     <div
       className={cn("top-0 w-full max-md:py-4 md:h-20", {
