@@ -6,7 +6,10 @@ import { ServiceException } from "../lib/exceptions/service-exception";
 import { generateFlakeID } from "../lib/generate-id/generate-flake-id";
 import { PrismaService } from "../lib/prisma/prisma.service";
 import { VirtualEstateListingService } from "../virtual-estate-listing/virtual-estate-listing.service";
-import { CreateVirtualEstateTransactionRecordDto } from "./dto/create-virtual-estate-transaction-record.dto";
+import {
+  AcceptAskRequestTransactionRecordDto,
+  CreateVirtualEstateTransactionRecordDto,
+} from "./dto/create-virtual-estate-transaction-record.dto";
 
 @Injectable()
 export class VirtualEstateTransactionRecordsService {
@@ -37,7 +40,7 @@ export class VirtualEstateTransactionRecordsService {
           amount: true,
         },
       });
-      if (balance._sum.amount < new Decimal(price)) {
+      if (balance._sum.amount.lessThan(new Decimal(price))) {
         throw new ServiceException("Not enough balance", "NOT_ENOUGH_BALANCE");
       }
 
@@ -192,5 +195,88 @@ export class VirtualEstateTransactionRecordsService {
     } catch (error) {
       throw error;
     }
+  }
+
+  async acceptAskRequestToBuyVirtualEstate({
+    askID,
+    buyerID,
+    virtualEstateID,
+  }: AcceptAskRequestTransactionRecordDto) {
+    const askingDetail =
+      await this.virtualEstateListingService.getOneListingDetail(BigInt(askID));
+    if (!askingDetail) {
+      throw new ServiceException("No asking details found.", "BID_NOT_FOUND");
+    }
+
+    return this.prisma.$transaction(async (prisma) => {
+      const sellerID = askingDetail.ownerID;
+      const price = askingDetail.price.toString();
+      const balance = await prisma.rechargeRecords.aggregate({
+        where: {
+          ownerID: buyerID,
+        },
+        _sum: {
+          amount: true,
+        },
+      });
+      if (balance._sum.amount.lessThan(new Decimal(price))) {
+        throw new ServiceException("Not enough balance", "NOT_ENOUGH_BALANCE");
+      }
+
+      const transactionID = BigInt(generateFlakeID());
+      const transaction = await prisma.virtualEstateTransactionRecords.create({
+        data: {
+          transactionID: transactionID,
+          buyerID,
+          price,
+          sellerID,
+          virtualEstateID,
+        },
+      });
+
+      if (!transaction) {
+        throw new Error("Transaction not successful");
+      }
+
+      await prisma.rechargeRecords.create({
+        data: {
+          amount: price,
+          externalID: transactionID.toString(),
+          reason: "SELL_ASK",
+          ownerID: sellerID,
+        },
+      });
+      await prisma.rechargeRecords.create({
+        data: {
+          amount: -price,
+          externalID: transactionID.toString(),
+          reason: "BUY_BID",
+          ownerID: buyerID,
+        },
+      });
+
+      await prisma.virtualEstate.update({
+        where: {
+          virtualEstateID,
+        },
+        data: {
+          ownerID: buyerID,
+        },
+      });
+      const listingID = BigInt(askID);
+      await prisma.virtualEstateListing.update({
+        where: {
+          listingID,
+        },
+        data: {
+          expiresAt: new Date(),
+        },
+      });
+
+      return {
+        ...transaction,
+        transactionID: transaction.transactionID.toString(),
+      };
+    });
   }
 }

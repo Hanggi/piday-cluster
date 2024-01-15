@@ -16,6 +16,21 @@ export class CreateVirtualEstateTransactionRecordDto {
   bidID: string;
 }
 
+
+export class AcceptAskRequestTransactionRecordDto {
+  @IsNotEmpty()
+  @IsString()
+  virtualEstateID: string;
+
+  @IsNotEmpty()
+  @IsString()
+  buyerID: string;
+
+  @IsNotEmpty()
+  @IsString()
+  askID: string;
+}
+
 export class VirtualEstateTransactionRecordResponseDto {
   @Expose()
   transactionID: string;
