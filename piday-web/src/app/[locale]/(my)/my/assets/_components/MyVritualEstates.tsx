@@ -3,7 +3,10 @@
 import { VirtualEstateCard } from "@/src/components/LandCard";
 import { WrapperCard } from "@/src/components/WrapperCard";
 import Pagination from "@/src/components/piday-ui/pagination/Pagination";
-import { useGetMyVirtualEstatesQuery } from "@/src/features/virtual-estate/api/virtualEstateAPI";
+import {
+  useAcceptAskToBuyVirtualEstateMutation,
+  useGetMyVirtualEstatesQuery,
+} from "@/src/features/virtual-estate/api/virtualEstateAPI";
 import { VirtualEstate } from "@/src/features/virtual-estate/interface/virtual-estate.interface";
 import { setMyVirtualEstatesCount } from "@/src/features/virtual-estate/virtual-estate-slice";
 
@@ -20,6 +23,8 @@ export const MyVritualEstates = ({}: Props) => {
     size: 20,
   });
 
+  const [acceptAskToBuyVirtualEstate, acceptAskToBuyVirtualEstateResult] =
+    useAcceptAskToBuyVirtualEstateMutation();
   useEffect(() => {
     if (
       myVritualEstatesRes?.totalCount &&

@@ -323,6 +323,45 @@ export class VirtualEstateController {
     }
   }
 
+  @UseGuards(KeycloakJwtGuard)
+  @Patch(":hexID/ask/:askID/accept")
+  async acceptAskToBuyVirtualEstate(
+    @Param("hexID") hexID,
+    @Param("askID") askID,
+    @Req() req: AuthenticatedRequest,
+    @Res() res: Response,
+  ) {
+    try {
+      const buyerID = req.user.userID;
+
+      const transactionRecord =
+        await this.virtualEstateTransactionRecordsService.acceptAskRequestToBuyVirtualEstate(
+          {
+            virtualEstateID: hexID,
+            buyerID,
+            askID,
+          },
+        );
+
+      if (!transactionRecord) {
+        res.status(HttpStatus.BAD_REQUEST).json({
+          success: false,
+          transactionRecord: null,
+        });
+      }
+      res.status(HttpStatus.OK).json({
+        success: true,
+        transactionRecord,
+      });
+    } catch (error) {
+      console.error(error);
+      throw new HttpException(
+        "Internal Server Error",
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+
   @Get(":hexID")
   async getOneVirtualEstate(
     @Param("hexID") hexID,

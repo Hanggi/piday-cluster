@@ -149,7 +149,10 @@ export class VirtualEstateService {
     };
   }
 
-  async getVirtualEstateTotalMinted(endDate: Date, startDate: Date):Promise<number> {
+  async getVirtualEstateTotalMinted(
+    endDate: Date,
+    startDate: Date,
+  ): Promise<number> {
     try {
       const virtualEstateMinted = await this.prisma.virtualEstate.count({
         where: {

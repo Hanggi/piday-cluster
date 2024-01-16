@@ -1,7 +1,8 @@
-import { VirtualEstateListing } from "@prisma/client";
+import { TransactionType, VirtualEstateListing } from "@prisma/client";
 
 import { Injectable } from "@nestjs/common";
 
+import { ServiceException } from "../lib/exceptions/service-exception";
 import { generateFlakeID } from "../lib/generate-id/generate-flake-id";
 import { PrismaService } from "../lib/prisma/prisma.service";
 import { CreateVirtualEstateListingDto } from "./dto/create-virtual-estate-listing.dto";
@@ -16,7 +17,6 @@ export class VirtualEstateListingService {
     ownerID,
     virtualEstateID,
   }: CreateVirtualEstateListingDto) {
-    // Check if there are any existing listings made by the same owner
     const query = {
       virtualEstateID,
       ownerID,
@@ -27,14 +27,40 @@ export class VirtualEstateListingService {
     const existing = await this.prisma.virtualEstateListing.findMany({
       where: query,
     });
+    switch (type) {
+      case TransactionType.BID:
+        if (existing.length > 0) {
+          await this.prisma.virtualEstateListing.updateMany({
+            where: query,
+            data: {
+              expiresAt: new Date(),
+            },
+          });
+        }
+        break;
 
-    if (existing.length > 0) {
-      await this.prisma.virtualEstateListing.updateMany({
-        where: query,
-        data: {
-          expiresAt: new Date(),
-        },
-      });
+      case TransactionType.ASK:
+        // check if user is owner of the virtual estate
+        const virtualEstate = await this.prisma.virtualEstate.findFirst({
+          where: {
+            virtualEstateID: virtualEstateID,
+          },
+        });
+        if (virtualEstate.ownerID !== ownerID)
+          throw new ServiceException(
+            "You are not the owner of the virtual estate",
+            "NOT_OWNER",
+          );
+        //expires previous listings
+        if (existing.length > 0) {
+          await this.prisma.virtualEstateListing.updateMany({
+            where: query,
+            data: {
+              expiresAt: new Date(),
+            },
+          });
+        }
+        break;
     }
 
     try {

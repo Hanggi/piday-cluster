@@ -1,5 +1,7 @@
 "use client";
 
+import { useCreateVirtualEstateListingMutation } from "@/src/features/virtual-estate-listing/api/virtualEstateListingAPI";
+import { TransactionType } from "@/src/features/virtual-estate-listing/interface/virtual-estate-listing.interface";
 import { useGetPlacesQuery } from "@/src/features/virtual-estate/api/mapboxAPI";
 import { VirtualEstate } from "@/src/features/virtual-estate/interface/virtual-estate.interface";
 import { format } from "date-fns";
@@ -9,7 +11,7 @@ import { useSession } from "next-auth/react";
 import Button from "@mui/joy/Button";
 import Typography from "@mui/joy/Typography";
 
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import BidToBuyDialog from "./dialogs/BidToBuyDialog";
