@@ -37,6 +37,7 @@ export class VirtualEstateListingService {
             },
           });
         }
+        break;
 
       case TransactionType.ASK:
         // check if user is owner of the virtual estate
@@ -59,6 +60,7 @@ export class VirtualEstateListingService {
             },
           });
         }
+        break;
     }
 
     try {
