@@ -3,27 +3,36 @@ import instance from "@/src/features/axios/instance";
 import { AxiosError } from "axios";
 import { StatusCodes } from "http-status-codes";
 
-export async function GET(
+export async function POST(
   request: Request,
+  {
+    params,
+  }: {
+    params: { hexID: string; bidID: string };
+  },
 ) {
+  const body = await request.json();
+  const { receiverID } = body;
   const { headers } = request;
-
+  const hexID = params.hexID;
   try {
-    const res = await instance.get("/user", {
-      headers: HeaderFilters(headers),
-    });
+    const res = await instance.post(
+      "/virtual-estates/" + hexID + "/transfer",
+      { receiverID },
+      {
+        headers: HeaderFilters(headers),
+      },
+    );
 
     return new Response(JSON.stringify(res.data), {
       status: StatusCodes.OK,
     });
   } catch (error) {
-    console.error(error);
     const axiosError = error as AxiosError;
-
     return new Response(
       JSON.stringify({
         success: false,
-        message: "Fail to get my user",
+        message: "Fail to transfer virtual estate",
         error: axiosError.response?.data || "Unknown error",
       }),
       {

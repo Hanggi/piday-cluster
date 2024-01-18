@@ -10,6 +10,8 @@ export class UserResponseDto {
   avatar?: string;
 
   @Expose()
+  email: string;
+  @Expose()
   createdAt: Date;
   @Expose()
   updatedAt: Date;

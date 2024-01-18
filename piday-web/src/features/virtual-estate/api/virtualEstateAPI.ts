@@ -117,6 +117,21 @@ export const virtualEstateRTKApi = createApi({
         return response?.transactionRecord;
       },
     }),
+    transferVirtualEstateToUser: builder.mutation<
+      VirtualEstateTransactionRecordInterface,
+      { hexID: string; receiverID: string }
+    >({
+      query: ({ hexID, receiverID }) => ({
+        url: `/virtual-estates/${hexID}/transfer`,
+        method: "POST",
+        body: { receiverID },
+      }),
+      transformResponse: (response: {
+        transactionRecord: VirtualEstateTransactionRecordInterface;
+      }) => {
+        return response?.transactionRecord;
+      },
+    }),
   }),
 });
 
@@ -129,4 +144,5 @@ export const {
   useAcceptBidToSellVirtualEstateMutation,
   useGetVirtualEstateTransactionRecordsQuery,
   useAcceptAskToBuyVirtualEstateMutation,
+  useTransferVirtualEstateToUserMutation,
 } = virtualEstateRTKApi;

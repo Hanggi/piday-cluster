@@ -43,7 +43,7 @@ export class VirtualEstateTransactionRecordResponseDto {
 
   @Expose()
   @Type(() => UserResponseDto)
-  buyer: UserResponseDto;
+  buyer?: UserResponseDto;
 
   @Expose()
   @Type(() => String)

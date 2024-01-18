@@ -3,6 +3,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import { accountRTKApi } from "./features/account/api/accountAPI";
 import { authRTKApi } from "./features/auth/api/authAPI";
 import globalSlice from "./features/global/global.slice";
+import { userRTKAPI } from "./features/user/api/userAPI";
 import { virtualEstateListingRTKApi } from "./features/virtual-estate-listing/api/virtualEstateListingAPI";
 import { virtualEstateTransactionRecordsRTKApi } from "./features/virtual-estate-transaction-record/api/virtualEstateTransactionRecordAPI";
 import { mapboxRTKApi } from "./features/virtual-estate/api/mapboxAPI";
@@ -22,6 +23,7 @@ export const store = configureStore({
       virtualEstateListingRTKApi.reducer,
     [virtualEstateTransactionRecordsRTKApi.reducerPath]:
       virtualEstateTransactionRecordsRTKApi.reducer,
+    [userRTKAPI.reducerPath]: userRTKAPI.reducer,
   },
   middleware: (getDefaultMiddleware) => {
     return getDefaultMiddleware()
@@ -30,7 +32,8 @@ export const store = configureStore({
       .concat(mapboxRTKApi.middleware)
       .concat(virtualEstateRTKApi.middleware)
       .concat(virtualEstateListingRTKApi.middleware)
-      .concat(virtualEstateTransactionRecordsRTKApi.middleware);
+      .concat(virtualEstateTransactionRecordsRTKApi.middleware)
+      .concat(userRTKAPI.middleware);
   },
 });
 

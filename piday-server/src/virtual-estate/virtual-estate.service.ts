@@ -7,6 +7,8 @@ import { Injectable } from "@nestjs/common";
 import { ServiceException } from "../lib/exceptions/service-exception";
 import { generateFlakeID } from "../lib/generate-id/generate-flake-id";
 import { PrismaService } from "../lib/prisma/prisma.service";
+import { ZERO_DECIMAL } from "../lib/prisma/utils/zerro-decimal";
+import { VirtualEstateTransactionRecordResponseDto } from "../virtual-estate-transaction-records/dto/create-virtual-estate-transaction-record.dto";
 
 const GENESIS_VIRTUAL_ESTATE_PRICE = 10;
 
@@ -164,5 +166,54 @@ export class VirtualEstateService {
     } catch (error) {
       throw error;
     }
+  }
+
+  async transferVirtualEstate(
+    hexID: string,
+    receiverID: string,
+    ownerID: string,
+  ) {
+    return this.prisma.$transaction(async (prisma) => {
+      const virtualEstate = await prisma.virtualEstate.findUnique({
+        where: {
+          virtualEstateID: hexID,
+        },
+      });
+      if (virtualEstate.ownerID !== ownerID)
+        throw new ServiceException("Not owns this virtual estate", "NOT_OWNER");
+
+      const receiver = await prisma.user.findUnique({
+        where: {
+          keycloakID: receiverID,
+        },
+      });
+
+      if (!receiver)
+        throw new ServiceException("user does not exist", "USER_NOT_FOUND");
+
+      await prisma.virtualEstate.update({
+        data: {
+          ownerID: receiver.keycloakID,
+        },
+        where: {
+          virtualEstateID: hexID,
+        },
+      });
+      const transactionID = BigInt(generateFlakeID());
+      const transaction = await prisma.virtualEstateTransactionRecords.create({
+        data: {
+          transactionID: transactionID,
+          buyerID: receiver.keycloakID,
+          price: ZERO_DECIMAL,
+          sellerID: ownerID,
+          virtualEstateID: virtualEstate.virtualEstateID,
+        },
+      });
+
+      return {
+        ...transaction,
+        transactionID: transaction.transactionID.toString(),
+      };
+    });
   }
 }

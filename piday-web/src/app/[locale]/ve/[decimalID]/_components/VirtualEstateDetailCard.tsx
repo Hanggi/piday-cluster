@@ -1,8 +1,10 @@
 "use client";
 
+import { useGetUserInfoQuery } from "@/src/features/user/api/userAPI";
 import { useCreateVirtualEstateListingMutation } from "@/src/features/virtual-estate-listing/api/virtualEstateListingAPI";
 import { TransactionType } from "@/src/features/virtual-estate-listing/interface/virtual-estate-listing.interface";
 import { useGetPlacesQuery } from "@/src/features/virtual-estate/api/mapboxAPI";
+import { useTransferVirtualEstateToUserMutation } from "@/src/features/virtual-estate/api/virtualEstateAPI";
 import { VirtualEstate } from "@/src/features/virtual-estate/interface/virtual-estate.interface";
 import { format } from "date-fns";
 import { h3ToGeo } from "h3-js";
@@ -53,8 +55,16 @@ export default function VirtualEstateDetailCard({
     );
   }, [session, virtualEstate?.owner]);
 
-  const placeName = place?.features[0].text;
-  const placeAddress = place?.features[0].place_name;
+  const { data } = useGetUserInfoQuery({ email: "anotheruser@gmail.com" });
+
+  const [trnasferVirtualEstateToUser, trnasferVirtualEstateToUserResponse] =
+    useTransferVirtualEstateToUserMutation();
+
+  useEffect(() => {
+    data?.id && trnasferVirtualEstateToUser({ hexID: "8c4243a5b5b69ff", receiverID: data.id });
+  }, [data]);
+  const placeName = place?.features[0]?.text;
+  const placeAddress = place?.features[0]?.place_name;
 
   return (
     <div className="w-full relative pt-5">
