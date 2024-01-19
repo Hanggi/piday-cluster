@@ -9,3 +9,5 @@ data:
 
   RECHARGING_ADDRESS: "GDMCTLK2HSMP3BDPYEUEBR2E53PKPUXS6UAZHIKV4T3WPNJXHCLDVXHM"
   KEYCLOAK_CERTS_URL: "https://staging-auth.piday.world/realms/piday/protocol/openid-connect/certs"
+
+  GET_ACCOUNT_PAYMENTS_URL: "https://api.testnet.minepi.com/accounts"
