@@ -97,11 +97,16 @@ export class TasksService {
     if (cursor) {
       url += `&cursor=${cursor}`;
     }
-    const payments = await this.httpService.axiosRef.get(url);
-    if (payments) {
-      return payments.data?._embedded?.records?.filter(
-        (singleRecord: any) => singleRecord.type === "payment",
-      );
+    try {
+      const payments = await this.httpService.axiosRef.get(url);
+      if (payments) {
+        return payments.data?._embedded?.records?.filter(
+          (singleRecord: any) => singleRecord.type === "payment",
+        );
+      }
+    } catch (err) {
+      console.error(url);
+      console.error(err);
     }
 
     return [];
