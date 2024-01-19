@@ -7,5 +7,11 @@ data:
   REACT_APP_VERSION: 0.0.1
   BACKEND_BASE_URL: http://piday-server-service.piday-prod
 
+  NEXTAUTH_URL: https://piday.world
+  NEXTAUTH_SECRET: "YLK9K7hLS6c4uklwBZKXmBmrBMYdwK7UpGL29d4SVXk="
+
+  KEYCLOAK_BASE_URL: "https://auth.piday.world"
+  KEYCLOAK_REALM: "piday"
+  KEYCLOAK_CLIENT_ID: auth-client
   KEYCLOAK_ISSUER: "https://auth.piday.world/realms/piday"
   END_SESSION_URL: "https://auth.piday.world/realms/piday/protocol/openid-connect/logout"
