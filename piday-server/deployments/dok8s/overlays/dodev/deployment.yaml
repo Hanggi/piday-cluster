@@ -11,7 +11,7 @@ spec:
   template:
     spec:
       containers:
-        - image: registry.digitalocean.com/davinqi/piday-server:v0.0.17
+        - image: registry.digitalocean.com/davinqi/piday-server:v0.0.18
           imagePullPolicy: Always
           name: piday-server-deployment
           resources:
