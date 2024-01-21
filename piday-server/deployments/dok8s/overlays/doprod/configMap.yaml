@@ -5,7 +5,7 @@ metadata:
 #  namespace: staging
 data:
   GIN_MODE: release
-  NODE_ENV: dev
+  NODE_ENV: prod
 
   RECHARGING_ADDRESS: "GBFF6AGW2TBXKBEGJAKMXPYV3MRTGCIJ74J66YSBOILBMJRRGLSLJWV5"
   KEYCLOAK_CERTS_URL: "https://auth.piday.world/realms/piday/protocol/openid-connect/certs"

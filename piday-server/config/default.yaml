@@ -1,3 +1,5 @@
+prismaDebug: true
+
 redis:
   host: localhost
   password:

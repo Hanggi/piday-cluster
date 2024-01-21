@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+import config from "config";
 
 import { Injectable, OnModuleInit } from "@nestjs/common";
 
@@ -6,7 +7,9 @@ import { Injectable, OnModuleInit } from "@nestjs/common";
 export class PrismaService extends PrismaClient implements OnModuleInit {
   constructor() {
     super({
-      log: ["query", "info", "warn"],
+      log: config.get("prismaDebug")
+        ? ["query", "info", "warn", "error"]
+        : ["error"],
     });
   }
 
