@@ -76,9 +76,9 @@ const navItems = [
     href: "/my/assets",
     icon: <i className="ri-community-line"></i>,
   },
-  {
-    translationKey: "nav.settings",
-    href: "/my/settings",
-    icon: <i className="ri-settings-3-line"></i>,
-  },
+  // {
+  //   translationKey: "nav.settings",
+  //   href: "/my/settings",
+  //   icon: <i className="ri-settings-3-line"></i>,
+  // },
 ];
