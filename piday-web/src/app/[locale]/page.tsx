@@ -16,6 +16,11 @@ interface Props {
   params: { hexID: string };
 }
 
+declare global {
+  interface Window {
+    Pi: any;
+  }
+}
 export default async function HomePage({ params }: Props) {
   let statistics: Statistics = {
     totalVirtualEstatesMinted: 0,
@@ -27,8 +32,8 @@ export default async function HomePage({ params }: Props) {
   try {
     // This request send to the backend directly.
     const res = await instance.get(`/virtual-estates/statistics`);
-
     statistics = res.data.statistics;
+    
   } catch (err) {
     const axiosError = err as AxiosError;
     console.error(axiosError?.response?.data);
@@ -39,6 +44,7 @@ export default async function HomePage({ params }: Props) {
       <div className="w-full h-[800px] relative pb-8">
         <VirtualEstateMapClientWrapper token={MAPBOX_ACCESS_TOKEN as string} />
       </div>
+
       <SearchResult statistics={statistics} />
       <ForSale />
     </section>

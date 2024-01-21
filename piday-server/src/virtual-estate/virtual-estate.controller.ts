@@ -183,6 +183,7 @@ export class VirtualEstateController {
     }
   }
 
+
   @UseGuards(KeycloakJwtGuard)
   @Post(":hexID")
   @UsePipes(new HexIdValidationPipe())
@@ -435,6 +436,43 @@ export class VirtualEstateController {
             excludeExtraneousValues: true,
           },
         ),
+      });
+    } catch (err) {
+      console.error(err);
+      throw new HttpException(
+        "Internal Server Error",
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+
+  @UseGuards(KeycloakJwtGuard)
+  @Post(":hexID/transfer")
+  async transferVirtualEstate(
+    @Param("hexID") hexID,
+    @Res() res: Response,
+    @Req() req: AuthenticatedRequest,
+  ) {
+    try {
+      const ownerID = req.user.userID;
+      const receiverID = req.body.receiverID;
+      const transactionRecord =
+        await this.virtualEstateService.transferVirtualEstate(
+          hexID,
+          receiverID,
+          ownerID,
+        );
+
+      if (!transactionRecord)
+        res.status(HttpStatus.BAD_REQUEST).json({
+          success: false,
+          message: "Virtual estate not transfer not successful",
+        });
+
+      res.status(HttpStatus.OK).json({
+        success: true,
+        data: transactionRecord,
+        message: "Virtual estate transferred successfully",
       });
     } catch (err) {
       console.error(err);
