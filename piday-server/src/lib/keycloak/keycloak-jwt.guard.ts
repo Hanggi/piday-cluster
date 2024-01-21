@@ -42,7 +42,6 @@ export class KeycloakJwtGuard implements CanActivate {
     try {
       const decoded = await verifyToken(token, getKey);
       // const decoded = jwt.verify(token, secret);
-      console.log(decoded);
 
       const userID = decoded.sub;
 

@@ -28,9 +28,9 @@ export class UserService {
   }
 
   async getUserInfo(
-    email: string,
-    userID: string,
-    walletAddress: string,
+    email?: string,
+    userID?: string,
+    walletAddress?: string,
   ): Promise<UserResponseDto> {
     let query;
 

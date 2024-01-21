@@ -146,12 +146,16 @@ export class VirtualEstateController {
     @Req() req: AuthenticatedRequest,
     @Res() res: Response,
     @Query("side") side = "both", // default to both
+    @Query("page") page = "1", // default to page 1
+    @Query("size") size = "10", //default to size 10,
   ) {
     try {
       const transactionRecordsForUser =
         await this.virtualEstateTransactionRecordsService.getAllTransactionRecordsForUserBasedOnType(
           req.user.userID,
           side,
+          parseInt(size),
+          parseInt(page),
         );
 
       if (!transactionRecordsForUser) {

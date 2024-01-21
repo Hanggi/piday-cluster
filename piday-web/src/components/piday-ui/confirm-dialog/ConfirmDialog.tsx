@@ -12,6 +12,7 @@ interface Props {
   open: boolean;
   title: string;
   children?: React.ReactNode;
+  confirmDisabled?: boolean;
   onCancel?: () => void;
   onConfirm?: () => void;
 }
@@ -20,6 +21,7 @@ export default function ConfirmDialog({
   open,
   children,
   title,
+  confirmDisabled = false,
   onCancel,
   onConfirm,
 }: Props) {
@@ -37,7 +39,7 @@ export default function ConfirmDialog({
             {t("common:button.cancel")}
           </Button>
           <Button
-            disabled={confirmClicked}
+            disabled={confirmClicked || confirmDisabled}
             onClick={() => {
               // setConfirmClicked(true);
               onConfirm && onConfirm();

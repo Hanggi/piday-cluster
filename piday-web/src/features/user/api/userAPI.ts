@@ -1,6 +1,6 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
-import { User } from "next-auth";
 
+import { User } from "../../auth/interface/User.interface";
 import { baseQuery } from "../../rtk-utils/fetch-base-query";
 
 export const userRTKAPI = createApi({
@@ -12,8 +12,9 @@ export const userRTKAPI = createApi({
       { email?: string; userID?: string; walletAddress?: string }
     >({
       query: ({ email, userID, walletAddress }) => ({
-        url: `/user/info?email=${email}&userID=${userID}&walletAddress=${walletAddress}`,
+        url: `/user/info`,
         method: "GET",
+        params: { email, userID, walletAddress },
       }),
       transformResponse: (response: { user: User }) => {
         return response.user;

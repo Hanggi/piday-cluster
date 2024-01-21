@@ -110,6 +110,8 @@ export class VirtualEstateTransactionRecordsService {
   async getAllTransactionRecordsForUserBasedOnType(
     userID: string,
     type: string,
+    size: number,
+    page: number,
   ) {
     try {
       const whereClause = (() => {
@@ -127,6 +129,15 @@ export class VirtualEstateTransactionRecordsService {
       const transactionRecordsForUser =
         await this.prisma.virtualEstateTransactionRecords.findMany({
           where: whereClause,
+          include: {
+            buyer: true,
+            seller: true,
+          },
+          take: size,
+          skip: (page - 1) * size,
+          orderBy: {
+            createdAt: "desc",
+          },
         });
       return transactionRecordsForUser.map((singleTransactionRecords) => {
         return {
@@ -155,6 +166,9 @@ export class VirtualEstateTransactionRecordsService {
         },
         take: size,
         skip: (page - 1) * size,
+        orderBy: {
+          createdAt: "desc",
+        },
       });
 
     return transactionRecordsForVirtualEstate.map(

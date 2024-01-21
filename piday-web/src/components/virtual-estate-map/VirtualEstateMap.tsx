@@ -193,15 +193,19 @@ export default function VirtualEstateMap({
   }, [defaultHexID, withoutAnimation]);
 
   // Debounce to set center hexagon
-  const debounceToSetCenterHex = debounce((vs) => {
-    if (vs.zoom >= SHOW_HEXAGON_LAYER_FROM_ZOOM) {
-      const hexID = geoToH3(vs.latitude, vs.longitude, 12);
-      if (hexID != centerHex) {
-        setCenterHex(hexID);
-        onCenterHexChange && onCenterHexChange(hexID);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const debounceToSetCenterHex = useCallback(
+    debounce((vs) => {
+      if (vs.zoom >= SHOW_HEXAGON_LAYER_FROM_ZOOM) {
+        const hexID = geoToH3(vs.latitude, vs.longitude, 12);
+        if (hexID != centerHex) {
+          setCenterHex(hexID);
+          onCenterHexChange && onCenterHexChange(hexID);
+        }
       }
-    }
-  }, 1000);
+    }, 1000),
+    [],
+  );
 
   const handleMapViewChange = useCallback(
     (params: ViewStateChangeParameters) => {

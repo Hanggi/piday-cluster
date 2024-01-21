@@ -44,6 +44,7 @@
   },
   "toast": {
     "acceptBidSuccessfully": "Accept bid successfully",
+    "userNotFound": "User not found",
     "invalidAmount": "Invalid amount"
   }
 }

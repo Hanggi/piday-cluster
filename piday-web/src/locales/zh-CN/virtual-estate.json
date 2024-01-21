@@ -44,6 +44,7 @@
   },
   "toast": {
     "acceptBidSuccessfully": "接受出价成功",
+    "userNotFound": "用户不存在",
     "invalidAmount": "无效的金额"
   }
 }

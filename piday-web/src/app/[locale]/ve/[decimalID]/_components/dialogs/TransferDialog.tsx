@@ -1,8 +1,10 @@
 "use client";
 
-import { NumericFormatAdapter } from "@/src/components/numeric-format/NumericFormatAdapter";
 import ConfirmDialog from "@/src/components/piday-ui/confirm-dialog/ConfirmDialog";
-import { useSuccessToast } from "@/src/features/rtk-utils/use-error-toast.hook";
+import {
+  useErrorToast,
+  useSuccessToast,
+} from "@/src/features/rtk-utils/use-error-toast.hook";
 import { useLazyGetUserInfoQuery } from "@/src/features/user/api/userAPI";
 import { useTransferVirtualEstateToUserMutation } from "@/src/features/virtual-estate/api/virtualEstateAPI";
 import { debounce } from "lodash";
@@ -10,9 +12,11 @@ import { debounce } from "lodash";
 import FormControl from "@mui/joy/FormControl";
 import FormLabel from "@mui/joy/FormLabel";
 import Input from "@mui/joy/Input";
+import Typography from "@mui/joy/Typography";
 
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { toast } from "react-toastify";
 
 interface Props {
   open: boolean;
@@ -29,35 +33,71 @@ export default function TransferVirtualEstateDialog({
 
   const [userInput, setUserInput] = useState(""); // email, userID, piAddress
 
-  const debouncedSearch = debounce((value: string) => {
-    // setDebouncedValue(value);
-    // 这里可以放置你的数据请求逻辑
-    console.log("请求数据:", value);
-  }, 500); // 500 毫秒的延迟
-
   // TODO: Remove this
-  const [getUserInfoTrigger] = useLazyGetUserInfoQuery();
+  const [getUserInfoTrigger, { data: userInfo, isLoading: userInfoIsLoading }] =
+    useLazyGetUserInfoQuery();
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const debouncedSearch = useCallback(
+    debounce((value: string) => {
+      const uuidRegex =
+        /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      const piWalletRegex = /^[A-Z0-9]{56}$/; // 假设格式
+
+      if (uuidRegex.test(value.trim())) {
+        getUserInfoTrigger({ userID: value });
+        return "UUID";
+      } else if (emailRegex.test(value.trim())) {
+        getUserInfoTrigger({ email: value });
+        return "Email";
+      } else if (piWalletRegex.test(value.trim())) {
+        getUserInfoTrigger({ walletAddress: value });
+        return "PI Wallet Address";
+      } else {
+        return "Unknown Format";
+      }
+    }, 500),
+    [],
+  );
 
   const [trnasferVirtualEstateToUser, trnasferVirtualEstateToUserResponse] =
     useTransferVirtualEstateToUserMutation();
+  useSuccessToast(
+    trnasferVirtualEstateToUserResponse.isSuccess,
+    "Transfer successfully",
+    () => {},
+  );
+  useErrorToast(trnasferVirtualEstateToUserResponse.error);
 
-  // useEffect(() => {
-  //   data?.id &&
-  //     trnasferVirtualEstateToUser({
-  //       hexID: "8c4243a5b5b69ff",
-  //       receiverID: data.id,
-  //     });
-  // }, [data, trnasferVirtualEstateToUser]);
+  const handleInputChange = useCallback(
+    (value: string) => {
+      setUserInput(value);
+
+      debouncedSearch(value);
+    },
+    [debouncedSearch],
+  );
 
   return (
     <div>
       <ConfirmDialog
+        confirmDisabled={userInfoIsLoading || !userInfo}
         open={open}
         title={t("virtual-estate:button.transfer")}
         onCancel={() => {
           onClose();
         }}
         onConfirm={() => {
+          if (!userInfo) {
+            toast.warn(t("virtual-estate:toast.userNotFound"));
+            return;
+          }
+
+          trnasferVirtualEstateToUser({
+            hexID,
+            receiverID: userInfo?.id,
+          });
           onClose();
         }}
       >
@@ -71,17 +111,19 @@ export default function TransferVirtualEstateDialog({
                 placeholder={t(
                   "virtual-estate:placeholder.transferVirtualEstatePlaceholder",
                 )}
-                slotProps={{
-                  input: {
-                    component: NumericFormatAdapter,
-                  },
-                }}
+                value={userInput}
                 onChange={(e) => {
-                  setUserInput(e.target.value);
-                  debouncedSearch(e.target.value);
+                  handleInputChange(e.target.value);
                 }}
               />
             </FormControl>
+
+            {userInfo && (
+              <div className="py-4">
+                <Typography level="title-md">User: </Typography>
+                <Typography>{userInfo?.username}</Typography>
+              </div>
+            )}
           </div>
         </div>
       </ConfirmDialog>

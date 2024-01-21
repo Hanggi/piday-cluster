@@ -28,11 +28,6 @@ export function VirtualEstateTradingHisory({ hexID }: Props) {
   const { data: virtualEstateTransactionRecords } =
     useGetVirtualEstateTransactionRecordsQuery({ hexID, page: 1, size: 20 });
 
-  console.log(
-    "virtualEstateTransactionRecords",
-    virtualEstateTransactionRecords,
-  );
-
   return (
     <WrapperCard className={cn("w-full mb-6 container")}>
       <h4 className="text-xl font-semibold">{t("landHistory")}</h4>

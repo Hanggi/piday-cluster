@@ -39,6 +39,9 @@ export class AccountService {
         where: query,
         take: size,
         skip: (page - 1) * size,
+        orderBy: {
+          createdAt: "desc",
+        },
       });
 
       const totalCount = await this.prisma.rechargeRecords.count({
