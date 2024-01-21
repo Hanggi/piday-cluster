@@ -11,7 +11,7 @@ export const userRTKAPI = createApi({
       User,
       { email?: string; userID?: string; walletAddress?: string }
     >({
-      query: ({email , userID , walletAddress}) => ({
+      query: ({ email, userID, walletAddress }) => ({
         url: `/user/info?email=${email}&userID=${userID}&walletAddress=${walletAddress}`,
         method: "GET",
       }),
@@ -22,6 +22,4 @@ export const userRTKAPI = createApi({
   }),
 });
 
-export const {
-    useGetUserInfoQuery
-} = userRTKAPI
+export const { useGetUserInfoQuery, useLazyGetUserInfoQuery } = userRTKAPI;

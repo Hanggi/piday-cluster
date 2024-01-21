@@ -28,6 +28,12 @@ export class VirtualEstateTransactionRecordsService {
     if (!biddingDetail) {
       throw new ServiceException("No bidding details found.", "BID_NOT_FOUND");
     }
+    if (biddingDetail.type !== "BID") {
+      throw new ServiceException("Invalid bid type.", "INVALID_BID_TYPE");
+    }
+    if (biddingDetail.expiresAt < new Date()) {
+      throw new ServiceException("Bid expired.", "BID_EXPIRED");
+    }
 
     return this.prisma.$transaction(async (prisma) => {
       const buyerID = biddingDetail.ownerID;
@@ -206,6 +212,12 @@ export class VirtualEstateTransactionRecordsService {
       await this.virtualEstateListingService.getOneListingDetail(BigInt(askID));
     if (!askingDetail) {
       throw new ServiceException("No asking details found.", "BID_NOT_FOUND");
+    }
+    if (askingDetail.type !== "ASK") {
+      throw new ServiceException("Invalid ask type.", "INVALID_BID_TYPE");
+    }
+    if (askingDetail.expiresAt < new Date()) {
+      throw new ServiceException("Ask expired.", "BID_EXPIRED");
     }
 
     return this.prisma.$transaction(async (prisma) => {

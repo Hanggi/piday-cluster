@@ -1,6 +1,7 @@
 import { WrapperCard } from "@/src/components/WrapperCard";
 import { decimalToHexID } from "@/src/components/virtual-estate-map/h3";
 import instance from "@/src/features/axios/instance";
+import { VirtualEstateListing } from "@/src/features/virtual-estate-listing/interface/virtual-estate-listing.interface";
 import { VirtualEstate } from "@/src/features/virtual-estate/interface/virtual-estate.interface";
 import { AxiosError } from "axios";
 
@@ -21,10 +22,13 @@ export default async function VirtualEstateDetailPage({
   const hexID = decimalToHexID(decimalID);
 
   let virtualEstate: VirtualEstate | undefined;
+  let onSaleListing: VirtualEstateListing | undefined;
   try {
     // This request send to the backend directly.
     const res = await instance.get(`/virtual-estates/${hexID}`);
+
     virtualEstate = res.data.ve;
+    onSaleListing = res.data.listing;
   } catch (err) {
     const axiosError = err as AxiosError;
     console.error(axiosError?.response?.data);
@@ -42,6 +46,7 @@ export default async function VirtualEstateDetailPage({
           </div>
           <VirtualEstateDetailCard
             hexID={hexID}
+            listing={onSaleListing}
             virtualEstate={virtualEstate}
           />
         </WrapperCard>

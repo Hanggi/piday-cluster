@@ -50,8 +50,6 @@ export default function VirtualEstateListings({ hexID, virtualEstate }: Props) {
     t("virtual-estate:toast.acceptBidSuccessfully"),
   );
 
-  console.log(virtualEstateListings);
-
   const handelAcceptBidToSellVirtualEstate = useCallback(
     (bidID: string) => {
       acceptBidToSellVirtualEstate({

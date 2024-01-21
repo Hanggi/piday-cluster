@@ -183,7 +183,6 @@ export class VirtualEstateController {
     }
   }
 
-
   @UseGuards(KeycloakJwtGuard)
   @Post(":hexID")
   @UsePipes(new HexIdValidationPipe())
@@ -192,7 +191,7 @@ export class VirtualEstateController {
     @Req() req: AuthenticatedRequest,
   ) {
     try {
-      const existing =
+      const { ve: existing } =
         await this.virtualEstateService.getOneVirtualEstate(hexID);
 
       if (existing) {
@@ -287,7 +286,7 @@ export class VirtualEstateController {
     try {
       const sellerID = req.user.userID;
 
-      const virtualEstate =
+      const { ve: virtualEstate } =
         await this.virtualEstateService.getOneVirtualEstate(hexID);
       if (virtualEstate.ownerID !== sellerID) {
         throw new HttpException(
@@ -317,6 +316,24 @@ export class VirtualEstateController {
       });
     } catch (error) {
       console.error(error);
+
+      switch (error.code) {
+        case "BID_NOT_FOUND":
+          throw new HttpException(
+            {
+              message: "bid not found",
+            },
+            HttpStatus.NOT_FOUND,
+          );
+        case "INVALID_BID_TYPE":
+          throw new HttpException(
+            {
+              message: "bid type is invalid",
+            },
+            HttpStatus.BAD_REQUEST,
+          );
+      }
+
       throw new HttpException(
         "Internal Server Error",
         HttpStatus.INTERNAL_SERVER_ERROR,
@@ -370,8 +387,10 @@ export class VirtualEstateController {
     @Res() res: Response,
   ) {
     try {
-      const virtualEstate =
-        await this.virtualEstateService.getOneVirtualEstate(hexID);
+      const { ve: virtualEstate, listing } =
+        await this.virtualEstateService.getOneVirtualEstate(hexID, {
+          withListing: true,
+        });
 
       if (!virtualEstate) {
         res.status(HttpStatus.NOT_FOUND).json({
@@ -380,8 +399,12 @@ export class VirtualEstateController {
         return;
       }
 
+      console.log(listing);
       res.status(HttpStatus.OK).json({
         ve: plainToInstance(VirtualEstateResponseDto, virtualEstate, {
+          excludeExtraneousValues: true,
+        }),
+        listing: plainToInstance(VirtualEstateListingResponseDto, listing, {
           excludeExtraneousValues: true,
         }),
       });

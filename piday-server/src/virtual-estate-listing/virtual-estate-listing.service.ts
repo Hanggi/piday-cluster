@@ -97,6 +97,7 @@ export class VirtualEstateListingService {
       await this.prisma.virtualEstateListing.findMany({
         where: {
           virtualEstateID: hexID,
+          type: "BID",
           expiresAt: {
             gt: new Date(),
           },

@@ -1,10 +1,8 @@
 "use client";
 
-import { useGetUserInfoQuery } from "@/src/features/user/api/userAPI";
-import { useCreateVirtualEstateListingMutation } from "@/src/features/virtual-estate-listing/api/virtualEstateListingAPI";
-import { TransactionType } from "@/src/features/virtual-estate-listing/interface/virtual-estate-listing.interface";
+import PiCoinLogo from "@/src/components/piday-ui/PiCoinLogo";
+import { VirtualEstateListing } from "@/src/features/virtual-estate-listing/interface/virtual-estate-listing.interface";
 import { useGetPlacesQuery } from "@/src/features/virtual-estate/api/mapboxAPI";
-import { useTransferVirtualEstateToUserMutation } from "@/src/features/virtual-estate/api/virtualEstateAPI";
 import { VirtualEstate } from "@/src/features/virtual-estate/interface/virtual-estate.interface";
 import { format } from "date-fns";
 import { h3ToGeo } from "h3-js";
@@ -13,20 +11,25 @@ import { useSession } from "next-auth/react";
 import Button from "@mui/joy/Button";
 import Typography from "@mui/joy/Typography";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 
+import AcceptAskToBuyDialog from "./dialogs/AcceptAskToBuyDialog";
+import AskToSellDialog from "./dialogs/AskToSellDialog";
 import BidToBuyDialog from "./dialogs/BidToBuyDialog";
 import MintVirtualEstateDialog from "./dialogs/MintVirtualEstateDialog";
+import TransferVirtualEstateDialog from "./dialogs/TransferDialog";
 
 interface Props {
   hexID: string;
   virtualEstate?: VirtualEstate;
+  listing?: VirtualEstateListing;
 }
 
 export default function VirtualEstateDetailCard({
   hexID,
   virtualEstate,
+  listing,
 }: Props) {
   const { t } = useTranslation(["virtual-estate"]);
   const { data: session, status } = useSession();
@@ -40,12 +43,26 @@ export default function VirtualEstateDetailCard({
   const [openMintVirtualEstateDialog, setOpenMintVirtualEstateDialog] =
     useState(false);
   const [openBidToBuyDialog, setOpenBidToBuyDialog] = useState(false);
+  const [openAskToSellDialog, setOpenAskToSellDialog] = useState(false);
+  const [openAcceptAskToBuyDialog, setOpenAcceptAskToBuyDialog] =
+    useState(false);
+  const [openTransferVirtualEstateDialog, setOpenTransferVirtualEstateDialog] =
+    useState(false);
 
   const handleOpenMintDialog = useCallback(() => {
     setOpenMintVirtualEstateDialog(true);
   }, []);
   const handleOpenBidToBuyDialog = useCallback(() => {
     setOpenBidToBuyDialog(true);
+  }, []);
+  const handleOpenAskToSellDialog = useCallback(() => {
+    setOpenAskToSellDialog(true);
+  }, []);
+  const handleOpenAcceptToBuyDialog = useCallback(() => {
+    setOpenAcceptAskToBuyDialog(true);
+  }, []);
+  const handleOpenTransferDialog = useCallback(() => {
+    setOpenTransferVirtualEstateDialog(true);
   }, []);
 
   const isMyVirtualEstate = useCallback(() => {
@@ -55,14 +72,6 @@ export default function VirtualEstateDetailCard({
     );
   }, [session, virtualEstate?.owner]);
 
-  const { data } = useGetUserInfoQuery({ email: "anotheruser@gmail.com" });
-
-  const [trnasferVirtualEstateToUser, trnasferVirtualEstateToUserResponse] =
-    useTransferVirtualEstateToUserMutation();
-
-  useEffect(() => {
-    data?.id && trnasferVirtualEstateToUser({ hexID: "8c4243a5b5b69ff", receiverID: data.id });
-  }, [data]);
   const placeName = place?.features[0]?.text;
   const placeAddress = place?.features[0]?.place_name;
 
@@ -107,26 +116,52 @@ export default function VirtualEstateDetailCard({
           </div>
         </div>
         <hr />
-        <div className="py-5">
-          <Typography className="opacity-40" level="title-md">
-            {t("virtual-estate:label.lastPrice")}
-          </Typography>
-          <Typography className="text-2xl">
-            {virtualEstate?.lastPrice || 10}
-          </Typography>
+        <div className="py-5 grid grid-cols-2">
+          <div>
+            <Typography className="opacity-40" level="title-md">
+              {t("virtual-estate:label.lastPrice")}
+            </Typography>
+            <Typography level="title-md">
+              {virtualEstate?.lastPrice || 10}
+            </Typography>
+          </div>
+          {listing && (
+            <div>
+              <Typography className="opacity-40" level="title-md">
+                {t("virtual-estate:label.sellingPrice")}
+              </Typography>
+              <div className="flex gap-2">
+                <div className="w-6 h-6 relative">
+                  <PiCoinLogo />
+                </div>
+                <Typography level="title-md">{listing.price}</Typography>
+              </div>
+            </div>
+          )}
         </div>
       </div>
       <div className="mt-5 flex flex-wrap gap-7">
+        {/* SELL */}
         {isMyVirtualEstate() && (
           <div className="w-full flex gap-4">
-            <Button className="grow" size="lg">
+            <Button
+              className="grow"
+              size="lg"
+              onClick={handleOpenAskToSellDialog}
+            >
               {t("virtual-estate:button.askToSell")}
             </Button>
-            <Button className="py-3 grow" size="lg">
+            <Button
+              className="py-3 grow"
+              size="lg"
+              onClick={handleOpenTransferDialog}
+            >
               {t("virtual-estate:button.transfer")}
             </Button>
           </div>
         )}
+
+        {/* MINT */}
         {!virtualEstate?.owner && (
           <Button
             className="py-3 grow"
@@ -136,14 +171,24 @@ export default function VirtualEstateDetailCard({
             {t("virtual-estate:button.genesisMint")}
           </Button>
         )}
+
+        {/* BUY */}
         {!isMyVirtualEstate() && !!virtualEstate?.owner && (
-          <Button
-            className="py-3 grow"
-            size="lg"
-            onClick={handleOpenBidToBuyDialog}
-          >
-            {t("virtual-estate:button.bidToBuy")}
-          </Button>
+          <div className="w-full flex gap-4">
+            <Button
+              className="py-3 w-full"
+              size="lg"
+              onClick={handleOpenBidToBuyDialog}
+            >
+              {t("virtual-estate:button.bidToBuy")}
+            </Button>
+
+            {listing && (
+              <Button className="w-full" onClick={handleOpenAcceptToBuyDialog}>
+                {t("virtual-estate:button.buy")}
+              </Button>
+            )}
+          </div>
         )}
       </div>
 
@@ -162,6 +207,34 @@ export default function VirtualEstateDetailCard({
         open={openBidToBuyDialog}
         onClose={() => {
           setOpenBidToBuyDialog(false);
+        }}
+      />
+
+      <AskToSellDialog
+        hexID={hexID}
+        open={openAskToSellDialog}
+        onClose={() => {
+          setOpenAskToSellDialog(false);
+        }}
+      />
+
+      {listing && (
+        <AcceptAskToBuyDialog
+          hexID={hexID}
+          listing={listing}
+          open={openAcceptAskToBuyDialog}
+          placeName={placeName}
+          onClose={() => {
+            setOpenAcceptAskToBuyDialog(false);
+          }}
+        />
+      )}
+
+      <TransferVirtualEstateDialog
+        hexID={hexID}
+        open={openTransferVirtualEstateDialog}
+        onClose={() => {
+          setOpenTransferVirtualEstateDialog(false);
         }}
       />
     </div>

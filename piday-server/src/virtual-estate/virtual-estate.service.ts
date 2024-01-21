@@ -1,4 +1,4 @@
-import { VirtualEstate } from "@prisma/client";
+import { VirtualEstate, VirtualEstateListing } from "@prisma/client";
 import { Decimal } from "@prisma/client/runtime/library";
 import { kRing } from "h3-js";
 
@@ -8,7 +8,6 @@ import { ServiceException } from "../lib/exceptions/service-exception";
 import { generateFlakeID } from "../lib/generate-id/generate-flake-id";
 import { PrismaService } from "../lib/prisma/prisma.service";
 import { ZERO_DECIMAL } from "../lib/prisma/utils/zerro-decimal";
-import { VirtualEstateTransactionRecordResponseDto } from "../virtual-estate-transaction-records/dto/create-virtual-estate-transaction-record.dto";
 
 const GENESIS_VIRTUAL_ESTATE_PRICE = 10;
 
@@ -16,7 +15,12 @@ const GENESIS_VIRTUAL_ESTATE_PRICE = 10;
 export class VirtualEstateService {
   constructor(private prisma: PrismaService) {}
 
-  async getOneVirtualEstate(hexID: string): Promise<VirtualEstate> {
+  async getOneVirtualEstate(
+    hexID: string,
+    optional?: {
+      withListing: boolean;
+    },
+  ): Promise<{ ve: VirtualEstate; listing: VirtualEstateListing }> {
     const virtualEstate = await this.prisma.virtualEstate.findFirst({
       where: {
         virtualEstateID: hexID,
@@ -26,7 +30,21 @@ export class VirtualEstateService {
       },
     });
 
-    return virtualEstate;
+    let listing = null;
+    if (optional.withListing) {
+      // Get listing for the virtual estate
+      listing = await this.prisma.virtualEstateListing.findFirst({
+        where: {
+          virtualEstateID: hexID,
+          type: "ASK",
+          expiresAt: {
+            gt: new Date(),
+          },
+        },
+      });
+    }
+
+    return { ve: virtualEstate, listing };
   }
 
   async getAllVirtualEstatesForSignedUser(

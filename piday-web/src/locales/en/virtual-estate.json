@@ -10,7 +10,9 @@
   },
   "label": {
     "name": "Name",
+    "transferVirtualEstate": "Transfer Virtual Estate",
     "lastPrice": "Last Price",
+    "sellingPrice": "Selling Price",
     "currentBid": "Current Bid",
     "price": "Price",
     "address": "Address",
@@ -18,10 +20,13 @@
     "estateMintTime": "Estate Mint Time",
     "owner": "Owner",
     "bidAmount": "Bid Amount",
+    "askAmount": "Ask Amount",
     "availableBalance": "Available Balance"
   },
   "placeholder": {
-    "bidAmountPlaceholder": "Please enter the bid amount"
+    "transferVirtualEstatePlaceholder": "Please enter the address of the recipient",
+    "bidAmountPlaceholder": "Please enter the bid amount",
+    "askAmountPlaceholder": "Please enter the ask amount"
   },
   "title": {
     "confirmMintVirtualEstate": "Do you want to mint this estate??"
