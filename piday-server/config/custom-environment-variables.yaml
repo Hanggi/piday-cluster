@@ -1,9 +1,11 @@
+piNetworkPayment:
+  cursor: ACCOUNT_PAYMENTS_CURSOR
+
 redis:
   host: REDIS_HOST
   password: REDIS_PASSWORD
   port: REDIS_PORT
   db: REDIS_DB
-
 
 mailgun:
   apiKey: MAILGUN_API_KEY
