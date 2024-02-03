@@ -422,10 +422,40 @@ export class VirtualEstateController {
   }
 
   @Get(":hexID/in-area")
-  async getHexIDsStatusInArea(@Param("hexID") hexID, @Res() res: Response) {
+  async getHexIDsStatusInArea(
+    @Param("hexID") hexID,
+    @Res() res: Response,
+    @Query("zoom") zoom = 1, //default to size 10,
+  ) {
     try {
+      console.log("\n\n\n\n\n\n\n\n\n\n\n Zoooom", zoom);
       const hexIDs = await this.virtualEstateService.getHexIDsStatusInArea({
         hexID,
+        zoom
+      });
+
+      res.status(HttpStatus.OK).json({
+        ...hexIDs,
+      });
+    } catch (err) {
+      console.error(err);
+      throw new HttpException(
+        "Internal Server Error",
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+  @Get(":hexID/in-area-coordinates")
+  async getSoldHexIDsCoordinatesForScatterPlot(
+    @Param("hexID") hexID,
+    @Res() res: Response,
+    @Query("zoom") zoom = 1, //default to size 10,
+  ) {
+    try {
+      console.log("\n\n\n\n\n\n\n\n\n\n\n Zoooom", zoom);
+      const hexIDs = await this.virtualEstateService.getSoldHexIDsCoordinatesForScatterPlot({
+        hexID,
+        zoom
       });
 
       res.status(HttpStatus.OK).json({

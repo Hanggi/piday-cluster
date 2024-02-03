@@ -14,7 +14,7 @@ export async function GET(
   const zoom = searchParams.get("zoom");
   try {
     const res = await instance.get(
-      "/virtual-estates/" + hexID + `/in-area?zoom=${zoom}`,
+      "/virtual-estates/" + hexID + `/in-area-coordinates?zoom=${zoom}`,
     );
 
     return new Response(JSON.stringify(res.data), {

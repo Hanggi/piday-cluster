@@ -1,6 +1,6 @@
 import { VirtualEstate, VirtualEstateListing } from "@prisma/client";
 import { Decimal } from "@prisma/client/runtime/library";
-import { kRing } from "h3-js";
+import { h3ToGeo, kRing } from "h3-js";
 
 import { Injectable } from "@nestjs/common";
 
@@ -31,7 +31,7 @@ export class VirtualEstateService {
     });
 
     let listing = null;
-    if (optional.withListing) {
+    if (optional?.withListing) {
       // Get listing for the virtual estate
       listing = await this.prisma.virtualEstateListing.findFirst({
         where: {
@@ -146,12 +146,61 @@ export class VirtualEstateService {
 
   async getHexIDsStatusInArea({
     hexID,
+    zoom,
   }: {
     hexID: string;
+    zoom: number;
   }): Promise<{ onSale: string[]; sold?: string[] }> {
     const hexIDsInArea = kRing(hexID, 15).map((hex) => {
       return hex;
     });
+
+    const virtualEstatesHasOwner = await this.prisma.virtualEstate.findMany({
+      select: {
+        virtualEstateID: true, // 只选择 id 字段
+      },
+      where: {
+        virtualEstateID: {
+          in: hexIDsInArea,
+        },
+      },
+    });
+
+    const virtualEstateOnSale = await this.prisma.virtualEstateListing.findMany(
+      {
+        select: {
+          virtualEstateID: true, // 只选择 id 字段
+        },
+        where: {
+          virtualEstateID: {
+            in: hexIDsInArea,
+          },
+          expiresAt: {
+            gte: new Date(),
+          },
+        },
+      },
+    );
+    return {
+      onSale: virtualEstateOnSale.map((ve) => ve.virtualEstateID) || [],
+      sold: virtualEstatesHasOwner.map((ve) => ve.virtualEstateID) || [],
+    };
+  }
+  async getSoldHexIDsCoordinatesForScatterPlot({
+    hexID,
+    zoom,
+  }: {
+    hexID: string;
+    zoom: number;
+  }): Promise<{ coordinates?: number[][] }> {
+    const adjustedZoom = Math.max(0.64, Math.min(zoom, 20));
+
+    const hexIDsInArea = kRing(hexID, 500 - (adjustedZoom - 0.64) * 5).map(
+      (hex) => {
+        return hex;
+      },
+    );
+
     const virtualEstatesHasOwner = await this.prisma.virtualEstate.findMany({
       select: {
         virtualEstateID: true, // 只选择 id 字段
@@ -164,8 +213,9 @@ export class VirtualEstateService {
     });
 
     return {
-      onSale: [],
-      sold: virtualEstatesHasOwner.map((ve) => ve.virtualEstateID) || [],
+      coordinates: virtualEstatesHasOwner.map((c) =>
+        h3ToGeo(c.virtualEstateID),
+      ),
     };
   }
 

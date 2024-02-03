@@ -6,6 +6,7 @@ import {
   Get,
   HttpException,
   HttpStatus,
+  Param,
   Post,
   Query,
   Res,
@@ -79,4 +80,5 @@ export class AuthController {
       message: "Email signup success",
     });
   }
+
 }

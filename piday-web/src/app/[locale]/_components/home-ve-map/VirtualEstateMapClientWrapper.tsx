@@ -2,7 +2,7 @@
 
 import VirtualEstateMap from "@/src/components/virtual-estate-map/VirtualEstateMap";
 import { hexIDtoDecimal } from "@/src/components/virtual-estate-map/h3";
-import { useGetHexIDsStatusInAreaQuery } from "@/src/features/virtual-estate/api/virtualEstateAPI";
+import { useGetHexIDsStatusInAreaQuery, useGetSoldHexIDsCoordinatesForScatterPlotQuery } from "@/src/features/virtual-estate/api/virtualEstateAPI";
 import {
   setInitialMapAnimation,
   showInitialMapAnimationValue,
@@ -29,11 +29,17 @@ export default function VirtualEstateMapClientWrapper({
     defaultHexID as string,
   );
 
+  const [mapZoom, setMapZoom] = useState<number>(1);
   const dispatch = useDispatch();
   const showInitialMapAnimation = useSelector(showInitialMapAnimationValue);
 
   const { data: hexIDsStatus } = useGetHexIDsStatusInAreaQuery({
     hexID: currentCenterHexID,
+    zoom: mapZoom,
+  });
+  const { data: hexIDsCoordinates } = useGetSoldHexIDsCoordinatesForScatterPlotQuery({
+    hexID: currentCenterHexID,
+    zoom: mapZoom,
   });
 
   return (
@@ -46,6 +52,7 @@ export default function VirtualEstateMapClientWrapper({
         onCenterHexChange={(hexID) => {
           setCurrentCenterHexID(hexID);
         }}
+        coordinates={hexIDsCoordinates?.coordinates}
         onSaleList={hexIDsStatus?.onSale || []}
         onVirtualEstateClick={(hexID) => {
           const decimalID = hexIDtoDecimal(hexID);
@@ -57,6 +64,7 @@ export default function VirtualEstateMapClientWrapper({
             dispatch(setInitialMapAnimation(true));
           }
         }}
+        setMapZoom={setMapZoom}
       />
     </div>
   );

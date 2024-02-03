@@ -6,6 +6,7 @@ import { format } from "date-fns";
 import Table from "@mui/joy/Table";
 import Typography from "@mui/joy/Typography";
 
+import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
 interface Props {}
@@ -13,10 +14,13 @@ interface Props {}
 export function MyVirtualEstateTransactionHistroy({}: Props) {
   const { t } = useTranslation(["asset-center"]);
 
+  
   const { data: transactionRecords } = useGetAllTransactionRecordsForUserQuery({
     side: "both",
   });
-
+  useEffect(() => {
+    
+  });
   return (
     <div className="container ">
       <Table>

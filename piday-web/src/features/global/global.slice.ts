@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 interface GlobalSlice {
   serverSideEnv: { [key: string]: any };
+  
 }
 
 const initialState: GlobalSlice = {

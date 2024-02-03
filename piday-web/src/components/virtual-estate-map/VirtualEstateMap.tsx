@@ -4,9 +4,10 @@ import { FlyToInterpolator, MapViewState } from "@deck.gl/core/typed";
 import type { ViewStateChangeParameters } from "@deck.gl/core/typed/controllers/controller";
 import { PickingInfo } from "@deck.gl/core/typed/lib/picking/pick-info";
 import { H3HexagonLayer } from "@deck.gl/geo-layers/typed";
+import { ScatterplotLayer } from "@deck.gl/layers/typed";
 import { TextLayer } from "@deck.gl/layers/typed";
 import DeckGL from "@deck.gl/react/typed";
-import { geoToH3, h3ToGeo, kRing } from "h3-js";
+import { H3Index, H3IndexInput, geoToH3, h3ToGeo, kRing } from "h3-js";
 import { debounce } from "lodash";
 
 import Card from "@mui/joy/Card";
@@ -15,7 +16,7 @@ import Typography from "@mui/joy/Typography";
 import { useCallback, useEffect, useState } from "react";
 import Map, { GeolocateControl, NavigationControl } from "react-map-gl";
 
-const SHOW_HEXAGON_LAYER_FROM_ZOOM = 15;
+const SHOW_HEXAGON_LAYER_FROM_ZOOM = 1;
 
 const INITIAL_VIEW_STATE: MapViewState = {
   longitude: -122.41669,
@@ -31,6 +32,12 @@ interface VirtualEstate {
   hexID: string;
 }
 
+interface ScatterPlotType {
+  name: any;
+  exits: number;
+  coordinates: number[];
+}
+
 interface Props {
   token: string;
   defaultHexID?: string;
@@ -38,9 +45,11 @@ interface Props {
 
   onSaleList?: string[];
   soldList?: string[];
+  coordinates?: number[][];
 
   onVirtualEstateClick?: (hexID: string) => void;
   onCenterHexChange?: (hexID: string) => void;
+  setMapZoom: (zoom: number) => void;
 }
 
 export default function VirtualEstateMap({
@@ -50,10 +59,13 @@ export default function VirtualEstateMap({
   onSaleList,
   soldList,
   onVirtualEstateClick,
+  coordinates,
   onCenterHexChange,
+  setMapZoom,
 }: Props) {
   const [viewState, setViewState] = useState<MapViewState>(INITIAL_VIEW_STATE);
   const [hexagons, setHexagons] = useState<VirtualEstate[]>([]);
+  const [scatterPlotLayerData, setScatterPlotLayerData] = useState<any[]>([]);
   // hexagonsCenter is the hexagon that is currently in the center of the hexagons array
   const [hexagonsCenter, setHexagonCenter] = useState<string>(""); // hex ID
   // centerHex is the hexagon that is currently in the center of the map
@@ -63,6 +75,46 @@ export default function VirtualEstateMap({
   const [layers, setLayers] = useState<any[]>([]); // [H3HexagonLayer
 
   const [selectedHexID, setSelectedHexID] = useState<string>("");
+  // Function to calculate the center coordinates
+  function calculateCenterCoordinates(locations: any) {
+    const validCoordinates = locations.filter(
+      (coord: any) => !isNaN(coord[0]) && !isNaN(coord[1]),
+    );
+
+    if (validCoordinates.length === 0) {
+      // Handle the case where all coordinates are NaN
+      return [NaN, NaN];
+    }
+
+    const totalCoordinates = validCoordinates.length;
+
+    // Calculate average latitude and longitude
+    const centerLatitude =
+      validCoordinates.reduce((sum: any, coord: any) => sum + coord[0], 0) /
+      totalCoordinates;
+    const centerLongitude =
+      validCoordinates.reduce((sum: any, coord: any) => sum + coord[1], 0) /
+      totalCoordinates;
+
+    return [centerLongitude, centerLatitude];
+  }
+  // Function to create a new object with the calculated center coordinates and a name based on the array length
+  function createCenterObject(locations: any) {
+    const centerCoordinates = calculateCenterCoordinates(locations);
+    const radius = viewState.zoom * 4301;
+    const name = locations.length.toString(); // Name based on the length of the input array
+
+    const centerObject = {
+      coordinates: centerCoordinates,
+      exits: radius.toString(),
+      name: name,
+      entries: locations.length.toString(),
+      address: "N/A",
+      code: "N/A",
+    };
+
+    return centerObject;
+  }
 
   useEffect(() => {
     const ch = centerHex; // 示例中心六边形
@@ -71,21 +123,38 @@ export default function VirtualEstateMap({
       if (ch == hexagonsCenter && hexagons.length > 0) {
         return;
       }
-      const hexagonsMatirx = kRing(ch, 60).map((hex) => {
+      const hexagonsMatrix = kRing(ch, 60).map((hex: H3Index) => {
         return {
           hexID: hex,
         };
       });
       setHexagonCenter(ch);
-      setHexagons(hexagonsMatirx as any);
+      setHexagons(hexagonsMatrix as any);
+
+      console.log("Cordinates===> ", coordinates, "\n\nsoldList", soldList);
+      if (coordinates) {
+        const scatterPlotObject = createCenterObject(coordinates);
+
+        setScatterPlotLayerData([scatterPlotObject]);
+      }
     } else {
       if (hexagons.length != 0) {
         setHexagons([]);
       }
     }
-  }, [centerHex, hexagons.length, hexagonsCenter, viewState.zoom]);
+    if (ch == hexagonsCenter && hexagons.length > 0) {
+      return;
+    }
+    const hexagonsMatrix = kRing(ch, 60).map((hex: H3Index) => {
+      return {
+        hexID: hex,
+      };
+    });
+    setHexagonCenter(ch);
+  }, [centerHex, hexagons.length, hexagonsCenter, viewState.zoom, soldList]);
 
   useEffect(() => {
+    console.log("Scatterplot data", scatterPlotLayerData);
     setLayers([
       new H3HexagonLayer({
         id: "h3-hexagon-layer",
@@ -161,13 +230,30 @@ export default function VirtualEstateMap({
           getText: [soldList],
         },
       }),
+      new ScatterplotLayer({
+        id: "ScatterplotLayer",
+        data: scatterPlotLayerData,
+        autoHighlight: true,
+        pickable: true,
+        opacity: 0.8,
+        stroked: true,
+        filled: true,
+        radiusScale: 6,
+        radiusMinPixels: 1,
+        radiusMaxPixels: 100,
+        lineWidthMinPixels: 1,
+        getPosition: (d) => d.coordinates,
+        getRadius: (d) => Math.sqrt(d.exits),
+        getFillColor: (d) => [255, 140, 0],
+        getLineColor: (d) => [0, 0, 0],
+      }),
     ]);
     setViewState((vs) => {
       return {
         ...vs,
       };
     });
-  }, [hexagons, onSaleList, selectedHexID, soldList]);
+  }, [hexagons, onSaleList, selectedHexID, soldList, scatterPlotLayerData]);
 
   // When the default hex id is non-empty, initialize coordinate animation
   useEffect(() => {
@@ -196,12 +282,11 @@ export default function VirtualEstateMap({
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const debounceToSetCenterHex = useCallback(
     debounce((vs) => {
-      if (vs.zoom >= SHOW_HEXAGON_LAYER_FROM_ZOOM) {
-        const hexID = geoToH3(vs.latitude, vs.longitude, 12);
-        if (hexID != centerHex) {
-          setCenterHex(hexID);
-          onCenterHexChange && onCenterHexChange(hexID);
-        }
+      const hexID = geoToH3(vs.latitude, vs.longitude, 12);
+      if (hexID != centerHex) {
+        setCenterHex(hexID);
+        onCenterHexChange && onCenterHexChange(hexID);
+        setMapZoom(vs.zoom);
       }
     }, 1000),
     [],
@@ -209,7 +294,7 @@ export default function VirtualEstateMap({
 
   const handleMapViewChange = useCallback(
     (params: ViewStateChangeParameters) => {
-      if (params.viewState.zoom >= SHOW_HEXAGON_LAYER_FROM_ZOOM) {
+      if (params.viewState.zoom >= 1) {
         debounceToSetCenterHex(params.viewState);
       }
       if (mounted) {
@@ -247,6 +332,7 @@ export default function VirtualEstateMap({
         }}
         onClick={handleClickHexagon}
         onViewStateChange={handleMapViewChange}
+        getTooltip={({ object }) => object && `${object.name}`}
       >
         <Map
           mapStyle="mapbox://styles/mapbox/streets-v9"

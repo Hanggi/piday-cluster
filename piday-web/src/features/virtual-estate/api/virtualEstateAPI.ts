@@ -63,13 +63,25 @@ export const virtualEstateRTKApi = createApi({
     }),
     getHexIDsStatusInArea: builder.query<
       { onSale: string[]; sold: string[] },
-      { hexID: string }
+      { hexID: string; zoom: number }
     >({
-      query: ({ hexID }) => ({
-        url: `/virtual-estates/${hexID}/in-area`,
+      query: ({ hexID, zoom }) => ({
+        url: `/virtual-estates/${hexID}/in-area?zoom=${zoom}`,
         method: "GET",
       }),
       transformResponse: (response: { onSale: string[]; sold: string[] }) => {
+        return response;
+      },
+    }),
+    getSoldHexIDsCoordinatesForScatterPlot: builder.query<
+      { coordinates: number[][] },
+      { hexID: string; zoom: number }
+    >({
+      query: ({ hexID, zoom }) => ({
+        url: `/virtual-estates/${hexID}/in-area-coordinates?zoom=${zoom}`,
+        method: "GET",
+      }),
+      transformResponse: (response: { coordinates: number[][] }) => {
         return response;
       },
     }),
@@ -144,4 +156,5 @@ export const {
   useGetVirtualEstateTransactionRecordsQuery,
   useAcceptAskToBuyVirtualEstateMutation,
   useTransferVirtualEstateToUserMutation,
+  useGetSoldHexIDsCoordinatesForScatterPlotQuery,
 } = virtualEstateRTKApi;
