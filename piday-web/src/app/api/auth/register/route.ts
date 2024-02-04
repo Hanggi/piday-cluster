@@ -12,6 +12,7 @@ export async function POST(request: Request, res: Response) {
     password: req.password,
     email: req.email,
     code: req.code,
+    inviteCode: req.inviteCode,
   };
 
   try {

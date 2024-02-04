@@ -20,7 +20,20 @@ export const userRTKAPI = createApi({
         return response.user;
       },
     }),
+    generateInviteCode: builder.query({
+      query: () => ({
+        url: `/user/generate-invite-code`,
+        method: "GET",
+      }),
+      transformResponse: (response: { inviteCode: string }) => {
+        return response.inviteCode;
+      },
+    }),
   }),
 });
 
-export const { useGetUserInfoQuery, useLazyGetUserInfoQuery } = userRTKAPI;
+export const {
+  useGetUserInfoQuery,
+  useLazyGetUserInfoQuery,
+  useGenerateInviteCodeQuery,
+} = userRTKAPI;
