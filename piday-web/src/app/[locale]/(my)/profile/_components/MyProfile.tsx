@@ -41,7 +41,7 @@ export default function MyProfile() {
       </div>
       <div className="mb-4">
         <Typography level="title-md">ID</Typography>
-        <Typography>{session?.user?.id}</Typography>
+        <Typography>{myUser?.id}</Typography>
       </div>
       <div className="mb-4">
         <Typography level="title-md">{t("profile:profile.email")}</Typography>

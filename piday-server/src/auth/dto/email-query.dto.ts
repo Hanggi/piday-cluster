@@ -7,6 +7,6 @@ export class EmailQueryDto {
 
 export class EmailSignupDto extends EmailQueryDto {
   code: string;
-
+  inviteCode: string;
   password: string;
 }
