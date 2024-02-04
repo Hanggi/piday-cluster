@@ -2417,6 +2417,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"base64url@npm:^3.0.1":
+  version: 3.0.1
+  resolution: "base64url@npm:3.0.1"
+  checksum: 5ca9d6064e9440a2a45749558dddd2549ca439a305793d4f14a900b7256b5f4438ef1b7a494e1addc66ced5d20f5c010716d353ed267e4b769e6c78074991241
+  languageName: node
+  linkType: hard
+
 "binary-extensions@npm:^2.0.0":
   version: 2.2.0
   resolution: "binary-extensions@npm:2.2.0"
@@ -4266,6 +4273,13 @@ __metadata:
   version: 1.0.3
   resolution: "has-symbols@npm:1.0.3"
   checksum: e6922b4345a3f37069cdfe8600febbca791c94988c01af3394d86ca3360b4b93928bbf395859158f88099cb10b19d98e3bbab7c9ff2c1bd09cf665ee90afa2c3
+  languageName: node
+  linkType: hard
+
+"hashids@npm:^2.3.0":
+  version: 2.3.0
+  resolution: "hashids@npm:2.3.0"
+  checksum: ff9a57b5623253be5ef75457767530d5ca710ad8e93f01c521528b820afa2418e34b4d10dfbe1081858e0090438d11cdf641205b0aa5c6dbe36c4d4b965ec058
   languageName: node
   linkType: hard
 
@@ -6364,6 +6378,7 @@ __metadata:
     flake-idgen: "npm:^1.4.0"
     form-data: "npm:^4.0.0"
     h3-js: "npm:^3.7.2"
+    hashids: "npm:^2.3.0"
     int64-buffer: "npm:^1.0.1"
     ioredis: "npm:^5.3.2"
     jest: "npm:^29.7.0"

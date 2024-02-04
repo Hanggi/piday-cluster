@@ -50,11 +50,11 @@ export class AuthController {
   @Post("email-signup")
   @Throttle({ default: { limit: 10, ttl: 60000 } })
   async emailSignup(
-    @Body() { email, code, password }: EmailSignupDto,
+    @Body() { email, code, password, inviteCode }: EmailSignupDto,
     @Res() res: Response,
   ) {
     try {
-      await this.authService.emailSignup(email, code, password);
+      await this.authService.emailSignup(email, code, password, inviteCode);
     } catch (err) {
       console.error(err);
       switch (err.code) {

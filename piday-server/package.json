@@ -37,6 +37,7 @@
     "flake-idgen": "^1.4.0",
     "form-data": "^4.0.0",
     "h3-js": "^3.7.2",
+    "hashids": "^2.3.0",
     "int64-buffer": "^1.0.1",
     "ioredis": "^5.3.2",
     "jsonwebtoken": "^9.0.2",
