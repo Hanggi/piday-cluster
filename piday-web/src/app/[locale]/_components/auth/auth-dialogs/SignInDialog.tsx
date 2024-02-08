@@ -78,9 +78,7 @@ export default function SignInDialog({
 
   return (
     <ModalDialog>
-      <CardOverflow sx={{ bgcolor: "orange", height: "60px" }}>
-        piday
-      </CardOverflow>
+      <CardOverflow sx={{ bgcolor: "orange", height: "60px" }}></CardOverflow>
       <DialogTitle>{t("common:auth.signIn.title")}</DialogTitle>
       <ModalClose sx={{ m: 1 }} variant="plain" />
       <DialogContent>
