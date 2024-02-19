@@ -119,33 +119,25 @@ export class AuthService {
       },
     });
 
-    const inviteCodeExists = await this.redis.exists(inviteCode);
-    const initializationVector = await this.redis.get(inviteCode);
+    const inviteeUserId = decodeInviteCode(inviteCode);
 
-    if (inviteCodeExists) {
-      const inviteeUserId = parseInt(
-        decodeInviteCode(inviteCode, initializationVector),
-      );
+    const invitee = await this.prisma.user.findUnique({
+      where: {
+        id: inviteeUserId,
+      },
+    });
 
-      const invitee = await this.prisma.user.findUnique({
+    if (invitee) {
+      await this.prisma.user.update({
+        data: {
+          inviteeID: invitee.id,
+        },
         where: {
-          id: inviteeUserId,
+          id: databaseUser.id,
         },
       });
-
-      if (invitee) {
-        await this.prisma.user.update({
-          data: {
-            inviteeID: invitee.id,
-          },
-          where: {
-            id: databaseUser.id,
-          },
-        });
-      }
-
-      await this.redis.del(inviteCode);
     }
+
     return createdUser;
   }
 }
