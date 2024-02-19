@@ -83,10 +83,7 @@ export class UserService {
     if (!user) {
       return null;
     }
-    const { initializationVector, inviteCode } = generateInvitationCode(
-      user.id,
-    );
-    await this.redis.set(inviteCode, initializationVector);
+    const inviteCode = generateInvitationCode(user.id);
     return inviteCode;
   }
 }
