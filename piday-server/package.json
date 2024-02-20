@@ -31,7 +31,6 @@
     "@nestjs/throttler": "^5.1.1",
     "@prisma/client": "^5.7.1",
     "axios": "^1.6.5",
-    "base64url": "^3.0.1",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.0",
     "config": "^3.3.9",
