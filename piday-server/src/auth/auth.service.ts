@@ -6,6 +6,7 @@ import { Inject, Injectable } from "@nestjs/common";
 
 import { ServiceException } from "../lib/exceptions/service-exception";
 import { KeycloakService } from "../lib/keycloak/keycloak.service";
+import { MailService } from "../lib/mailgun/mailgun.service";
 import { PrismaService } from "../lib/prisma/prisma.service";
 import { generateUsername } from "../lib/utils/extract-username-from-email";
 
@@ -16,6 +17,7 @@ export class AuthService {
     @Inject("MAILGUN_CLIENT") readonly mailgun: IMailgunClient,
     private readonly keycloakService: KeycloakService,
     private prisma: PrismaService,
+    private readonly mailService: MailService,
   ) {}
 
   async setVerificationCodeAndSendEmail(email: string) {
@@ -56,29 +58,48 @@ export class AuthService {
 
     // TODO: Make mail service
     // Send email
-    const mg = this.mailgun;
+    // const mg = this.mailgun;
 
-    const mailgunData = {
-      from: "services@piday.world",
-      to: email,
-      subject: `Email Verification`,
-      template: "email-verification",
-      "h:X-Mailgun-Variables": JSON.stringify({
-        // be sure to stringify your payload
-        verification_code: verificationCode,
-      }),
-      "h:Reply-To": "reply-to@example.com",
-    };
+    // const mailgunData = {
+    //   from: "services@piday.world",
+    //   to: email,
+    //   subject: `Email Verification`,
+    //   template: "email-verification",
+    //   "h:X-Mailgun-Variables": JSON.stringify({
+    //     // be sure to stringify your payload
+    //     verification_code: verificationCode,
+    //   }),
+    //   "h:Reply-To": "reply-to@example.com",
+    // };
 
     try {
-      await mg.messages.create(
-        config?.get<string>("mailgun.domain"),
-        mailgunData,
-      );
+      await this.mailService.sendTemplateEmail({
+        to: email,
+        subject: `Email Verification`,
+        template: "jpzkmgqz011g059v",
+        variables: {
+          verification_code: verificationCode,
+        },
+      });
     } catch (error) {
       console.error("Send email failed:", error);
       throw new ServiceException("Send email failed", "SEND_EMAIL_FAILED");
     }
+
+    // try {
+    //   await this.mailService.sendTemplateEmail({
+    //     from: "services@piday.world",
+    //     to: email,
+    //     subject: `Email Verification`,
+    //     template: "email-verification",
+    //     variables: {
+    //       verification_code: verificationCode,
+    //     },
+    //   });
+    // } catch (error) {
+    //   console.error("Send email failed:", error);
+    //   throw new ServiceException("Send email failed", "SEND_EMAIL_FAILED");
+    // }
   }
 
   async emailSignup(email: string, code: string, password: string) {

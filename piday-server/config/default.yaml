@@ -18,3 +18,6 @@ keycloak:
 mailgun:
   apiKey: "key-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
   domain: mg.piday.world
+
+mailerSend:
+  apiKey: "mlsn.18891c260994363fac758a7e34598ceaf869a381361c7ebd877d4eb9487b3f8d"
