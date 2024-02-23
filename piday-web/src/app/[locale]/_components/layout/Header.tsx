@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 
 import AuthStatusButton from "../auth/AuthStatusButton";
 
@@ -15,16 +16,18 @@ export default function Header() {
         width={1024}
       />
       <div className="container py-4 flex justify-between">
-        <div className={"relative h-12 w-28"}>
-          <Image
-            alt="logo"
-            className="block"
-            fill
-            priority
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            src="/logo.png"
-          />
-        </div>
+        <Link href="/">
+          <div className={"relative h-12 w-28"}>
+            <Image
+              alt="logo"
+              className="block"
+              fill
+              priority
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              src="/logo.png"
+            />
+          </div>
+        </Link>
         <AuthStatusButton />
       </div>
       {/* <Navbar navType={NavType.header}></Navbar> */}

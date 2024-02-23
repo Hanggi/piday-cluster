@@ -6,12 +6,6 @@ import { Inject, Injectable } from "@nestjs/common";
 
 import { ServiceException } from "../exceptions/service-exception";
 
-// AWS.config.update({
-//   region: "ap-northeast-2",
-//   accessKeyId: config.get<string>("ses.apikey"),
-//   secretAccessKey: config.get<string>("ses.secret"),
-// });
-
 @Injectable()
 export class MailService {
   mailerSend: MailerSend;
@@ -28,7 +22,7 @@ export class MailService {
     subject,
     template,
     variables,
-    replyTo,
+    replyTo = "support@piday.world",
   }: {
     from?: string;
     to: string;
@@ -37,43 +31,6 @@ export class MailService {
     variables?: Record<string, string>;
     replyTo?: string;
   }) {
-    // const mg = this.mailgun;
-    // const mailgunData = {
-    //   from,
-    //   to,
-    //   subject,
-    //   template,
-    //   "h:X-Mailgun-Variables": JSON.stringify(variables),
-    //   "h:Reply-To": replyTo,
-    // };
-    // try {
-    //   await mg.messages.create(
-    //     config?.get<string>("mailgun.domain"),
-    //     mailgunData,
-    //   );
-    // } catch (error) {
-    //   console.error("Send email failed:", error);
-    //   throw new ServiceException("Send email failed", "SEND_EMAIL_FAILED");
-    // }
-    // const ses = this.ses;
-    // const params = {
-    //   Destination: {
-    //     ToAddresses: [to],
-    //   },
-    //   from: "services@piday.world",
-    //   subject: subject,
-    //   Source: "your-email@example.com", // 发件人邮箱
-    //   Template: "EmailVerificationCode",
-    //   TemplateData: JSON.stringify(variables),
-    //   ReplyToAddresses: ["support@piday.world"],
-    // };
-    // try {
-    //   const result = await ses.sendTemplatedEmail(params).promise();
-    //   return result;
-    // } catch (error) {
-    //   throw new Error(`Failed to send email: ${error.message}`);
-    // }
-
     const sentFrom = new Sender(
       from || "services@piday.world",
       "PiDay Services",

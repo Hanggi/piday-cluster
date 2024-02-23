@@ -54,11 +54,11 @@ steps:
       DEV_EMAIL_PASSWORD:
         from_secret: DEV_EMAIL_PASSWORD
     settings:
-      host: smtp.mailgun.org
-      username: dev@mg.darenstar.com
+      host: smtp.sendgrid.net
+      username: apikey
       password:
         from_secret: DEV_EMAIL_PASSWORD
-      from: piday-dev@darenstar.com
+      from: piday-dev@daren.market
       recipients:
         - hanggicrown@gmail.com
       subject: "[Piday Server](DEV) Build success!"
@@ -77,11 +77,11 @@ steps:
       DEV_EMAIL_PASSWORD:
         from_secret: DEV_EMAIL_PASSWORD
     settings:
-      host: smtp.mailgun.org
-      username: dev@mg.darenstar.com
+      host: smtp.sendgrid.net
+      username: apikey
       password:
         from_secret: DEV_EMAIL_PASSWORD
-      from: piday-dev@darenstar.com
+      from: piday-dev@daren.market
       recipients:
         - hanggicrown@gmail.com
       subject: "[Piday Server](DEV) Build failed!"
@@ -136,11 +136,11 @@ steps:
       DEV_EMAIL_PASSWORD:
         from_secret: DEV_EMAIL_PASSWORD
     settings:
-      host: smtp.mailgun.org
-      username: dev@mg.darenstar.com
+      host: smtp.sendgrid.net
+      username: apikey
       password:
         from_secret: DEV_EMAIL_PASSWORD
-      from: piday-staging@darenstar.com
+      from: piday-staging@daren.market
       recipients:
         - hanggicrown@gmail.com
       subject: "[Piday Server](STAGING) Build success!"
@@ -159,11 +159,11 @@ steps:
       DEV_EMAIL_PASSWORD:
         from_secret: DEV_EMAIL_PASSWORD
     settings:
-      host: smtp.mailgun.org
-      username: dev@mg.darenstar.com
+      host: smtp.sendgrid.net
+      username: apikey
       password:
         from_secret: DEV_EMAIL_PASSWORD
-      from: piday-staging@darenstar.com
+      from: piday-staging@daren.market
       recipients:
         - hanggicrown@gmail.com
       subject: "[Piday Server](STAGING) Build failed!"
@@ -219,11 +219,11 @@ steps:
       DEV_EMAIL_PASSWORD:
         from_secret: DEV_EMAIL_PASSWORD
     settings:
-      host: smtp.mailgun.org
-      username: dev@mg.darenstar.com
+      host: smtp.sendgrid.net
+      username: apikey
       password:
         from_secret: DEV_EMAIL_PASSWORD
-      from: piday-prod@darenstar.com
+      from: piday-prod@daren.market
       recipients:
         - hanggicrown@gmail.com
       subject: "[Piday Server](PROD) Build success!"
@@ -242,11 +242,11 @@ steps:
       DEV_EMAIL_PASSWORD:
         from_secret: DEV_EMAIL_PASSWORD
     settings:
-      host: smtp.mailgun.org
-      username: dev@mg.darenstar.com
+      host: smtp.sendgrid.net
+      username: apikey
       password:
         from_secret: DEV_EMAIL_PASSWORD
-      from: piday-prod@darenstar.com
+      from: piday-prod@daren.market
       recipients:
         - hanggicrown@gmail.com
       subject: "[Piday Server](PROD) Build failed!"

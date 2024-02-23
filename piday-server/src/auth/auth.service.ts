@@ -56,22 +56,6 @@ export class AuthService {
       this.redis.expire(redisKey, 60 * 30);
     }
 
-    // TODO: Make mail service
-    // Send email
-    // const mg = this.mailgun;
-
-    // const mailgunData = {
-    //   from: "services@piday.world",
-    //   to: email,
-    //   subject: `Email Verification`,
-    //   template: "email-verification",
-    //   "h:X-Mailgun-Variables": JSON.stringify({
-    //     // be sure to stringify your payload
-    //     verification_code: verificationCode,
-    //   }),
-    //   "h:Reply-To": "reply-to@example.com",
-    // };
-
     try {
       await this.mailService.sendTemplateEmail({
         to: email,
@@ -85,21 +69,6 @@ export class AuthService {
       console.error("Send email failed:", error);
       throw new ServiceException("Send email failed", "SEND_EMAIL_FAILED");
     }
-
-    // try {
-    //   await this.mailService.sendTemplateEmail({
-    //     from: "services@piday.world",
-    //     to: email,
-    //     subject: `Email Verification`,
-    //     template: "email-verification",
-    //     variables: {
-    //       verification_code: verificationCode,
-    //     },
-    //   });
-    // } catch (error) {
-    //   console.error("Send email failed:", error);
-    //   throw new ServiceException("Send email failed", "SEND_EMAIL_FAILED");
-    // }
   }
 
   async emailSignup(email: string, code: string, password: string) {
