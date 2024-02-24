@@ -4269,6 +4269,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"hashids@npm:^2.3.0":
+  version: 2.3.0
+  resolution: "hashids@npm:2.3.0"
+  checksum: ff9a57b5623253be5ef75457767530d5ca710ad8e93f01c521528b820afa2418e34b4d10dfbe1081858e0090438d11cdf641205b0aa5c6dbe36c4d4b965ec058
+  languageName: node
+  linkType: hard
+
 "hasown@npm:^2.0.0":
   version: 2.0.0
   resolution: "hasown@npm:2.0.0"
@@ -6364,6 +6371,7 @@ __metadata:
     flake-idgen: "npm:^1.4.0"
     form-data: "npm:^4.0.0"
     h3-js: "npm:^3.7.2"
+    hashids: "npm:^2.3.0"
     int64-buffer: "npm:^1.0.1"
     ioredis: "npm:^5.3.2"
     jest: "npm:^29.7.0"

@@ -54,4 +54,18 @@ export class UserController {
       success: true,
     });
   }
+  @UseGuards(KeycloakJwtGuard)
+  @Get("get-invite-code")
+  async generateInviteCode(
+    @Req() req: AuthenticatedRequest,
+    @Res() res: Response,
+  ) {
+    const inviteCode = await this.userService.generateInviteCode(
+      req.user.userID,
+    );
+    if (!inviteCode) {
+      return res.status(400).json({ success: false, data: null });
+    }
+    return res.status(200).json({ success: true, inviteCode: inviteCode });
+  }
 }

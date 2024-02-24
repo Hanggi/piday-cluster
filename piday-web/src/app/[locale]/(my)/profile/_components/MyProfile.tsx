@@ -2,6 +2,7 @@
 
 import { useUpdateMyPiWalletAddressMutation } from "@/src/features/account/api/accountAPI";
 import { useGetMyUserQuery } from "@/src/features/auth/api/authAPI";
+import { useGetInviteCodeQuery } from "@/src/features/user/api/userAPI";
 import { useSession } from "next-auth/react";
 
 import { Button, Input } from "@mui/joy";
@@ -20,6 +21,8 @@ export default function MyProfile() {
   const [piWalletAddress, setPiWalletAddress] = useState("");
   const [updateWalletAddress, UpdatePiWalletAddressResult] =
     useUpdateMyPiWalletAddressMutation();
+
+  const { data: invitationCode } = useGetInviteCodeQuery();
 
   const handlePiWalletAddressChange = useCallback((e: any) => {
     setPiWalletAddress(e.target.value.trim());
@@ -41,11 +44,17 @@ export default function MyProfile() {
       </div>
       <div className="mb-4">
         <Typography level="title-md">ID</Typography>
-        <Typography>{session?.user?.id}</Typography>
+        <Typography>{myUser?.id}</Typography>
       </div>
       <div className="mb-4">
         <Typography level="title-md">{t("profile:profile.email")}</Typography>
         <Typography>{session?.user?.email}</Typography>
+      </div>
+      <div className="mb-4">
+        <Typography level="title-md">
+          {t("profile:profile.invitationCodeLink")}
+        </Typography>
+        <Typography> http://piday.world/?ic={invitationCode}</Typography>
       </div>
       <div className="mb-4">
         <Typography level="title-md">

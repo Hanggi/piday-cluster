@@ -33,6 +33,10 @@ model User {
   // RechargeRecords[]
   rechargeRecords                       RechargeRecords[]
 
+  inviterID Int?
+  inviter   User?  @relation("UserInvites", fields: [inviterID], references: [id])
+  invited   User[] @relation("UserInvites")
+
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
 }

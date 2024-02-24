@@ -17,6 +17,7 @@
     "signUp": {
       "title": "Sign Up",
       "signInHint": "Already have an account?",
+
       "success": "Sign up successfully"
     },
     "email": "Email",
@@ -27,6 +28,8 @@
     "confirmPasswordPlaceholder": "Confirm your password",
     "verificationCode": "Verification Code",
     "verificationCodePlaceholder": "Enter your verification code",
+    "invitationCode": "Invitation Code",
+    "invitationCodePlaceholder": "Enter your invitation code",
     "validation": {
       "required": "This field is required",
       "email": "Please enter a valid email address",

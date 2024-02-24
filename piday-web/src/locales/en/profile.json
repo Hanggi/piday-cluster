@@ -32,6 +32,7 @@
     "myProfile": "My Profile",
     "username": "Username",
     "email": "Email",
+    "invitationCodeLink": "Invitation Code Link",
     "placeholder": {
       "enterYourPiWalletAddress": "Enter Your Pi Wallet Address"
     }

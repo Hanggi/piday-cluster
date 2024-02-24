@@ -1,5 +1,9 @@
 import { Injectable } from "@nestjs/common";
 
+import {
+  generateInvitationCode,
+  getUserVisibleID,
+} from "../lib/generate-id/generate-user-id";
 import { KeycloakService } from "../lib/keycloak/keycloak.service";
 import { PrismaService } from "../lib/prisma/prisma.service";
 import { UserResponseDto } from "./dto/user.dto";
@@ -24,7 +28,8 @@ export class UserService {
       return null;
     }
 
-    return user;
+    const visibleID = getUserVisibleID(user.id);
+    return { ...user, id: visibleID };
   }
 
   async getUserInfo(
@@ -63,5 +68,19 @@ export class UserService {
       createdAt: user.createdAt,
     };
     return userResponseDto;
+  }
+
+  async generateInviteCode(userID: string) {
+    const user = await this.prisma.user.findUnique({
+      where: {
+        keycloakID: userID,
+      },
+    });
+
+    if (!user) {
+      return null;
+    }
+    const inviteCode = generateInvitationCode(user.id);
+    return inviteCode;
   }
 }

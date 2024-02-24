@@ -32,6 +32,7 @@
     "myProfile": "我的资料",
     "username": "用户名",
     "email": "邮箱",
+    "invitationCodeLink": "邀请码链接",
     "placeholder": {
       "enterYourPiWalletAddress": "请输入您的Pi钱包地址"
     }

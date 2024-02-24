@@ -5,6 +5,7 @@ import { IMailgunClient } from "mailgun.js/Interfaces";
 import { Inject, Injectable } from "@nestjs/common";
 
 import { ServiceException } from "../lib/exceptions/service-exception";
+import { decodeInviteCode } from "../lib/generate-id/generate-user-id";
 import { KeycloakService } from "../lib/keycloak/keycloak.service";
 import { MailService } from "../lib/mailgun/mailgun.service";
 import { PrismaService } from "../lib/prisma/prisma.service";
@@ -71,7 +72,12 @@ export class AuthService {
     }
   }
 
-  async emailSignup(email: string, code: string, password: string) {
+  async emailSignup(
+    email: string,
+    code: string,
+    password: string,
+    inviteCode: string,
+  ) {
     const redisKey = `piday::auth:email.verify.${email}`;
     const verificationCode = await this.redis.get(redisKey);
 
@@ -105,13 +111,32 @@ export class AuthService {
       ],
     });
 
-    await this.prisma.user.create({
+    const myUser = await this.prisma.user.create({
       data: {
         email,
         username: randomUserName,
         keycloakID: createdUser.id,
       },
     });
+
+    const inviterUserID = decodeInviteCode(inviteCode);
+
+    const inviter = await this.prisma.user.findUnique({
+      where: {
+        id: inviterUserID,
+      },
+    });
+
+    if (inviter) {
+      await this.prisma.user.update({
+        data: {
+          inviterID: inviter.id,
+        },
+        where: {
+          id: myUser.id,
+        },
+      });
+    }
 
     return createdUser;
   }

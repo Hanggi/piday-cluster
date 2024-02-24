@@ -27,6 +27,8 @@
     "confirmPasswordPlaceholder": "请再次输入密码",
     "verificationCode": "验证码",
     "verificationCodePlaceholder": "请输入验证码",
+    "invitationCode": "邀请码",
+    "invitationCodePlaceholder": "请输入邀请码",
 
     "validation": {
       "required": "必填项",

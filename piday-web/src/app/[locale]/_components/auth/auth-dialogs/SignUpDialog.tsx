@@ -22,6 +22,8 @@ import ModalClose from "@mui/joy/ModalClose";
 import ModalDialog from "@mui/joy/ModalDialog";
 import Typography from "@mui/joy/Typography";
 
+import { useRouter, useSearchParams } from "next/navigation";
+
 import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
@@ -34,6 +36,7 @@ interface SignUpFormProps {
   email: string;
   username: string;
   verificationCode: string;
+  invitationCode?: string;
   password: string;
   confirmPassword: string;
 }
@@ -48,6 +51,7 @@ export default function SignUpDialog({
   onClose,
 }: Props) {
   const { t, i18n } = useTranslation("common");
+  const searchParams = useSearchParams();
 
   const [emailSignUp, emailSignUpResult] = useEmailSignUpMutation();
   useErrorToast(emailSignUpResult.error);
@@ -93,7 +97,11 @@ export default function SignUpDialog({
     handleSubmit,
     watch,
     formState: { errors },
-  } = useForm<SignUpFormProps>();
+  } = useForm<SignUpFormProps>({
+    defaultValues: {
+      invitationCode: searchParams.get("ic") as string, // ic means invitation code
+    },
+  });
 
   const email = watch("email");
   const password = watch("password");
@@ -104,6 +112,7 @@ export default function SignUpDialog({
         password: data.password,
         email: data.email,
         code: data.verificationCode,
+        inviteCode: data.invitationCode,
       });
     },
     [emailSignUp],
@@ -220,6 +229,18 @@ export default function SignUpDialog({
             />
             {errors.confirmPassword && (
               <FormHelperText>{errors.confirmPassword.message}</FormHelperText>
+            )}
+          </FormControl>
+
+          <FormControl className="mb-4" error={!!errors.invitationCode}>
+            <FormLabel>{t("common:auth.invitationCode")}</FormLabel>
+            <Input
+              {...register("invitationCode", {})}
+              disabled={!!searchParams.get("ic")}
+              placeholder={t("common:auth.invitationCodePlaceholder")}
+            />
+            {errors.invitationCode && (
+              <FormHelperText>{errors.invitationCode.message}</FormHelperText>
             )}
           </FormControl>
 
