@@ -5,10 +5,10 @@
 
 */
 -- AlterTable
-ALTER TABLE "User" ADD COLUMN     "inviteeID" INTEGER;
+ALTER TABLE "User" ADD COLUMN     "inviterID" INTEGER;
 
 -- CreateIndex
 CREATE UNIQUE INDEX "User_piWalletAddress_key" ON "User"("piWalletAddress");
 
 -- AddForeignKey
-ALTER TABLE "User" ADD CONSTRAINT "User_inviteeID_fkey" FOREIGN KEY ("inviteeID") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "User" ADD CONSTRAINT "User_inviterID_fkey" FOREIGN KEY ("inviterID") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;

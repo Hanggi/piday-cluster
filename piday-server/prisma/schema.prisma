@@ -32,9 +32,10 @@ model User {
   virtualEstateSellerTransactionRecords VirtualEstateTransactionRecords[] @relation("SellerTransaction")
   // RechargeRecords[]
   rechargeRecords                       RechargeRecords[]
-  inviteeID Int?
-  invitee   User?   @relation("InvitedUsers", fields: [inviteeID], references: [id])
-  invited  User[]  @relation("InvitedUsers")
+
+  inviterID Int?
+  inviter   User?  @relation("UserInvites", fields: [inviterID], references: [id])
+  invited   User[] @relation("UserInvites")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt

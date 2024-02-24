@@ -3,11 +3,10 @@ import instance from "@/src/features/axios/instance";
 import { AxiosError } from "axios";
 import { StatusCodes } from "http-status-codes";
 
-
 export async function GET(request: Request) {
   try {
     const { headers } = request;
-    const res = await instance.get(`/user/generate-invite-code`, {
+    const res = await instance.get(`/user/get-invite-code`, {
       headers: HeaderFilters(headers),
     });
 

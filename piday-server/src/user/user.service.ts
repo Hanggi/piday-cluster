@@ -1,10 +1,8 @@
-import Redis from "ioredis";
-
-import { Inject, Injectable } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 
 import {
   generateInvitationCode,
-  generateUserVisibleId,
+  getUserVisibleID,
 } from "../lib/generate-id/generate-user-id";
 import { KeycloakService } from "../lib/keycloak/keycloak.service";
 import { PrismaService } from "../lib/prisma/prisma.service";
@@ -15,7 +13,6 @@ export class UserService {
   constructor(
     private readonly keycloakService: KeycloakService,
     private readonly prisma: PrismaService,
-    @Inject("REDIS_CLIENT") readonly redis: Redis,
   ) {}
 
   async getUserFromAccessToken() {}
@@ -31,7 +28,7 @@ export class UserService {
       return null;
     }
 
-    const visibleID = generateUserVisibleId(user.id);
+    const visibleID = getUserVisibleID(user.id);
     return { ...user, id: visibleID };
   }
 

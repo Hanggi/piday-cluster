@@ -55,7 +55,7 @@ export class UserController {
     });
   }
   @UseGuards(KeycloakJwtGuard)
-  @Get("generate-invite-code")
+  @Get("get-invite-code")
   async generateInviteCode(
     @Req() req: AuthenticatedRequest,
     @Res() res: Response,

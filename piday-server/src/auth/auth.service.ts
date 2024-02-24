@@ -111,7 +111,7 @@ export class AuthService {
       ],
     });
 
-    const databaseUser = await this.prisma.user.create({
+    const myUser = await this.prisma.user.create({
       data: {
         email,
         username: randomUserName,
@@ -119,21 +119,21 @@ export class AuthService {
       },
     });
 
-    const inviteeUserId = decodeInviteCode(inviteCode);
+    const inviterUserID = decodeInviteCode(inviteCode);
 
-    const invitee = await this.prisma.user.findUnique({
+    const inviter = await this.prisma.user.findUnique({
       where: {
-        id: inviteeUserId,
+        id: inviterUserID,
       },
     });
 
-    if (invitee) {
+    if (inviter) {
       await this.prisma.user.update({
         data: {
-          inviteeID: invitee.id,
+          inviterID: inviter.id,
         },
         where: {
-          id: databaseUser.id,
+          id: myUser.id,
         },
       });
     }
