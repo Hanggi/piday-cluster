@@ -16,7 +16,7 @@ interface Props {
 export function SearchResult({ statistics }: Props) {
   const { t } = useTranslation(["home"]);
 
-  console.log(statistics);
+  // console.log(statistics);
 
   const statisticsItems = [];
 

@@ -13,6 +13,8 @@
 // import SettingsRoundedIcon from "@mui/icons-material/SettingsRounded";
 // import ShoppingCartRoundedIcon from "@mui/icons-material/ShoppingCartRounded";
 // import SupportRoundedIcon from "@mui/icons-material/SupportRounded";
+import { useSession } from "next-auth/react";
+
 import Avatar from "@mui/joy/Avatar";
 import Box from "@mui/joy/Box";
 import Button from "@mui/joy/Button";
@@ -30,6 +32,8 @@ import ListItemContent from "@mui/joy/ListItemContent";
 import Sheet from "@mui/joy/Sheet";
 import Stack from "@mui/joy/Stack";
 import Typography from "@mui/joy/Typography";
+
+import { useRouter } from "next/navigation";
 
 import * as React from "react";
 
@@ -71,6 +75,8 @@ function Toggler({
 }
 
 export default function Sidebar() {
+  const router = useRouter();
+
   return (
     <Sheet
       className="Sidebar"
@@ -156,17 +162,12 @@ export default function Sidebar() {
           }}
         >
           <ListItem>
-            <ListItemButton>
-              <i className="ri-file-damage-line"></i>
-              <ListItemContent>
-                <Typography level="title-sm">Home</Typography>
-              </ListItemContent>
-            </ListItemButton>
-          </ListItem>
-
-          <ListItem>
-            <ListItemButton>
-              <i className="ri-file-damage-line"></i>
+            <ListItemButton
+              onClick={() => {
+                router.push("/manage");
+              }}
+            >
+              <i className="ri-dashboard-line"></i>
               <ListItemContent>
                 <Typography level="title-sm">Dashboard</Typography>
               </ListItemContent>
@@ -174,15 +175,33 @@ export default function Sidebar() {
           </ListItem>
 
           <ListItem>
-            <ListItemButton selected>
-              <i className="ri-file-damage-line"></i>
+            <ListItemButton
+              onClick={() => {
+                router.push("/manage/virtual-estates");
+              }}
+            >
+              <i className="ri-hexagon-line"></i>
               <ListItemContent>
-                <Typography level="title-sm">Orders</Typography>
+                <Typography level="title-sm">Virtual Estates</Typography>
               </ListItemContent>
             </ListItemButton>
           </ListItem>
 
-          <ListItem nested>
+          <ListItem>
+            <ListItemButton
+              selected
+              onClick={() => {
+                router.push("/manage/transactions");
+              }}
+            >
+              <i className="ri-file-damage-line"></i>
+              <ListItemContent>
+                <Typography level="title-sm">Transactions</Typography>
+              </ListItemContent>
+            </ListItemButton>
+          </ListItem>
+
+          {/* <ListItem nested>
             <Toggler
               renderToggle={({ open, setOpen }) => (
                 <ListItemButton onClick={() => setOpen(!open)}>
@@ -190,9 +209,9 @@ export default function Sidebar() {
                   <ListItemContent>
                     <Typography level="title-sm">Tasks</Typography>
                   </ListItemContent>
-                  {/* <KeyboardArrowDownIcon
+                  <KeyboardArrowDownIcon
                     sx={{ transform: open ? "rotate(180deg)" : "none" }}
-                  /> */}
+                  />
                   <i className="ri-file-damage-line"></i>
                 </ListItemButton>
               )}
@@ -228,7 +247,7 @@ export default function Sidebar() {
                 4
               </Chip>
             </ListItemButton>
-          </ListItem>
+          </ListItem> */}
 
           <ListItem nested>
             <Toggler
@@ -252,8 +271,11 @@ export default function Sidebar() {
                     component="a"
                     href="/joy-ui/getting-started/templates/profile-dashboard/"
                     role="menuitem"
+                    onClick={() => {
+                      router.push("/manage/users");
+                    }}
                   >
-                    My profile
+                    User List
                   </ListItemButton>
                 </ListItem>
                 <ListItem>
@@ -290,36 +312,6 @@ export default function Sidebar() {
             </ListItemButton>
           </ListItem>
         </List>
-        <Card
-          color="warning"
-          invertedColors
-          size="sm"
-          sx={{ boxShadow: "none" }}
-          variant="soft"
-        >
-          <Stack
-            alignItems="center"
-            direction="row"
-            justifyContent="space-between"
-          >
-            <Typography level="title-sm">Used space</Typography>
-            <IconButton size="sm">
-              <i className="ri-file-damage-line"></i>
-            </IconButton>
-          </Stack>
-          <Typography level="body-xs">
-            Your team has used 80% of your available space. Need more?
-          </Typography>
-          <LinearProgress
-            determinate
-            sx={{ my: 1 }}
-            value={80}
-            variant="outlined"
-          />
-          <Button size="sm" variant="solid">
-            Upgrade plan
-          </Button>
-        </Card>
       </Box>
       <Divider />
       <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>

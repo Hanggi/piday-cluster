@@ -28,7 +28,7 @@ export class UserService {
       return null;
     }
 
-    const visibleID = getUserVisibleID(user.id);
+    const visibleID = getUserVisibleID(user.id); // Replace user ID with visible ID
     return { ...user, id: visibleID };
   }
 

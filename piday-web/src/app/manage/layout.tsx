@@ -1,10 +1,9 @@
 import i18nConfig from "@/i18nConfig";
-import TranslationsProvider from "@/src/components/TranslationsProvider";
 import SessionProviderWrapper from "@/src/utils/SessionProviderWrapper";
 import ReduxProviderWrapper from "@/src/utils/redux/ReduxProviderWrapper";
 import ThemeRegistry from "@src/components/ThemeRegistry/ThemeRegistry";
-import { dir } from "i18next";
 import type { Metadata } from "next";
+import { getServerSession } from "next-auth/next";
 import "remixicon/fonts/remixicon.css";
 
 import { Inter } from "next/font/google";
@@ -12,6 +11,9 @@ import { Inter } from "next/font/google";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+import { authOptions } from "../api/auth/[...nextauth]/auth-options";
+import Header from "./_components/Header";
+import Sidebar from "./_components/Sidebar";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -32,13 +34,27 @@ export default async function RootLayout({
   children: React.ReactNode;
   params: { locale: string };
 }) {
+  const session = await getServerSession(authOptions);
+
+  if (!session || !session.roles.includes("PIDAY_ADMIN")) {
+    console.log("Not admin");
+  } else {
+    console.log("Admin!!");
+  }
+
   return (
-    <html >
+    <html>
       <body className={inter.className}>
         <ThemeRegistry>
           <SessionProviderWrapper>
             <ReduxProviderWrapper>
-              <main>{children}</main>
+              <main>
+                <div className="flex min-h-dvh">
+                  <Header />
+                  <Sidebar />
+                  {children}
+                </div>
+              </main>
             </ReduxProviderWrapper>
           </SessionProviderWrapper>
         </ThemeRegistry>
