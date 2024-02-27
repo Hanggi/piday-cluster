@@ -4,6 +4,7 @@ import { ScheduleModule } from "@nestjs/schedule";
 import { ThrottlerModule } from "@nestjs/throttler";
 
 import { AccountModule } from "./account/account.module";
+import { AdminAPIModule } from "./admin/admin.module";
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
 import { AuthModule } from "./auth/auth.module";
@@ -32,6 +33,8 @@ import { VirtualEstateModule } from "./virtual-estate/virtual-estate.module";
     UserModule,
     ScheduleModule.forRoot(),
     TaskModule,
+
+    AdminAPIModule,
   ],
   controllers: [AppController],
   providers: [

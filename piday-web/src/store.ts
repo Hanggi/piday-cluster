@@ -1,6 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 
 import { accountRTKApi } from "./features/account/api/accountAPI";
+import { virtualEstatesAdminAPI } from "./features/admin/vritual-estates/virtual-estates-admin-api";
 import { authRTKApi } from "./features/auth/api/authAPI";
 import globalSlice from "./features/global/global.slice";
 import { userRTKAPI } from "./features/user/api/userAPI";
@@ -24,6 +25,9 @@ export const store = configureStore({
     [virtualEstateTransactionRecordsRTKApi.reducerPath]:
       virtualEstateTransactionRecordsRTKApi.reducer,
     [userRTKAPI.reducerPath]: userRTKAPI.reducer,
+
+    // Admin
+    [virtualEstatesAdminAPI.reducerPath]: virtualEstatesAdminAPI.reducer,
   },
   middleware: (getDefaultMiddleware) => {
     return getDefaultMiddleware()
@@ -33,7 +37,8 @@ export const store = configureStore({
       .concat(virtualEstateRTKApi.middleware)
       .concat(virtualEstateListingRTKApi.middleware)
       .concat(virtualEstateTransactionRecordsRTKApi.middleware)
-      .concat(userRTKAPI.middleware);
+      .concat(userRTKAPI.middleware)
+      .concat(virtualEstatesAdminAPI.middleware);
   },
 });
 

@@ -185,7 +185,7 @@ export default function Sidebar() {
                 <Typography level="title-sm">Virtual Estates</Typography>
               </ListItemContent>
             </ListItemButton>
-          </ListItem>
+          </ListItem>``
 
           <ListItem>
             <ListItemButton
@@ -194,7 +194,7 @@ export default function Sidebar() {
                 router.push("/manage/transactions");
               }}
             >
-              <i className="ri-file-damage-line"></i>
+              <i className="ri-shopping-cart-line"></i>
               <ListItemContent>
                 <Typography level="title-sm">Transactions</Typography>
               </ListItemContent>

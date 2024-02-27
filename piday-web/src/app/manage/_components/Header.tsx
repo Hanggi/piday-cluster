@@ -13,7 +13,7 @@ import { toggleSidebar } from "../utils";
 
 export default function Header() {
   const { data: session } = useSession();
-  console.log(session);
+  // console.log(session);
 
   return (
     <Sheet
