@@ -28,6 +28,8 @@ export class VirtualEstateAdminService {
       },
     });
 
-    return virtualEstates;
+    const totalCount = await this.prisma.virtualEstate.count();
+
+    return { virtualEstates, totalCount };
   }
 }

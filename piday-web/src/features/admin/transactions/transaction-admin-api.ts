@@ -1,16 +1,16 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 
 import { baseQuery } from "../../rtk-utils/fetch-base-query";
-import { VirtualEstate } from "../../virtual-estate/interface/virtual-estate.interface";
+import { VirtualEstateTransactionRecordInterface as VirtualEstateTransactionRecord } from "../../virtual-estate-transaction-record/interface/virtual-estate-transaction-record-interface";
 
-export const virtualEstatesAdminAPI = createApi({
-  reducerPath: "virtualEstatesAdminAPI",
+export const transactionAdminAPI = createApi({
+  reducerPath: "transactionAdminAPI",
   baseQuery: baseQuery,
   tagTypes: ["VirtualEstatesAdmin"],
   endpoints: (builder) => ({
-    getVirtualEstates: builder.query<
+    getTransactions: builder.query<
       {
-        virtualEstates: VirtualEstate[];
+        transactions: VirtualEstateTransactionRecord[];
         totalCount: number;
       },
       {
@@ -19,20 +19,20 @@ export const virtualEstatesAdminAPI = createApi({
       }
     >({
       query: ({ page = 1, size = 20 }) => ({
-        url: `/admin/virtual-estates?page=${page}&size=${size}`,
+        url: `/admin/transactions?page=${page}&size=${size}`,
         method: "GET",
       }),
       // providesTags: ["VirtualEstatesAdmin"],
       transformResponse: (response: {
-        virtualEstates: VirtualEstate[];
+        transactions: VirtualEstateTransactionRecord[];
         totalCount: number;
       }) => {
         return {
-          virtualEstates: response.virtualEstates,
+          transactions: response.transactions,
           totalCount: response.totalCount,
         };
       },
     }),
   }),
 });
-export const { useGetVirtualEstatesQuery } = virtualEstatesAdminAPI;
+export const { useGetTransactionsQuery } = transactionAdminAPI;

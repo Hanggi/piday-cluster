@@ -1,4 +1,6 @@
-import { Controller, Get, UseGuards } from "@nestjs/common";
+import { AuthenticatedRequest } from "@/src/lib/keycloak/interfaces/authenticated-request";
+
+import { Controller, Get, Query, Req, Res, UseGuards } from "@nestjs/common";
 
 import { VirtualEstateAdminService } from "./virtual-estate-admin.service";
 
@@ -9,17 +11,22 @@ export class VirtualEstateAdminController {
   ) {}
 
   @Get()
+  // TODO(Hanggi): Add admin guard
   // @UseGuards()
-  async getVirtualEstateList() {
-    console.log("???");
-
-    const veList = await this.virtualEstateAdminService.getVirtualEstateList(
-      {},
-    );
+  async getVirtualEstateList(
+    @Req() req: AuthenticatedRequest,
+    @Query("page") page: number = 1,
+    @Query("size") size: number = 50,
+  ) {
+    const veRes = await this.virtualEstateAdminService.getVirtualEstateList({
+      page: +page,
+      size: +size,
+    });
 
     return {
       success: true,
-      virtualEstates: veList,
+      virtualEstates: veRes.virtualEstates,
+      totalCount: veRes.totalCount,
     };
   }
 }

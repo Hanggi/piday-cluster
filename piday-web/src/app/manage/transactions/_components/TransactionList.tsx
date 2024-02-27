@@ -1,7 +1,7 @@
 "use client";
 
 import Pagination from "@/src/components/piday-ui/pagination/Pagination";
-import { useGetVirtualEstatesQuery } from "@/src/features/admin/vritual-estates/virtual-estates-admin-api";
+import { useGetTransactionsQuery } from "@/src/features/admin/transactions/transaction-admin-api";
 import { format } from "date-fns";
 
 import Card from "@mui/joy/Card";
@@ -11,14 +11,16 @@ import Typography from "@mui/joy/Typography";
 
 import { useState } from "react";
 
-export default function VritualEstateList() {
+export default function TransactionList() {
   const [page, setPage] = useState(1);
   const [size, setSize] = useState(20);
 
-  const { data: virtualEstateRes, isLoading } = useGetVirtualEstatesQuery({
+  const { data: transactionRes, isLoading } = useGetTransactionsQuery({
     page,
     size,
   });
+
+  console.log("transactionRes", transactionRes);
 
   return (
     <div className="mt-8">
@@ -27,21 +29,28 @@ export default function VritualEstateList() {
           <thead>
             <tr>
               <th>ID</th>
-              <th>Last Price</th>
-              <th>Owner</th>
+              <th>Virtual Estate ID</th>
+              <th>Price</th>
+              <th>Buyer</th>
+              <th>Seller</th>
               <th>Created At</th>
             </tr>
           </thead>
           <tbody>
-            {virtualEstateRes?.virtualEstates?.map((ve) => (
-              <tr key={ve.id}>
-                <td>{ve.id}</td>
-                <td>{ve.lastPrice}</td>
+            {transactionRes?.transactions?.map((tx) => (
+              <tr key={tx.id}>
+                <td>{tx.transactionID}</td>
+                <td>{tx.virtualEstateID}</td>
+                <td>{tx.price}</td>
                 <td>
-                  <Typography>{ve.owner.username}</Typography>
-                  <Typography>{ve.owner.email}</Typography>
+                  <Typography>{tx.buyer.username}</Typography>
+                  <Typography>{tx.buyer.email}</Typography>
                 </td>
-                <td>{format(new Date(ve.createdAt), "yyyy-MM-dd hh:MM:ss")}</td>
+                <td>
+                  <Typography>{tx.seller.username}</Typography>
+                  <Typography>{tx.seller.email}</Typography>
+                </td>
+                <td>{format(new Date(tx.createdAt), "yyyy-MM-dd hh:MM:ss")}</td>
               </tr>
             ))}
           </tbody>
@@ -55,7 +64,7 @@ export default function VritualEstateList() {
         <div className="my-4">
           <Pagination
             currentPage={page}
-            pageCount={(virtualEstateRes?.totalCount || 0) / size}
+            pageCount={(transactionRes?.totalCount || 0) / size}
           />
         </div>
       </Card>

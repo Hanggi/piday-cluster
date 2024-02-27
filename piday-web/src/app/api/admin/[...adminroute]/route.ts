@@ -3,13 +3,13 @@ import instance from "@/src/features/axios/instance";
 import { NextRequest } from "next/server";
 
 async function handler(request: NextRequest) {
-  // console.log("???");
+  console.log("???");
   // console.log(request);
 
   // console.log(request.headers);
 
   // console.log(request.url);
-  // console.log(request.url.split("/api")[1]);
+  console.log(request.url.split("/api")[1]);
   try {
     const res = await instance.request({
       method: request.method,
@@ -18,6 +18,8 @@ async function handler(request: NextRequest) {
       data: request.body,
       // headers: request.headers as any,
     });
+
+    console.log(res.data);
 
     return new Response(JSON.stringify(res.data), {
       status: res.status,
