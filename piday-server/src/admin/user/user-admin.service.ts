@@ -1,10 +1,9 @@
-import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../lib/prisma/prisma.service';
-import { OrderByOptions, SortByOptions } from './dto/admin.dto';
-import { VirtualEstate } from '@prisma/client';
+import { PrismaService } from "@/src/lib/prisma/prisma.service";
+import { Injectable } from "@nestjs/common";
+import { SortByOptions, OrderByOptions } from "../dto/admin.dto";
 
 @Injectable()
-export class AdminService {
+export class UserAdminService{
     constructor(private prisma: PrismaService) {}
 
     async getAllUsers(
@@ -39,25 +38,4 @@ export class AdminService {
       
           return { user, totalCount: totalCount };
     }
-
-    async getAllVirtualEstates(
-        size: number,
-        page: number,
-      ): Promise<{ myVirtualEstates: VirtualEstate[]; totalCount: number }> {
-    
-        const virtualEstates = await this.prisma.virtualEstate.findMany({
-          include: {
-            owner: true,
-          },
-          take: +size,
-          skip: +(page - 1) * size,
-        });
-    
-        const totalCount = await this.prisma.virtualEstate.count({
-        });
-    
-        return { myVirtualEstates: virtualEstates, totalCount: totalCount };
-      }
-
-      
 }
