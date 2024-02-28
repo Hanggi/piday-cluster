@@ -33,7 +33,7 @@ import Sheet from "@mui/joy/Sheet";
 import Stack from "@mui/joy/Stack";
 import Typography from "@mui/joy/Typography";
 
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 import * as React from "react";
 
@@ -55,6 +55,7 @@ function Toggler({
   }) => React.ReactNode;
 }) {
   const [open, setOpen] = React.useState(defaultExpanded);
+
   return (
     <React.Fragment>
       {renderToggle({ open, setOpen })}
@@ -76,6 +77,7 @@ function Toggler({
 
 export default function Sidebar() {
   const router = useRouter();
+  const pathname = usePathname();
 
   return (
     <Sheet
@@ -163,6 +165,7 @@ export default function Sidebar() {
         >
           <ListItem>
             <ListItemButton
+              selected={pathname === "/manage"}
               onClick={() => {
                 router.push("/manage");
               }}
@@ -173,9 +176,9 @@ export default function Sidebar() {
               </ListItemContent>
             </ListItemButton>
           </ListItem>
-
           <ListItem>
             <ListItemButton
+              selected={pathname === "/manage/virtual-estates"}
               onClick={() => {
                 router.push("/manage/virtual-estates");
               }}
@@ -189,18 +192,17 @@ export default function Sidebar() {
 
           <ListItem>
             <ListItemButton
-              selected
+              selected={pathname === "/manage/transactions"}
               onClick={() => {
                 router.push("/manage/transactions");
               }}
             >
-              <i className="ri-file-damage-line"></i>
+              <i className="ri-shopping-cart-line"></i>
               <ListItemContent>
                 <Typography level="title-sm">Transactions</Typography>
               </ListItemContent>
             </ListItemButton>
           </ListItem>
-
           {/* <ListItem nested>
             <Toggler
               renderToggle={({ open, setOpen }) => (
@@ -248,7 +250,6 @@ export default function Sidebar() {
               </Chip>
             </ListItemButton>
           </ListItem> */}
-
           <ListItem nested>
             <Toggler
               renderToggle={({ open, setOpen }) => (

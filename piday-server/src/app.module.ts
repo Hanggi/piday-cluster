@@ -4,6 +4,7 @@ import { ScheduleModule } from "@nestjs/schedule";
 import { ThrottlerModule } from "@nestjs/throttler";
 
 import { AccountModule } from "./account/account.module";
+import { AdminAPIModule } from "./admin/admin.module";
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
 import { AuthModule } from "./auth/auth.module";
@@ -13,7 +14,6 @@ import { UserModule } from "./user/user.module";
 import { VirtualEstateListingModule } from "./virtual-estate-listing/virtual-estate-listing.module";
 import { VirtualEstateTransactionRecordsModule } from "./virtual-estate-transaction-records/virtual-estate-transaction-records.module";
 import { VirtualEstateModule } from "./virtual-estate/virtual-estate.module";
-import { AdminModule } from './admin/admin.module';
 
 @Module({
   imports: [
@@ -33,7 +33,7 @@ import { AdminModule } from './admin/admin.module';
     UserModule,
     ScheduleModule.forRoot(),
     TaskModule,
-    AdminModule,
+    AdminAPIModule,
   ],
   controllers: [AppController],
   providers: [

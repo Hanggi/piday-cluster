@@ -1,6 +1,8 @@
 import { User } from "../../auth/interface/User.interface";
 
 export interface VirtualEstateTransactionRecordInterface {
+  id?: number;
+
   virtualEstateID: string;
   transactionID: string;
 
@@ -8,6 +10,7 @@ export interface VirtualEstateTransactionRecordInterface {
   buyer: User;
 
   sellerID: string;
+  seller: User;
 
   price: string;
 
