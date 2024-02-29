@@ -196,6 +196,7 @@ export default function VirtualEstateDetailCard({
       <MintVirtualEstateDialog
         hexID={hexID}
         open={openMintVirtualEstateDialog}
+        place={place}
         placeName={placeName}
         onClose={() => {
           setOpenMintVirtualEstateDialog(false);

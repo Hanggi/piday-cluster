@@ -1,12 +1,18 @@
-import { WrapperCard } from "@/src/components/WrapperCard";
+import Card from "@mui/joy/Card";
 
 import { MyProfileAside } from "./_components/MyProfileAside";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <WrapperCard className="container flex max-md:flex-col mb-32">
-      <MyProfileAside className="-translate-y-16" />
-      <main className="grow p-4 md:px-7">{children}</main>
-    </WrapperCard>
+    <div className="container mb-32 mt-8">
+      <div className=" flex max-md:flex-col gap-8 mb-32 mt-8">
+        <MyProfileAside className="" />
+        <div className="grow">
+          <Card size="lg">
+            <main>{children}</main>
+          </Card>
+        </div>
+      </div>
+    </div>
   );
 }

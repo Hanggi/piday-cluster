@@ -46,16 +46,6 @@ export function MySideNav({ className, ...props }: SideNavProps) {
           <i className="ri-arrow-right-s-line"></i>
         </Link>
       ))}
-      <Link
-        className={cn(
-          "flex min-w-[190px] translate-y-16 items-center gap-2 absolute bottom-0 p-4 border rounded-xl",
-        )}
-        href={""}
-      >
-        <Image alt="" height={20} src="/img/profile/power.svg" width={20} />
-        <Typography className="text-sm grow">{t("nav.logout")}</Typography>{" "}
-        <i className="ri-arrow-right-s-line"></i>
-      </Link>
     </div>
   );
 }

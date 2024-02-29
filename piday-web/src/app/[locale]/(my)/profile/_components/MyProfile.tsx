@@ -17,6 +17,7 @@ export default function MyProfile() {
 
   const { data: session } = useSession();
   const { data: myUser, refetch: refetchMyUser } = useGetMyUserQuery();
+  console.log(myUser);
 
   const [piWalletAddress, setPiWalletAddress] = useState("");
   const [updateWalletAddress, UpdatePiWalletAddressResult] =
@@ -36,7 +37,7 @@ export default function MyProfile() {
   }, [UpdatePiWalletAddressResult.isSuccess, refetchMyUser, t]);
 
   return (
-    <div>
+    <div className="overflow-hidden">
       <div className="mb-4">
         <Typography level="title-lg">
           {t("profile:profile.myProfile")}

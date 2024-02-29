@@ -62,6 +62,7 @@ model VirtualEstate {
   id              Int    @id @default(autoincrement())
   virtualEstateID String @unique // Hex ID
 
+  name      String  @default("Virtual Estate")
   lastPrice Decimal
   address   String?
 

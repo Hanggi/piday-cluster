@@ -9,6 +9,7 @@ import { useMintOneVirtualEstateMutation } from "@/src/features/virtual-estate/a
 
 import Typography from "@mui/joy/Typography";
 
+import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 
 interface Props {
@@ -16,6 +17,7 @@ interface Props {
   hexID: string;
   placeName: string;
   onClose: () => void;
+  place: any;
 }
 
 export default function MintVirtualEstateDialog({
@@ -37,6 +39,11 @@ export default function MintVirtualEstateDialog({
     },
   );
 
+  const handleMintVritualEstate = useCallback(() => {
+    mintVirtualEstate({ hexID });
+    onClose();
+  }, [hexID, mintVirtualEstate, onClose]);
+
   return (
     <div>
       <ConfirmDialog
@@ -45,10 +52,7 @@ export default function MintVirtualEstateDialog({
         onCancel={() => {
           onClose();
         }}
-        onConfirm={() => {
-          mintVirtualEstate({ hexID });
-          onClose();
-        }}
+        onConfirm={handleMintVritualEstate}
       >
         <div className="mt-4">
           <div className="flex mb-2">

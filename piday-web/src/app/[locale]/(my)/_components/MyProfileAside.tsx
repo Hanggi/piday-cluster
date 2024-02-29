@@ -1,4 +1,4 @@
-import { cn } from "@/src/utils/cn";
+import Card from "@mui/joy/Card";
 
 import dynamic from "next/dynamic";
 
@@ -19,9 +19,9 @@ type MyProfileAsideProps = ComponentProps<"aside">;
 
 export function MyProfileAside({ className, ...props }: MyProfileAsideProps) {
   return (
-    <aside className={cn("relative", className)} {...props}>
-      <User />
+    <Card size="lg">
+      {/* <User /> */}
       <SideNav />
-    </aside>
+    </Card>
   );
 }
