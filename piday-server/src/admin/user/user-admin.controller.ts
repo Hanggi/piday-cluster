@@ -1,3 +1,4 @@
+import { KeycloakJwtAdminGuard } from "@/src/lib/keycloak/keycloak-jwt-admin.guard";
 import { Response } from "express";
 
 import {
@@ -8,17 +9,19 @@ import {
   Query,
   Req,
   Res,
+  UseGuards,
 } from "@nestjs/common";
 
 import { OrderByOptions, SortByOptions } from "../dto/admin.dto";
 import { UserAdminService } from "./user-admin.service";
 
-@Controller("admin/user")
+@Controller("admin/users")
+@UseGuards(KeycloakJwtAdminGuard)
 export class UserAdminController {
   constructor(private readonly userAdminService: UserAdminService) {}
+
   @Get()
-  // TODO(Hanggi): Add admin guard
-  // @UseGuards()
+  @UseGuards(KeycloakJwtAdminGuard)
   async getMyVirtualEstates(
     @Req() req: Request,
     @Res() res: Response,
@@ -29,6 +32,7 @@ export class UserAdminController {
     @Query("email") email?: string,
     @Query("username") username?: string,
     @Query("piAddress") piAddress?: string,
+    @Query("withBalance") withBalance?: boolean,
   ) {
     try {
       const userResponse = await this.userAdminService.getAllUsers(
@@ -39,6 +43,7 @@ export class UserAdminController {
         email,
         username,
         piAddress,
+        withBalance,
       );
 
       if (!userResponse.user) {
@@ -50,7 +55,7 @@ export class UserAdminController {
       }
 
       res.status(HttpStatus.OK).json({
-        user: userResponse.user,
+        users: userResponse.user,
         totalCount: userResponse.totalCount,
         success: true,
         message: "Users found successfully",

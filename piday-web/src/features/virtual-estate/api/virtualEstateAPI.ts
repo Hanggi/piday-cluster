@@ -2,7 +2,7 @@ import { createApi } from "@reduxjs/toolkit/query/react";
 
 import { baseQuery } from "../../rtk-utils/fetch-base-query";
 import { VirtualEstateListing } from "../../virtual-estate-listing/interface/virtual-estate-listing.interface";
-import { VirtualEstateTransactionRecordInterface } from "../../virtual-estate-transaction-record/interface/virtual-estate-transaction-record-interface";
+import { VirtualEstateTransactionRecord } from "../../virtual-estate-transaction-record/interface/virtual-estate-transaction-record-interface";
 import { VirtualEstate } from "../interface/virtual-estate.interface";
 
 export const virtualEstateRTKApi = createApi({
@@ -75,7 +75,7 @@ export const virtualEstateRTKApi = createApi({
     }),
 
     acceptBidToSellVirtualEstate: builder.mutation<
-      VirtualEstateTransactionRecordInterface,
+      VirtualEstateTransactionRecord,
       { hexID: string; bidID: string }
     >({
       query: ({ hexID, bidID }) => ({
@@ -83,13 +83,13 @@ export const virtualEstateRTKApi = createApi({
         method: "PATCH",
       }),
       transformResponse: (response: {
-        transactionRecord: VirtualEstateTransactionRecordInterface;
+        transactionRecord: VirtualEstateTransactionRecord;
       }) => {
         return response?.transactionRecord;
       },
     }),
     getVirtualEstateTransactionRecords: builder.query<
-      VirtualEstateTransactionRecordInterface[],
+      VirtualEstateTransactionRecord[],
       { hexID: string; page: number; size: number }
     >({
       query: ({ hexID, page, size }) => ({
@@ -97,13 +97,13 @@ export const virtualEstateRTKApi = createApi({
         method: "GET",
       }),
       transformResponse: (response: {
-        transactions: VirtualEstateTransactionRecordInterface[];
+        transactions: VirtualEstateTransactionRecord[];
       }) => {
         return response?.transactions;
       },
     }),
     acceptAskToBuyVirtualEstate: builder.mutation<
-      VirtualEstateTransactionRecordInterface,
+      VirtualEstateTransactionRecord,
       { hexID: string; askID: string }
     >({
       query: ({ hexID, askID }) => ({
@@ -111,13 +111,13 @@ export const virtualEstateRTKApi = createApi({
         method: "PATCH",
       }),
       transformResponse: (response: {
-        transactionRecord: VirtualEstateTransactionRecordInterface;
+        transactionRecord: VirtualEstateTransactionRecord;
       }) => {
         return response?.transactionRecord;
       },
     }),
     transferVirtualEstateToUser: builder.mutation<
-      VirtualEstateTransactionRecordInterface,
+      VirtualEstateTransactionRecord,
       { hexID: string; receiverID: string }
     >({
       query: ({ hexID, receiverID }) => ({
@@ -126,7 +126,7 @@ export const virtualEstateRTKApi = createApi({
         body: { receiverID },
       }),
       transformResponse: (response: {
-        transactionRecord: VirtualEstateTransactionRecordInterface;
+        transactionRecord: VirtualEstateTransactionRecord;
       }) => {
         return response?.transactionRecord;
       },

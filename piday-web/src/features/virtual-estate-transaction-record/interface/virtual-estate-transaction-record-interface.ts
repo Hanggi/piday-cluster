@@ -1,6 +1,6 @@
 import { User } from "../../auth/interface/User.interface";
 
-export interface VirtualEstateTransactionRecordInterface {
+export interface VirtualEstateTransactionRecord {
   id?: number;
 
   virtualEstateID: string;

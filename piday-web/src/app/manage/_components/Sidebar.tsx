@@ -255,7 +255,11 @@ export default function Sidebar() {
               renderToggle={({ open, setOpen }) => (
                 <ListItemButton onClick={() => setOpen(!open)}>
                   <i className="ri-file-damage-line"></i>
-                  <ListItemContent>
+                  <ListItemContent
+                    onClick={() => {
+                      router.push("/manage/users");
+                    }}
+                  >
                     <Typography level="title-sm">Users</Typography>
                   </ListItemContent>
                   {/* <KeyboardArrowDownIcon
@@ -270,7 +274,7 @@ export default function Sidebar() {
                 <ListItem sx={{ mt: 0.5 }}>
                   <ListItemButton
                     component="a"
-                    href="/joy-ui/getting-started/templates/profile-dashboard/"
+                    href="/manage/users"
                     role="menuitem"
                     onClick={() => {
                       router.push("/manage/users");

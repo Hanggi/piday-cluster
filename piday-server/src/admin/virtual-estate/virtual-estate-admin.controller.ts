@@ -1,4 +1,5 @@
 import { AuthenticatedRequest } from "@/src/lib/keycloak/interfaces/authenticated-request";
+import { KeycloakJwtAdminGuard } from "@/src/lib/keycloak/keycloak-jwt-admin.guard";
 
 import { Controller, Get, Query, Req, Res, UseGuards } from "@nestjs/common";
 
@@ -6,14 +7,13 @@ import { OrderByOptions, SortByOptions } from "../dto/admin.dto";
 import { VirtualEstateAdminService } from "./virtual-estate-admin.service";
 
 @Controller("admin/virtual-estates")
+@UseGuards(KeycloakJwtAdminGuard)
 export class VirtualEstateAdminController {
   constructor(
     private readonly virtualEstateAdminService: VirtualEstateAdminService,
   ) {}
 
   @Get()
-  // TODO(Hanggi): Add admin guard
-  // @UseGuards()
   async getVirtualEstateList(
     @Req() req: AuthenticatedRequest,
     @Query("page") page: number = 1,

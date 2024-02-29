@@ -11,5 +11,13 @@ export interface User {
   emailVerified: boolean;
   piWalletAddress: string;
 
+  inviterID?: string;
+
   roles: string[];
+
+  createdAt: string;
+
+  // relations
+  balance?: number;
+  vid?: string;
 }
