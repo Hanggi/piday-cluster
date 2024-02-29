@@ -19,5 +19,6 @@ export function decodeAccessToken(accessToken: string): User {
     preferredUsername: userInfo.preferred_username ?? "",
 
     roles: userInfo.realm_access.roles ?? [],
+    createdAt: userInfo.iat ?? "",
   };
 }
