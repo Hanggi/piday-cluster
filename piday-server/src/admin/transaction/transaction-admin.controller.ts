@@ -2,6 +2,7 @@ import { AuthenticatedRequest } from "@/src/lib/keycloak/interfaces/authenticate
 
 import { Controller, Get, Query, Req, Res, UseGuards } from "@nestjs/common";
 
+import { OrderByOptions, SortByOptions } from "../dto/admin.dto";
 import { TransactionAdminService } from "./transaction-admin.service";
 
 @Controller("admin/transactions")
@@ -17,13 +18,15 @@ export class TransactionAdminController {
     @Req() req: AuthenticatedRequest,
     @Query("page") page: number = 1,
     @Query("size") size: number = 50,
+    @Query("sort") sort: SortByOptions = SortByOptions.CREATED_AT,
+    @Query("orderBy") orderBy: OrderByOptions = OrderByOptions.DESC,
   ) {
     const transactionRes =
       await this.transactionAdminService.getTransactionList({
         page: +page,
         size: +size,
-        sortBy: "createdAt",
-        sortOrder: "desc",
+        sortBy: sort || "createdAt",
+        sortOrder: orderBy || "desc",
       });
 
     const transactionsJson = transactionRes.transactions.map((transaction) => {
