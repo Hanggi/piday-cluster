@@ -14,6 +14,7 @@ import { UserModule } from "./user/user.module";
 import { VirtualEstateListingModule } from "./virtual-estate-listing/virtual-estate-listing.module";
 import { VirtualEstateTransactionRecordsModule } from "./virtual-estate-transaction-records/virtual-estate-transaction-records.module";
 import { VirtualEstateModule } from "./virtual-estate/virtual-estate.module";
+import { WithdrawModule } from "./withdraw/withdraw.module";
 
 @Module({
   imports: [
@@ -33,7 +34,7 @@ import { VirtualEstateModule } from "./virtual-estate/virtual-estate.module";
     UserModule,
     ScheduleModule.forRoot(),
     TaskModule,
-
+    WithdrawModule,
     AdminAPIModule,
   ],
   controllers: [AppController],
