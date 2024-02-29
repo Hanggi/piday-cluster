@@ -1,6 +1,7 @@
 "use client";
 
 import { VirtualEstateCard } from "@/src/components/LandCard";
+import { useGetLatestVirtualEstatesQuery } from "@/src/features/virtual-estate/api/virtualEstateAPI";
 import { cn } from "@/src/utils/cn";
 
 import { Input, Option, Select, Typography } from "@mui/joy";
@@ -12,6 +13,11 @@ type ForSaleProps = ComponentProps<"div">;
 
 export function ForSale({ className, ...props }: ForSaleProps) {
   const { t } = useTranslation("home");
+
+  const { data: latestVirtualEstates } = useGetLatestVirtualEstatesQuery({
+    page: 1,
+    size: 8,
+  });
 
   return (
     <div className={cn("py-10", className)} {...props}>
@@ -41,8 +47,8 @@ export function ForSale({ className, ...props }: ForSaleProps) {
       />
       <br />
       <section className="grid py-6 container-mini grid-cols-1 gap-7 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {Array.from({ length: 8 }).map((_, index) => (
-          <VirtualEstateCard key={index} />
+        {(latestVirtualEstates || []).map((ve, index) => (
+          <VirtualEstateCard key={index} ve={ve} />
         ))}
       </section>
     </div>

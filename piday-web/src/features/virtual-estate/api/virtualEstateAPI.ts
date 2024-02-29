@@ -9,6 +9,19 @@ export const virtualEstateRTKApi = createApi({
   reducerPath: "virtualEstateAPI",
   baseQuery: baseQuery,
   endpoints: (builder) => ({
+    getLatestVirtualEstates: builder.query<
+      VirtualEstate[],
+      { page: number; size: number }
+    >({
+      query: ({ page, size }) => ({
+        url: `/virtual-estates/latest?page=${page}&size=${size}`,
+        method: "GET",
+      }),
+      transformResponse: (response: { virtualEstates: VirtualEstate[] }) => {
+        return response.virtualEstates;
+      },
+    }),
+
     getOneVirtualEstate: builder.query<VirtualEstate, { hexID: string }>({
       query: ({ hexID }) => ({
         url: `/virtual-estates/${hexID}`,
@@ -135,6 +148,8 @@ export const virtualEstateRTKApi = createApi({
 });
 
 export const {
+  useGetLatestVirtualEstatesQuery,
+
   useGetOneVirtualEstateQuery,
   useMintOneVirtualEstateMutation,
   useGetMyVirtualEstatesQuery,

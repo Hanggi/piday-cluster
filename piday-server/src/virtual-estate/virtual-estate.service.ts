@@ -15,6 +15,24 @@ const GENESIS_VIRTUAL_ESTATE_PRICE = 10;
 export class VirtualEstateService {
   constructor(private prisma: PrismaService) {}
 
+  async getLatestVirtualEstates(
+    size: number,
+    page: number,
+  ): Promise<VirtualEstate[]> {
+    const virtualEstates = await this.prisma.virtualEstate.findMany({
+      include: {
+        owner: true,
+      },
+      take: +size,
+      skip: +(page - 1) * size,
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+
+    return virtualEstates;
+  }
+
   async getOneVirtualEstate(
     hexID: string,
     optional?: {

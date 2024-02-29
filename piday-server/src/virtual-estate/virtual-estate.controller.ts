@@ -82,6 +82,44 @@ export class VirtualEstateController {
     }
   }
 
+  @Get("latest")
+  async getLatestVirtualEstates(
+    @Res() res: Response,
+    @Query("page") page = 1, // default to page 1
+    @Query("size") size = 10, //default to size 10,
+  ) {
+    try {
+      const virtualEstatesRes =
+        await this.virtualEstateService.getLatestVirtualEstates(size, page);
+
+      if (!virtualEstatesRes) {
+        res.status(HttpStatus.NOT_FOUND).json({
+          success: false,
+          virtualEstates: null,
+          message: "No virtual estates found",
+        });
+      }
+
+      res.status(HttpStatus.OK).json({
+        virtualEstates: plainToInstance(
+          VirtualEstateResponseDto,
+          virtualEstatesRes,
+          {
+            excludeExtraneousValues: true,
+          },
+        ),
+        success: true,
+        message: "Virtual states found successfully",
+      });
+    } catch (error) {
+      console.error(error);
+      throw new HttpException(
+        "Internal Server Error",
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+
   @Get("statistics")
   async getVirtualEstatesStatistics(
     @Res() res: Response,
