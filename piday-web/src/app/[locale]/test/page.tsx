@@ -107,7 +107,7 @@ export default function TestPage() {
         src="https://sdk.minepi.com/pi-sdk.js"
         onLoad={() => {
           // @ts-ignore
-          (Pi as any).init({ version: "2.0", sandbox: true });
+          (Pi as any).init({ version: "2.0" });
         }}
       />
     </div>
