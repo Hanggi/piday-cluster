@@ -1,5 +1,7 @@
 "use client";
 
+import axios from "axios";
+
 import Button from "@mui/joy/Button";
 
 import Script from "next/script";
@@ -81,11 +83,23 @@ export default function TestPage() {
                   },
                 },
                 {
-                  onReadyForServerApproval: () => {
+                  onReadyForServerApproval: (paymentId: string) => {
                     alert("onReadyForServerApproval");
                   },
-                  onReadyForServerCompletion: () => {
+                  onReadyForServerCompletion: async (paymentId: string) => {
                     alert("onReadyForServerCompletion");
+                    await axios.post(
+                      "https://api.minepi.com/v2/payments/" +
+                        paymentId +
+                        "/approve",
+                      {},
+                      {
+                        headers: {
+                          Authorization:
+                            "Key yyont23vsptjz7ykaipvke68x7lgnxhofdlhsdaueb3sw1gs2yusnlvkz8m9qxur",
+                        },
+                      },
+                    );
                   },
                   onCancel: () => {
                     alert("onCancel");
