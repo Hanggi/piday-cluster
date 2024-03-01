@@ -76,7 +76,9 @@ export default function TestPage() {
                 {
                   amount: 0.001,
                   memo: "Test Payment",
-                  metadata: {},
+                  metadata: {
+                    amount: 0.001,
+                  },
                 },
                 {
                   onReadyForServerApproval: () => {
