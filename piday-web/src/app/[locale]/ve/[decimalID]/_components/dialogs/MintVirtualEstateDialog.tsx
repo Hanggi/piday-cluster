@@ -24,6 +24,7 @@ export default function MintVirtualEstateDialog({
   open,
   hexID,
   placeName,
+  place,
   onClose,
 }: Props) {
   const { t } = useTranslation(["virtual-estate"]);
@@ -39,6 +40,7 @@ export default function MintVirtualEstateDialog({
     },
   );
 
+  console.log(place);
   const handleMintVritualEstate = useCallback(() => {
     mintVirtualEstate({ hexID });
     onClose();
