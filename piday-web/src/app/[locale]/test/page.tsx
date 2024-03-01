@@ -71,27 +71,31 @@ export default function TestPage() {
       <div className="py-4">
         <Button
           onClick={async () => {
-            const payment = await window.Pi.createPayment(
-              {
-                amount: 0.1,
-                memo: "Test Payment",
-              },
-              {
-                onReadyForServerApproval: () => {
-                  alert("onReadyForServerApproval");
+            try {
+              const payment = await window.Pi.createPayment(
+                {
+                  amount: 0.001,
+                  memo: "Test Payment",
                 },
-                onReadyForServerCompletion: () => {
-                  alert("onReadyForServerCompletion");
+                {
+                  onReadyForServerApproval: () => {
+                    alert("onReadyForServerApproval");
+                  },
+                  onReadyForServerCompletion: () => {
+                    alert("onReadyForServerCompletion");
+                  },
+                  onCancel: () => {
+                    alert("onCancel");
+                  },
+                  onError: (error: any) => {
+                    alert(error);
+                  },
                 },
-                onCancel: () => {
-                  alert("onCancel");
-                },
-                onError: (error: any) => {
-                  alert(error);
-                },
-              },
-            );
-            console.log("payment", payment);
+              );
+              console.log("payment", payment);
+            } catch (error) {
+              alert(error);
+            }
           }}
         >
           Create Payment
@@ -102,7 +106,7 @@ export default function TestPage() {
         src="https://sdk.minepi.com/pi-sdk.js"
         onLoad={() => {
           // @ts-ignore
-          (Pi as any).init({ version: "2.0" });
+          (Pi as any).init({ version: "2.0", sandbox: true });
         }}
       />
     </div>

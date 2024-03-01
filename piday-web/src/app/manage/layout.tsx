@@ -62,13 +62,17 @@ export default async function RootLayout({
         <ToastContainer />
       </body>
 
-      <Script
+      {/* <Script
         src="https://sdk.minepi.com/pi-sdk.js"
+        onError={(err: Error) => {
+          alert(err);
+          alert("Script failed to load");
+        }}
         onLoad={() => {
           // @ts-ignore
           (Pi as any).init({ version: "2.0" });
         }}
-      />
+      /> */}
     </html>
   );
 }
