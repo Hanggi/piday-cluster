@@ -83,23 +83,28 @@ export default function TestPage() {
                   },
                 },
                 {
-                  onReadyForServerApproval: (paymentId: string) => {
-                    alert("onReadyForServerApproval");
+                  onReadyForServerApproval: async (paymentId: string) => {
+                    alert("onReadyForServerApproval: " + paymentId);
+                    try {
+                      await axios.post(
+                        "https://api.minepi.com/v2/payments/" +
+                          paymentId +
+                          "/approve",
+                        {},
+                        {
+                          headers: {
+                            Authorization:
+                              "Key yyont23vsptjz7ykaipvke68x7lgnxhofdlhsdaueb3sw1gs2yusnlvkz8m9qxur",
+                          },
+                        },
+                      );
+                      alert("Approved");
+                    } catch (error) {
+                      alert(error);
+                    }
                   },
                   onReadyForServerCompletion: async (paymentId: string) => {
                     alert("onReadyForServerCompletion");
-                    await axios.post(
-                      "https://api.minepi.com/v2/payments/" +
-                        paymentId +
-                        "/approve",
-                      {},
-                      {
-                        headers: {
-                          Authorization:
-                            "Key yyont23vsptjz7ykaipvke68x7lgnxhofdlhsdaueb3sw1gs2yusnlvkz8m9qxur",
-                        },
-                      },
-                    );
                   },
                   onCancel: () => {
                     alert("onCancel");

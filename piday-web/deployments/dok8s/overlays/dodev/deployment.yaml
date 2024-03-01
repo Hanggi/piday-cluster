@@ -20,7 +20,7 @@ spec:
     spec:
       serviceAccountName: default
       containers:
-        - image: registry.digitalocean.com/davinqi/piday-web:v0.0.29_5
+        - image: registry.digitalocean.com/davinqi/piday-web:v0.0.29_6
           imagePullPolicy: Always
           name: piday-web-deployment
           resources:
