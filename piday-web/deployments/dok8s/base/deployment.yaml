@@ -16,7 +16,7 @@ spec:
       nodeSelector:
         kubernetes.io/os: linux
       containers:
-        - image: registry.digitalocean.com/davinqi/piday-web:v0.0.28
+        - image: registry.digitalocean.com/davinqi/piday-web:v0.0.29
           imagePullPolicy: Always
           command: ["sh", "-c"]
           args: ["source /vault/secrets/config && node server.js"]
