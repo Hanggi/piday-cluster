@@ -7,6 +7,7 @@ import { getServerSession } from "next-auth/next";
 import "remixicon/fonts/remixicon.css";
 
 import { Inter } from "next/font/google";
+import Script from "next/script";
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -60,6 +61,14 @@ export default async function RootLayout({
         </ThemeRegistry>
         <ToastContainer />
       </body>
+
+      <Script
+        src="https://sdk.minepi.com/pi-sdk.js"
+        onLoad={() => {
+          // @ts-ignore
+          (Pi as any).init({ version: "2.0" });
+        }}
+      />
     </html>
   );
 }
