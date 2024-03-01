@@ -144,6 +144,46 @@ export default function TestPage() {
         </Button>
       </div>
 
+      <div className="py-8">
+        <Button
+          onClick={async () => {
+            const res = await axios.get(
+              "https://api.minepi.com/v2/payments/CRGWI0LdO0HcSfGTSW6iqg6NlyWo",
+
+              {
+                headers: {
+                  Authorization:
+                    "Key yyont23vsptjz7ykaipvke68x7lgnxhofdlhsdaueb3sw1gs2yusnlvkz8m9qxur",
+                },
+              },
+            );
+            console.log(res);
+          }}
+        >
+          Check Order
+        </Button>
+      </div>
+
+      <div className="py-8">
+        <Button
+          onClick={async () => {
+            const res = await axios.post(
+              "https://api.minepi.com/v2/payments/CRGWI0LdO0HcSfGTSW6iqg6NlyWo/complete",
+{txid: "7b23ab38196cff2ce9fb86a1adebefca50d23be3cf4f681dc240c0c03b534caf"},
+              {
+                headers: {
+                  Authorization:
+                    "Key yyont23vsptjz7ykaipvke68x7lgnxhofdlhsdaueb3sw1gs2yusnlvkz8m9qxur",
+                },
+              },
+            );
+            console.log(res);
+          }}
+        >
+          Complete
+        </Button>
+      </div>
+
       <Script
         src="https://sdk.minepi.com/pi-sdk.js"
         onLoad={() => {
