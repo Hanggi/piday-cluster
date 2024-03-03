@@ -11,8 +11,8 @@ export class WithdrawService {
   constructor(private prisma: PrismaService) {}
 
   async createWithdrawRequest(amount: Decimal, userID: string) {
-    const withdrawRequest = await this.prisma.$transaction(async (prisma) => {
-      const balance = await prisma.rechargeRecords.aggregate({
+    const withdrawRequest = await this.prisma.$transaction(async (tx) => {
+      const balance = await tx.rechargeRecords.aggregate({
         where: {
           ownerID: userID,
         },
@@ -22,7 +22,7 @@ export class WithdrawService {
       });
 
       const pendingWithdrawalRequestsAmount =
-        await prisma.withdrawRequest.aggregate({
+        await tx.withdrawRequest.aggregate({
           where: {
             AND: [{ ownerID: userID }, { status: "PENDING" }],
           },
@@ -44,7 +44,7 @@ export class WithdrawService {
         throw new ServiceException("Not enough balance", "NOT_ENOUGH_BALANCE");
       }
 
-      const withdrawRequest = await prisma.withdrawRequest.create({
+      const withdrawRequest = await tx.withdrawRequest.create({
         data: {
           status: WithdrawStatusEnum.PENDING,
           ownerID: userID,

@@ -1,5 +1,5 @@
 -- CreateEnum
-CREATE TYPE "WithdrawStatus" AS ENUM ('PENDING', 'ACCEPTED');
+CREATE TYPE "WithdrawStatus" AS ENUM ('PENDING', 'ACCEPTED', 'CANCELED');
 
 -- CreateTable
 CREATE TABLE "WithdrawRequest" (

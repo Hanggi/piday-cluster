@@ -41,7 +41,7 @@ export class WithdrawController {
           success: true,
         });
       } else {
-        res.status(HttpStatus.BAD_REQUEST).json({
+        res.status(HttpStatus.UNPROCESSABLE_ENTITY).json({
           msg: "Withdraw request not created successfiully",
           data: null,
           success: false,
@@ -57,7 +57,7 @@ export class WithdrawController {
             HttpStatus.FORBIDDEN,
           );
       }
-      console.log("Error", error);
+      console.error("Error", error);
       throw new HttpException(
         "Internal Server Error",
         HttpStatus.INTERNAL_SERVER_ERROR,
@@ -85,7 +85,7 @@ export class WithdrawController {
           success: true,
         });
       } else {
-        res.status(HttpStatus.BAD_REQUEST).json({
+        res.status(HttpStatus.UNPROCESSABLE_ENTITY).json({
           msg: "Withdraw request not updated successfiully",
           data: null,
           success: false,
@@ -101,7 +101,7 @@ export class WithdrawController {
             HttpStatus.FORBIDDEN,
           );
       }
-      console.log("Error", error);
+      console.error("Error", error);
       throw new HttpException(
         "Internal Server Error",
         HttpStatus.INTERNAL_SERVER_ERROR,
