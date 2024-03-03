@@ -33,7 +33,7 @@ model User {
   // RechargeRecords[]
   rechargeRecords                       RechargeRecords[]
 
-  withdrawRequests WithddrawRequest[]
+  withdrawRequests WithdrawRequest[]
 
   inviterID Int?
   inviter   User?  @relation("UserInvites", fields: [inviterID], references: [id])
@@ -114,14 +114,12 @@ model VirtualEstateTransactionRecords {
   createdAt DateTime @default(now())
 }
 enum WithdrawStatus{
-  CREATED
-  INPROGRESS
-  COMPLETED
-  REJECTED
+  PENDING
+  ACCEPTED
 }
 
 // this is a record of withdraw request 
-model WithddrawRequest {
+model WithdrawRequest {
   id Int    @id @default(autoincrement())
 
   ownerID String // Keycloak user ID
