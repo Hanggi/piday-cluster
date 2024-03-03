@@ -116,6 +116,7 @@ model VirtualEstateTransactionRecords {
 enum WithdrawStatus{
   PENDING
   ACCEPTED
+  CANCELED
 }
 
 // this is a record of withdraw request 

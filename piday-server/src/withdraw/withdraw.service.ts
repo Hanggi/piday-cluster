@@ -50,4 +50,29 @@ export class WithdrawService{
 
         return withdrawRequest
       }
+
+      async cancelWithdrawRequest(reqID:number, userID:string){
+        
+        const withdrawRequest = await this.prisma.withdrawRequest.findFirst({
+          where:{
+            id:reqID
+          }
+        })
+
+       if(withdrawRequest.status===WithdrawStatusEnum.ACCEPTED)  {
+        throw new ServiceException("Request can not be canceled already accepted", "CAN_NOT_BE_CANCELLED");
+       }
+        
+      const updatedRequest =  await this.prisma.withdrawRequest.update({
+        data:{
+          status:WithdrawStatusEnum.CANCELED
+        },
+        where:{
+          id:reqID
+        }
+       })
+        
+
+        return updatedRequest
+      }
 }

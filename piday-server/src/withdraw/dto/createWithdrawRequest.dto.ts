@@ -1,14 +1,19 @@
-import { IsNotEmpty, IsString } from "class-validator";
+import { IsInt, IsNotEmpty, IsString } from "class-validator";
 
-export class CreateWithdrawRequestDTO {
+  export class CreateWithdrawRequestDTO {
     @IsString()
     @IsNotEmpty()
     amount: string;
   }
-
+  export class CancelWithdrawRequestDTO {
+    @IsInt()
+    @IsNotEmpty()
+    reqID: number;
+  }
 
   export enum WithdrawStatusEnum{
     PENDING="PENDING",
-    ACCEPTED="ACCEPTED"
+    ACCEPTED="ACCEPTED",
+    CANCELED="CANCELED"
   }
   
