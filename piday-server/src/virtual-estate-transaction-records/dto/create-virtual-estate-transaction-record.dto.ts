@@ -16,7 +16,6 @@ export class CreateVirtualEstateTransactionRecordDto {
   bidID: string;
 }
 
-
 export class AcceptAskRequestTransactionRecordDto {
   @IsNotEmpty()
   @IsString()
