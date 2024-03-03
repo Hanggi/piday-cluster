@@ -10,6 +10,9 @@ export class VirtualEstateResponseDto {
   id: number;
 
   @Expose()
+  name: string;
+
+  @Expose()
   virtualEstateID: string;
 
   @Expose()

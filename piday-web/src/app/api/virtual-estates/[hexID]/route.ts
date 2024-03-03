@@ -3,6 +3,8 @@ import instance from "@/src/features/axios/instance";
 import { AxiosError } from "axios";
 import { StatusCodes } from "http-status-codes";
 
+import { NextRequest } from "next/server";
+
 export async function GET(
   request: Request,
   { params }: { params: { hexID: string } },
@@ -50,16 +52,19 @@ export async function GET(
 
 // Mint a new virtual estate
 export async function POST(
-  request: Request,
-  { params, body }: { params: { hexID: string }; body: {} },
+  request: NextRequest,
+  { params }: { params: { hexID: string } },
 ) {
   const { headers } = request;
   const hexID = params.hexID;
 
+  const reqJSON = await request.json();
   try {
     const res = await instance.post(
       "/virtual-estates/" + hexID,
-      {},
+      {
+        ...reqJSON,
+      },
       {
         headers: HeaderFilters(headers),
       },

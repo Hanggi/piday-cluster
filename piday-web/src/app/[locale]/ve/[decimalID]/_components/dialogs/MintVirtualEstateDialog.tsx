@@ -9,6 +9,8 @@ import { useMintOneVirtualEstateMutation } from "@/src/features/virtual-estate/a
 
 import Typography from "@mui/joy/Typography";
 
+import { useRouter } from "next/navigation";
+
 import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 
@@ -24,9 +26,11 @@ export default function MintVirtualEstateDialog({
   open,
   hexID,
   placeName,
+  place,
   onClose,
 }: Props) {
   const { t } = useTranslation(["virtual-estate"]);
+  const router = useRouter();
 
   const [mintVirtualEstate, mintVirtualEstateResult] =
     useMintOneVirtualEstateMutation();
@@ -35,14 +39,15 @@ export default function MintVirtualEstateDialog({
     mintVirtualEstateResult.isSuccess,
     "Mint successfully",
     () => {
-      window.location.reload();
+      // window.location.reload();
+      router.refresh();
     },
   );
 
   const handleMintVritualEstate = useCallback(() => {
-    mintVirtualEstate({ hexID });
+    mintVirtualEstate({ hexID, name: getPlaceName(place) });
     onClose();
-  }, [hexID, mintVirtualEstate, onClose]);
+  }, [hexID, mintVirtualEstate, onClose, place]);
 
   return (
     <div>
@@ -77,4 +82,23 @@ export default function MintVirtualEstateDialog({
       </ConfirmDialog>
     </div>
   );
+}
+
+function getPlaceName(place: any) {
+  console.log(place);
+  const placeName = place.features.find((v: any) => {
+    if (v.id.includes("place")) {
+      return true;
+    }
+    return false;
+  });
+
+  const countryName = place.features.find((v: any) => {
+    if (v.id.includes("country")) {
+      return true;
+    }
+    return false;
+  });
+
+  return `.${placeName.text}.${countryName.text}.world`;
 }

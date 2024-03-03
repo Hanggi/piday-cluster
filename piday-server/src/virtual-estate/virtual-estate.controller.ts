@@ -2,6 +2,7 @@ import { plainToInstance } from "class-transformer";
 import { Response } from "express";
 
 import {
+  Body,
   Controller,
   Get,
   HttpException,
@@ -13,7 +14,6 @@ import {
   Req,
   Res,
   UseGuards,
-  UsePipes,
 } from "@nestjs/common";
 
 import { AccountService } from "../account/account.service";
@@ -227,11 +227,13 @@ export class VirtualEstateController {
 
   @UseGuards(KeycloakJwtGuard)
   @Post(":hexID")
-  @UsePipes(new HexIdValidationPipe())
+  // @UsePipes(new HexIdValidationPipe())
   async mintVirtualEstate(
-    @Param("hexID") hexID,
+    @Param("hexID", HexIdValidationPipe) hexID,
     @Req() req: AuthenticatedRequest,
+    @Body("name") name: string,
   ) {
+    console.log(name);
     try {
       const { ve: existing } =
         await this.virtualEstateService.getOneVirtualEstate(hexID);
@@ -246,6 +248,7 @@ export class VirtualEstateController {
       const virtualEstate = await this.virtualEstateService.mintVirtualEstate({
         userID: req.user.userID,
         hexID,
+        name,
       });
 
       return virtualEstate;

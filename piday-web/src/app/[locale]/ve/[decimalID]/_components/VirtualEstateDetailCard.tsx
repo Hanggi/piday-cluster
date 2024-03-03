@@ -77,7 +77,7 @@ export default function VirtualEstateDetailCard({
 
   return (
     <div className="w-full relative pt-5">
-      <h1 className="text-3xl font-semibold">{placeName}</h1>
+      <h1 className="text-3xl font-semibold">{virtualEstate?.name}</h1>
       <div className="mt-5 p-6 bg-[#F7F7F7] rounded-xl">
         <div className="grid grid-cols-2 py-5">
           <div>
