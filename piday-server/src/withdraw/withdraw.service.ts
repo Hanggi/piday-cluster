@@ -3,6 +3,7 @@ import { Decimal } from "@prisma/client/runtime/library";
 import { Injectable } from "@nestjs/common";
 
 import { ServiceException } from "../lib/exceptions/service-exception";
+import { generateFlakeID } from "../lib/generate-id/generate-flake-id";
 import { PrismaService } from "../lib/prisma/prisma.service";
 import { WithdrawStatusEnum } from "./dto/createWithdrawRequest.dto";
 
@@ -31,28 +32,29 @@ export class WithdrawService {
           },
         });
 
-      const remainingBalanceAfterSubtractingPendingWithdrawelRequestBalance =
-        pendingWithdrawalRequestsAmount._sum.amount
-          ? balance._sum.amount.sub(pendingWithdrawalRequestsAmount._sum.amount)
-          : balance._sum.amount;
+      // Balance after subtracting pending withdrawel request balance from the total amount
+      const remainingBalance = pendingWithdrawalRequestsAmount._sum.amount
+        ? balance._sum.amount.sub(pendingWithdrawalRequestsAmount._sum.amount)
+        : balance._sum.amount;
 
-      if (
-        remainingBalanceAfterSubtractingPendingWithdrawelRequestBalance.lessThan(
-          amount,
-        )
-      ) {
+      if (remainingBalance.lessThan(amount)) {
         throw new ServiceException("Not enough balance", "NOT_ENOUGH_BALANCE");
       }
 
+      const withdrawStatusID = BigInt(generateFlakeID());
       const withdrawRequest = await tx.withdrawRequest.create({
         data: {
           status: WithdrawStatusEnum.PENDING,
           ownerID: userID,
           amount: amount,
+          withdrawStatusID: withdrawStatusID,
         },
       });
 
-      return withdrawRequest;
+      return {
+        ...withdrawRequest,
+        withdrawStatusID: withdrawRequest.withdrawStatusID.toString(),
+      };
     });
 
     return withdrawRequest;
@@ -61,7 +63,7 @@ export class WithdrawService {
   async cancelWithdrawRequest(reqID: number, userID: string) {
     const withdrawRequest = await this.prisma.withdrawRequest.findFirst({
       where: {
-        id: reqID,
+        withdrawStatusID: reqID,
       },
     });
 

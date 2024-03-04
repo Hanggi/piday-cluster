@@ -122,7 +122,7 @@ enum WithdrawStatus{
 // this is a record of withdraw request 
 model WithdrawRequest {
   id Int    @id @default(autoincrement())
-
+  withdrawStatusID   BigInt @unique // withdrawStatus ID
   ownerID String // Keycloak user ID
 
   owner   User   @relation(fields: [ownerID], references: [keycloakID])

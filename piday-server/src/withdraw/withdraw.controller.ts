@@ -34,19 +34,19 @@ export class WithdrawController {
         amount,
         userID,
       );
-      if (withdrawRequest) {
-        res.status(HttpStatus.OK).json({
-          msg: "Withdraw request created successfully ",
-          data: withdrawRequest,
-          success: true,
-        });
-      } else {
+      if (!withdrawRequest) {
         res.status(HttpStatus.UNPROCESSABLE_ENTITY).json({
           msg: "Withdraw request not created successfiully",
           data: null,
           success: false,
         });
       }
+
+      res.status(HttpStatus.OK).json({
+        msg: "Withdraw request created successfully ",
+        data: withdrawRequest,
+        success: true,
+      });
     } catch (error) {
       switch (error.code) {
         case "NOT_ENOUGH_BALANCE":
