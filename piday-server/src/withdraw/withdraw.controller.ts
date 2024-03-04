@@ -21,7 +21,7 @@ import { WithdrawService } from "./withdraw.service";
 export class WithdrawController {
   constructor(private readonly withdrawService: WithdrawService) {}
 
-  @Post("create-request")
+  @Post("create")
   async createWithdrawRequest(
     @Res() res: Response,
     req: AuthenticatedRequest,
@@ -72,10 +72,10 @@ export class WithdrawController {
     @Body() body: CancelWithdrawRequestDTO,
   ) {
     try {
-      const withdrawRequestID = body.reqID;
+      const withdrawStatusID = body.withdrawStatusID;
       const userID = req.user.userID;
       const withdrawRequest = await this.withdrawService.cancelWithdrawRequest(
-        withdrawRequestID,
+        withdrawStatusID,
         userID,
       );
       if (withdrawRequest) {

@@ -12,6 +12,7 @@ import { virtualEstateTransactionRecordsRTKApi } from "./features/virtual-estate
 import { mapboxRTKApi } from "./features/virtual-estate/api/mapboxAPI";
 import { virtualEstateRTKApi } from "./features/virtual-estate/api/virtualEstateAPI";
 import virtualEstatelSlice from "./features/virtual-estate/virtual-estate-slice";
+import { withdrawRequestRTKApi } from "./features/withdraw/api/withdrawAPI";
 
 export const store = configureStore({
   reducer: {
@@ -31,6 +32,7 @@ export const store = configureStore({
     // Admin
     [virtualEstatesAdminAPI.reducerPath]: virtualEstatesAdminAPI.reducer,
     [transactionAdminAPI.reducerPath]: transactionAdminAPI.reducer,
+    [withdrawRequestRTKApi.reducerPath]: withdrawRequestRTKApi.reducer,
     [userAdminAPI.reducerPath]: userAdminAPI.reducer,
   },
   middleware: (getDefaultMiddleware) => {
@@ -44,6 +46,7 @@ export const store = configureStore({
       .concat(userRTKAPI.middleware)
       .concat(virtualEstatesAdminAPI.middleware)
       .concat(transactionAdminAPI.middleware)
+      .concat(withdrawRequestRTKApi.middleware)
       .concat(userAdminAPI.middleware);
   },
 });
