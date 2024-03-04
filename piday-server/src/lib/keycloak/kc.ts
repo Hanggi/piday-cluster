@@ -1,8 +1,9 @@
-type ImportClass<T, K extends keyof T> = T extends Record<K, infer S>
-  ? S extends new (...args: any[]) => infer R
-    ? R
-    : never
-  : never;
+type ImportClass<T, K extends keyof T> =
+  T extends Record<K, infer S>
+    ? S extends new (...args: any[]) => infer R
+      ? R
+      : never
+    : never;
 export type KeycloakAdminClient = ImportClass<
   typeof import("@keycloak/keycloak-admin-client"),
   "default"
