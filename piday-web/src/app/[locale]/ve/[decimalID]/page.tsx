@@ -23,10 +23,12 @@ export default async function VirtualEstateDetailPage({
 
   let virtualEstate: VirtualEstate | undefined;
   let onSaleListing: VirtualEstateListing | undefined;
+  let mintPrice = 3.14;
   try {
     // This request send to the backend directly.
     const res = await instance.get(`/virtual-estates/${hexID}`);
 
+    mintPrice = res.data.mintPrice;
     virtualEstate = res.data.ve;
     onSaleListing = res.data.listing;
   } catch (err) {
@@ -47,6 +49,7 @@ export default async function VirtualEstateDetailPage({
           <VirtualEstateDetailCard
             hexID={hexID}
             listing={onSaleListing}
+            mintPrice={mintPrice}
             virtualEstate={virtualEstate}
           />
         </WrapperCard>

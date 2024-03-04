@@ -438,8 +438,10 @@ export class VirtualEstateController {
         });
 
       if (!virtualEstate) {
-        res.status(HttpStatus.NOT_FOUND).json({
-          message: "Virtual Estate not found",
+        const mintPrice = await this.virtualEstateService.getMintPrice();
+
+        res.status(HttpStatus.OK).json({
+          mintPrice: mintPrice,
         });
         return;
       }

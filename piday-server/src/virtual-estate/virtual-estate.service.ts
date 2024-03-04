@@ -92,6 +92,18 @@ export class VirtualEstateService {
     return { myVirtualEstates: virtualEstates, totalCount: totalCount };
   }
 
+  async getMintPrice(): Promise<number> {
+    const totalCount = await this.prisma.virtualEstate.count();
+
+    if (totalCount < 100000) {
+      return 3.14;
+    } else if (totalCount < 200000) {
+      return 6.28;
+    } else {
+      return 9.42;
+    }
+  }
+
   async mintVirtualEstate({
     userID,
     hexID,

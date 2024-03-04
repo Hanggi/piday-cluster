@@ -20,6 +20,7 @@ interface Props {
   placeName: string;
   onClose: () => void;
   place: any;
+  mintPrice: number;
 }
 
 export default function MintVirtualEstateDialog({
@@ -28,6 +29,7 @@ export default function MintVirtualEstateDialog({
   placeName,
   place,
   onClose,
+  mintPrice = 10,
 }: Props) {
   const { t } = useTranslation(["virtual-estate"]);
   const router = useRouter();
@@ -70,7 +72,7 @@ export default function MintVirtualEstateDialog({
             <Typography className="w-1/3" level="title-md">
               {t("virtual-estate:label.price")}:
             </Typography>
-            <Typography className="w-2/3">10</Typography>
+            <Typography className="w-2/3">{mintPrice}</Typography>
           </div>
           <div className="flex mb-2">
             <Typography className="w-1/3" level="title-md">

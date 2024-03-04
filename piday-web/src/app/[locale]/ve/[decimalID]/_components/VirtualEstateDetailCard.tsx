@@ -24,12 +24,14 @@ interface Props {
   hexID: string;
   virtualEstate?: VirtualEstate;
   listing?: VirtualEstateListing;
+  mintPrice?: number;
 }
 
 export default function VirtualEstateDetailCard({
   hexID,
   virtualEstate,
   listing,
+  mintPrice,
 }: Props) {
   const { t } = useTranslation(["virtual-estate"]);
   const { data: session, status } = useSession();
@@ -122,7 +124,7 @@ export default function VirtualEstateDetailCard({
               {t("virtual-estate:label.lastPrice")}
             </Typography>
             <Typography level="title-md">
-              {virtualEstate?.lastPrice || 10}
+              {virtualEstate?.lastPrice || mintPrice || 10}
             </Typography>
           </div>
           {listing && (
@@ -198,6 +200,7 @@ export default function VirtualEstateDetailCard({
         open={openMintVirtualEstateDialog}
         place={place}
         placeName={placeName}
+        mintPrice={mintPrice}
         onClose={() => {
           setOpenMintVirtualEstateDialog(false);
         }}
