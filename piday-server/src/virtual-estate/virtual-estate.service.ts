@@ -127,6 +127,8 @@ export class VirtualEstateService {
         throw new ServiceException("Not enough balance", "NOT_ENOUGH_BALANCE");
       }
 
+      // TODO(Hanggi): Share profit with the inviter for 10%.
+
       const veCount = await prisma.virtualEstate.count();
 
       // Create a virtual estate with the given hexID and the ownerID

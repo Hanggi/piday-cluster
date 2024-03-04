@@ -60,6 +60,7 @@ export default function MyBalanceRecords({ rechargeAddress }: Props) {
     }
   }, [UpdatePiWalletAddressResult.isSuccess, refetchMyUser, t]);
 
+  console.log(balanceRecordsRes?.records);
   return (
     <div>
       <div className="mb-4 flex justify-end">
@@ -79,6 +80,7 @@ export default function MyBalanceRecords({ rechargeAddress }: Props) {
           <thead>
             <tr>
               <th>ID</th>
+              <th>tx ID</th>
               <th>
                 <Typography level="title-md">
                   {t("asset-center:table.amount")}
@@ -95,6 +97,7 @@ export default function MyBalanceRecords({ rechargeAddress }: Props) {
             {balanceRecordsRes?.records?.map((record, i) => (
               <tr key={i}>
                 <td>{(page - 1) * size + i + 1}</td>
+                <td>{record.externalID}</td>
                 <td>
                   <Typography
                     className={

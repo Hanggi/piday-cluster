@@ -37,7 +37,7 @@ export default async function VirtualEstateDetailPage({
   }
 
   return (
-    <main>
+    <main className="">
       <div className="mb-8">
         <WrapperCard className="container mx-auto grid grid-cols-1 md:grid-cols-2 gap-5 py-4 ">
           <div className="w-full aspect-square max-h-[500px] relative rounded-lg overflow-hidden">

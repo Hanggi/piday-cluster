@@ -197,10 +197,10 @@ export default function VirtualEstateDetailCard({
       {/* Dialogs */}
       <MintVirtualEstateDialog
         hexID={hexID}
+        mintPrice={mintPrice || 10}
         open={openMintVirtualEstateDialog}
         place={place}
         placeName={placeName}
-        mintPrice={mintPrice}
         onClose={() => {
           setOpenMintVirtualEstateDialog(false);
         }}

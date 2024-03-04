@@ -45,7 +45,7 @@ export default function Navbar({
       >
         <Link href="/">
           <div
-            className={cn("relative h-12 w-28", {
+            className={cn("relative h-12 w-12", {
               grayscale: navType === NavType.footer,
             })}
           >

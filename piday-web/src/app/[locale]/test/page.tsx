@@ -50,6 +50,7 @@ export default function TestPage() {
     );
 
     console.log(authResponse);
+    alert(authResponse);
     // /* pass obtained data to backend */
     // await signInUser(authResponse);
 
@@ -169,7 +170,9 @@ export default function TestPage() {
           onClick={async () => {
             const res = await axios.post(
               "https://api.minepi.com/v2/payments/CRGWI0LdO0HcSfGTSW6iqg6NlyWo/complete",
-{txid: "7b23ab38196cff2ce9fb86a1adebefca50d23be3cf4f681dc240c0c03b534caf"},
+              {
+                txid: "7b23ab38196cff2ce9fb86a1adebefca50d23be3cf4f681dc240c0c03b534caf",
+              },
               {
                 headers: {
                   Authorization:
