@@ -43,6 +43,7 @@ type PaymentDTO = {
 
 export default function TestPage() {
   const signIn = async () => {
+    alert(window.Pi);
     const scopes = ["username", "payments"];
     const authResponse = await window.Pi.authenticate(
       scopes,
