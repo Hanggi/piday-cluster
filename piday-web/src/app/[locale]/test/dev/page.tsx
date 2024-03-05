@@ -190,6 +190,7 @@ export default function TestPage() {
       <Script
         src="https://sdk.minepi.com/pi-sdk.js"
         onLoad={() => {
+          alert("loaded");
           // @ts-ignore
           (Pi as any).init({ version: "2.0" });
         }}
