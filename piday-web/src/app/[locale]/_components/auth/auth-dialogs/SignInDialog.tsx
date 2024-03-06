@@ -79,13 +79,13 @@ export default function SignInDialog({
     [onClose, t],
   );
 
-  const handlePiSignIn = useCallback(() => {
+  const handlePiSignIn = useCallback(async () => {
     if (!window.Pi) {
       toast.error("Pi Environment not found");
       return;
     }
     const scopes = ["username", "payments"];
-    window.Pi.authenticate(scopes, (authResponse: AuthResult) => {
+    await window.Pi.authenticate(scopes, (authResponse: AuthResult) => {
       alert(authResponse);
 
       piSignIn({
