@@ -85,13 +85,21 @@ export class AuthController {
   async piSignIn(@Body() { accessToken }: { accessToken: string }) {
     console.log(accessToken);
 
-    const me = await axios.get("https://api.minepi.com/v2/me", {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
+    try {
+      const me = await axios.get("https://api.minepi.com/v2/me", {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
 
-    console.log(me);
+      console.log(me);
+    } catch (err) {
+      console.error(err.response.status);
+
+      if (err.response.status === 401) {
+        throw new HttpException("Unauthorized", HttpStatus.UNAUTHORIZED);
+      }
+    }
 
     return {};
   }

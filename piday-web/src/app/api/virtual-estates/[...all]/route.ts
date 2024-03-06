@@ -33,7 +33,7 @@ async function handler(request: NextRequest) {
       status: res.status,
     });
   } catch (err) {
-    console.log("Error on admin route!");
+    console.log("Error on virtual estates route!");
     // console.error(err);
   }
 }
