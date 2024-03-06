@@ -87,7 +87,6 @@ export default function SignInDialog({
     }
 
     setIsLoading(true);
-
     try {
       const scopes = ["username", "payments", "wallet_address"];
       const authResponse = await window.Pi.authenticate(
