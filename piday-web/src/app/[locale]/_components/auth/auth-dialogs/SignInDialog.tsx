@@ -105,7 +105,7 @@ export default function SignInDialog({
           redirect: false,
         })
           .then((res) => {
-            alert(res);
+            alert(JSON.stringify(res));
             if (res?.status == StatusCodes.UNAUTHORIZED) {
               toast.error(t("common:auth.validation.emailOrPasswordIncorrect"));
               return;
