@@ -1,3 +1,4 @@
+import axios from "axios";
 import { Response } from "express";
 
 import {
@@ -78,5 +79,20 @@ export class AuthController {
     res.status(HttpStatus.CREATED).json({
       message: "Email signup success",
     });
+  }
+
+  @Post("pi-sign-in")
+  async piSignIn(@Body() { accessToken }: { accessToken: string }) {
+    console.log(accessToken);
+
+    const me = await axios.get("https://api.minepi.com/v2/me", {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+    console.log(me);
+
+    return {};
   }
 }

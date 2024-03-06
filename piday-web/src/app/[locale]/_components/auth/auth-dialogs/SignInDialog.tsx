@@ -1,5 +1,7 @@
 "use client";
 
+import { usePiSignInMutation } from "@/src/features/auth/api/authAPI";
+import { AuthResult } from "@/src/types/pi/AuthResult";
 import { clsx } from "clsx";
 import { StatusCodes } from "http-status-codes";
 import { signIn } from "next-auth/react";
@@ -41,6 +43,7 @@ export default function SignInDialog({
   const { t } = useTranslation("common");
 
   const [isLoding, setIsLoding] = useState(false); // 登录状态标志
+  const [piSignIn, piSignInResult] = usePiSignInMutation();
 
   const {
     register,
@@ -75,6 +78,21 @@ export default function SignInDialog({
     },
     [onClose, t],
   );
+
+  const handlePiSignIn = useCallback(() => {
+    if (!window.Pi) {
+      toast.error("Pi Environment not found");
+      return;
+    }
+    const scopes = ["username", "payments"];
+    window.Pi.authenticate(scopes, (authResponse: AuthResult) => {
+      alert(authResponse);
+
+      piSignIn({
+        accessToken: authResponse.accessToken,
+      });
+    });
+  }, [piSignIn]);
 
   return (
     <ModalDialog>
@@ -138,6 +156,17 @@ export default function SignInDialog({
           <Button disabled={isLoding} fullWidth type="submit">
             {isLoding ? <BeatLoader /> : t("common:auth.signIn.title")}
           </Button>
+
+          <div className="mt-4 w-full flex">
+            <Button
+              color="neutral"
+              fullWidth
+              variant="outlined"
+              onClick={handlePiSignIn}
+            >
+              {t("common:auth.signIn.piSignIn")}
+            </Button>
+          </div>
         </form>
       </DialogContent>
     </ModalDialog>

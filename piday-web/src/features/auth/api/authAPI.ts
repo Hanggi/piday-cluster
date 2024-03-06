@@ -35,6 +35,22 @@ export const authRTKApi = createApi({
       },
     }),
 
+    // Pi Sign In
+    piSignIn: builder.mutation<
+      void,
+      {
+        accessToken: string;
+      }
+    >({
+      query: ({ accessToken }) => ({
+        url: `/auth/pi-sign-in`,
+        method: "POST",
+        body: {
+          accessToken,
+        },
+      }),
+    }),
+
     getMyUser: builder.query<User, void>({
       query: () => ({
         url: `/user`,
@@ -51,5 +67,6 @@ export const {
   useEmailSignUpMutation,
   useSendEmailVerificationMutation,
 
+  usePiSignInMutation,
   useGetMyUserQuery,
 } = authRTKApi;
