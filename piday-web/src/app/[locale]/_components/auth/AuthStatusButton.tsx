@@ -64,6 +64,7 @@ export default function AuthStatusButton() {
       <Script
         src="https://sdk.minepi.com/pi-sdk.js"
         onLoad={() => {
+          alert("Pi SDK loaded");
           // @ts-ignore
           (Pi as any).init({ version: "2.0" });
         }}
