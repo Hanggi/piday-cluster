@@ -51,7 +51,7 @@ export default function TestPage() {
     );
 
     console.log(authResponse);
-    alert(authResponse);
+    alert(JSON.stringify(authResponse));
     // /* pass obtained data to backend */
     // await signInUser(authResponse);
 

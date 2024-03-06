@@ -8,7 +8,7 @@ export class CreateWithdrawRequestDTO {
 export class CancelWithdrawRequestDTO {
   @IsInt()
   @IsNotEmpty()
-  reqID: number;
+  withdrawStatusID: string;
 }
 
 export enum WithdrawStatusEnum {

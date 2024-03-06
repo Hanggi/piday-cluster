@@ -60,10 +60,10 @@ export class WithdrawService {
     return withdrawRequest;
   }
 
-  async cancelWithdrawRequest(reqID: number, userID: string) {
+  async cancelWithdrawRequest(withdrawStatusID: string, userID: string) {
     const withdrawRequest = await this.prisma.withdrawRequest.findFirst({
       where: {
-        withdrawStatusID: reqID,
+        withdrawStatusID: BigInt(withdrawStatusID),
       },
     });
 
@@ -79,7 +79,7 @@ export class WithdrawService {
         status: WithdrawStatusEnum.CANCELED,
       },
       where: {
-        id: reqID,
+        withdrawStatusID: BigInt(withdrawStatusID),
       },
     });
 

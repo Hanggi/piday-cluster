@@ -10,6 +10,7 @@
   },
   "auth": {
     "signIn": {
+      "piSignIn": "Sign In with Pi",
       "title": "Sign In",
       "signUpHint": "Don't have an account?",
       "success": "Sign in successfully"

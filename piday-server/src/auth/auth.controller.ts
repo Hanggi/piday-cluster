@@ -1,3 +1,4 @@
+import axios from "axios";
 import { Response } from "express";
 
 import {
@@ -78,5 +79,28 @@ export class AuthController {
     res.status(HttpStatus.CREATED).json({
       message: "Email signup success",
     });
+  }
+
+  @Post("pi-sign-in")
+  async piSignIn(@Body() { accessToken }: { accessToken: string }) {
+    console.log(accessToken);
+
+    try {
+      const me = await axios.get("https://api.minepi.com/v2/me", {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+
+      console.log(me);
+    } catch (err) {
+      console.error(err.response.status);
+
+      if (err.response.status === 401) {
+        throw new HttpException("Unauthorized", HttpStatus.UNAUTHORIZED);
+      }
+    }
+
+    return {};
   }
 }

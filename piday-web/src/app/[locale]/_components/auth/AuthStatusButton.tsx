@@ -11,6 +11,7 @@ import MenuButton from "@mui/joy/MenuButton";
 import MenuItem from "@mui/joy/MenuItem";
 
 import Link from "next/link";
+import Script from "next/script";
 
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
@@ -60,6 +61,14 @@ export default function AuthStatusButton() {
   return (
     <div>
       <SignInButton />
+      <Script
+        src="https://sdk.minepi.com/pi-sdk.js"
+        onLoad={() => {
+          alert("Pi SDK loaded");
+          // @ts-ignore
+          (Pi as any).init({ version: "2.0" });
+        }}
+      />
     </div>
   );
 }
