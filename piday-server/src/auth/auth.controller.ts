@@ -1,4 +1,5 @@
 import axios from "axios";
+import config from "config";
 import { Response } from "express";
 
 import {
@@ -144,5 +145,24 @@ export class AuthController {
     }
 
     // Sign In
+    const keycloakTokenUrl = `${config.get("keycloak.baseUrl")}/realms/piday/protocol/openid-connect/token`;
+
+    const tokenResponse = await fetch(keycloakTokenUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: new URLSearchParams({
+        client_id: config.get("keycloak.clientId") as string,
+        client_secret: config.get("keycloak.clientSecret") as string,
+        grant_type: "password",
+        username: myPiUser.username.toLowerCase(),
+        password: pass,
+      }),
+    });
+
+    const data = await tokenResponse.json();
+
+    return data;
   }
 }

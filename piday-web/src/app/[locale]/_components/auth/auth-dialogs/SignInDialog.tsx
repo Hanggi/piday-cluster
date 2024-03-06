@@ -81,7 +81,6 @@ export default function SignInDialog({
   );
 
   const handlePiSignIn = useCallback(async () => {
-    alert("hi");
     if (!window.Pi) {
       toast.error("Pi Environment not found");
       return;
@@ -89,26 +88,6 @@ export default function SignInDialog({
 
     setIsLoading(true);
 
-    // signIn("credentials", {
-    //   accessToken: "accessToken",
-    //   inviteCode: "60L70J",
-    //   redirect: false,
-    // })
-    //   .then((res) => {
-    //     if (res?.status == StatusCodes.UNAUTHORIZED) {
-    //       toast.error(t("common:auth.validation.emailOrPasswordIncorrect"));
-    //       return;
-    //     }
-    //     toast.success(t("common:auth.signIn.success"));
-    //     onClose && onClose();
-    //   })
-    //   .catch((error) => {
-    //     console.error(error);
-    //     toast.error(error);
-    //   })
-    //   .finally(() => {
-    //     setIsLoading(false);
-    //   });
     try {
       const scopes = ["username", "payments", "wallet_address"];
       const authResponse = await window.Pi.authenticate(
@@ -121,10 +100,6 @@ export default function SignInDialog({
       alert(JSON.stringify(authResponse));
 
       if (authResponse) {
-        // piSignIn({
-        //   accessToken: authResponse.accessToken,
-        // });
-
         signIn("credentials", {
           accessToken: authResponse.accessToken,
           inviteCode: "60L70J",

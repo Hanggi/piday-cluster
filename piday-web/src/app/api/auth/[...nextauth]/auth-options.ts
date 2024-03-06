@@ -24,31 +24,24 @@ export const authOptions: AuthOptions = {
         inviteCode: { label: "Invite Code", type: "text" },
       },
       authorize: async (credentials) => {
-        console.log(credentials);
+        let keycloakToken;
         if (credentials?.accessToken) {
-          console.log(credentials);
-
           const res = await instance.post("/auth/pi-sign-in", {
             accessToken: credentials.accessToken,
             inviteCode: credentials.inviteCode,
           });
-          console.log(res.data);
 
-          return {
-            id: "pi",
-            name: "pi",
-            email: "",
-          };
+          keycloakToken = res.data;
+        } else {
+          // Email Sign In
+          keycloakToken = await authenticateWithKeycloak({
+            email: credentials?.username as string,
+            password: credentials?.password as string,
+          });
         }
 
-        // Email Sign In
-        const token = await authenticateWithKeycloak({
-          email: credentials?.username as string,
-          password: credentials?.password as string,
-        });
-
-        if (token) {
-          const accessToken = token.access_token;
+        if (keycloakToken) {
+          const accessToken = keycloakToken.access_token;
           const userInfo = decodeAccessToken(accessToken);
 
           return {
@@ -56,34 +49,17 @@ export const authOptions: AuthOptions = {
             name: userInfo.preferredUsername,
             email: userInfo.email,
             username: userInfo.preferredUsername,
-            accessToken: token.access_token,
-            refreshToken: token.refresh_token,
-            expiresIn: token.expires_in,
+            accessToken: keycloakToken.access_token,
+            refreshToken: keycloakToken.refresh_token,
+            expiresIn: keycloakToken.expires_in,
             //refresh_expires_in
             roles: userInfo.roles,
           };
         } else {
-          throw new Error("Could not log you in."); 
+          throw new Error("Could not log you in.");
         }
       },
     }),
-    // CredentialsProvider({
-    //   id: "pi-sign-in",
-    //   name: "Pi Sign In",
-
-    //   credentials: {
-    //     accessToken: { label: "Access Token", type: "text" },
-    //   },
-    //   authorize: async (credentials) => {
-    //     console.log(credentials);
-
-    //     return {
-    //       id: "pi",
-    //       name: "pi",
-    //       email: "",
-    //     };
-    //   },
-    // }),
   ],
   // debug: true,
   callbacks: {

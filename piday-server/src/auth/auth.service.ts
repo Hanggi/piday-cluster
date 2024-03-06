@@ -178,7 +178,8 @@ export class AuthService {
     const createdUser = await this.keycloakService.createUser({
       emailVerified: true,
       enabled: true,
-      username: username,
+      username: piUsername,
+      lastName: username,
       firstName: "pi",
       credentials: [
         {
