@@ -25,6 +25,7 @@ export const authOptions: AuthOptions = {
       },
       authorize: async (credentials) => {
         let keycloakToken;
+        console.log(credentials);
         if (credentials?.accessToken) {
           const res = await instance.post("/auth/pi-sign-in", {
             accessToken: credentials.accessToken,
@@ -32,6 +33,7 @@ export const authOptions: AuthOptions = {
           });
 
           keycloakToken = res.data;
+          console.log(res.data);
         } else {
           // Email Sign In
           keycloakToken = await authenticateWithKeycloak({

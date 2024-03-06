@@ -27,7 +27,7 @@ spec:
         kubernetes.io/os: linux
       serviceAccountName: default
       containers:
-        - image: registry.digitalocean.com/davinqi/piday-server:v0.0.27
+        - image: registry.digitalocean.com/davinqi/piday-server:v0.0.28
           imagePullPolicy: Always
           command: ["sh", "-c"]
           args: ["source /vault/secrets/config && yarn start:prod"]

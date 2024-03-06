@@ -97,12 +97,11 @@ export default function SignInDialog({
           // return axiosClient.post("/incomplete", { payment }, config);
         },
       );
-      alert(JSON.stringify(authResponse));
 
       if (authResponse) {
         signIn("credentials", {
           accessToken: authResponse.accessToken,
-          inviteCode: "60L70J",
+          inviteCode: "60L70J", // TODO(Hanggi): Get invite code from user input
           redirect: false,
         })
           .then((res) => {
