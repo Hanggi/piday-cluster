@@ -97,6 +97,7 @@ export default function SignInDialog({
         },
       );
 
+      alert(authResponse.accessToken);
       if (authResponse) {
         signIn("credentials", {
           accessToken: authResponse.accessToken,
@@ -104,6 +105,7 @@ export default function SignInDialog({
           redirect: false,
         })
           .then((res) => {
+            alert(res);
             if (res?.status == StatusCodes.UNAUTHORIZED) {
               toast.error(t("common:auth.validation.emailOrPasswordIncorrect"));
               return;
