@@ -95,6 +95,7 @@ export class AuthController {
     { accessToken, inviteCode }: { accessToken: string; inviteCode: string },
   ) {
     let myPiUser: { username: string; uid: string };
+
     try {
       const me = await axios.get("https://api.minepi.com/v2/me", {
         headers: {

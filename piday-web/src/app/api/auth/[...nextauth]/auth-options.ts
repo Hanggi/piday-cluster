@@ -41,6 +41,7 @@ export const authOptions: AuthOptions = {
           };
         }
 
+        // Email Sign In
         const token = await authenticateWithKeycloak({
           email: credentials?.username as string,
           password: credentials?.password as string,
@@ -62,7 +63,7 @@ export const authOptions: AuthOptions = {
             roles: userInfo.roles,
           };
         } else {
-          throw new Error("Could not log you in."); // 登录失败
+          throw new Error("Could not log you in."); 
         }
       },
     }),

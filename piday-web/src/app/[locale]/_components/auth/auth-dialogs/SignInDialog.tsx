@@ -88,6 +88,27 @@ export default function SignInDialog({
     }
 
     setIsLoading(true);
+
+    // signIn("credentials", {
+    //   accessToken: "accessToken",
+    //   inviteCode: "60L70J",
+    //   redirect: false,
+    // })
+    //   .then((res) => {
+    //     if (res?.status == StatusCodes.UNAUTHORIZED) {
+    //       toast.error(t("common:auth.validation.emailOrPasswordIncorrect"));
+    //       return;
+    //     }
+    //     toast.success(t("common:auth.signIn.success"));
+    //     onClose && onClose();
+    //   })
+    //   .catch((error) => {
+    //     console.error(error);
+    //     toast.error(error);
+    //   })
+    //   .finally(() => {
+    //     setIsLoading(false);
+    //   });
     try {
       const scopes = ["username", "payments", "wallet_address"];
       const authResponse = await window.Pi.authenticate(
@@ -97,7 +118,7 @@ export default function SignInDialog({
           // return axiosClient.post("/incomplete", { payment }, config);
         },
       );
-      alert(authResponse);
+      alert(JSON.stringify(authResponse));
 
       if (authResponse) {
         // piSignIn({
@@ -106,7 +127,7 @@ export default function SignInDialog({
 
         signIn("credentials", {
           accessToken: authResponse.accessToken,
-          inviteCode: "",
+          inviteCode: "60L70J",
           redirect: false,
         })
           .then((res) => {
