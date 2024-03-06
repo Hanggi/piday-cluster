@@ -1,6 +1,7 @@
 import { authenticateWithKeycloak } from "@/src/features/auth/keycloak/authenticateWithKeycloak";
 import { decodeAccessToken } from "@/src/features/auth/keycloak/decodeAccessToken";
 import { refreshAccessToken } from "@/src/features/auth/keycloak/refreshAccessToken";
+import instance from "@/src/features/axios/instance";
 import { encrypt } from "@/src/utils/encryption";
 import { AuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
@@ -19,8 +20,27 @@ export const authOptions: AuthOptions = {
       credentials: {
         username: { label: "Username", type: "text", placeholder: "jsmith" },
         password: { label: "Password", type: "password" },
+        accessToken: { label: "Access Token", type: "text" },
+        inviteCode: { label: "Invite Code", type: "text" },
       },
       authorize: async (credentials) => {
+        console.log(credentials);
+        if (credentials?.accessToken) {
+          console.log(credentials);
+
+          const res = await instance.post("/auth/pi-sign-in", {
+            accessToken: credentials.accessToken,
+            inviteCode: credentials.inviteCode,
+          });
+          console.log(res.data);
+
+          return {
+            id: "pi",
+            name: "pi",
+            email: "",
+          };
+        }
+
         const token = await authenticateWithKeycloak({
           email: credentials?.username as string,
           password: credentials?.password as string,
@@ -46,6 +66,23 @@ export const authOptions: AuthOptions = {
         }
       },
     }),
+    // CredentialsProvider({
+    //   id: "pi-sign-in",
+    //   name: "Pi Sign In",
+
+    //   credentials: {
+    //     accessToken: { label: "Access Token", type: "text" },
+    //   },
+    //   authorize: async (credentials) => {
+    //     console.log(credentials);
+
+    //     return {
+    //       id: "pi",
+    //       name: "pi",
+    //       email: "",
+    //     };
+    //   },
+    // }),
   ],
   // debug: true,
   callbacks: {

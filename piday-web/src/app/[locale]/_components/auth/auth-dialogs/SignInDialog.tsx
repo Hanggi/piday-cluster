@@ -6,6 +6,7 @@ import { clsx } from "clsx";
 import { StatusCodes } from "http-status-codes";
 import { signIn } from "next-auth/react";
 
+import { CircularProgress } from "@mui/joy";
 import Button from "@mui/joy/Button";
 import CardOverflow from "@mui/joy/CardOverflow";
 import DialogContent from "@mui/joy/DialogContent";
@@ -42,7 +43,7 @@ export default function SignInDialog({
 }: Props) {
   const { t } = useTranslation("common");
 
-  const [isLoding, setIsLoding] = useState(false); // 登录状态标志
+  const [isLoading, setIsLoading] = useState(false); // 登录状态标志
   const [piSignIn, piSignInResult] = usePiSignInMutation();
 
   const {
@@ -54,7 +55,7 @@ export default function SignInDialog({
 
   const onSubmit = useCallback(
     (data: any) => {
-      setIsLoding(true);
+      setIsLoading(true);
       signIn("credentials", {
         redirect: false, // 不重定向，我们在这里处理结果
         username: data.username,
@@ -73,34 +74,64 @@ export default function SignInDialog({
           toast.error(error);
         })
         .finally(() => {
-          setIsLoding(false);
+          setIsLoading(false);
         });
     },
     [onClose, t],
   );
 
   const handlePiSignIn = useCallback(async () => {
-    console.log(window.Pi);
+    alert("hi");
     if (!window.Pi) {
       toast.error("Pi Environment not found");
       return;
     }
-    const scopes = ["username", "payments"];
-    const authResponse = await window.Pi.authenticate(
-      scopes,
-      (payment: any) => {
-        console.log("onIncompletePaymentFound", payment);
-        // return axiosClient.post("/incomplete", { payment }, config);
-      },
-    );
 
-    console.log(authResponse);
-    if (authResponse) {
-      piSignIn({
-        accessToken: authResponse.accessToken,
-      });
+    setIsLoading(true);
+    try {
+      const scopes = ["username", "payments", "wallet_address"];
+      const authResponse = await window.Pi.authenticate(
+        scopes,
+        (payment: any) => {
+          console.log("onIncompletePaymentFound", payment);
+          // return axiosClient.post("/incomplete", { payment }, config);
+        },
+      );
+      alert(authResponse);
+
+      if (authResponse) {
+        // piSignIn({
+        //   accessToken: authResponse.accessToken,
+        // });
+
+        signIn("credentials", {
+          accessToken: authResponse.accessToken,
+          inviteCode: "",
+          redirect: false,
+        })
+          .then((res) => {
+            if (res?.status == StatusCodes.UNAUTHORIZED) {
+              toast.error(t("common:auth.validation.emailOrPasswordIncorrect"));
+              return;
+            }
+            toast.success(t("common:auth.signIn.success"));
+            onClose && onClose();
+          })
+          .catch((error) => {
+            console.error(error);
+            toast.error(error);
+          })
+          .finally(() => {
+            setIsLoading(false);
+          });
+      }
+
+      setIsLoading(false);
+    } catch (err) {
+      alert(err);
+      setIsLoading(false);
     }
-  }, [piSignIn]);
+  }, [onClose, t]);
 
   return (
     <ModalDialog>
@@ -161,14 +192,16 @@ export default function SignInDialog({
               {t("common:auth.signUp.title")}
             </Typography>
           </div>
-          <Button disabled={isLoding} fullWidth type="submit">
-            {isLoding ? <BeatLoader /> : t("common:auth.signIn.title")}
+          <Button disabled={isLoading} fullWidth type="submit">
+            {isLoading ? <BeatLoader /> : t("common:auth.signIn.title")}
           </Button>
 
           <div className="mt-4 w-full flex">
             <Button
               color="neutral"
+              disabled={isLoading}
               fullWidth
+              startDecorator={isLoading && <CircularProgress />}
               variant="outlined"
               onClick={handlePiSignIn}
             >
