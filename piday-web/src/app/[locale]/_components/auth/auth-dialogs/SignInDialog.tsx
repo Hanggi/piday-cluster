@@ -80,18 +80,26 @@ export default function SignInDialog({
   );
 
   const handlePiSignIn = useCallback(async () => {
+    console.log(window.Pi);
     if (!window.Pi) {
       toast.error("Pi Environment not found");
       return;
     }
     const scopes = ["username", "payments"];
-    await window.Pi.authenticate(scopes, (authResponse: AuthResult) => {
-      alert(authResponse);
+    const authResponse = await window.Pi.authenticate(
+      scopes,
+      (payment: any) => {
+        console.log("onIncompletePaymentFound", payment);
+        // return axiosClient.post("/incomplete", { payment }, config);
+      },
+    );
 
+    console.log(authResponse);
+    if (authResponse) {
       piSignIn({
         accessToken: authResponse.accessToken,
       });
-    });
+    }
   }, [piSignIn]);
 
   return (
