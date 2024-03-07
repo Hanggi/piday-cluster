@@ -6,7 +6,7 @@ import { clsx } from "clsx";
 import { StatusCodes } from "http-status-codes";
 import { signIn } from "next-auth/react";
 
-import { CircularProgress } from "@mui/joy";
+import { CircularProgress, Divider } from "@mui/joy";
 import Button from "@mui/joy/Button";
 import CardOverflow from "@mui/joy/CardOverflow";
 import DialogContent from "@mui/joy/DialogContent";
@@ -18,6 +18,8 @@ import Input from "@mui/joy/Input";
 import ModalClose from "@mui/joy/ModalClose";
 import ModalDialog from "@mui/joy/ModalDialog";
 import Typography from "@mui/joy/Typography";
+
+import { useSearchParams } from "next/navigation";
 
 import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -42,7 +44,11 @@ export default function SignInDialog({
   onClose,
 }: Props) {
   const { t } = useTranslation("common");
+  const searchParams = useSearchParams();
 
+  const [inviteCode, setInviteCode] = useState<string>(
+    searchParams.get("ic") as string,
+  );
   const [isLoading, setIsLoading] = useState(false); // 登录状态标志
   const [piSignIn, piSignInResult] = usePiSignInMutation();
 
@@ -56,12 +62,14 @@ export default function SignInDialog({
   const onSubmit = useCallback(
     (data: any) => {
       setIsLoading(true);
+
       signIn("credentials", {
         redirect: false, // 不重定向，我们在这里处理结果
         username: data.username,
         password: data.password,
       })
         .then((res) => {
+          console.log(res);
           if (res?.status == StatusCodes.UNAUTHORIZED) {
             toast.error(t("common:auth.validation.emailOrPasswordIncorrect"));
             return;
@@ -86,6 +94,11 @@ export default function SignInDialog({
       return;
     }
 
+    if (!inviteCode) {
+      toast.warn(t("common:auth.invitationCodePlaceholder"));
+      return;
+    }
+
     setIsLoading(true);
     try {
       const scopes = ["username", "payments", "wallet_address"];
@@ -96,15 +109,14 @@ export default function SignInDialog({
           // return axiosClient.post("/incomplete", { payment }, config);
         },
       );
- 
+
       if (authResponse) {
         signIn("credentials", {
           accessToken: authResponse.accessToken,
-          inviteCode: "60L70J", // TODO(Hanggi): Get invite code from user input
+          inviteCode: inviteCode,
           redirect: false,
         })
           .then((res) => {
-            alert(JSON.stringify(res));
             if (res?.status == StatusCodes.UNAUTHORIZED) {
               toast.error(t("common:auth.validation.emailOrPasswordIncorrect"));
               return;
@@ -126,7 +138,7 @@ export default function SignInDialog({
       alert(err);
       setIsLoading(false);
     }
-  }, [onClose, t]);
+  }, [inviteCode, onClose, t]);
 
   return (
     <ModalDialog>
@@ -191,6 +203,10 @@ export default function SignInDialog({
             {isLoading ? <BeatLoader /> : t("common:auth.signIn.title")}
           </Button>
 
+          <div className="mt-4">
+            <Divider />
+          </div>
+
           <div className="mt-4 w-full flex">
             <Button
               color="neutral"
@@ -202,6 +218,17 @@ export default function SignInDialog({
             >
               {t("common:auth.signIn.piSignIn")}
             </Button>
+          </div>
+
+          <div className="mt-4 w-full">
+            <Input
+              disabled={!!searchParams.get("ic")}
+              placeholder={t("common:auth.invitationCodePlaceholder")}
+              value={inviteCode}
+              onChange={(e) => {
+                setInviteCode(e.target.value);
+              }}
+            />
           </div>
         </form>
       </DialogContent>

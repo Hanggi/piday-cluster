@@ -9,7 +9,7 @@ import PiCoinLogo from "./piday-ui/PiCoinLogo";
 
 interface Props {
   // TODO(Hanggi): Make it as requreid
-  ve?: VirtualEstate;
+  ve: VirtualEstate;
 }
 
 export function VirtualEstateCard({ ve }: Props) {
@@ -39,14 +39,14 @@ export function VirtualEstateCard({ ve }: Props) {
           />
         </div>
         <div className="px-4 pt-4 flex flex-col gap-3">
-          <p className="font-semibold">United Arab Emirates</p>
+          <p className="font-semibold">{ve?.name}</p>
           <p className="text-black/40 text-sm -mt-2">{ve?.virtualEstateID}</p>
           <div className="flex gap-2.5">
             <div className="relative w-6 h-6">
               <PiCoinLogo />
             </div>
-            <span>30</span>
-          </div>{" "}
+            <span>{ve?.lastPrice}</span>
+          </div>
           {/* {noBtn ?? (
             <Button
               className="relative z-10 !bg-transparent !min-w-[200px]  !text-primary"
