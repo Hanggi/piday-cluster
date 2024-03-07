@@ -63,6 +63,10 @@ export default function TestPage() {
     // return axiosClient.post("/incomplete", { payment }, config);
   };
 
+  // 执行检测函数
+  checkCookieSupport();
+  checkLocalStorageSupport();
+
   return (
     <div className="container">
       <div>test</div>
@@ -196,4 +200,27 @@ export default function TestPage() {
       />
     </div>
   );
+}
+// 检测 Cookies 支持
+function checkCookieSupport() {
+  // 尝试创建一个 cookie
+  document.cookie = "testcookie";
+  let cookiesEnabled = document.cookie.indexOf("testcookie") !== -1;
+  if (!cookiesEnabled) {
+    // 如果 cookie 创建失败，显示警告
+    alert("Your browser does not support cookies or they are disabled.");
+  }
+}
+
+// 检测 localStorage 支持
+function checkLocalStorageSupport() {
+  try {
+    // 尝试使用 localStorage
+    localStorage.setItem("test", "test");
+    localStorage.removeItem("test");
+    // 如果没有抛出错误，则支持 localStorage
+  } catch (e) {
+    // 如果有错误发生，表示不支持或已禁用 localStorage
+    alert("Your browser does not support Local Storage or it is disabled.");
+  }
 }
