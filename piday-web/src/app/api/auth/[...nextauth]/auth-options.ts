@@ -63,6 +63,12 @@ export const authOptions: AuthOptions = {
       },
     }),
   ],
+  session: {
+    strategy: "jwt",
+  },
+  jwt: {
+    secret: process.env.JWT_SECRET,
+  },
   // debug: true,
   callbacks: {
     // TODO: Fix any
