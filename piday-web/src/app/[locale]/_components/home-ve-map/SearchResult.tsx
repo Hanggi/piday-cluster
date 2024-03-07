@@ -16,6 +16,8 @@ interface Props {
 export function SearchResult({ statistics }: Props) {
   const { t } = useTranslation(["home"]);
 
+  console.log("statistics@", statistics);
+
   return (
     <div className={cn("mt-8 ")}>
       {/* <Typography className="text-center py-10" level="h4">

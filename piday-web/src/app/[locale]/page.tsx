@@ -25,6 +25,7 @@ declare global {
 export default async function HomePage({ params }: Props) {
   const statistics = await getStatitics();
 
+  console.log("statistics", statistics);
   return (
     <section className="container mx-auto py-4 mb-8">
       <div className="w-full h-[800px] relative pb-8">
