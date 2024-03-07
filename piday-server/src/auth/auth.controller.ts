@@ -148,6 +148,9 @@ export class AuthController {
     // Sign In
     const keycloakTokenUrl = `${config.get("keycloak.baseUrl")}/realms/piday/protocol/openid-connect/token`;
 
+    console.log(keycloakTokenUrl);
+    console.log(config.get("keycloak.clientId"));
+    console.log(config.get("keycloak.clientSecret"));
     const tokenResponse = await fetch(keycloakTokenUrl, {
       method: "POST",
       headers: {
