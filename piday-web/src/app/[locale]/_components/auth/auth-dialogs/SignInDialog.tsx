@@ -96,8 +96,7 @@ export default function SignInDialog({
           // return axiosClient.post("/incomplete", { payment }, config);
         },
       );
-
-      alert(authResponse.accessToken);
+ 
       if (authResponse) {
         signIn("credentials", {
           accessToken: authResponse.accessToken,

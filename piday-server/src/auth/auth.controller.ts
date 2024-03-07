@@ -148,9 +148,6 @@ export class AuthController {
     // Sign In
     const keycloakTokenUrl = `${config.get("keycloak.baseUrl")}/realms/piday/protocol/openid-connect/token`;
 
-    console.log(keycloakTokenUrl);
-    console.log(config.get("keycloak.clientId"));
-    console.log(config.get("keycloak.clientSecret"));
     const tokenResponse = await fetch(keycloakTokenUrl, {
       method: "POST",
       headers: {
@@ -160,12 +157,13 @@ export class AuthController {
         client_id: config.get("keycloak.clientId") as string,
         client_secret: config.get("keycloak.clientSecret") as string,
         grant_type: "password",
-        username: myPiUser.username.toLowerCase(),
+        username: "pi_" + myPiUser.username.toLowerCase(),
         password: pass,
       }),
     });
 
     const data = await tokenResponse.json();
+    console.log(data);
 
     return data;
   }
