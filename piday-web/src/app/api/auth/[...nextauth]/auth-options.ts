@@ -53,6 +53,7 @@ export const authOptions: AuthOptions = {
       },
       authorize: async (credentials) => {
         let keycloakToken;
+        console.log("next-auth credentials");
         console.log(credentials);
         if (credentials?.accessToken) {
           const res = await instance.post("/auth/pi-sign-in", {
@@ -69,6 +70,8 @@ export const authOptions: AuthOptions = {
             password: credentials?.password as string,
           });
         }
+
+        console.log("keycloakToken");
 
         if (keycloakToken) {
           const accessToken = keycloakToken.access_token;
