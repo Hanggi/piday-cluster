@@ -33,7 +33,8 @@ export default async function HomePage({ params }: Props) {
     // This request send to the backend directly.
     const res = await instance.get(`/virtual-estates/statistics`);
     statistics = res.data.statistics;
-    
+
+    console.log(statistics);
   } catch (err) {
     const axiosError = err as AxiosError;
     console.error(axiosError?.response?.data);
