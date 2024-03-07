@@ -20,6 +20,7 @@ spec:
         vault.hashicorp.com/agent-inject-template-config: |
           {{- with secret "kv-piday-server/data/env" -}}
             export DATABASE_URL="{{ .Data.data.DATABASE_URL }}"
+            export KEYCLOAK_CLIENT_ID="{{ .Data.data.KEYCLOAK_CLIENT_ID }}"
             export KEYCLOAK_CLIENT_SECRET="{{ .Data.data.KEYCLOAK_CLIENT_SECRET }}"
             export TEST="{{ .Data.TEST }}"
           {{- end }}
@@ -28,7 +29,7 @@ spec:
         kubernetes.io/os: linux
       serviceAccountName: default
       containers:
-        - image: registry.digitalocean.com/davinqi/piday-server:v0.0.33
+        - image: registry.digitalocean.com/davinqi/piday-server:v0.0.34
           imagePullPolicy: Always
           command: ["sh", "-c"]
           args: ["source /vault/secrets/config && yarn start:prod"]
