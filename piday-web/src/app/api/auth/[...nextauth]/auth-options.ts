@@ -3,11 +3,16 @@ import { decodeAccessToken } from "@/src/features/auth/keycloak/decodeAccessToke
 import { refreshAccessToken } from "@/src/features/auth/keycloak/refreshAccessToken";
 import instance from "@/src/features/axios/instance";
 import { encrypt } from "@/src/utils/encryption";
+import { UnstorageAdapter } from "@auth/unstorage-adapter";
 import { AuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import KeycloakProvider from "next-auth/providers/keycloak";
+import { createStorage } from "unstorage";
+
+const storage = createStorage();
 
 export const authOptions: AuthOptions = {
+  adapter: UnstorageAdapter(storage),
   providers: [
     KeycloakProvider({
       clientId: process.env.KEYCLOAK_CLIENT_ID as string,
@@ -63,12 +68,6 @@ export const authOptions: AuthOptions = {
       },
     }),
   ],
-  session: {
-    strategy: "jwt",
-  },
-  jwt: {
-    secret: process.env.JWT_SECRET,
-  },
   // debug: true,
   callbacks: {
     // TODO: Fix any
