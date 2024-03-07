@@ -8,34 +8,37 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import KeycloakProvider from "next-auth/providers/keycloak";
 
 export const authOptions: AuthOptions = {
-  cookies: {
-    sessionToken: {
-      name: `__Secure-next-auth.session-token`,
-      options: {
-        path: "/",
-        httpOnly: true,
-        sameSite: "none",
-        secure: true,
-      },
-    },
-    callbackUrl: {
-      name: `__Secure-next-auth.callback-url`,
-      options: {
-        path: "/",
-        sameSite: "none",
-        secure: true,
-      },
-    },
-    csrfToken: {
-      name: `__Host-next-auth.csrf-token`,
-      options: {
-        path: "/",
-        httpOnly: true,
-        sameSite: "none",
-        secure: true,
-      },
-    },
-  },
+  cookies:
+    process.env.ENV != "local"
+      ? {
+          sessionToken: {
+            name: `__Secure-next-auth.session-token`,
+            options: {
+              path: "/",
+              httpOnly: true,
+              sameSite: "none",
+              secure: true,
+            },
+          },
+          callbackUrl: {
+            name: `__Secure-next-auth.callback-url`,
+            options: {
+              path: "/",
+              sameSite: "none",
+              secure: true,
+            },
+          },
+          csrfToken: {
+            name: `__Host-next-auth.csrf-token`,
+            options: {
+              path: "/",
+              httpOnly: true,
+              sameSite: "none",
+              secure: true,
+            },
+          },
+        }
+      : {},
   providers: [
     KeycloakProvider({
       clientId: process.env.KEYCLOAK_CLIENT_ID as string,

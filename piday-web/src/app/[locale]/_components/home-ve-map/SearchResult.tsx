@@ -16,16 +16,16 @@ interface Props {
 export function SearchResult({ statistics }: Props) {
   const { t } = useTranslation(["home"]);
 
-  // console.log(statistics);
+  console.log(statistics);
 
-  const statisticsItems = [];
+  // const statisticsItems = [];
 
-  for (const key in statistics) {
-    if (Object.prototype.hasOwnProperty.call(statistics, key)) {
-      const value = statistics[key as keyof Statistics];
-      statisticsItems.push({ key, value });
-    }
-  }
+  // for (const key in statistics) {
+  //   if (Object.prototype.hasOwnProperty.call(statistics, key)) {
+  //     const value = statistics[key as keyof Statistics];
+  //     statisticsItems.push({ key, value });
+  //   }
+  // }
 
   return (
     <div className={cn("mt-8 ")}>

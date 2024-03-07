@@ -33,15 +33,13 @@ export default async function HomePage({ params }: Props) {
     // This request send to the backend directly.
     const res = await instance.get(`/virtual-estates/statistics`);
     statistics = res.data.statistics;
-
-    console.log(statistics);
   } catch (err) {
     const axiosError = err as AxiosError;
     console.error(axiosError?.response?.data);
   }
 
   return (
-    <section className="container mx-auto  py-4 mb-8">
+    <section className="container mx-auto py-4 mb-8">
       <div className="w-full h-[800px] relative pb-8">
         <VirtualEstateMapClientWrapper token={MAPBOX_ACCESS_TOKEN as string} />
       </div>
