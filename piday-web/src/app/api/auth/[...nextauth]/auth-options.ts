@@ -12,12 +12,29 @@ export const authOptions: AuthOptions = {
     sessionToken: {
       name: `__Secure-next-auth.session-token`,
       options: {
+        path: "/",
         httpOnly: true,
-        sameSite: "None",
+        sameSite: "none",
         secure: true,
       },
     },
-    // 为其他需要的 cookies 设置相似的配置
+    callbackUrl: {
+      name: `__Secure-next-auth.callback-url`,
+      options: {
+        path: "/",
+        sameSite: "none",
+        secure: true,
+      },
+    },
+    csrfToken: {
+      name: `__Host-next-auth.csrf-token`,
+      options: {
+        path: "/",
+        httpOnly: true,
+        sameSite: "none",
+        secure: true,
+      },
+    },
   },
   providers: [
     KeycloakProvider({
