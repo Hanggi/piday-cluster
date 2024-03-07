@@ -18,6 +18,11 @@ export class KeycloakService {
 
   // This is keycloak admin client
   async getAccessToken() {
+    console.log(config.get<string>("keycloak.clientId"));
+    console.log(config.get<string>("keycloak.clientSecret"));
+    console.log(config.get<string>("keycloak.baseUrl"));
+    console.log(config.get<string>("keycloak.realm"));
+
     const credentials: Credentials = {
       grantType: "client_credentials",
       clientId: config.get<string>("keycloak.clientId"),
