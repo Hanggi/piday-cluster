@@ -21,22 +21,9 @@ declare global {
     Pi: any;
   }
 }
-export default async function HomePage({ params }: Props) {
-  let statistics: Statistics = {
-    totalVirtualEstatesMinted: 0,
-    virtualEstateListingCount: 0,
-    totalTransactionVolume: "0",
-    transactionRecordsCount: 0,
-  };
 
-  try {
-    // This request send to the backend directly.
-    const res = await instance.get(`/virtual-estates/statistics`);
-    statistics = res.data.statistics;
-  } catch (err) {
-    const axiosError = err as AxiosError;
-    console.error(axiosError?.response?.data);
-  }
+export default async function HomePage({ params }: Props) {
+  const statistics = await getStatitics();
 
   return (
     <section className="container mx-auto py-4 mb-8">
@@ -48,4 +35,21 @@ export default async function HomePage({ params }: Props) {
       <ForSale />
     </section>
   );
+}
+
+async function getStatitics(): Promise<Statistics> {
+  try {
+    // This request send to the backend directly.
+    const res = await instance.get(`/virtual-estates/statistics`);
+    return res.data.statistics;
+  } catch (err) {
+    const axiosError = err as AxiosError;
+    console.error(axiosError?.response?.data);
+    return {
+      totalVirtualEstatesMinted: 0,
+      virtualEstateListingCount: 0,
+      totalTransactionVolume: "0",
+      transactionRecordsCount: 0,
+    };
+  }
 }
