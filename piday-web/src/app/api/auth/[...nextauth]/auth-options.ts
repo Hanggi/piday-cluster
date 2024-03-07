@@ -3,16 +3,22 @@ import { decodeAccessToken } from "@/src/features/auth/keycloak/decodeAccessToke
 import { refreshAccessToken } from "@/src/features/auth/keycloak/refreshAccessToken";
 import instance from "@/src/features/axios/instance";
 import { encrypt } from "@/src/utils/encryption";
-import { UnstorageAdapter } from "@auth/unstorage-adapter";
 import { AuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import KeycloakProvider from "next-auth/providers/keycloak";
-import { createStorage } from "unstorage";
-
-const storage = createStorage();
 
 export const authOptions: AuthOptions = {
-  adapter: UnstorageAdapter(storage),
+  cookies: {
+    sessionToken: {
+      name: `__Secure-next-auth.session-token`,
+      options: {
+        httpOnly: true,
+        sameSite: "None",
+        secure: true,
+      },
+    },
+    // 为其他需要的 cookies 设置相似的配置
+  },
   providers: [
     KeycloakProvider({
       clientId: process.env.KEYCLOAK_CLIENT_ID as string,

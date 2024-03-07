@@ -12,7 +12,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@auth/unstorage-adapter": "^1.6.0",
     "@deck.gl/core": "^8.9.35",
     "@deck.gl/geo-layers": "^8.9.35",
     "@deck.gl/layers": "^8.9.35",
@@ -51,7 +50,6 @@
     "remixicon": "^4.2.0",
     "sharp": "^0.33.2",
     "tailwind-merge": "^2.2.1",
-    "unstorage": "^1.10.1",
     "validator": "^13.11.0"
   },
   "devDependencies": {
