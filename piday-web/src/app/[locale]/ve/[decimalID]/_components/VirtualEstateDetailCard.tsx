@@ -52,8 +52,9 @@ export default function VirtualEstateDetailCard({
     useState(false);
 
   const handleOpenMintDialog = useCallback(() => {
+    if (!place) return;
     setOpenMintVirtualEstateDialog(true);
-  }, []);
+  }, [place]);
   const handleOpenBidToBuyDialog = useCallback(() => {
     setOpenBidToBuyDialog(true);
   }, []);
@@ -167,6 +168,7 @@ export default function VirtualEstateDetailCard({
         {!virtualEstate?.owner && (
           <Button
             className="py-3 grow"
+            disabled={!place}
             size="lg"
             onClick={handleOpenMintDialog}
           >

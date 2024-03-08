@@ -53,17 +53,18 @@ const theme = extendTheme({
     JoyButton: {
       styleOverrides: {
         root: ({ ownerState }) => ({
-          ...(ownerState.color === "primary" && {
-            backgroundColor: "#ffc000",
-            color: "#000000",
-          }),
-          ...(ownerState.color === "neutral" && {
-            ":hover": {
-              backgroundColor: "#ffffffbb",
-            },
-            backgroundColor: "#ffffff",
-            color: "#7030A0",
-          }),
+          ...(ownerState.variant === "solid" &&
+            ownerState.color === "primary" && {
+              backgroundColor: "#ffc000",
+              color: "#000000",
+            }),
+          // ...(ownerState.color === "neutral" && {
+          //   ":hover": {
+          //     backgroundColor: "#ffffffbb",
+          //   },
+          //   backgroundColor: "#ffffff",
+          //   color: "#7030A0",
+          // }),
         }),
       },
     },
