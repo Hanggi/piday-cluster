@@ -2,6 +2,8 @@ import instance from "@/src/features/axios/instance";
 import { Statistics } from "@/src/features/virtual-estate/interface/statistics.interface";
 import { AxiosError } from "axios";
 
+import { cache } from "react";
+
 import { ForSale } from "./_components/home-ve-map/ForSale";
 import { SearchResult } from "./_components/home-ve-map/SearchResult";
 import VirtualEstateMapClientWrapper from "./_components/home-ve-map/VirtualEstateMapClientWrapper";
@@ -25,7 +27,6 @@ declare global {
 export default async function HomePage({ params }: Props) {
   const statistics = await getStatitics();
 
-  console.log("statistics", statistics);
   return (
     <section className="container mx-auto py-4 mb-8">
       <div className="w-full h-[800px] relative pb-8">
@@ -38,7 +39,9 @@ export default async function HomePage({ params }: Props) {
   );
 }
 
-async function getStatitics(): Promise<Statistics> {
+export const revalidate = 10;
+
+const getStatitics = cache(async () => {
   try {
     // This request send to the backend directly.
     const res = await instance.get(`/virtual-estates/statistics`);
@@ -53,4 +56,4 @@ async function getStatitics(): Promise<Statistics> {
       transactionRecordsCount: 0,
     };
   }
-}
+});

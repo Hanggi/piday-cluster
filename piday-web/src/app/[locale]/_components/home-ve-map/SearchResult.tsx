@@ -16,10 +16,8 @@ interface Props {
 export function SearchResult({ statistics }: Props) {
   const { t } = useTranslation(["home"]);
 
-  console.log("statistics@", statistics);
-
   return (
-    <div className={cn("mt-8 ")}>
+    <div className="mt-8 ">
       {/* <Typography className="text-center py-10" level="h4">
         {t("userCount")}（189898） {t("landOwnersCount")}（39824）{" "}
         {t("onlineUsersCount")}（12289）
@@ -71,15 +69,4 @@ export function SearchResult({ statistics }: Props) {
       </section>
     </div>
   );
-}
-
-{
-  /* <Button
-              className="!rounded-full inline-flex gap-1 !font-normal !text-gray-400"
-              color="neutral"
-              size="sm"
-              variant="outlined"
-            >
-              {t("view")} <i className="ri-arrow-right-line" />
-            </Button> */
 }
