@@ -24,7 +24,7 @@
     "availableBalance": "可用余额"
   },
   "placeholder": {
-    "transferVirtualEstatePlaceholder": "请输入接收地址",
+    "transferVirtualEstatePlaceholder": "请输入接收地址(Pi 钱包地址或邮箱)",
     "bidAmountPlaceholder": "请输入出价",
     "askAmountPlaceholder": "请输入要价"
   },

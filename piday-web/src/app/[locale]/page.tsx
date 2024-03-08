@@ -27,6 +27,7 @@ declare global {
 export default async function HomePage({ params }: Props) {
   const statistics = await getStatitics();
 
+  console.log("statistics", statistics);
   return (
     <section className="container mx-auto py-4 mb-8">
       <div className="w-full h-[800px] relative pb-8">
@@ -41,7 +42,7 @@ export default async function HomePage({ params }: Props) {
 
 export const revalidate = 10;
 
-const getStatitics = cache(async () => {
+const getStatitics = cache(async (): Promise<Statistics> => {
   try {
     // This request send to the backend directly.
     const res = await instance.get(`/virtual-estates/statistics`);
