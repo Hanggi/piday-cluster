@@ -11,7 +11,8 @@ steps:
   - name: Build
     image: node
     commands:
-      - export $(cat piday-web/.env | xargs)
+      # - export $(cat piday-web/.env | xargs)
+      - export $(grep -v '^#' piday-web/.env | xargs)
       - echo $VERSION > .tags
 
   # Make docker image

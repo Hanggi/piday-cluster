@@ -6,6 +6,7 @@ import Button from "@mui/joy/Button";
 import Typography from "@mui/joy/Typography";
 
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
@@ -14,6 +15,7 @@ interface Props {}
 
 export const MyAssetsBanner = ({}: Props) => {
   const { t } = useTranslation("asset-center");
+  const router = useRouter();
 
   const myVirtualEstatesCount = useSelector(myVirtualEstatesCountValue);
 
@@ -29,9 +31,12 @@ export const MyAssetsBanner = ({}: Props) => {
         <Button
           className="relative z-10 !bg-transparent !min-w-[200px] !text-primary"
           variant="outlined"
+          onClick={() => {
+            router.push("/market");
+          }}
         >
           {t("goToMarket")}
-        </Button>{" "}
+        </Button>
         <Image
           alt=""
           className="absolute inset-0 scale-125 opacity-20"

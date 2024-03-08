@@ -79,6 +79,9 @@ export class VirtualEstateService {
       include: {
         owner: true,
       },
+      orderBy: {
+        createdAt: "desc",
+      },
       take: +size,
       skip: +(page - 1) * size,
     });
@@ -123,7 +126,7 @@ export class VirtualEstateService {
 
       const mintPrice = await this.getMintPrice();
 
-      if (balance._sum.amount < new Decimal(mintPrice)) {
+      if (balance._sum.amount.lessThan(new Decimal(mintPrice))) {
         throw new ServiceException("Not enough balance", "NOT_ENOUGH_BALANCE");
       }
 

@@ -3,13 +3,11 @@
 import { VirtualEstateCard } from "@/src/components/LandCard";
 import { WrapperCard } from "@/src/components/WrapperCard";
 import Pagination from "@/src/components/piday-ui/pagination/Pagination";
-import {
-  useGetMyVirtualEstatesQuery,
-} from "@/src/features/virtual-estate/api/virtualEstateAPI";
+import { useGetMyVirtualEstatesQuery } from "@/src/features/virtual-estate/api/virtualEstateAPI";
 import { VirtualEstate } from "@/src/features/virtual-estate/interface/virtual-estate.interface";
 import { setMyVirtualEstatesCount } from "@/src/features/virtual-estate/virtual-estate-slice";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
 interface Props {}
@@ -17,8 +15,10 @@ interface Props {}
 export const MyVritualEstates = ({}: Props) => {
   const dispatch = useDispatch();
 
+  const [page, setPage] = useState(1);
+
   const { data: myVritualEstatesRes } = useGetMyVirtualEstatesQuery({
-    page: 1,
+    page: page,
     size: 20,
   });
 
@@ -44,7 +44,10 @@ export const MyVritualEstates = ({}: Props) => {
               );
             })}
         </div>
-        <Pagination currentPage={0} pageCount={0} />
+        <Pagination
+          currentPage={page}
+          pageCount={myVritualEstatesRes?.totalCount || 0 / 20}
+        />
       </WrapperCard>
     </div>
   );

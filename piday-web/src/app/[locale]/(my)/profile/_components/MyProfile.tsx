@@ -54,7 +54,7 @@ export default function MyProfile() {
         <Typography level="title-md">
           {t("profile:profile.invitationCodeLink")}
         </Typography>
-        <Typography> http://piday.world/?ic={invitationCode}</Typography>
+        <Typography> https://piday.world/?ic={invitationCode}</Typography>
       </div>
       <div className="mb-4">
         <Typography level="title-md">
