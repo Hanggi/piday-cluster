@@ -22,7 +22,7 @@ import ModalClose from "@mui/joy/ModalClose";
 import ModalDialog from "@mui/joy/ModalDialog";
 import Typography from "@mui/joy/Typography";
 
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 
 import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -235,7 +235,9 @@ export default function SignUpDialog({
           <FormControl className="mb-4" error={!!errors.invitationCode}>
             <FormLabel>{t("common:auth.invitationCode")}</FormLabel>
             <Input
-              {...register("invitationCode", {})}
+              {...register("invitationCode", {
+                required: t("common:auth.validation.required"),
+              })}
               disabled={!!searchParams.get("ic")}
               placeholder={t("common:auth.invitationCodePlaceholder")}
             />

@@ -1,4 +1,3 @@
-import config from "config";
 import Redis from "ioredis";
 import { IMailgunClient } from "mailgun.js/Interfaces";
 
@@ -94,6 +93,16 @@ export class AuthService {
       throw new ServiceException("Email already exists", "EMAIL_EXISTS");
     }
 
+    const inviterUserID = decodeInviteCode(inviteCode);
+    const inviter = await this.prisma.user.findUnique({
+      where: {
+        id: inviterUserID,
+      },
+    });
+    if (!inviter) {
+      throw new ServiceException("Inviter not found", "INVITER_NOT_FOUND");
+    }
+
     const randomUserName = generateUsername(email);
 
     const createdUser = await this.keycloakService.createUser({
@@ -119,11 +128,73 @@ export class AuthService {
       },
     });
 
-    const inviterUserID = decodeInviteCode(inviteCode);
+    if (inviter) {
+      await this.prisma.user.update({
+        data: {
+          inviterID: inviter.id,
+        },
+        where: {
+          id: myUser.id,
+        },
+      });
+    }
 
+    return createdUser;
+  }
+
+  // Pi Sign In
+  async findUserByPiID(piUid: string) {
+    return this.prisma.user.findUnique({
+      where: {
+        piUid,
+      },
+    });
+  }
+
+  async piSignUp({
+    username,
+    password,
+    inviteCode,
+    piUid,
+  }: {
+    username: string;
+    password: string;
+    inviteCode: string;
+    piUid: string;
+  }) {
+    const piUsername = "pi_" + username;
+
+    // Find inviter user
+    const inviterUserID = decodeInviteCode(inviteCode);
     const inviter = await this.prisma.user.findUnique({
       where: {
         id: inviterUserID,
+      },
+    });
+    if (!inviter) {
+      throw new ServiceException("Inviter not found", "INVITER_NOT_FOUND");
+    }
+
+    const createdUser = await this.keycloakService.createUser({
+      emailVerified: true,
+      enabled: true,
+      username: piUsername,
+      lastName: username,
+      firstName: "pi",
+      credentials: [
+        {
+          type: "password",
+          value: password,
+          temporary: false,
+        },
+      ],
+    });
+
+    const myUser = await this.prisma.user.create({
+      data: {
+        username: piUsername,
+        keycloakID: createdUser.id,
+        piUid,
       },
     });
 

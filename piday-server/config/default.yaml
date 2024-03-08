@@ -10,7 +10,7 @@ redis:
   db: 3
 
 keycloak:
-  baseUrl: KEYCLOAK_BASE_URL
+  baseUrl: https://piday-dev-auth.dvqdev.com
   realm: "piday"
   clientId: "auth-client"
   clientSecret: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"

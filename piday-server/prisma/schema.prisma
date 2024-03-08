@@ -17,10 +17,11 @@ model User {
   id Int @id @default(autoincrement())
 
   keycloakID String  @unique
-  email      String  @unique
+  email      String? @unique
   username   String  @unique
   avatar     String?
 
+  piUid           String? @unique
   piWalletAddress String? @unique
 
   // VirtualEstate[]
@@ -113,7 +114,8 @@ model VirtualEstateTransactionRecords {
 
   createdAt DateTime @default(now())
 }
-enum WithdrawStatus{
+
+enum WithdrawStatus {
   PENDING
   ACCEPTED
   CANCELED
@@ -121,11 +123,11 @@ enum WithdrawStatus{
 
 // this is a record of withdraw request 
 model WithdrawRequest {
-  id Int    @id @default(autoincrement())
-  withdrawStatusID   BigInt @unique // withdrawStatus ID
-  ownerID String // Keycloak user ID
+  id               Int    @id @default(autoincrement())
+  withdrawStatusID BigInt @unique // withdrawStatus ID
+  ownerID          String // Keycloak user ID
 
-  owner   User   @relation(fields: [ownerID], references: [keycloakID])
+  owner User @relation(fields: [ownerID], references: [keycloakID])
 
   status WithdrawStatus
 
@@ -133,6 +135,6 @@ model WithdrawRequest {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
-
 }
+
 // --------------------------------------

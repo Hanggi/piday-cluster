@@ -4,7 +4,7 @@ metadata:
   name: piday-web-deployment
   # namespace: piday-dev
 spec:
-  replicas: 2
+  replicas: 1
   template:
     metadata:
       annotations:
@@ -20,7 +20,7 @@ spec:
     spec:
       serviceAccountName: default
       containers:
-        - image: registry.digitalocean.com/davinqi/piday-web:v0.0.46
+        - image: registry.digitalocean.com/davinqi/piday-web:v0.0.67
           imagePullPolicy: Always
           name: piday-web-deployment
           resources:

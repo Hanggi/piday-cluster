@@ -24,7 +24,7 @@
     "availableBalance": "Available Balance"
   },
   "placeholder": {
-    "transferVirtualEstatePlaceholder": "Please enter the address of the recipient",
+    "transferVirtualEstatePlaceholder": "Please enter the address of the recipient(Pi wallet address or email)",
     "bidAmountPlaceholder": "Please enter the bid amount",
     "askAmountPlaceholder": "Please enter the ask amount"
   },

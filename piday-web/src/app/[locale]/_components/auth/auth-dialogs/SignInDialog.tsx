@@ -6,6 +6,7 @@ import { clsx } from "clsx";
 import { StatusCodes } from "http-status-codes";
 import { signIn } from "next-auth/react";
 
+import { CircularProgress, Divider } from "@mui/joy";
 import Button from "@mui/joy/Button";
 import CardOverflow from "@mui/joy/CardOverflow";
 import DialogContent from "@mui/joy/DialogContent";
@@ -17,6 +18,8 @@ import Input from "@mui/joy/Input";
 import ModalClose from "@mui/joy/ModalClose";
 import ModalDialog from "@mui/joy/ModalDialog";
 import Typography from "@mui/joy/Typography";
+
+import { useSearchParams } from "next/navigation";
 
 import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -41,8 +44,12 @@ export default function SignInDialog({
   onClose,
 }: Props) {
   const { t } = useTranslation("common");
+  const searchParams = useSearchParams();
 
-  const [isLoding, setIsLoding] = useState(false); // 登录状态标志
+  const [inviteCode, setInviteCode] = useState<string>(
+    searchParams.get("ic") as string,
+  );
+  const [isLoading, setIsLoading] = useState(false); // 登录状态标志
   const [piSignIn, piSignInResult] = usePiSignInMutation();
 
   const {
@@ -54,13 +61,15 @@ export default function SignInDialog({
 
   const onSubmit = useCallback(
     (data: any) => {
-      setIsLoding(true);
+      setIsLoading(true);
+
       signIn("credentials", {
         redirect: false, // 不重定向，我们在这里处理结果
         username: data.username,
         password: data.password,
       })
         .then((res) => {
+          console.log(res);
           if (res?.status == StatusCodes.UNAUTHORIZED) {
             toast.error(t("common:auth.validation.emailOrPasswordIncorrect"));
             return;
@@ -73,34 +82,63 @@ export default function SignInDialog({
           toast.error(error);
         })
         .finally(() => {
-          setIsLoding(false);
+          setIsLoading(false);
         });
     },
     [onClose, t],
   );
 
   const handlePiSignIn = useCallback(async () => {
-    console.log(window.Pi);
     if (!window.Pi) {
       toast.error("Pi Environment not found");
       return;
     }
-    const scopes = ["username", "payments"];
-    const authResponse = await window.Pi.authenticate(
-      scopes,
-      (payment: any) => {
-        console.log("onIncompletePaymentFound", payment);
-        // return axiosClient.post("/incomplete", { payment }, config);
-      },
-    );
 
-    console.log(authResponse);
-    if (authResponse) {
-      piSignIn({
-        accessToken: authResponse.accessToken,
-      });
+    if (!inviteCode) {
+      toast.warn(t("common:auth.invitationCodePlaceholder"));
+      return;
     }
-  }, [piSignIn]);
+
+    setIsLoading(true);
+    try {
+      const scopes = ["username", "payments", "wallet_address"];
+      const authResponse = await window.Pi.authenticate(
+        scopes,
+        (payment: any) => {
+          console.log("onIncompletePaymentFound", payment);
+          // return axiosClient.post("/incomplete", { payment }, config);
+        },
+      );
+
+      if (authResponse) {
+        signIn("credentials", {
+          accessToken: authResponse.accessToken,
+          inviteCode: inviteCode,
+          redirect: false,
+        })
+          .then((res) => {
+            if (res?.status == StatusCodes.UNAUTHORIZED) {
+              toast.error(t("common:auth.validation.emailOrPasswordIncorrect"));
+              return;
+            }
+            toast.success(t("common:auth.signIn.success"));
+            onClose && onClose();
+          })
+          .catch((error) => {
+            console.error(error);
+            toast.error(error);
+          })
+          .finally(() => {
+            setIsLoading(false);
+          });
+      }
+
+      setIsLoading(false);
+    } catch (err) {
+      alert(err);
+      setIsLoading(false);
+    }
+  }, [inviteCode, onClose, t]);
 
   return (
     <ModalDialog>
@@ -161,19 +199,36 @@ export default function SignInDialog({
               {t("common:auth.signUp.title")}
             </Typography>
           </div>
-          <Button disabled={isLoding} fullWidth type="submit">
-            {isLoding ? <BeatLoader /> : t("common:auth.signIn.title")}
+          <Button disabled={isLoading} fullWidth type="submit">
+            {isLoading ? <BeatLoader /> : t("common:auth.signIn.title")}
           </Button>
+
+          <div className="mt-4">
+            <Divider />
+          </div>
 
           <div className="mt-4 w-full flex">
             <Button
               color="neutral"
+              disabled={isLoading}
               fullWidth
+              startDecorator={isLoading && <CircularProgress />}
               variant="outlined"
               onClick={handlePiSignIn}
             >
               {t("common:auth.signIn.piSignIn")}
             </Button>
+          </div>
+
+          <div className="mt-4 w-full">
+            <Input
+              disabled={!!searchParams.get("ic")}
+              placeholder={t("common:auth.invitationCodePlaceholder")}
+              value={inviteCode}
+              onChange={(e) => {
+                setInviteCode(e.target.value);
+              }}
+            />
           </div>
         </form>
       </DialogContent>

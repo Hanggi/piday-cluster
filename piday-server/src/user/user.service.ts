@@ -1,9 +1,6 @@
 import { Injectable } from "@nestjs/common";
 
-import {
-  generateInvitationCode,
-  getUserVisibleID,
-} from "../lib/generate-id/generate-user-id";
+import { generateInvitationCode } from "../lib/generate-id/generate-user-id";
 import { KeycloakService } from "../lib/keycloak/keycloak.service";
 import { PrismaService } from "../lib/prisma/prisma.service";
 import { UserResponseDto } from "./dto/user.dto";
@@ -28,8 +25,8 @@ export class UserService {
       return null;
     }
 
-    const visibleID = getUserVisibleID(user.id); // Replace user ID with visible ID
-    return { ...user, id: visibleID };
+    // const visibleID = getUserVisibleID(user.id); // Replace user ID with visible ID
+    return { ...user };
   }
 
   async getUserInfo(

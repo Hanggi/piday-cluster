@@ -1,4 +1,5 @@
 import axios from "axios";
+import config from "config";
 import { Response } from "express";
 
 import {
@@ -15,6 +16,7 @@ import { Throttle } from "@nestjs/throttler";
 
 import { AuthService } from "./auth.service";
 import { EmailQueryDto, EmailSignupDto } from "./dto/email-query.dto";
+import { generatePasswordFromPiUid } from "./utils/generatePiUidPass";
 
 @Controller("auth")
 export class AuthController {
@@ -54,6 +56,13 @@ export class AuthController {
     @Body() { email, code, password, inviteCode }: EmailSignupDto,
     @Res() res: Response,
   ) {
+    if (!inviteCode) {
+      throw new HttpException(
+        "Invite code is required",
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
     try {
       await this.authService.emailSignup(email, code, password, inviteCode);
     } catch (err) {
@@ -82,8 +91,11 @@ export class AuthController {
   }
 
   @Post("pi-sign-in")
-  async piSignIn(@Body() { accessToken }: { accessToken: string }) {
-    console.log(accessToken);
+  async piSignIn(
+    @Body()
+    { accessToken, inviteCode }: { accessToken: string; inviteCode: string },
+  ) {
+    let myPiUser: { username: string; uid: string };
 
     try {
       const me = await axios.get("https://api.minepi.com/v2/me", {
@@ -93,6 +105,7 @@ export class AuthController {
       });
 
       console.log(me);
+      myPiUser = me.data;
     } catch (err) {
       console.error(err.response.status);
 
@@ -101,6 +114,57 @@ export class AuthController {
       }
     }
 
-    return {};
+    const find = await this.authService.findUserByPiID(myPiUser.uid);
+    const pass = generatePasswordFromPiUid(myPiUser.uid);
+    if (!find) {
+      if (!inviteCode) {
+        throw new HttpException(
+          "Invite code is required",
+          HttpStatus.BAD_REQUEST,
+        );
+      }
+
+      if (!myPiUser.username || !myPiUser.uid) {
+        throw new HttpException("Invalid Pi user", HttpStatus.BAD_REQUEST);
+      }
+
+      try {
+        const user = await this.authService.piSignUp({
+          username: myPiUser.username,
+          password: pass,
+          inviteCode,
+          piUid: myPiUser.uid,
+        });
+        console.log(user);
+      } catch (err) {
+        console.error(err);
+        throw new HttpException(
+          "Internal Server Error",
+          HttpStatus.INTERNAL_SERVER_ERROR,
+        );
+      }
+    }
+
+    // Sign In
+    const keycloakTokenUrl = `${config.get("keycloak.baseUrl")}/realms/piday/protocol/openid-connect/token`;
+
+    const tokenResponse = await fetch(keycloakTokenUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: new URLSearchParams({
+        client_id: config.get("keycloak.clientId") as string,
+        client_secret: config.get("keycloak.clientSecret") as string,
+        grant_type: "password",
+        username: "pi_" + myPiUser.username.toLowerCase(),
+        password: pass,
+      }),
+    });
+
+    const data = await tokenResponse.json();
+    console.log(data);
+
+    return data;
   }
 }

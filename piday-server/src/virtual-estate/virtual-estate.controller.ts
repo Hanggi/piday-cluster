@@ -123,10 +123,10 @@ export class VirtualEstateController {
   @Get("statistics")
   async getVirtualEstatesStatistics(
     @Res() res: Response,
-    @Query("totalMinted") totalMinted,
-    @Query("listings") listings,
-    @Query("transactionVolume") transactionVolume,
-    @Query("transactionCount") transactionCount,
+    @Query("totalMinted") totalMinted = "true",
+    @Query("listings") listings = "true",
+    @Query("transactionVolume") transactionVolume = "true",
+    @Query("transactionCount") transactionCount = "true",
     @Query("startDate") startDate: string,
     @Query("endDate") endDate: string,
   ) {
@@ -136,7 +136,7 @@ export class VirtualEstateController {
       const end = endDate ? new Date(endDate) : new Date();
       const responseObject: VirtualEstatesStatistics = {};
 
-      if ((totalMinted = "true")) {
+      if (totalMinted == "true") {
         responseObject.totalVirtualEstatesMinted =
           await this.virtualEstateService.getVirtualEstateTotalMinted(
             end,
@@ -144,7 +144,7 @@ export class VirtualEstateController {
           );
       }
 
-      if ((listings = "true")) {
+      if (listings == "true") {
         responseObject.virtualEstateListingCount =
           await this.virtualEstateListingService.getVirtualEstateListingsCount(
             end,
@@ -152,7 +152,7 @@ export class VirtualEstateController {
           );
       }
 
-      if ((transactionVolume = "true")) {
+      if (transactionVolume == "true") {
         responseObject.totalTransactionVolume =
           await this.virtualEstateTransactionRecordsService.getTotalTransactionVolume(
             end,
@@ -160,7 +160,7 @@ export class VirtualEstateController {
           );
       }
 
-      if ((transactionCount = "true")) {
+      if (transactionCount == "true") {
         responseObject.transactionRecordsCount =
           await this.virtualEstateTransactionRecordsService.getVirtualEstateTransactionRecordsCount(
             end,

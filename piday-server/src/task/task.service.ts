@@ -23,7 +23,7 @@ export class TasksService {
 
   private readonly logger = new Logger(TasksService.name);
 
-  @Cron(CronExpression.EVERY_10_SECONDS)
+  @Cron(CronExpression.EVERY_30_SECONDS)
   async AddRechargeRecordCron() {
     const hasLock = await acquireLock(
       this.redis,
@@ -106,7 +106,7 @@ export class TasksService {
       }
     } catch (err) {
       console.error(url);
-      console.error(err);
+      console.error(err.response.data);
     }
 
     return [];

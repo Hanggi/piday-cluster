@@ -17,7 +17,6 @@ export default function MyProfile() {
 
   const { data: session } = useSession();
   const { data: myUser, refetch: refetchMyUser } = useGetMyUserQuery();
-  console.log(myUser);
 
   const [piWalletAddress, setPiWalletAddress] = useState("");
   const [updateWalletAddress, UpdatePiWalletAddressResult] =
@@ -45,7 +44,7 @@ export default function MyProfile() {
       </div>
       <div className="mb-4">
         <Typography level="title-md">ID</Typography>
-        <Typography>{myUser?.id}</Typography>
+        <Typography>{formatID(myUser?.id)}</Typography>
       </div>
       <div className="mb-4">
         <Typography level="title-md">{t("profile:profile.email")}</Typography>
@@ -89,4 +88,11 @@ export default function MyProfile() {
       </div>
     </div>
   );
+}
+
+function formatID(id?: string) {
+  if (!id) {
+    return "";
+  }
+  return id.toString().padStart(8, "0");
 }
