@@ -64,7 +64,7 @@ export default function VirtualEstateListings({ hexID, virtualEstate }: Props) {
     <WrapperCard className="container mx-auto">
       <Typography level="h3">{t("virtual-estate:label.currentBid")}</Typography>
       <div>
-        <Table aria-label="basic table" hoverRow noWrap stripe="odd">
+        <Table aria-label="basic table" hoverRow noWrap stripe="even">
           <thead>
             <tr>
               <th>

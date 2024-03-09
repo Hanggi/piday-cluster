@@ -24,7 +24,7 @@ export function VirtualEstateTradingHisory({ hexID }: Props) {
   return (
     <WrapperCard className={cn("w-full mb-6 container")}>
       <h4 className="text-xl font-semibold">{t("landHistory")}</h4>
-      <Table className="mt-5" hoverRow noWrap stripe="odd">
+      <Table className="mt-5" hoverRow noWrap stripe="even">
         <thead>
           <tr>
             <th>
