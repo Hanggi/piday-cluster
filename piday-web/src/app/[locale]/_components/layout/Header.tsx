@@ -62,7 +62,6 @@ export default function Header() {
 
         <AuthStatusButton />
       </div>
-      {/* <Navbar navType={NavType.header}></Navbar> */}
     </header>
   );
 }
