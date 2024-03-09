@@ -36,10 +36,10 @@ export function ForSale({ className, ...props }: ForSaleProps) {
               indicator={<i className="ri-arrow-down-s-fill" />}
               placeholder={t("allLand")}
             >
-              <Option value="one">One</Option>
-              <Option value="two">Two</Option>
-              <Option value="three">Three</Option>
-              <Option value="four">Four</Option>
+              <Option value="10">10</Option>
+              <Option value="20">20</Option>
+              <Option value="30">30</Option>
+              <Option value="50">50</Option>
             </Select>
             <div className="h-4 w-px bg-zinc-300"></div>
           </>

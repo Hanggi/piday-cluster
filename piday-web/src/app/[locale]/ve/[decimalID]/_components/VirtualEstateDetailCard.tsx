@@ -82,7 +82,7 @@ export default function VirtualEstateDetailCard({
     <div className="w-full relative pt-5">
       <h1 className="text-3xl font-semibold">{virtualEstate?.name}</h1>
       <div className="mt-5 p-6 bg-[#F7F7F7] rounded-xl">
-        <div className="grid grid-cols-2 py-5">
+        <div className="grid gap-4 grid-cols-1 lg:grid-cols-2 py-5">
           <div>
             <Typography className="opacity-40" level="title-md">
               {t("virtual-estate:label.address")}
@@ -97,7 +97,7 @@ export default function VirtualEstateDetailCard({
           </div>
         </div>
         <hr />
-        <div className="grid grid-cols-2 py-5">
+        <div className="grid gap-4 grid-cols-1 lg:grid-cols-2 py-5">
           <div>
             <Typography className="opacity-40" level="title-md">
               {t("virtual-estate:label.estateMintTime")}
@@ -119,7 +119,7 @@ export default function VirtualEstateDetailCard({
           </div>
         </div>
         <hr />
-        <div className="py-5 grid grid-cols-2">
+        <div className="py-5 grid gap-4 grid-cols-1 lg:grid-cols-2">
           <div>
             <Typography className="opacity-40" level="title-md">
               {t("virtual-estate:label.lastPrice")}
@@ -146,7 +146,7 @@ export default function VirtualEstateDetailCard({
       <div className="mt-5 flex flex-wrap gap-7">
         {/* SELL */}
         {isMyVirtualEstate() && (
-          <div className="w-full flex gap-4">
+          <div className="w-full flex flex-wrap gap-4">
             <Button
               className="grow"
               size="lg"

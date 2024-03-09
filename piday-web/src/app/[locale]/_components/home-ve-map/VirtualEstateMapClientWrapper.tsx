@@ -37,7 +37,7 @@ export default function VirtualEstateMapClientWrapper({
   });
 
   return (
-    <div>
+    <div className="overflow-hidden">
       <VirtualEstateMap
         defaultHexID={defaultHexID}
         soldList={hexIDsStatus?.sold || []}

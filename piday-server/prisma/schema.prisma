@@ -40,8 +40,9 @@ model User {
   inviter   User?  @relation("UserInvites", fields: [inviterID], references: [id])
   invited   User[] @relation("UserInvites")
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @default(now()) @updatedAt
+  PointRecords PointRecords[]
 }
 
 // Recharge record contains the amount of money that the user has recharged and consumed
@@ -140,3 +141,18 @@ model WithdrawRequest {
 }
 
 // --------------------------------------
+
+// Point system
+
+model PointRecords {
+  id     Int     @id @default(autoincrement())
+  amount Decimal @db.Decimal(18, 8)
+
+  reason     String // Used to record the reasons for each recharge or consumption
+  externalID String // A unique identifier stored in an external system or database associated with the record
+
+  ownerID String // Keycloak user ID
+  owner   User   @relation(fields: [ownerID], references: [keycloakID])
+
+  createdAt DateTime @default(now())
+}
