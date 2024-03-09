@@ -21,7 +21,7 @@ export class UserAdminController {
   constructor(private readonly userAdminService: UserAdminService) {}
 
   @Get()
-  @UseGuards(KeycloakJwtAdminGuard)
+  // @UseGuards(KeycloakJwtAdminGuard)
   async getMyVirtualEstates(
     @Req() req: Request,
     @Res() res: Response,
@@ -67,5 +67,31 @@ export class UserAdminController {
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }
+  }
+
+  @Get("general-ledger")
+  async getGeneralLedger() {
+    const generalLedger = await this.userAdminService.getGeneralLedger();
+
+    return {
+      success: true,
+      ledger: generalLedger,
+    };
+  }
+
+  @Get("ledger-records")
+  async getLedgerRecords(
+    @Query("page") page: number = 1,
+    @Query("size") size: number = 50,
+  ) {
+    const ledgerRecords = await this.userAdminService.getLedgerRecords({
+      page,
+      size,
+    });
+
+    return {
+      success: true,
+      ...ledgerRecords,
+    };
   }
 }

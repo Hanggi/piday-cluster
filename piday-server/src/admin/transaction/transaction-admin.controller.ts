@@ -43,4 +43,5 @@ export class TransactionAdminController {
       totalCount: transactionRes.totalCount,
     };
   }
+
 }

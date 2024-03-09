@@ -1,5 +1,6 @@
 import { getUserVisibleID } from "@/src/lib/generate-id/generate-user-id";
 import { PrismaService } from "@/src/lib/prisma/prisma.service";
+import { RechargeRecords } from "@prisma/client";
 
 import { Injectable } from "@nestjs/common";
 
@@ -71,5 +72,85 @@ export class UserAdminService {
     });
 
     return { user: users, totalCount: totalCount };
+  }
+
+  // General Ledger
+  async getGeneralLedger() {
+    const rechargeSumPromise = this.prisma.rechargeRecords.aggregate({
+      _sum: {
+        amount: true,
+      },
+      where: {
+        ownerID: process.env.PLATFORM_ACCOUNT_ID,
+      },
+    });
+
+    const totalUserCountPromise = this.prisma.user.count();
+    const totalVECountPromise = this.prisma.virtualEstate.count();
+    const totalTransactionCountPromise =
+      this.prisma.virtualEstateTransactionRecords.count();
+
+    const transactionAmountSumPromise =
+      this.prisma.virtualEstateTransactionRecords.aggregate({
+        _sum: {
+          price: true,
+        },
+      });
+
+    const [
+      generalBalance,
+      totalUserCount,
+      totalVirtualEstates,
+      totalTransactionCount,
+      transactionAmountSum,
+    ] = await Promise.all([
+      rechargeSumPromise,
+      totalUserCountPromise,
+      totalVECountPromise,
+      totalTransactionCountPromise,
+      transactionAmountSumPromise,
+    ]);
+
+    return {
+      generalBalance: generalBalance._sum.amount,
+      totalUsers: totalUserCount,
+      totalVirtualEstates: totalVirtualEstates,
+      totalTransactions: totalTransactionCount,
+      totalTransactionAmount: transactionAmountSum._sum.price,
+    };
+  }
+
+  async getLedgerRecords({
+    size,
+    page,
+  }: {
+    size: number;
+    page: number;
+  }): Promise<{ records: RechargeRecords[]; totalCount: number }> {
+    console.log({
+      take: +size,
+      skip: +(page - 1) * size,
+    });
+    const records = await this.prisma.rechargeRecords.findMany({
+      where: {
+        ownerID: process.env.PLATFORM_ACCOUNT_ID,
+      },
+      take: +size,
+      skip: +(page - 1) * size,
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+
+    const totalCount = await this.prisma.rechargeRecords.count({
+      where: {
+        ownerID: process.env.PLATFORM_ACCOUNT_ID,
+      },
+    });
+
+    return {
+      records,
+      totalCount,
+    };
   }
 }

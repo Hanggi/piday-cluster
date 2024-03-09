@@ -246,7 +246,7 @@ export class VirtualEstateController {
       }
 
       const virtualEstate = await this.virtualEstateService.mintVirtualEstate({
-        userID: req.user.userID,
+        userID: req.user.userID, // keycloakID
         hexID,
         name,
       });

@@ -114,8 +114,8 @@ export class VirtualEstateService {
     hexID: string;
     name: string;
   }): Promise<VirtualEstate> {
-    return this.prisma.$transaction(async (prisma) => {
-      const balance = await prisma.rechargeRecords.aggregate({
+    return this.prisma.$transaction(async (tx) => {
+      const balance = await tx.rechargeRecords.aggregate({
         where: {
           ownerID: userID,
         },
@@ -132,10 +132,10 @@ export class VirtualEstateService {
 
       // TODO(Hanggi): Share profit with the inviter for 10%.
 
-      const veCount = await prisma.virtualEstate.count();
+      const veCount = await tx.virtualEstate.count();
 
       // Create a virtual estate with the given hexID and the ownerID
-      const virtualEstatePromise = prisma.virtualEstate.create({
+      const virtualEstatePromise = tx.virtualEstate.create({
         data: {
           name: (veCount + 1).toString() + name,
           // VirtualEstateID is a unique identifier for a virtual estate,
@@ -152,7 +152,7 @@ export class VirtualEstateService {
 
       // Create a transaction record for the minting
       const transactionRecordPromise =
-        prisma.virtualEstateTransactionRecords.create({
+        tx.virtualEstateTransactionRecords.create({
           data: {
             virtualEstateID: hexID,
             transactionID: transactionID,
@@ -160,12 +160,12 @@ export class VirtualEstateService {
             price: mintPrice,
 
             buyerID: userID,
-            sellerID: "ONE_PI",
+            sellerID: process.env.PLATFORM_ACCOUNT_ID,
           },
         });
 
       // Create a recharge record for the minting
-      const rechargeRecordPromise = prisma.rechargeRecords.create({
+      const rechargeRecordPromise = tx.rechargeRecords.create({
         data: {
           amount: -mintPrice,
           externalID: transactionID.toString(),
@@ -174,12 +174,52 @@ export class VirtualEstateService {
           ownerID: userID,
         },
       });
-      // TODO(Hanggi): Create a recharge record for Mr.ONE_PI
+
+      // Get the user inviter and share the profit with the inviter
+      // TODO(Hanggi): Only select the inviterID.
+      const myUser = await tx.user.findUnique({
+        where: {
+          keycloakID: userID,
+        },
+      });
+      let platformIncome = mintPrice;
+
+      if (myUser.inviterID) {
+        const inviter = await tx.user.findUnique({
+          where: {
+            id: myUser.inviterID,
+          },
+        });
+
+        const inviterProfit =
+          mintPrice * +process.env.INVITER_MINT_REWARD_RATIO;
+        platformIncome -= inviterProfit;
+        await tx.rechargeRecords.create({
+          data: {
+            amount: inviterProfit,
+            externalID: transactionID.toString(),
+
+            reason: "INVITER_PROFIT",
+            ownerID: inviter.keycloakID,
+          },
+        });
+      }
+
+      const createMintRechargeRecordForPlatform = tx.rechargeRecords.create({
+        data: {
+          amount: platformIncome,
+          externalID: transactionID.toString(),
+
+          reason: "PLATFORM_MINT_VIRTUAL_ESTATE",
+          ownerID: process.env.PLATFORM_ACCOUNT_ID,
+        },
+      });
 
       const [virtualEstate] = await Promise.all([
         virtualEstatePromise,
         transactionRecordPromise,
         rechargeRecordPromise,
+        createMintRechargeRecordForPlatform,
       ]);
 
       return virtualEstate;
