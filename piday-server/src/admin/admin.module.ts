@@ -8,7 +8,7 @@ import { UserAdminController } from "./user/user-admin.controller";
 import { UserAdminService } from "./user/user-admin.service";
 import { VirtualEstateAdminController } from "./virtual-estate/virtual-estate-admin.controller";
 import { VirtualEstateAdminService } from "./virtual-estate/virtual-estate-admin.service";
-import { WithdrawRequestAdminController } from "./withdraw-request/withdraw-request-admiin.controller";
+import { WithdrawRequestAdminController } from "./withdraw-request/withdraw-request-admin.controller";
 import { WithdrawRequestAdminService } from "./withdraw-request/withdraw-request-admin.service";
 
 @Module({
