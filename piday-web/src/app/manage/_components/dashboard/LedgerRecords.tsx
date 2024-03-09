@@ -19,8 +19,6 @@ export default function LedgerRecords() {
     size,
   });
 
-  console.log(ledgerRecords);
-
   return (
     <div>
       <Card>

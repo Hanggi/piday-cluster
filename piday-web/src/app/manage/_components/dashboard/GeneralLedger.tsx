@@ -10,7 +10,7 @@ export default function GeneralLedger() {
 
   return (
     <div>
-      <div className="grid grid-cols-5 gap-4">
+      <div className="grid grid-cols-3 gap-4">
         <Card>
           <Typography level="title-lg">Total Balance</Typography>
           <Typography level="h2">
@@ -42,6 +42,11 @@ export default function GeneralLedger() {
           <Typography level="h2">
             {generalLedger?.totalTransactionAmount || 0}
           </Typography>
+        </Card>
+
+        <Card>
+          <Typography level="title-lg">Invite Code</Typography>
+          <Typography level="h2">{generalLedger?.inviteCode || ""}</Typography>
         </Card>
       </div>
     </div>

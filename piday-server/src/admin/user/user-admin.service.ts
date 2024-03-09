@@ -1,4 +1,7 @@
-import { getUserVisibleID } from "@/src/lib/generate-id/generate-user-id";
+import {
+  generateInvitationCode,
+  getUserVisibleID,
+} from "@/src/lib/generate-id/generate-user-id";
 import { PrismaService } from "@/src/lib/prisma/prisma.service";
 import { RechargeRecords } from "@prisma/client";
 
@@ -76,6 +79,14 @@ export class UserAdminService {
 
   // General Ledger
   async getGeneralLedger() {
+    const user = await this.prisma.user.findUnique({
+      where: {
+        keycloakID: process.env.PLATFORM_ACCOUNT_ID,
+      },
+    });
+    const inviteCode = generateInvitationCode(user.id);
+    console.log(inviteCode);
+
     const rechargeSumPromise = this.prisma.rechargeRecords.aggregate({
       _sum: {
         amount: true,
@@ -117,6 +128,7 @@ export class UserAdminService {
       totalVirtualEstates: totalVirtualEstates,
       totalTransactions: totalTransactionCount,
       totalTransactionAmount: transactionAmountSum._sum.price,
+      inviteCode,
     };
   }
 

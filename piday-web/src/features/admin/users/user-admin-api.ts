@@ -40,6 +40,8 @@ export const userAdminAPI = createApi({
         totalTransactions: number;
         totalVirtualEstates: number;
         totalTransactionAmount: number;
+
+        inviteCode: string;
       },
       void
     >({
