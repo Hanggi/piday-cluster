@@ -1,9 +1,26 @@
 import { AuthenticatedRequest } from "@/src/lib/keycloak/interfaces/authenticated-request";
 import { KeycloakJwtAdminGuard } from "@/src/lib/keycloak/keycloak-jwt-admin.guard";
+import { Response } from "express";
 
-import { Controller, Get, Query, Req, Res, UseGuards } from "@nestjs/common";
+import {
+  Body,
+  Controller,
+  Get,
+  HttpException,
+  HttpStatus,
+  Post,
+  Query,
+  Req,
+  Res,
+  UseGuards,
+} from "@nestjs/common";
 
-import { OrderByOptions, SortByOptions } from "../dto/admin.dto";
+import {
+  AcceptWithdrawRequestBody,
+  AddPiIDRequestBody,
+  OrderByOptions,
+  SortByOptions,
+} from "../dto/admin.dto";
 import { WithdrawRequestAdminService } from "./withdraw-request-admin.service";
 
 @Controller("admin/withdraw-request")
@@ -33,5 +50,91 @@ export class WithdrawRequestAdminController {
       virtualEstates: veRes.virtualEstates,
       totalCount: veRes.totalCount,
     };
+  }
+
+  @Post("accept")
+  async acceptWithdrawRequest(
+    @Res() res: Response,
+    @Body() body: AcceptWithdrawRequestBody,
+  ) {
+    try {
+      const { withdrawStatusID } = body;
+      const updateWithdrawRequest =
+        await this.withdrawRequestAdminService.acceptWithdrawRequest(
+          withdrawStatusID,
+        );
+
+      if (!updateWithdrawRequest) {
+        res.status(HttpStatus.UNPROCESSABLE_ENTITY).json({
+          success: false,
+          data: null,
+          msg: "Withdraw request not accepted",
+        });
+      }
+
+      res.status(HttpStatus.OK).json({
+        msg: "Withdraw request accepted successfully ",
+        data: updateWithdrawRequest,
+        success: true,
+      });
+    } catch (error) {
+      switch (error.code) {
+        case "NOT_FOUND":
+          throw new HttpException(
+            {
+              message: "Request can not be found",
+            },
+            HttpStatus.FORBIDDEN,
+          );
+        case "NOT_ENOUGH_BALANCE":
+          throw new HttpException(
+            {
+              message: "Not enough balance in your account",
+            },
+            HttpStatus.FORBIDDEN,
+          );
+      }
+      console.error("Error", error);
+      throw new HttpException(
+        "Internal Server Error",
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+
+  @Post("add-pi-id")
+  async addPiTransactionID(
+    @Res() res: Response,
+    @Body() body: AddPiIDRequestBody,
+  ) {
+    const { piTransactionID, withdrawStatusID } = body;
+
+    try {
+      const withdrawRequest =
+        await this.withdrawRequestAdminService.addPiTransactionIDToWithdrawRequest(
+          piTransactionID,
+          withdrawStatusID,
+        );
+
+      if (!withdrawRequest) {
+        res.status(HttpStatus.UNPROCESSABLE_ENTITY).json({
+          success: false,
+          data: null,
+          msg: "Withdraw request not updated",
+        });
+      }
+
+      res.status(HttpStatus.OK).json({
+        msg: "Withdraw request updated successfully ",
+        data: withdrawRequest,
+        success: true,
+      });
+    } catch (error) {
+      console.error("Error", error);
+      throw new HttpException(
+        "Internal Server Error",
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
   }
 }

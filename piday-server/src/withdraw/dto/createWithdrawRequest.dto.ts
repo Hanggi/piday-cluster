@@ -6,7 +6,7 @@ export class CreateWithdrawRequestDTO {
   amount: string;
 }
 export class CancelWithdrawRequestDTO {
-  @IsInt()
+  @IsString()
   @IsNotEmpty()
   withdrawStatusID: string;
 }
