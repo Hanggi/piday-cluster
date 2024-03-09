@@ -56,7 +56,7 @@ export default function Footer() {
       </div>
       <hr className="opacity-50" />
       <center className="text-black/80 py-4 text-sm font-normal">
-        Copyright © Piday 2023.
+        Copyright © Piday Metaverse 2024
       </center>
     </section>
   );

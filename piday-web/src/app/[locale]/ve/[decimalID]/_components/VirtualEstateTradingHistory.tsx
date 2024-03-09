@@ -1,19 +1,12 @@
 "use client";
 
-import {
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  Table as TableRoot,
-  TableRow,
-} from "@/src/components/Table";
 import { WrapperCard } from "@/src/components/WrapperCard";
 import PiCoinLogo from "@/src/components/piday-ui/PiCoinLogo";
 import { useGetVirtualEstateTransactionRecordsQuery } from "@/src/features/virtual-estate/api/virtualEstateAPI";
 import { cn } from "@/src/utils/cn";
 import { format } from "date-fns";
 
+import Table from "@mui/joy/Table";
 import Typography from "@mui/joy/Typography";
 
 import { useTranslation } from "react-i18next";
@@ -31,48 +24,48 @@ export function VirtualEstateTradingHisory({ hexID }: Props) {
   return (
     <WrapperCard className={cn("w-full mb-6 container")}>
       <h4 className="text-xl font-semibold">{t("landHistory")}</h4>
-      <TableRoot className="mt-5">
-        <TableHeader>
-          <TableRow>
-            <TableHead>
+      <Table className="mt-5" hoverRow noWrap stripe="odd">
+        <thead>
+          <tr>
+            <th>
               <Typography>{t("virtual-estate:table.transactionID")}</Typography>
-            </TableHead>
-            <TableHead>
+            </th>
+            <th>
               <Typography>{t("virtual-estate:table.price")}</Typography>
-            </TableHead>
-            <TableHead>
+            </th>
+            <th>
               <Typography>{t("virtual-estate:table.user")}</Typography>
-            </TableHead>
-            <TableHead>
+            </th>
+            <th>
               <Typography>{t("virtual-estate:table.createdAt")}</Typography>
-            </TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
           {virtualEstateTransactionRecords?.map((record, idx) => (
-            <TableRow key={idx}>
-              <TableCell>
+            <tr key={idx}>
+              <td>
                 <Typography></Typography>
                 {record.transactionID}
-              </TableCell>
-              <TableCell className="flex gap-2 items-center">
+              </td>
+              <td className="flex gap-2 items-center">
                 <div className="w-6 h-6 relative">
                   <PiCoinLogo />
                 </div>
                 <Typography level="title-sm">{record.price}</Typography>
-              </TableCell>
-              <TableCell>
+              </td>
+              <td>
                 <Typography>{record.buyer.username}</Typography>
-              </TableCell>
-              <TableCell>
+              </td>
+              <td>
                 <Typography>
                   {format(new Date(record?.createdAt), "PPpp")}
                 </Typography>
-              </TableCell>
-            </TableRow>
+              </td>
+            </tr>
           ))}
-        </TableBody>
-      </TableRoot>
+        </tbody>
+      </Table>
     </WrapperCard>
   );
 }

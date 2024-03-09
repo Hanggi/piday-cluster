@@ -1,13 +1,5 @@
 "use client";
 
-import {
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  Table as TableRoot,
-  TableRow,
-} from "@/src/components/Table";
 import { WrapperCard } from "@/src/components/WrapperCard";
 import {
   useErrorToast,
@@ -22,6 +14,7 @@ import { format } from "date-fns";
 import { useSession } from "next-auth/react";
 
 import Button from "@mui/joy/Button";
+import Table from "@mui/joy/Table";
 import Typography from "@mui/joy/Typography";
 
 import { useCallback } from "react";
@@ -71,54 +64,54 @@ export default function VirtualEstateListings({ hexID, virtualEstate }: Props) {
     <WrapperCard className="container mx-auto">
       <Typography level="h3">{t("virtual-estate:label.currentBid")}</Typography>
       <div>
-        <TableRoot aria-label="basic table">
-          <TableHeader>
-            <TableRow>
-              <TableHead>
+        <Table aria-label="basic table" hoverRow noWrap stripe="odd">
+          <thead>
+            <tr>
+              <th>
                 <Typography>{t("virtual-estate:table.listingID")}</Typography>
-              </TableHead>
-              <TableHead>
+              </th>
+              <th>
                 <Typography>{t("virtual-estate:table.user")}</Typography>
-              </TableHead>
-              <TableHead>
+              </th>
+              <th>
                 <Typography>{t("virtual-estate:table.price")}</Typography>
-              </TableHead>
-              <TableHead>
+              </th>
+              <th>
                 <Typography>{t("virtual-estate:table.createdAt")}</Typography>
-              </TableHead>
-              <TableHead>
+              </th>
+              <th>
                 <Typography>{t("virtual-estate:table.expiresAt")}</Typography>
-              </TableHead>
-              {isMyVirtualEstate() && <TableHead>Action</TableHead>}
-            </TableRow>
-          </TableHeader>
-          <TableBody>
+              </th>
+              {isMyVirtualEstate() && <th>Action</th>}
+            </tr>
+          </thead>
+          <tbody>
             {virtualEstateListings?.map((listing, i) => (
-              <TableRow key={i}>
-                <TableCell>
+              <tr key={i}>
+                <td>
                   <Typography>{listing.listingID}</Typography>
-                </TableCell>
-                <TableCell>
+                </td>
+                <td>
                   <Typography>
                     <i className="ri-user-line"></i>
                     {listing?.owner?.username}
                   </Typography>
-                </TableCell>
-                <TableCell>
+                </td>
+                <td>
                   <Typography>{listing.price}</Typography>
-                </TableCell>
-                <TableCell>
+                </td>
+                <td>
                   <Typography>
                     {format(new Date(listing?.createdAt), "PPpp")}
                   </Typography>
-                </TableCell>
-                <TableCell>
+                </td>
+                <td>
                   <Typography>
                     {format(new Date(listing?.expiresAt), "PPpp")}
                   </Typography>
-                </TableCell>
+                </td>
                 {isMyVirtualEstate() && (
-                  <TableCell>
+                  <td>
                     <Button
                       onClick={() =>
                         handelAcceptBidToSellVirtualEstate(listing.listingID)
@@ -126,12 +119,12 @@ export default function VirtualEstateListings({ hexID, virtualEstate }: Props) {
                     >
                       {t("virtual-estate:button.acceptBid")}
                     </Button>
-                  </TableCell>
+                  </td>
                 )}
-              </TableRow>
+              </tr>
             ))}
-          </TableBody>
-        </TableRoot>
+          </tbody>
+        </Table>
       </div>
     </WrapperCard>
   );

@@ -29,7 +29,7 @@ export default async function HomePage({ params }: Props) {
 
   return (
     <section className="container mx-auto py-4 mb-8">
-      <div className="w-full h-[800px] relative pb-8">
+      <div className="w-full h-[400px] lg:h-[800px] relative pb-8">
         <VirtualEstateMapClientWrapper token={MAPBOX_ACCESS_TOKEN as string} />
       </div>
 
