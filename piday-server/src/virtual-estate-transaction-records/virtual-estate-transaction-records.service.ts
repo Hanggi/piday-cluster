@@ -79,7 +79,11 @@ export class VirtualEstateTransactionRecordsService {
           keycloakID: buyerID,
         },
         select: {
-          keycloakID: true,
+          inviter: {
+            select: {
+              keycloakID: true,
+            },
+          },
         },
       });
       const sellerInviter = await tx.user.findFirst({
@@ -87,17 +91,21 @@ export class VirtualEstateTransactionRecordsService {
           keycloakID: sellerID,
         },
         select: {
-          keycloakID: true,
+          inviter: {
+            select: {
+              keycloakID: true,
+            },
+          },
         },
       });
 
       // -----------------------------------------------------------------------------
       // Calculate platform commission
       let platfromTradingCommission =
-        +price * +process.env.PLATFORM_TRADING_COMMISSION;
+        +price * +process.env.PLATFORM_TRADING_COMMISSION_RATIO;
       const sellerIncome = +price - platfromTradingCommission;
 
-      if (buyerInviter) {
+      if (buyerInviter.inviter) {
         const inviterIncome =
           platfromTradingCommission *
           +process.env.INVIDER_TRADING_COMMISSION_RATIO;
@@ -108,12 +116,12 @@ export class VirtualEstateTransactionRecordsService {
           data: {
             amount: inviterIncome.toString(),
             externalID: transactionID.toString(),
-            reason: "INVITER_TRADING_PROFIT",
-            ownerID: buyerInviter.keycloakID,
+            reason: "BUYER_INVITER_TRADING_PROFIT",
+            ownerID: buyerInviter.inviter.keycloakID,
           },
         });
       }
-      if (sellerInviter) {
+      if (sellerInviter.inviter) {
         const inviterIncome =
           platfromTradingCommission *
           +process.env.INVIDER_TRADING_COMMISSION_RATIO;
@@ -124,8 +132,8 @@ export class VirtualEstateTransactionRecordsService {
           data: {
             amount: inviterIncome.toString(),
             externalID: transactionID.toString(),
-            reason: "INVITER_TRADING_PROFIT",
-            ownerID: sellerInviter.keycloakID,
+            reason: "SELLER_INVITER_TRADING_PROFIT",
+            ownerID: sellerInviter.inviter.keycloakID,
           },
         });
       }
@@ -244,7 +252,11 @@ export class VirtualEstateTransactionRecordsService {
           keycloakID: buyerID,
         },
         select: {
-          keycloakID: true,
+          inviter: {
+            select: {
+              keycloakID: true,
+            },
+          },
         },
       });
       const sellerInviter = await tx.user.findFirst({
@@ -252,34 +264,43 @@ export class VirtualEstateTransactionRecordsService {
           keycloakID: sellerID,
         },
         select: {
-          keycloakID: true,
+          inviter: {
+            select: {
+              keycloakID: true,
+            },
+          },
         },
       });
+      console.log("buyerInviter", buyerInviter);
+      console.log("sellerInviter", sellerInviter);
 
       // -----------------------------------------------------------------------------
+
       // Platform commission
       let platfromTradingCommission =
-        +price * +process.env.PLATFORM_TRADING_COMMISSION;
+        +price * +process.env.PLATFORM_TRADING_COMMISSION_RATIO;
       const sellerIncome = +price - platfromTradingCommission;
 
-      if (buyerInviter) {
+      console.log("platfromTradingCommission", platfromTradingCommission);
+      if (buyerInviter.inviter) {
         const inviterIncome =
           platfromTradingCommission *
           +process.env.INVIDER_TRADING_COMMISSION_RATIO;
 
+        console.log("inviterIncome", inviterIncome);
         platfromTradingCommission -= inviterIncome;
 
         await tx.rechargeRecords.create({
           data: {
             amount: inviterIncome.toString(),
             externalID: transactionID.toString(),
-            reason: "INVITER_TRADING_PROFIT",
-            ownerID: buyerInviter.keycloakID,
+            reason: "BUYER_INVITER_TRADING_PROFIT",
+            ownerID: buyerInviter.inviter.keycloakID,
           },
         });
       }
 
-      if (sellerInviter) {
+      if (sellerInviter.inviter) {
         const inviterIncome =
           platfromTradingCommission *
           +process.env.INVIDER_TRADING_COMMISSION_RATIO;
@@ -290,8 +311,8 @@ export class VirtualEstateTransactionRecordsService {
           data: {
             amount: inviterIncome.toString(),
             externalID: transactionID.toString(),
-            reason: "INVITER_TRADING_PROFIT",
-            ownerID: sellerInviter.keycloakID,
+            reason: "SELLER_INVITER_TRADING_PROFIT",
+            ownerID: sellerInviter.inviter.keycloakID,
           },
         });
       }

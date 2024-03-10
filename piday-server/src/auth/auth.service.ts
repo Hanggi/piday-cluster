@@ -93,7 +93,7 @@ export class AuthService {
       throw new ServiceException("Email already exists", "EMAIL_EXISTS");
     }
 
-    const inviterUserID = decodeInviteCode(inviteCode);
+    const inviterUserID = decodeInviteCode(inviteCode.trim());
     const inviter = await this.prisma.user.findUnique({
       where: {
         id: inviterUserID,
