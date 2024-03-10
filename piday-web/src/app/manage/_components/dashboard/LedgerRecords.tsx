@@ -6,6 +6,7 @@ import { useGetLedgerRecordsQuery } from "@/src/features/admin/users/user-admin-
 import { format } from "date-fns";
 
 import Card from "@mui/joy/Card";
+import CircularProgress from "@mui/joy/CircularProgress";
 import Table from "@mui/joy/Table";
 
 import { useState } from "react";
@@ -14,7 +15,7 @@ export default function LedgerRecords() {
   const [page, setPage] = useState(1);
   const [size, setSize] = useState(20);
 
-  const { data: ledgerRecords } = useGetLedgerRecordsQuery({
+  const { data: ledgerRecords, isLoading } = useGetLedgerRecordsQuery({
     page,
     size,
   });
@@ -45,6 +46,9 @@ export default function LedgerRecords() {
           </tbody>
         </Table>
 
+        <div className="flex justify-center">
+          {isLoading && <CircularProgress />}
+        </div>
         <Pagination
           currentPage={page}
           pageCount={ledgerRecords?.totalCount || 0 / 20}

@@ -22,4 +22,46 @@ export class PointService {
 
     return point;
   }
+
+  async getMyPointRecords({ userID }: { userID: string }) {
+    const pointRecords = await this.prisma.pointRecords.findMany({
+      where: {
+        ownerID: userID,
+      },
+    });
+
+    return pointRecords;
+  }
+
+  // Check In
+  async checkIn({ userID }: { userID: string }) {
+    // TODO(Hanggi): calculate the amount of point based on the formula of minging
+    const checkIn = await this.prisma.pointRecords.create({
+      data: {
+        amount: 100,
+        ownerID: userID,
+        reason: "CHECK_IN",
+      },
+    });
+
+    return checkIn;
+  }
+
+  // Checked in today
+  async checkedInToday({ userID }: { userID: string }) {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const checkIn = await this.prisma.pointRecords.findFirst({
+      where: {
+        ownerID: userID,
+        reason: "CHECK_IN",
+        createdAt: {
+          gte: today,
+        },
+      },
+    });
+
+    return checkIn;
+  }
 }

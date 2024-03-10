@@ -37,6 +37,10 @@ export class VirtualEstateController {
     private readonly virtualEstateTransactionRecordsService: VirtualEstateTransactionRecordsService,
   ) {}
 
+  // =============================================================================
+  // My Virtual Estates
+  // =============================================================================
+
   @Get()
   @UseGuards(KeycloakJwtGuard)
   async getMyVirtualEstates(
@@ -75,102 +79,6 @@ export class VirtualEstateController {
       });
     } catch (error) {
       console.error(error);
-      throw new HttpException(
-        "Internal Server Error",
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      );
-    }
-  }
-
-  @Get("latest")
-  async getLatestVirtualEstates(
-    @Res() res: Response,
-    @Query("page") page = 1, // default to page 1
-    @Query("size") size = 10, //default to size 10,
-  ) {
-    try {
-      const virtualEstatesRes =
-        await this.virtualEstateService.getLatestVirtualEstates(size, page);
-
-      if (!virtualEstatesRes) {
-        res.status(HttpStatus.NOT_FOUND).json({
-          success: false,
-          virtualEstates: null,
-          message: "No virtual estates found",
-        });
-      }
-
-      res.status(HttpStatus.OK).json({
-        virtualEstates: plainToInstance(
-          VirtualEstateResponseDto,
-          virtualEstatesRes,
-          {
-            excludeExtraneousValues: true,
-          },
-        ),
-        success: true,
-        message: "Virtual states found successfully",
-      });
-    } catch (error) {
-      console.error(error);
-      throw new HttpException(
-        "Internal Server Error",
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      );
-    }
-  }
-
-  @Get("statistics")
-  async getVirtualEstatesStatistics(
-    @Res() res: Response,
-    @Query("totalMinted") totalMinted = "true",
-    @Query("listings") listings = "true",
-    @Query("transactionVolume") transactionVolume = "true",
-    @Query("transactionCount") transactionCount = "true",
-    @Query("startDate") startDate: string,
-    @Query("endDate") endDate: string,
-  ) {
-    try {
-      // TODO(Zawar): Add Redis Caching
-      const start = startDate ? new Date(startDate) : new Date("30-oct-2023");
-      const end = endDate ? new Date(endDate) : new Date();
-      const responseObject: VirtualEstatesStatistics = {};
-
-      if (totalMinted == "true") {
-        responseObject.totalVirtualEstatesMinted =
-          await this.virtualEstateService.getVirtualEstateTotalMinted(
-            end,
-            start,
-          );
-      }
-
-      if (listings == "true") {
-        responseObject.virtualEstateListingCount =
-          await this.virtualEstateListingService.getVirtualEstateListingsCount(
-            end,
-            start,
-          );
-      }
-
-      if (transactionVolume == "true") {
-        responseObject.totalTransactionVolume =
-          await this.virtualEstateTransactionRecordsService.getTotalTransactionVolume(
-            end,
-            start,
-          );
-      }
-
-      if (transactionCount == "true") {
-        responseObject.transactionRecordsCount =
-          await this.virtualEstateTransactionRecordsService.getVirtualEstateTransactionRecordsCount(
-            end,
-            start,
-          );
-      }
-
-      res.status(200).json({ statistics: responseObject });
-    } catch (err) {
-      console.error(err);
       throw new HttpException(
         "Internal Server Error",
         HttpStatus.INTERNAL_SERVER_ERROR,
@@ -271,6 +179,106 @@ export class VirtualEstateController {
     }
   }
 
+  // =============================================================================
+  // Public Virtual Estates
+  // =============================================================================
+
+  @Get("latest")
+  async getLatestVirtualEstates(
+    @Res() res: Response,
+    @Query("page") page = 1, // default to page 1
+    @Query("size") size = 10, //default to size 10,
+  ) {
+    try {
+      const virtualEstatesRes =
+        await this.virtualEstateService.getLatestVirtualEstates(size, page);
+
+      if (!virtualEstatesRes) {
+        res.status(HttpStatus.NOT_FOUND).json({
+          success: false,
+          virtualEstates: null,
+          message: "No virtual estates found",
+        });
+      }
+
+      res.status(HttpStatus.OK).json({
+        virtualEstates: plainToInstance(
+          VirtualEstateResponseDto,
+          virtualEstatesRes,
+          {
+            excludeExtraneousValues: true,
+          },
+        ),
+        success: true,
+        message: "Virtual states found successfully",
+      });
+    } catch (error) {
+      console.error(error);
+      throw new HttpException(
+        "Internal Server Error",
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+
+  @Get("statistics")
+  async getVirtualEstatesStatistics(
+    @Res() res: Response,
+    @Query("totalMinted") totalMinted = "true",
+    @Query("listings") listings = "true",
+    @Query("transactionVolume") transactionVolume = "true",
+    @Query("transactionCount") transactionCount = "true",
+    @Query("startDate") startDate: string,
+    @Query("endDate") endDate: string,
+  ) {
+    try {
+      // TODO(Zawar): Add Redis Caching
+      const start = startDate ? new Date(startDate) : new Date("30-oct-2023");
+      const end = endDate ? new Date(endDate) : new Date();
+      const responseObject: VirtualEstatesStatistics = {};
+
+      if (totalMinted == "true") {
+        responseObject.totalVirtualEstatesMinted =
+          await this.virtualEstateService.getVirtualEstateTotalMinted(
+            end,
+            start,
+          );
+      }
+
+      if (listings == "true") {
+        responseObject.virtualEstateListingCount =
+          await this.virtualEstateListingService.getVirtualEstateListingsCount(
+            end,
+            start,
+          );
+      }
+
+      if (transactionVolume == "true") {
+        responseObject.totalTransactionVolume =
+          await this.virtualEstateTransactionRecordsService.getTotalTransactionVolume(
+            end,
+            start,
+          );
+      }
+
+      if (transactionCount == "true") {
+        responseObject.transactionRecordsCount =
+          await this.virtualEstateTransactionRecordsService.getVirtualEstateTransactionRecordsCount(
+            end,
+            start,
+          );
+      }
+
+      res.status(200).json({ statistics: responseObject });
+    } catch (err) {
+      console.error(err);
+      throw new HttpException(
+        "Internal Server Error",
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+
   @Get(":hexID/listing")
   async getVirtualEstateListingOffers(
     @Param("hexID") hexID,
@@ -319,6 +327,101 @@ export class VirtualEstateController {
       );
     }
   }
+
+  @Get(":hexID")
+  async getOneVirtualEstate(
+    @Param("hexID") hexID,
+    @Req() req: AuthenticatedRequest,
+    @Res() res: Response,
+  ) {
+    try {
+      const { ve: virtualEstate, listing } =
+        await this.virtualEstateService.getOneVirtualEstate(hexID, {
+          withListing: true,
+        });
+
+      if (!virtualEstate) {
+        const mintPrice = await this.virtualEstateService.getMintPrice();
+
+        res.status(HttpStatus.OK).json({
+          mintPrice: mintPrice,
+        });
+        return;
+      }
+
+      console.log(listing);
+      res.status(HttpStatus.OK).json({
+        ve: plainToInstance(VirtualEstateResponseDto, virtualEstate, {
+          excludeExtraneousValues: true,
+        }),
+        listing: plainToInstance(VirtualEstateListingResponseDto, listing, {
+          excludeExtraneousValues: true,
+        }),
+      });
+    } catch (error) {
+      console.error(error);
+      throw new HttpException(
+        "Internal Server Error",
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+
+  @Get(":hexID/in-area")
+  async getHexIDsStatusInArea(@Param("hexID") hexID, @Res() res: Response) {
+    try {
+      const hexIDs = await this.virtualEstateService.getHexIDsStatusInArea({
+        hexID,
+      });
+
+      res.status(HttpStatus.OK).json({
+        ...hexIDs,
+      });
+    } catch (err) {
+      console.error(err);
+      throw new HttpException(
+        "Internal Server Error",
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+
+  @Get(":hexID/transactions")
+  async getVirtualEstateTransactionRecords(
+    @Param("hexID") hexID,
+    @Res() res: Response,
+    @Query("page") page = "1", // default to page 1
+    @Query("size") size = "10", //default to size 10,
+  ) {
+    try {
+      const virtualEstateTransactionRecords =
+        await this.virtualEstateTransactionRecordsService.getAllTransactionRecordsForVirtualEstate(
+          hexID,
+          parseInt(size),
+          parseInt(page),
+        );
+
+      res.status(HttpStatus.OK).json({
+        transactions: plainToInstance(
+          VirtualEstateTransactionRecordResponseDto,
+          virtualEstateTransactionRecords,
+          {
+            excludeExtraneousValues: true,
+          },
+        ),
+      });
+    } catch (err) {
+      console.error(err);
+      throw new HttpException(
+        "Internal Server Error",
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+
+  // =============================================================================
+  // Trading Virtual Estates
+  // =============================================================================
 
   @UseGuards(KeycloakJwtGuard)
   @Patch(":hexID/bid/:bidID/accept")
@@ -418,97 +521,6 @@ export class VirtualEstateController {
       });
     } catch (error) {
       console.error(error);
-      throw new HttpException(
-        "Internal Server Error",
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      );
-    }
-  }
-
-  @Get(":hexID")
-  async getOneVirtualEstate(
-    @Param("hexID") hexID,
-    @Req() req: AuthenticatedRequest,
-    @Res() res: Response,
-  ) {
-    try {
-      const { ve: virtualEstate, listing } =
-        await this.virtualEstateService.getOneVirtualEstate(hexID, {
-          withListing: true,
-        });
-
-      if (!virtualEstate) {
-        const mintPrice = await this.virtualEstateService.getMintPrice();
-
-        res.status(HttpStatus.OK).json({
-          mintPrice: mintPrice,
-        });
-        return;
-      }
-
-      console.log(listing);
-      res.status(HttpStatus.OK).json({
-        ve: plainToInstance(VirtualEstateResponseDto, virtualEstate, {
-          excludeExtraneousValues: true,
-        }),
-        listing: plainToInstance(VirtualEstateListingResponseDto, listing, {
-          excludeExtraneousValues: true,
-        }),
-      });
-    } catch (error) {
-      console.error(error);
-      throw new HttpException(
-        "Internal Server Error",
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      );
-    }
-  }
-
-  @Get(":hexID/in-area")
-  async getHexIDsStatusInArea(@Param("hexID") hexID, @Res() res: Response) {
-    try {
-      const hexIDs = await this.virtualEstateService.getHexIDsStatusInArea({
-        hexID,
-      });
-
-      res.status(HttpStatus.OK).json({
-        ...hexIDs,
-      });
-    } catch (err) {
-      console.error(err);
-      throw new HttpException(
-        "Internal Server Error",
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      );
-    }
-  }
-
-  @Get(":hexID/transactions")
-  async getVirtualEstateTransactionRecords(
-    @Param("hexID") hexID,
-    @Res() res: Response,
-    @Query("page") page = "1", // default to page 1
-    @Query("size") size = "10", //default to size 10,
-  ) {
-    try {
-      const virtualEstateTransactionRecords =
-        await this.virtualEstateTransactionRecordsService.getAllTransactionRecordsForVirtualEstate(
-          hexID,
-          parseInt(size),
-          parseInt(page),
-        );
-
-      res.status(HttpStatus.OK).json({
-        transactions: plainToInstance(
-          VirtualEstateTransactionRecordResponseDto,
-          virtualEstateTransactionRecords,
-          {
-            excludeExtraneousValues: true,
-          },
-        ),
-      });
-    } catch (err) {
-      console.error(err);
       throw new HttpException(
         "Internal Server Error",
         HttpStatus.INTERNAL_SERVER_ERROR,

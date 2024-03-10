@@ -3,10 +3,11 @@
 import { useGetGeneralLedgerQuery } from "@/src/features/admin/users/user-admin-api";
 
 import Card from "@mui/joy/Card";
+import CircularProgress from "@mui/joy/CircularProgress";
 import Typography from "@mui/joy/Typography";
 
 export default function GeneralLedger() {
-  const { data: generalLedger } = useGetGeneralLedgerQuery();
+  const { data: generalLedger, isLoading } = useGetGeneralLedgerQuery();
 
   return (
     <div>
@@ -14,39 +15,49 @@ export default function GeneralLedger() {
         <Card>
           <Typography level="title-lg">Total Balance</Typography>
           <Typography level="h2">
-            {generalLedger?.generalBalance || 0}
+            {generalLedger?.generalBalance}
+            {isLoading && <CircularProgress />}
           </Typography>
         </Card>
 
         <Card>
           <Typography level="title-lg">Total Users</Typography>
-          <Typography level="h2">{generalLedger?.totalUsers || 0}</Typography>
+          <Typography level="h2">
+            {generalLedger?.totalUsers}
+            {isLoading && <CircularProgress />}
+          </Typography>
         </Card>
 
         <Card>
           <Typography level="title-lg">Total Virtual Estates</Typography>
           <Typography level="h2">
-            {generalLedger?.totalVirtualEstates || 0}
+            {generalLedger?.totalVirtualEstates}
+            {isLoading && <CircularProgress />}
           </Typography>
         </Card>
 
         <Card>
           <Typography level="title-lg">Total Transactions</Typography>
           <Typography level="h2">
-            {generalLedger?.totalTransactions || 0}
+            {generalLedger?.totalTransactions}
+            {isLoading && <CircularProgress />}
           </Typography>
         </Card>
 
         <Card>
           <Typography level="title-lg">Total Transaction Amount</Typography>
           <Typography level="h2">
-            {generalLedger?.totalTransactionAmount || 0}
+            {generalLedger?.totalTransactionAmount}
+            {isLoading && <CircularProgress />}
           </Typography>
         </Card>
 
         <Card>
           <Typography level="title-lg">Invite Code</Typography>
-          <Typography level="h2">{generalLedger?.inviteCode || ""}</Typography>
+          <Typography level="h2">
+            {generalLedger?.inviteCode}
+            {isLoading && <CircularProgress />}
+          </Typography>
         </Card>
       </div>
     </div>

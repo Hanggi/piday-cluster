@@ -126,9 +126,9 @@ enum WithdrawStatus {
 model WithdrawRequest {
   id               Int    @id @default(autoincrement())
   withdrawStatusID BigInt @unique // withdrawStatus ID
-  ownerID          String // Keycloak user ID
 
-  owner User @relation(fields: [ownerID], references: [keycloakID])
+  ownerID String // Keycloak user ID
+  owner   User   @relation(fields: [ownerID], references: [keycloakID])
 
   status WithdrawStatus
 
@@ -149,7 +149,7 @@ model PointRecords {
   amount Decimal @db.Decimal(18, 8)
 
   reason     String // Used to record the reasons for each recharge or consumption
-  externalID String // A unique identifier stored in an external system or database associated with the record
+  externalID String? // A unique identifier stored in an external system or database associated with the record
 
   ownerID String // Keycloak user ID
   owner   User   @relation(fields: [ownerID], references: [keycloakID])

@@ -108,18 +108,42 @@ export class UserAdminService {
         },
       });
 
+    const rechargeSumByGenesisMintPromise =
+      this.prisma.rechargeRecords.aggregate({
+        _sum: {
+          amount: true,
+        },
+        where: {
+          reason: "PLATFORM_MINT_VIRTUAL_ESTATE",
+        },
+      });
+    const rechargeSumByTradingCommissionPromise =
+      this.prisma.rechargeRecords.aggregate({
+        _sum: {
+          amount: true,
+        },
+        where: {
+          reason: "TRADING_COMMISSION",
+        },
+      });
+
     const [
       generalBalance,
       totalUserCount,
       totalVirtualEstates,
       totalTransactionCount,
       transactionAmountSum,
+
+      rechargeSumByGenesisMint,
+      rechargeSumByTradingCommission,
     ] = await Promise.all([
       rechargeSumPromise,
       totalUserCountPromise,
       totalVECountPromise,
       totalTransactionCountPromise,
       transactionAmountSumPromise,
+      rechargeSumByGenesisMintPromise,
+      rechargeSumByTradingCommissionPromise,
     ]);
 
     return {
@@ -129,6 +153,9 @@ export class UserAdminService {
       totalTransactions: totalTransactionCount,
       totalTransactionAmount: transactionAmountSum._sum.price,
       inviteCode,
+
+      incomeByGenesisMint: rechargeSumByGenesisMint._sum.amount,
+      incomeByTradingCommission: rechargeSumByTradingCommission._sum.amount,
     };
   }
 

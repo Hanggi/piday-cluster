@@ -76,7 +76,7 @@ export default function MyBalanceRecords({ rechargeAddress }: Props) {
       </div>
 
       <Card>
-        <Table>
+        <Table hoverRow noWrap stripe="even">
           <thead>
             <tr>
               <th>ID</th>

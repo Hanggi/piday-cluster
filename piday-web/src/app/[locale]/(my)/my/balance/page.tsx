@@ -7,7 +7,7 @@ export default function MyBalancePage() {
   const rechargeAddress = process.env.RECHARGE_ADDRESS;
 
   return (
-    <main className="container">
+    <main className="">
       <BreadCrumb />
       <MyBalanceBanner />
 

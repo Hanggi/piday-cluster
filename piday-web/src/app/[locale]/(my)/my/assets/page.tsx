@@ -9,14 +9,12 @@ export const metadata = {
 };
 
 export default function MyAssetsPage() {
-
   return (
-    <main className="container">
+    <main className="">
       <BreadCrumb />
       <MyAssetsBanner />
       <div className="mt-8">
-        <MyVritualEstates
-        />
+        <MyVritualEstates />
       </div>
 
       <div className="mt-8">

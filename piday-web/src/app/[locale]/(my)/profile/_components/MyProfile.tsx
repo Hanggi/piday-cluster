@@ -5,7 +5,9 @@ import { useGetMyUserQuery } from "@/src/features/auth/api/authAPI";
 import { useGetInviteCodeQuery } from "@/src/features/user/api/userAPI";
 import { useSession } from "next-auth/react";
 
-import { Button, Input } from "@mui/joy";
+import Button from "@mui/joy/Button";
+import Card from "@mui/joy/Card";
+import Input from "@mui/joy/Input";
 import Typography from "@mui/joy/Typography";
 
 import { useCallback, useEffect, useState } from "react";
@@ -36,57 +38,59 @@ export default function MyProfile() {
   }, [UpdatePiWalletAddressResult.isSuccess, refetchMyUser, t]);
 
   return (
-    <div className="overflow-hidden">
-      <div className="mb-4">
-        <Typography level="title-lg">
-          {t("profile:profile.myProfile")}
-        </Typography>
+    <Card className="mt-8" size="lg">
+      <div className="overflow-hidden">
+        <div className="mb-4">
+          <Typography level="title-lg">
+            {t("profile:profile.myProfile")}
+          </Typography>
+        </div>
+        <div className="mb-4">
+          <Typography level="title-md">ID</Typography>
+          <Typography>{formatID(myUser?.id)}</Typography>
+        </div>
+        <div className="mb-4">
+          <Typography level="title-md">{t("profile:profile.email")}</Typography>
+          <Typography>{session?.user?.email}</Typography>
+        </div>
+        <div className="mb-4">
+          <Typography level="title-md">
+            {t("profile:profile.invitationCodeLink")}
+          </Typography>
+          <Typography> https://piday.world/?ic={invitationCode}</Typography>
+        </div>
+        <div className="mb-4">
+          <Typography level="title-md">
+            {t("profile:profile.username")}
+          </Typography>
+          <Typography>{session?.user?.name}</Typography>
+        </div>
+        <div className="mb-4">
+          <Typography level="title-md">Pi Wallet Address</Typography>
+          {myUser?.piWalletAddress ? (
+            <Typography>{myUser?.piWalletAddress}</Typography>
+          ) : (
+            <div className="flex gap-4">
+              <Input
+                placeholder={t(
+                  "profile:profile.placeholder.enterYourPiWalletAddress",
+                )}
+                value={piWalletAddress}
+                onChange={handlePiWalletAddressChange}
+              />
+              <Button
+                disabled={UpdatePiWalletAddressResult.isLoading}
+                onClick={() => {
+                  updateWalletAddress({ piWalletAddress });
+                }}
+              >
+                {t("profile:button.save")}
+              </Button>
+            </div>
+          )}
+        </div>
       </div>
-      <div className="mb-4">
-        <Typography level="title-md">ID</Typography>
-        <Typography>{formatID(myUser?.id)}</Typography>
-      </div>
-      <div className="mb-4">
-        <Typography level="title-md">{t("profile:profile.email")}</Typography>
-        <Typography>{session?.user?.email}</Typography>
-      </div>
-      <div className="mb-4">
-        <Typography level="title-md">
-          {t("profile:profile.invitationCodeLink")}
-        </Typography>
-        <Typography> https://piday.world/?ic={invitationCode}</Typography>
-      </div>
-      <div className="mb-4">
-        <Typography level="title-md">
-          {t("profile:profile.username")}
-        </Typography>
-        <Typography>{session?.user?.name}</Typography>
-      </div>
-      <div className="mb-4">
-        <Typography level="title-md">Pi Wallet Address</Typography>
-        {myUser?.piWalletAddress ? (
-          <Typography>{myUser?.piWalletAddress}</Typography>
-        ) : (
-          <div className="flex gap-4">
-            <Input
-              placeholder={t(
-                "profile:profile.placeholder.enterYourPiWalletAddress",
-              )}
-              value={piWalletAddress}
-              onChange={handlePiWalletAddressChange}
-            />
-            <Button
-              disabled={UpdatePiWalletAddressResult.isLoading}
-              onClick={() => {
-                updateWalletAddress({ piWalletAddress });
-              }}
-            >
-              {t("profile:button.save")}
-            </Button>
-          </div>
-        )}
-      </div>
-    </div>
+    </Card>
   );
 }
 

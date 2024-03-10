@@ -32,9 +32,9 @@ export const MyVritualEstates = ({}: Props) => {
   }, [dispatch, myVritualEstatesRes?.totalCount]);
 
   return (
-    <div>
+    <div className="overflow-hidden">
       <WrapperCard>
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <div className="grid grid-cols-2 gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {myVritualEstatesRes?.virtualEstates &&
             myVritualEstatesRes?.virtualEstates.map((ve: VirtualEstate, i) => {
               return (

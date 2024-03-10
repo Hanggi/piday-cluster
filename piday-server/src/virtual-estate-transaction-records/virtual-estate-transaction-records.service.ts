@@ -18,6 +18,11 @@ export class VirtualEstateTransactionRecordsService {
     private virtualEstateListingService: VirtualEstateListingService,
   ) {}
 
+  // =============================================================================
+  // Trading Logics
+  // =============================================================================
+
+  // The virtual estate owner accepts a bid to sell the virtual estate
   async acceptBidToSellVirtualEstate({
     bidID,
     sellerID,
@@ -35,10 +40,12 @@ export class VirtualEstateTransactionRecordsService {
       throw new ServiceException("Bid expired.", "BID_EXPIRED");
     }
 
-    return this.prisma.$transaction(async (prisma) => {
+    // -----------------------------------------------------------------------------
+    // Start transaction
+    return this.prisma.$transaction(async (tx) => {
       const buyerID = biddingDetail.ownerID;
       const price = biddingDetail.price.toString();
-      const balance = await prisma.rechargeRecords.aggregate({
+      const balance = await tx.rechargeRecords.aggregate({
         where: {
           ownerID: buyerID,
         },
@@ -51,7 +58,7 @@ export class VirtualEstateTransactionRecordsService {
       }
 
       const transactionID = BigInt(generateFlakeID());
-      const transaction = await prisma.virtualEstateTransactionRecords.create({
+      const transaction = await tx.virtualEstateTransactionRecords.create({
         data: {
           transactionID: transactionID,
           buyerID,
@@ -65,15 +72,75 @@ export class VirtualEstateTransactionRecordsService {
         throw new Error("Transaction not successful");
       }
 
-      await prisma.rechargeRecords.create({
+      // -----------------------------------------------------------------------------
+      // Get inviter's of buyer and seller
+      const buyerInviter = await tx.user.findFirst({
+        where: {
+          keycloakID: buyerID,
+        },
+        select: {
+          keycloakID: true,
+        },
+      });
+      const sellerInviter = await tx.user.findFirst({
+        where: {
+          keycloakID: sellerID,
+        },
+        select: {
+          keycloakID: true,
+        },
+      });
+
+      // -----------------------------------------------------------------------------
+      // Calculate platform commission
+      let platfromTradingCommission =
+        +price * +process.env.PLATFORM_TRADING_COMMISSION;
+      const sellerIncome = +price - platfromTradingCommission;
+
+      if (buyerInviter) {
+        const inviterIncome =
+          platfromTradingCommission *
+          +process.env.INVIDER_TRADING_COMMISSION_RATIO;
+
+        platfromTradingCommission -= inviterIncome;
+
+        await tx.rechargeRecords.create({
+          data: {
+            amount: inviterIncome.toString(),
+            externalID: transactionID.toString(),
+            reason: "INVITER_TRADING_PROFIT",
+            ownerID: buyerInviter.keycloakID,
+          },
+        });
+      }
+      if (sellerInviter) {
+        const inviterIncome =
+          platfromTradingCommission *
+          +process.env.INVIDER_TRADING_COMMISSION_RATIO;
+
+        platfromTradingCommission -= inviterIncome;
+
+        await tx.rechargeRecords.create({
+          data: {
+            amount: inviterIncome.toString(),
+            externalID: transactionID.toString(),
+            reason: "INVITER_TRADING_PROFIT",
+            ownerID: sellerInviter.keycloakID,
+          },
+        });
+      }
+
+      // -----------------------------------------------------------------------------
+      // Create recharge records for buyer, seller and platform
+      await tx.rechargeRecords.create({
         data: {
-          amount: price,
+          amount: sellerIncome,
           externalID: transactionID.toString(),
           reason: "SELL_ASK",
           ownerID: sellerID,
         },
       });
-      await prisma.rechargeRecords.create({
+      await tx.rechargeRecords.create({
         data: {
           amount: -price,
           externalID: transactionID.toString(),
@@ -81,8 +148,18 @@ export class VirtualEstateTransactionRecordsService {
           ownerID: buyerID,
         },
       });
+      await tx.rechargeRecords.create({
+        data: {
+          amount: platfromTradingCommission,
+          externalID: transactionID.toString(),
+          reason: "PLATFORM_TRADING_COMMISSION",
+          ownerID: process.env.PLATFORM_ACCOUNT_ID,
+        },
+      });
 
-      await prisma.virtualEstate.update({
+      // -----------------------------------------------------------------------------
+      // Update the virtual estate owner
+      await tx.virtualEstate.update({
         where: {
           virtualEstateID,
         },
@@ -90,8 +167,11 @@ export class VirtualEstateTransactionRecordsService {
           ownerID: buyerID,
         },
       });
+
+      // -----------------------------------------------------------------------------
+      // Update the listing status
       const listingID = BigInt(bidID);
-      await prisma.virtualEstateListing.update({
+      await tx.virtualEstateListing.update({
         where: {
           listingID,
         },
@@ -106,6 +186,175 @@ export class VirtualEstateTransactionRecordsService {
       };
     });
   }
+
+  // The buyer accepts an ask to buy the virtual estate
+  async acceptAskRequestToBuyVirtualEstate({
+    askID,
+    buyerID,
+    virtualEstateID,
+  }: AcceptAskRequestTransactionRecordDto) {
+    const askingDetail =
+      await this.virtualEstateListingService.getOneListingDetail(BigInt(askID));
+    if (!askingDetail) {
+      throw new ServiceException("No asking details found.", "BID_NOT_FOUND");
+    }
+    if (askingDetail.type !== "ASK") {
+      throw new ServiceException("Invalid ask type.", "INVALID_BID_TYPE");
+    }
+    if (askingDetail.expiresAt < new Date()) {
+      throw new ServiceException("Ask expired.", "BID_EXPIRED");
+    }
+
+    // -----------------------------------------------------------------------------
+    // Start transaction
+    return this.prisma.$transaction(async (tx) => {
+      const sellerID = askingDetail.ownerID;
+      const price = askingDetail.price.toString();
+      const balance = await tx.rechargeRecords.aggregate({
+        where: {
+          ownerID: buyerID,
+        },
+        _sum: {
+          amount: true,
+        },
+      });
+      if (balance._sum.amount.lessThan(new Decimal(price))) {
+        throw new ServiceException("Not enough balance", "NOT_ENOUGH_BALANCE");
+      }
+
+      const transactionID = BigInt(generateFlakeID());
+      const transaction = await tx.virtualEstateTransactionRecords.create({
+        data: {
+          transactionID: transactionID,
+          buyerID,
+          price,
+          sellerID,
+          virtualEstateID,
+        },
+      });
+
+      if (!transaction) {
+        throw new Error("Transaction not successful");
+      }
+
+      // -----------------------------------------------------------------------------
+      // Get inviter's of buyer and seller
+      const buyerInviter = await tx.user.findFirst({
+        where: {
+          keycloakID: buyerID,
+        },
+        select: {
+          keycloakID: true,
+        },
+      });
+      const sellerInviter = await tx.user.findFirst({
+        where: {
+          keycloakID: sellerID,
+        },
+        select: {
+          keycloakID: true,
+        },
+      });
+
+      // -----------------------------------------------------------------------------
+      // Platform commission
+      let platfromTradingCommission =
+        +price * +process.env.PLATFORM_TRADING_COMMISSION;
+      const sellerIncome = +price - platfromTradingCommission;
+
+      if (buyerInviter) {
+        const inviterIncome =
+          platfromTradingCommission *
+          +process.env.INVIDER_TRADING_COMMISSION_RATIO;
+
+        platfromTradingCommission -= inviterIncome;
+
+        await tx.rechargeRecords.create({
+          data: {
+            amount: inviterIncome.toString(),
+            externalID: transactionID.toString(),
+            reason: "INVITER_TRADING_PROFIT",
+            ownerID: buyerInviter.keycloakID,
+          },
+        });
+      }
+
+      if (sellerInviter) {
+        const inviterIncome =
+          platfromTradingCommission *
+          +process.env.INVIDER_TRADING_COMMISSION_RATIO;
+
+        platfromTradingCommission -= inviterIncome;
+
+        await tx.rechargeRecords.create({
+          data: {
+            amount: inviterIncome.toString(),
+            externalID: transactionID.toString(),
+            reason: "INVITER_TRADING_PROFIT",
+            ownerID: sellerInviter.keycloakID,
+          },
+        });
+      }
+
+      // -----------------------------------------------------------------------------
+      // Create recharge records for buyer, seller and platform
+      await tx.rechargeRecords.create({
+        data: {
+          amount: sellerIncome,
+          externalID: transactionID.toString(),
+          reason: "SELL_ASK",
+          ownerID: sellerID,
+        },
+      });
+      await tx.rechargeRecords.create({
+        data: {
+          amount: -price,
+          externalID: transactionID.toString(),
+          reason: "BUY_BID",
+          ownerID: buyerID,
+        },
+      });
+      await tx.rechargeRecords.create({
+        data: {
+          amount: platfromTradingCommission,
+          externalID: transactionID.toString(),
+          reason: "PLATFORM_TRADING_COMMISSION",
+          ownerID: process.env.PLATFORM_ACCOUNT_ID,
+        },
+      });
+
+      // -----------------------------------------------------------------------------
+      // Update the virtual estate owner
+      await tx.virtualEstate.update({
+        where: {
+          virtualEstateID,
+        },
+        data: {
+          ownerID: buyerID,
+        },
+      });
+      // -----------------------------------------------------------------------------
+      // Update the listing status
+      const listingID = BigInt(askID);
+      await tx.virtualEstateListing.update({
+        where: {
+          listingID,
+        },
+        data: {
+          expiresAt: new Date(),
+        },
+      });
+
+      return {
+        ...transaction,
+        transactionID: transaction.transactionID.toString(),
+      };
+    });
+  }
+
+  // =============================================================================
+  // Others
+  // =============================================================================
 
   async getAllTransactionRecordsForUserBasedOnType(
     userID: string,
@@ -215,94 +464,5 @@ export class VirtualEstateTransactionRecordsService {
     } catch (error) {
       throw error;
     }
-  }
-
-  async acceptAskRequestToBuyVirtualEstate({
-    askID,
-    buyerID,
-    virtualEstateID,
-  }: AcceptAskRequestTransactionRecordDto) {
-    const askingDetail =
-      await this.virtualEstateListingService.getOneListingDetail(BigInt(askID));
-    if (!askingDetail) {
-      throw new ServiceException("No asking details found.", "BID_NOT_FOUND");
-    }
-    if (askingDetail.type !== "ASK") {
-      throw new ServiceException("Invalid ask type.", "INVALID_BID_TYPE");
-    }
-    if (askingDetail.expiresAt < new Date()) {
-      throw new ServiceException("Ask expired.", "BID_EXPIRED");
-    }
-
-    return this.prisma.$transaction(async (prisma) => {
-      const sellerID = askingDetail.ownerID;
-      const price = askingDetail.price.toString();
-      const balance = await prisma.rechargeRecords.aggregate({
-        where: {
-          ownerID: buyerID,
-        },
-        _sum: {
-          amount: true,
-        },
-      });
-      if (balance._sum.amount.lessThan(new Decimal(price))) {
-        throw new ServiceException("Not enough balance", "NOT_ENOUGH_BALANCE");
-      }
-
-      const transactionID = BigInt(generateFlakeID());
-      const transaction = await prisma.virtualEstateTransactionRecords.create({
-        data: {
-          transactionID: transactionID,
-          buyerID,
-          price,
-          sellerID,
-          virtualEstateID,
-        },
-      });
-
-      if (!transaction) {
-        throw new Error("Transaction not successful");
-      }
-
-      await prisma.rechargeRecords.create({
-        data: {
-          amount: price,
-          externalID: transactionID.toString(),
-          reason: "SELL_ASK",
-          ownerID: sellerID,
-        },
-      });
-      await prisma.rechargeRecords.create({
-        data: {
-          amount: -price,
-          externalID: transactionID.toString(),
-          reason: "BUY_BID",
-          ownerID: buyerID,
-        },
-      });
-
-      await prisma.virtualEstate.update({
-        where: {
-          virtualEstateID,
-        },
-        data: {
-          ownerID: buyerID,
-        },
-      });
-      const listingID = BigInt(askID);
-      await prisma.virtualEstateListing.update({
-        where: {
-          listingID,
-        },
-        data: {
-          expiresAt: new Date(),
-        },
-      });
-
-      return {
-        ...transaction,
-        transactionID: transaction.transactionID.toString(),
-      };
-    });
   }
 }
