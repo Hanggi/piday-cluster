@@ -1,12 +1,15 @@
+import { plainToInstance } from "class-transformer";
 import { Response } from "express";
 
 import {
   Body,
   Controller,
+  Get,
   HttpException,
   HttpStatus,
   Param,
   Post,
+  Query,
   Req,
   Res,
   UseGuards,
@@ -16,8 +19,10 @@ import {
 
 import { AuthenticatedRequest } from "../lib/keycloak/interfaces/authenticated-request";
 import { KeycloakJwtGuard } from "../lib/keycloak/keycloak-jwt.guard";
+import { VirtualEstateResponseDto } from "../virtual-estate/dto/virtual-estate.dto";
 import { HexIdValidationPipe } from "../virtual-estate/pipes/hex-id-validation.pipe";
 import { CreateVirtualEstateListingDto } from "./dto/create-virtual-estate-listing.dto";
+import { VirtualEstateListingResponseDto } from "./dto/virtual-estate-listing.dto";
 import { VirtualEstateListingService } from "./virtual-estate-listing.service";
 
 @Controller("virtual-estate-listing")
@@ -54,9 +59,60 @@ export class VirtualEstateListingController {
       }
 
       res.status(HttpStatus.OK).json({
-        virtualEstateListing: virtualEstateListing,
+        virtualEstateListing: plainToInstance(
+          VirtualEstateListingResponseDto,
+          virtualEstateListing,
+          {
+            excludeExtraneousValues: true,
+          },
+        ),
         success: true,
         message: "Virtual states listing created successfully",
+      });
+    } catch (error) {
+      console.error(error);
+      throw new HttpException(
+        "Internal Server Error",
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+
+  // =============================================================================
+  // Public Virtual Estates Listings
+  // =============================================================================
+
+  @Get("active")
+  async getActiveVirtualEstateListings(
+    @Res() res: Response,
+    @Query("page") page = 1, // default to page 1
+    @Query("size") size = 10, //default to size 10,
+  ) {
+    try {
+      const virtualEstateLisitingRes =
+        await this.virtualEstateListingService.getActiveVirtualEstateListings(
+          size,
+          page,
+        );
+
+      if (!virtualEstateLisitingRes) {
+        res.status(HttpStatus.NOT_FOUND).json({
+          success: false,
+          virtualEstates: null,
+          message: "No virtual estates listings found",
+        });
+      }
+
+      res.status(HttpStatus.OK).json({
+        virtualEstateListings: plainToInstance(
+          VirtualEstateListingResponseDto,
+          virtualEstateLisitingRes,
+          {
+            excludeExtraneousValues: true,
+          },
+        ),
+        success: true,
+        message: "Virtual states found successfully",
       });
     } catch (error) {
       console.error(error);

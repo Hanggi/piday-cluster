@@ -141,4 +141,25 @@ export class VirtualEstateListingService {
       throw error;
     }
   }
+
+  async getActiveVirtualEstateListings(page: number, size: number) {
+    const virtualEstateListingsActive =
+      await this.prisma.virtualEstateListing.findMany({
+        where: {
+          expiresAt: {
+            gt: new Date(),
+          },
+        },
+        include: {
+          owner: true,
+        },
+        take: +size,
+        skip: +(page - 1) * size,
+        orderBy: {
+          createdAt: "desc",
+        },
+      });
+
+    return virtualEstateListingsActive;
+  }
 }
