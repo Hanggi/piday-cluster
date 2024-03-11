@@ -12,7 +12,7 @@ export async function GET(request: NextRequest) {
 
   try {
     const res = await instance.get(
-      `/virtual-estates-listing/active?page=${page}&size=${size}`,
+      `/virtual-estates/active?page=${page}&size=${size}`,
     );
 
     return new Response(JSON.stringify(res.data), {

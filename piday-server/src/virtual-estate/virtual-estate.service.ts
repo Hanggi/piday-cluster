@@ -316,4 +316,26 @@ export class VirtualEstateService {
       };
     });
   }
+
+  async getActiveVirtualEstateListings(page: number, size: number) {
+    const virtualEstateListingsActive =
+      await this.prisma.virtualEstate.findMany({
+        where: {
+          listings: {
+            some: {
+              expiresAt: {
+                gt: new Date(), // Check if the expiration date is in the future
+              },
+            },
+          },
+        },
+        take: +size,
+        skip: +(page == 0 ? 0 : page - 1) * size,
+        orderBy: {
+          createdAt: "desc",
+        },
+      });
+
+    return virtualEstateListingsActive;
+  }
 }

@@ -78,48 +78,4 @@ export class VirtualEstateListingController {
     }
   }
 
-  // =============================================================================
-  // Public Virtual Estates Listings
-  // =============================================================================
-
-  @Get("active")
-  async getActiveVirtualEstateListings(
-    @Res() res: Response,
-    @Query("page") page = 1, // default to page 1
-    @Query("size") size = 10, //default to size 10,
-  ) {
-    try {
-      const virtualEstateLisitingRes =
-        await this.virtualEstateListingService.getActiveVirtualEstateListings(
-          size,
-          page,
-        );
-
-      if (!virtualEstateLisitingRes) {
-        res.status(HttpStatus.NOT_FOUND).json({
-          success: false,
-          virtualEstates: null,
-          message: "No virtual estates listings found",
-        });
-      }
-
-      res.status(HttpStatus.OK).json({
-        virtualEstateListings: plainToInstance(
-          VirtualEstateListingResponseDto,
-          virtualEstateLisitingRes,
-          {
-            excludeExtraneousValues: true,
-          },
-        ),
-        success: true,
-        message: "Virtual states found successfully",
-      });
-    } catch (error) {
-      console.error(error);
-      throw new HttpException(
-        "Internal Server Error",
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      );
-    }
-  }
 }
