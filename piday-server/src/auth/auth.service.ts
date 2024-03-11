@@ -165,7 +165,7 @@ export class AuthService {
     const piUsername = "pi_" + username;
 
     // Find inviter user
-    const inviterUserID = decodeInviteCode(inviteCode);
+    const inviterUserID = decodeInviteCode(inviteCode.trim());
     const inviter = await this.prisma.user.findUnique({
       where: {
         id: inviterUserID,

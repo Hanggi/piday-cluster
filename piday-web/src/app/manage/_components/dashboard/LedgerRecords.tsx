@@ -51,7 +51,7 @@ export default function LedgerRecords() {
         </div>
         <Pagination
           currentPage={page}
-          pageCount={ledgerRecords?.totalCount || 0 / 20}
+          pageCount={(ledgerRecords?.totalCount || 0) / 20}
         />
       </Card>
     </div>

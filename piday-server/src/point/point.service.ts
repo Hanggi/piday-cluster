@@ -2,6 +2,7 @@ import { Decimal } from "@prisma/client/runtime/library";
 
 import { Injectable } from "@nestjs/common";
 
+import { ServiceException } from "../lib/exceptions/service-exception";
 import { PrismaService } from "../lib/prisma/prisma.service";
 
 @Injectable()
@@ -35,6 +36,14 @@ export class PointService {
 
   // Check In
   async checkIn({ userID }: { userID: string }) {
+    const alreadyCheckedInToday = await this.checkedInToday({ userID });
+    if (alreadyCheckedInToday) {
+      throw new ServiceException(
+        "Already checked in today",
+        "ALREADY_CHECKED_IN_TODAY",
+      );
+    }
+
     // TODO(Hanggi): calculate the amount of point based on the formula of minging
     const checkIn = await this.prisma.pointRecords.create({
       data: {
@@ -48,7 +57,7 @@ export class PointService {
   }
 
   // Checked in today
-  async checkedInToday({ userID }: { userID: string }) {
+  async checkedInToday({ userID }: { userID: string }): Promise<boolean> {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
@@ -62,6 +71,6 @@ export class PointService {
       },
     });
 
-    return checkIn;
+    return !!checkIn;
   }
 }
