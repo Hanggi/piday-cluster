@@ -5,7 +5,7 @@ import Image from "next/image";
 
 import { HeaderAside } from "./_components/HeaderAside";
 import { Information } from "./_components/Information";
-import { Table } from "./_components/Table";
+import { MyPointRecords } from "./_components/MyPointRecords";
 
 export const metadata = {
   title: "Mining",
@@ -25,8 +25,9 @@ export default async function MiningPage() {
         />
         <HeaderAside />
       </WrapperCard>
-      <Information />
-      <Table />
+      {/* TODO(Hanggi): Add Information component */}
+      {/* <Information /> */}
+      <MyPointRecords />
       <br />
       <br />
     </section>

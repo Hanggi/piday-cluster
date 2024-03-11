@@ -16,6 +16,7 @@ type BreadCrumbProps = ComponentProps<"div"> & { path?: string };
 export function BreadCrumb({ className, path, ...props }: BreadCrumbProps) {
   const { t } = useTranslation("breadcrumb");
   const pathname = usePathname();
+
   return (
     <Breadcrumbs
       aria-label="breadcrumbs"

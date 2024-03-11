@@ -143,6 +143,7 @@ export class VirtualEstateService {
           virtualEstateID: hexID,
 
           lastPrice: mintPrice,
+          isGenesis: veCount < 314_000,
 
           ownerID: userID,
         },
@@ -273,8 +274,8 @@ export class VirtualEstateService {
     receiverID: string,
     ownerID: string,
   ) {
-    return this.prisma.$transaction(async (prisma) => {
-      const virtualEstate = await prisma.virtualEstate.findUnique({
+    return this.prisma.$transaction(async (tx) => {
+      const virtualEstate = await tx.virtualEstate.findUnique({
         where: {
           virtualEstateID: hexID,
         },
@@ -282,7 +283,7 @@ export class VirtualEstateService {
       if (virtualEstate.ownerID !== ownerID)
         throw new ServiceException("Not owns this virtual estate", "NOT_OWNER");
 
-      const receiver = await prisma.user.findUnique({
+      const receiver = await tx.user.findUnique({
         where: {
           keycloakID: receiverID,
         },
@@ -291,7 +292,7 @@ export class VirtualEstateService {
       if (!receiver)
         throw new ServiceException("user does not exist", "USER_NOT_FOUND");
 
-      await prisma.virtualEstate.update({
+      await tx.virtualEstate.update({
         data: {
           ownerID: receiver.keycloakID,
         },
@@ -300,13 +301,23 @@ export class VirtualEstateService {
         },
       });
       const transactionID = BigInt(generateFlakeID());
-      const transaction = await prisma.virtualEstateTransactionRecords.create({
+      const transaction = await tx.virtualEstateTransactionRecords.create({
         data: {
           transactionID: transactionID,
           buyerID: receiver.keycloakID,
           price: ZERO_DECIMAL,
           sellerID: ownerID,
           virtualEstateID: virtualEstate.virtualEstateID,
+        },
+      });
+
+      // Expires all the listing for the virtual estate
+      await tx.virtualEstateListing.updateMany({
+        where: {
+          virtualEstateID: hexID,
+        },
+        data: {
+          expiresAt: new Date(),
         },
       });
 

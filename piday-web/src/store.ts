@@ -6,6 +6,7 @@ import { userAdminAPI } from "./features/admin/users/user-admin-api";
 import { virtualEstatesAdminAPI } from "./features/admin/vritual-estates/virtual-estates-admin-api";
 import { authRTKApi } from "./features/auth/api/authAPI";
 import globalSlice from "./features/global/global.slice";
+import { pointRTKApi } from "./features/point/api/pointAPI";
 import { userRTKAPI } from "./features/user/api/userAPI";
 import { virtualEstateListingRTKApi } from "./features/virtual-estate-listing/api/virtualEstateListingAPI";
 import { virtualEstateTransactionRecordsRTKApi } from "./features/virtual-estate-transaction-record/api/virtualEstateTransactionRecordAPI";
@@ -28,6 +29,7 @@ export const store = configureStore({
     [virtualEstateTransactionRecordsRTKApi.reducerPath]:
       virtualEstateTransactionRecordsRTKApi.reducer,
     [userRTKAPI.reducerPath]: userRTKAPI.reducer,
+    [pointRTKApi.reducerPath]: pointRTKApi.reducer,
 
     // Admin
     [virtualEstatesAdminAPI.reducerPath]: virtualEstatesAdminAPI.reducer,
@@ -47,6 +49,7 @@ export const store = configureStore({
       .concat(virtualEstatesAdminAPI.middleware)
       .concat(transactionAdminAPI.middleware)
       .concat(withdrawRequestRTKApi.middleware)
+      .concat(pointRTKApi.middleware)
       .concat(userAdminAPI.middleware);
   },
 });
