@@ -4,7 +4,6 @@ import { WrapperCard } from "@/src/components/WrapperCard";
 import Image from "next/image";
 
 import { HeaderAside } from "./_components/HeaderAside";
-import { Information } from "./_components/Information";
 import { MyPointRecords } from "./_components/MyPointRecords";
 
 export const metadata = {

@@ -2,9 +2,12 @@
 
 import { WrapperCard } from "@/src/components/WrapperCard";
 import { useGetBalanceQuery } from "@/src/features/account/api/accountAPI";
+import { useGetMyPointQuery } from "@/src/features/point/api/pointAPI";
+import { useGetMyVirtualEstatesQuery } from "@/src/features/virtual-estate/api/virtualEstateAPI";
 import { cn } from "@/src/utils/cn";
 
 import Card from "@mui/joy/Card";
+import CircularProgress from "@mui/joy/CircularProgress";
 import Typography from "@mui/joy/Typography";
 
 import Image from "next/image";
@@ -18,7 +21,15 @@ type StatisticsProps = ComponentProps<"div">;
 export function MyPropertiesOverview({ className, ...props }: StatisticsProps) {
   const { t } = useTranslation("profile");
 
-  const { data: balance } = useGetBalanceQuery({});
+  const { data: balance, isLoading: balanceIsLoading } = useGetBalanceQuery({});
+
+  const { data: myVritualEstatesRes, isLoading: myVECountIsLoading } =
+    useGetMyVirtualEstatesQuery({
+      page: 1,
+      size: 1,
+    });
+
+  const { data: myPoint, isLoading: isLoadingMyPoint } = useGetMyPointQuery();
 
   return (
     <Card size="lg">
@@ -39,7 +50,7 @@ export function MyPropertiesOverview({ className, ...props }: StatisticsProps) {
                 {t("profile:leaderboard.totalWalletAssets")}
               </Typography>
               <Typography className="!text-white" level="h2">
-                {balance || 0}
+                {balanceIsLoading ? <CircularProgress /> : balance || 0}
               </Typography>
               <Image
                 alt="icon"
@@ -63,7 +74,11 @@ export function MyPropertiesOverview({ className, ...props }: StatisticsProps) {
                 {t("profile:leaderboard.landAssetQuantity")}
               </Typography>
               <Typography className="!text-white" level="h2">
-                0
+                {myVECountIsLoading ? (
+                  <CircularProgress />
+                ) : (
+                  myVritualEstatesRes?.totalCount || 0
+                )}
               </Typography>
               <Image
                 alt="icon"
@@ -75,27 +90,29 @@ export function MyPropertiesOverview({ className, ...props }: StatisticsProps) {
             </WrapperCard>
           </Link>
 
-          <WrapperCard
-            className="relative"
-            key={"profile:leaderboard.totalMiningPoints"}
-            style={{
-              background: "linear-gradient(98deg, #00C2FF 0%, #0085FF 100%)",
-            }}
-          >
-            <Typography className="!text-white">
-              {t("profile:leaderboard.totalMiningPoints")}
-            </Typography>
-            <Typography className="!text-white" level="h2">
-              0
-            </Typography>
-            <Image
-              alt="icon"
-              className="absolute right-0 bottom-0 opacity-40 grayscale invert"
-              height={106}
-              src={"/img/mining/tools.svg"}
-              width={106}
-            />
-          </WrapperCard>
+          <Link href="/mining">
+            <WrapperCard
+              className="relative"
+              key={"profile:leaderboard.totalMiningPoints"}
+              style={{
+                background: "linear-gradient(98deg, #00C2FF 0%, #0085FF 100%)",
+              }}
+            >
+              <Typography className="!text-white">
+                {t("profile:leaderboard.totalMiningPoints")}
+              </Typography>
+              <Typography className="!text-white" level="h2">
+                {isLoadingMyPoint ? <CircularProgress /> : myPoint || 0}
+              </Typography>
+              <Image
+                alt="icon"
+                className="absolute right-0 bottom-0 opacity-40 grayscale invert"
+                height={106}
+                src={"/img/mining/tools.svg"}
+                width={106}
+              />
+            </WrapperCard>
+          </Link>
         </div>
       </div>
     </Card>
