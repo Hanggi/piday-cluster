@@ -149,6 +149,19 @@ export const virtualEstateRTKApi = createApi({
         return response?.transactionRecord;
       },
     }),
+
+    getActiveListings: builder.query<
+      VirtualEstate[],
+      { page: number; size: number }
+    >({
+      query: ({ page, size }) => ({
+        url: `/virtual-estates/listed?page=${page}&size=${size}`,
+        method: "GET",
+      }),
+      transformResponse: (response: { virtualEstates: VirtualEstate[] }) => {
+        return response.virtualEstates;
+      },
+    }),
   }),
 });
 
@@ -164,4 +177,5 @@ export const {
   useGetVirtualEstateTransactionRecordsQuery,
   useAcceptAskToBuyVirtualEstateMutation,
   useTransferVirtualEstateToUserMutation,
+  useGetActiveListingsQuery,
 } = virtualEstateRTKApi;

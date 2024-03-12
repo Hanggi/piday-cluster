@@ -3,6 +3,9 @@ import { TransactionType } from "@prisma/client";
 import { Exclude, Expose, Type } from "class-transformer";
 
 export class VirtualEstateListingResponseDto {
+  constructor(partial: Partial<VirtualEstateListingResponseDto>) {
+    Object.assign(this, partial);
+  }
   @Exclude()
   id: number;
 
