@@ -155,7 +155,7 @@ export const virtualEstateRTKApi = createApi({
       { page: number; size: number }
     >({
       query: ({ page, size }) => ({
-        url: `/virtual-estates/active?page=${page}&size=${size}`,
+        url: `/virtual-estates/listed?page=${page}&size=${size}`,
         method: "GET",
       }),
       transformResponse: (response: { virtualEstates: VirtualEstate[] }) => {

@@ -23,20 +23,6 @@ export const virtualEstateListingRTKApi = createApi({
         return response?.ve;
       },
     }),
-    getActiveListings: builder.query<
-      VirtualEstateListing[],
-      { page: number; size: number }
-    >({
-      query: ({ page, size }) => ({
-        url: `/virtual-estate-listing/active?page=${page}&size=${size}`,
-        method: "GET",
-      }),
-      transformResponse: (response: {
-        virtualEstateListings: VirtualEstateListing[];
-      }) => {
-        return response.virtualEstateListings;
-      },
-    }),
   }),
 });
 

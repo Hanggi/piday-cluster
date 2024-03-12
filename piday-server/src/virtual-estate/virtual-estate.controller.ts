@@ -41,22 +41,18 @@ export class VirtualEstateController {
   // Public Active Virtual Estates
   // =============================================================================
 
-  @Get("active")
-  async getActiveVirtualEstates(
+  @Get("listed")
+  async getListedVirtualEstates(
     @Res() res: Response,
     @Query("page") page = 1, // default to page 1
     @Query("size") size = 10, //default to size 10,
   ) {
     try {
       const virtualEstates =
-        await this.virtualEstateService.getActiveVirtualEstateListings(
-          page,
-          size,
-        );
+        await this.virtualEstateService.getListedVirtualEstates(page, size);
 
-      console.log("Virtual estates", virtualEstates);
       if (!virtualEstates) {
-        res.status(HttpStatus.NOT_FOUND).json({
+        res.status(HttpStatus.OK).json({
           success: true,
           virtualEstates: [],
           message: "No virtual estates listings",

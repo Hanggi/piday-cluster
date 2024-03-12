@@ -317,7 +317,7 @@ export class VirtualEstateService {
     });
   }
 
-  async getActiveVirtualEstateListings(page: number, size: number) {
+  async getListedVirtualEstates(page: number, size: number) {
     const virtualEstateListingsActive =
       await this.prisma.virtualEstate.findMany({
         where: {
