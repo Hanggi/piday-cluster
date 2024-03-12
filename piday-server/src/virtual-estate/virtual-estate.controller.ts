@@ -182,7 +182,6 @@ export class VirtualEstateController {
     @Req() req: AuthenticatedRequest,
     @Body("name") name: string,
   ) {
-    console.log(name);
     try {
       const { ve: existing } =
         await this.virtualEstateService.getOneVirtualEstate(hexID);
@@ -390,7 +389,6 @@ export class VirtualEstateController {
         return;
       }
 
-      console.log(listing);
       res.status(HttpStatus.OK).json({
         ve: plainToInstance(VirtualEstateResponseDto, virtualEstate, {
           excludeExtraneousValues: true,

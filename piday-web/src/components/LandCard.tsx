@@ -30,7 +30,7 @@ export function VirtualEstateCard({ ve }: Props) {
               src="/img/map/map.png"
               width={280}
             />
-            <Chip className="relative !py-2 !text-white !text-xs !rounded !bg-sky-500">
+            <Chip className="relative !py-2 !text-yellow-200 !text-xs !rounded !bg-violet-600">
               {t("genesisLand")}
             </Chip>
 

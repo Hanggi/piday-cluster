@@ -150,7 +150,7 @@ export const virtualEstateRTKApi = createApi({
       },
     }),
 
-    getActiveListings: builder.query<
+    getListedVirtualEstates: builder.query<
       VirtualEstate[],
       { page: number; size: number }
     >({
@@ -177,5 +177,5 @@ export const {
   useGetVirtualEstateTransactionRecordsQuery,
   useAcceptAskToBuyVirtualEstateMutation,
   useTransferVirtualEstateToUserMutation,
-  useGetActiveListingsQuery,
+  useGetListedVirtualEstatesQuery,
 } = virtualEstateRTKApi;
