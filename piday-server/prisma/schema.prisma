@@ -74,9 +74,9 @@ model VirtualEstate {
   ownerID String // Keycloak user ID
   owner   User   @relation(fields: [ownerID], references: [keycloakID])
 
-  listings VirtualEstateListing[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
+  listings  VirtualEstateListing[]
+  createdAt DateTime               @default(now())
+  updatedAt DateTime               @default(now()) @updatedAt
 }
 
 // If a user wants to buy a virtual estate, the transaction type will be BID, vice versa
@@ -94,12 +94,12 @@ model VirtualEstateListing {
   price Decimal         @db.Decimal(18, 8)
   type  TransactionType
 
-  virtualEstate   VirtualEstate       @relation(fields: [virtualEstateID], references: [virtualEstateID])  // Define the relation here
-  ownerID String // Keycloak user ID
-  owner   User   @relation(fields: [ownerID], references: [keycloakID])
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
-  expiresAt DateTime
+  virtualEstate VirtualEstate @relation(fields: [virtualEstateID], references: [virtualEstateID]) // Define the relation here
+  ownerID       String // Keycloak user ID
+  owner         User          @relation(fields: [ownerID], references: [keycloakID])
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @default(now()) @updatedAt
+  expiresAt     DateTime
 }
 
 // This is a record of a transaction, and it's unchangeable

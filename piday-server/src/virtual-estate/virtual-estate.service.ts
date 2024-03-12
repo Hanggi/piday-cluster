@@ -340,6 +340,9 @@ export class VirtualEstateService {
             },
           },
         },
+        include: {
+          listings: true,
+        },
         take: +size,
         skip: +(page == 0 ? 0 : page - 1) * size,
         orderBy: {

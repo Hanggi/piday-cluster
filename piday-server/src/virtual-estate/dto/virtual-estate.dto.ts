@@ -1,4 +1,5 @@
 import { UserResponseDto } from "@/src/user/dto/user.dto";
+import { VirtualEstateListingResponseDto } from "@/src/virtual-estate-listing/dto/virtual-estate-listing.dto";
 import { Exclude, Expose, Type } from "class-transformer";
 
 export class VirtualEstateResponseDto {
@@ -18,6 +19,7 @@ export class VirtualEstateResponseDto {
   @Expose()
   @Type(() => String)
   lastPrice: string;
+
   @Expose()
   address?: string;
 
@@ -29,4 +31,9 @@ export class VirtualEstateResponseDto {
   createdAt: Date;
   @Expose()
   updatedAt: Date;
+
+  // Additional fields
+  @Expose()
+  @Type(() => VirtualEstateListingResponseDto)
+  listings?: VirtualEstateListingResponseDto[];
 }

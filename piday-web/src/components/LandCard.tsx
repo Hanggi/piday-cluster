@@ -1,4 +1,5 @@
 import Chip from "@mui/joy/Chip";
+import Typography from "@mui/joy/Typography";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -10,7 +11,6 @@ import PiCoinLogo from "./piday-ui/PiCoinLogo";
 import { hexIDtoDecimal } from "./virtual-estate-map/h3";
 
 interface Props {
-  // TODO(Hanggi): Make it as requreid
   ve: VirtualEstate;
 }
 
@@ -30,9 +30,11 @@ export function VirtualEstateCard({ ve }: Props) {
               src="/img/map/map.png"
               width={280}
             />
-            <Chip className="relative !py-2 !text-yellow-200 !text-xs !rounded !bg-violet-600">
-              {t("genesisLand")}
-            </Chip>
+            {ve.isGenesis && (
+              <Chip className="relative !py-2 !text-yellow-200 !text-xs !rounded !bg-violet-600">
+                {t("genesisLand")}
+              </Chip>
+            )}
 
             <Image
               alt="pid"
@@ -43,13 +45,23 @@ export function VirtualEstateCard({ ve }: Props) {
             />
           </div>
           <div className="px-4 pt-4 flex flex-col gap-3">
-            <p className="font-semibold">{ve?.name}</p>
-            <p className="text-black/40 text-sm -mt-2">{ve?.virtualEstateID}</p>
-            <div className="flex gap-2.5">
-              <div className="relative w-6 h-6">
-                <PiCoinLogo />
+            <div className="h-12">
+              <Typography level="title-lg">{ve?.name}</Typography>
+            </div>
+            <Typography level="body-sm">{ve?.virtualEstateID}</Typography>
+
+            <div className="flex justify-between">
+              <div className="flex gap-2.5">
+                <div className="relative w-6 h-6">
+                  <PiCoinLogo />
+                </div>
+                <Typography level="title-lg">
+                  {getVirtualEstatePrice(ve)}
+                </Typography>
               </div>
-              <span>{ve?.lastPrice}</span>
+              <div>
+                <Chip variant="outlined">{getVirtualEstateStatus(ve)}</Chip>
+              </div>
             </div>
             {/* {noBtn ?? (
             <Button
@@ -64,4 +76,28 @@ export function VirtualEstateCard({ ve }: Props) {
       </Link>
     </div>
   );
+}
+
+function getVirtualEstatePrice(ve: VirtualEstate) {
+  // Find a listing item which has type of "ASK" listing items from the ve.listings, and return the price.
+  const askListing = ve?.listings?.find((listing) => listing.type === "ASK");
+  if (askListing) {
+    return askListing?.price;
+  }
+
+  return ve?.lastPrice;
+}
+
+function getVirtualEstateStatus(ve: VirtualEstate) {
+  const askListing = ve?.listings?.find((listing) => listing.type === "ASK");
+  if (askListing) {
+    return "在出售";
+  }
+
+  const bidListing = ve?.listings?.find((listing) => listing.type === "BID");
+  if (bidListing) {
+    return "在拍卖";
+  }
+
+  return "已铸造";
 }
