@@ -1,6 +1,9 @@
-export default function MarketPage() {
-  return <div>
+import ListedVirtualEstateList from "./_components/ListedVirtualEstateList";
 
-    
-  </div>;
+export default function MarketPage() {
+  return (
+    <div className="container">
+      <ListedVirtualEstateList />
+    </div>
+  );
 }
