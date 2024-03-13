@@ -18,13 +18,17 @@ import { Throttle } from "@nestjs/throttler";
 
 import { AuthenticatedRequest } from "../lib/keycloak/interfaces/authenticated-request";
 import { KeycloakJwtGuard } from "../lib/keycloak/keycloak-jwt.guard";
+import { UserService } from "../user/user.service";
 import { AuthService } from "./auth.service";
 import { EmailQueryDto, EmailSignupDto } from "./dto/email-query.dto";
 import { generatePasswordFromPiUid } from "./utils/generatePiUidPass";
 
 @Controller("auth")
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private readonly authService: AuthService,
+    private readonly userSerivce: UserService,
+  ) {}
 
   @Get("send-email-verification")
   @Throttle({ default: { limit: 2, ttl: 60000 } })
@@ -202,7 +206,7 @@ export class AuthController {
 
     const { userID } = req.user;
 
-    await this.authService.setPaymentPassword({ userID, password });
+    await this.userSerivce.setPaymentPassword({ userID, password });
 
     return {
       message: "Payment password set",

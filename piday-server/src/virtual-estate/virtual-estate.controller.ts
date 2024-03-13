@@ -19,6 +19,7 @@ import {
 import { AccountService } from "../account/account.service";
 import { AuthenticatedRequest } from "../lib/keycloak/interfaces/authenticated-request";
 import { KeycloakJwtGuard } from "../lib/keycloak/keycloak-jwt.guard";
+import { UserService } from "../user/user.service";
 import { VirtualEstateListingResponseDto } from "../virtual-estate-listing/dto/virtual-estate-listing.dto";
 import { VirtualEstateListingService } from "../virtual-estate-listing/virtual-estate-listing.service";
 import { VirtualEstateTransactionRecordResponseDto } from "../virtual-estate-transaction-records/dto/create-virtual-estate-transaction-record.dto";
@@ -32,6 +33,7 @@ import { VirtualEstateService } from "./virtual-estate.service";
 export class VirtualEstateController {
   constructor(
     private readonly accountService: AccountService,
+    private readonly userService: UserService,
     private readonly virtualEstateService: VirtualEstateService,
     private readonly virtualEstateListingService: VirtualEstateListingService,
     private readonly virtualEstateTransactionRecordsService: VirtualEstateTransactionRecordsService,
@@ -182,8 +184,14 @@ export class VirtualEstateController {
     @Param("hexID", HexIdValidationPipe) hexID,
     @Req() req: AuthenticatedRequest,
     @Body("name") name: string,
+    @Body("paymentPassword") paymentPassword: string,
   ) {
     try {
+      await this.userService.checkPaymentPassword({
+        userID: req.user.userID,
+        password: paymentPassword,
+      });
+
       const { ve: existing } =
         await this.virtualEstateService.getOneVirtualEstate(hexID);
 
@@ -205,10 +213,11 @@ export class VirtualEstateController {
       console.error(err);
       switch (err.code) {
         case "NOT_ENOUGH_BALANCE":
+          throw new HttpException("Not enough balance", HttpStatus.FORBIDDEN);
+
+        case "INVALID_PASSWORD":
           throw new HttpException(
-            {
-              message: "Not enough balance",
-            },
+            "Invalid payment password",
             HttpStatus.FORBIDDEN,
           );
       }
@@ -470,8 +479,14 @@ export class VirtualEstateController {
     @Param("bidID") bidID,
     @Req() req: AuthenticatedRequest,
     @Res() res: Response,
+    @Body("paymentPassword") paymentPassword: string,
   ) {
     try {
+      await this.userService.checkPaymentPassword({
+        userID: req.user.userID,
+        password: paymentPassword,
+      });
+
       const sellerID = req.user.userID;
 
       const { ve: virtualEstate } =
@@ -536,8 +551,14 @@ export class VirtualEstateController {
     @Param("askID") askID,
     @Req() req: AuthenticatedRequest,
     @Res() res: Response,
+    @Body("paymentPassword") paymentPassword: string,
   ) {
     try {
+      await this.userService.checkPaymentPassword({
+        userID: req.user.userID,
+        password: paymentPassword,
+      });
+
       const buyerID = req.user.userID;
 
       const transactionRecord =
@@ -574,8 +595,14 @@ export class VirtualEstateController {
     @Param("hexID") hexID,
     @Res() res: Response,
     @Req() req: AuthenticatedRequest,
+    @Body("paymentPassword") paymentPassword: string,
   ) {
     try {
+      await this.userService.checkPaymentPassword({
+        userID: req.user.userID,
+        password: paymentPassword,
+      });
+
       const ownerID = req.user.userID;
       const receiverID = req.body.receiverID;
       const transactionRecord =

@@ -9,10 +9,6 @@ import { KeycloakService } from "../lib/keycloak/keycloak.service";
 import { MailService } from "../lib/mailgun/mailgun.service";
 import { PrismaService } from "../lib/prisma/prisma.service";
 import { generateUsername } from "../lib/utils/extract-username-from-email";
-import {
-  comparePaymentPassword,
-  encodePaymentPassword,
-} from "./utils/paymentPassword";
 
 @Injectable()
 export class AuthService {
@@ -235,73 +231,5 @@ export class AuthService {
     }
 
     return createdUser;
-  }
-
-  // Set payment password
-  async setPaymentPassword({
-    userID,
-    password,
-  }: {
-    userID: string;
-    password: string;
-  }) {
-    const user = await this.prisma.user.findUnique({
-      where: {
-        keycloakID: userID,
-      },
-    });
-    if (!user) {
-      throw new ServiceException("User not found", "USER_NOT_FOUND");
-    }
-
-    if (user.paymentPassword) {
-      throw new ServiceException(
-        "Payment password already set",
-        "PAYMENT_PASSWORD_ALREADY_SET",
-      );
-    }
-
-    const passwordHash = encodePaymentPassword(password);
-
-    await this.prisma.user.update({
-      data: {
-        paymentPassword: passwordHash,
-      },
-      where: {
-        keycloakID: userID,
-      },
-    });
-  }
-
-  async checkPaymentPassword({
-    userID,
-    password,
-  }: {
-    userID: string;
-    password: string;
-  }) {
-    const user = await this.prisma.user.findUnique({
-      where: {
-        keycloakID: userID,
-      },
-    });
-    if (!user) {
-      throw new ServiceException("User not found", "USER_NOT_FOUND");
-    }
-
-    if (!user.paymentPassword) {
-      throw new ServiceException(
-        "Payment password not set",
-        "PAYMENT_PASSWORD_NOT_SET",
-      );
-    }
-
-    const isMatch = comparePaymentPassword(password, user.paymentPassword);
-    if (!isMatch) {
-      throw new ServiceException(
-        "Invalid payment password",
-        "INVALID_PASSWORD",
-      );
-    }
   }
 }
