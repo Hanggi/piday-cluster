@@ -1,6 +1,8 @@
 # compiled output
 /dist
 /node_modules
+/scripts
+/script
 
 # Logs
 logs
@@ -43,4 +45,3 @@ lerna-debug.log*
 
 /deployments/dok8s/overlays/dodev/configMap.secret.yaml
 
-/scripts
