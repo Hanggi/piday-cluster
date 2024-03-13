@@ -16,3 +16,9 @@ export class UserResponseDto {
   @Expose()
   updatedAt: Date;
 }
+
+export class TransferAmountBody {
+  amount: string;
+  piWalletAddress: string;
+  paymentPassword: string;
+}

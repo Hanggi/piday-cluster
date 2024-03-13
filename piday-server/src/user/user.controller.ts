@@ -1,9 +1,12 @@
 import { Request, Response } from "express";
 
 import {
+  Body,
   Controller,
   Get,
+  HttpException,
   HttpStatus,
+  Post,
   Query,
   Req,
   Res,
@@ -12,6 +15,7 @@ import {
 
 import { AuthenticatedRequest } from "../lib/keycloak/interfaces/authenticated-request";
 import { KeycloakJwtGuard } from "../lib/keycloak/keycloak-jwt.guard";
+import { TransferAmountBody } from "./dto/user.dto";
 import { UserService } from "./user.service";
 
 @Controller("user")
@@ -73,5 +77,64 @@ export class UserController {
       return res.status(400).json({ success: false, data: null });
     }
     return res.status(200).json({ success: true, inviteCode: inviteCode });
+  }
+
+  @UseGuards(KeycloakJwtGuard)
+  @Post("transfer-amount")
+  async transferAmount(
+    @Req() req: AuthenticatedRequest,
+    @Res() res: Response,
+    @Body() body: TransferAmountBody,
+  ) {
+    try {
+      const { amount, piWalletAddress, paymentPassword } = body;
+      this.userService.checkPaymentPassword({
+        userID: req.user.userID,
+        password: paymentPassword,
+      });
+
+      const rechargeRecord = await this.userService.transferAmount(
+        req.user.userID,
+        piWalletAddress,
+        amount,
+      );
+
+      if (!rechargeRecord) {
+        res.status(HttpStatus.UNPROCESSABLE_ENTITY).json({
+          success: false,
+          msg: "recharge record created",
+          recahrgeRecord: null,
+        });
+      }
+    } catch (error) {
+      switch (error.code) {
+        case "NOT_ENOUGH_BALANCE":
+          throw new HttpException(
+            {
+              message: "Not enough balance.",
+            },
+            HttpStatus.FORBIDDEN,
+          );
+        case "IN_VALID_WALLET_ADDRESS":
+          throw new HttpException(
+            {
+              message: "User not found.",
+            },
+            HttpStatus.NOT_FOUND,
+          );
+        case "INVALID_PASSWORD":
+          throw new HttpException(
+            {
+              message: "In valid payment password.",
+            },
+            HttpStatus.NOT_FOUND,
+          );
+      }
+      console.error("Error", error);
+      throw new HttpException(
+        "Internal Server Error",
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
   }
 }

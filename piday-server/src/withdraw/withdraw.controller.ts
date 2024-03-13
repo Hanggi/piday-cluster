@@ -1,5 +1,5 @@
 import { Decimal } from "@prisma/client/runtime/library";
-import { Request, Response } from "express";
+import { Response } from "express";
 
 import {
   Body,
