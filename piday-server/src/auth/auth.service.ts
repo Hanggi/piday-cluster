@@ -99,6 +99,7 @@ export class AuthService {
 
     const inviterUserID = decodeInviteCode(inviteCode.trim());
     if (!inviterUserID) {
+      console.error("Invalid invite code", { inviteCode });
       throw new ServiceException("Invalid invite code", "INVALID_INVITE_CODE");
     }
 
@@ -174,6 +175,10 @@ export class AuthService {
 
     // Find inviter user
     const inviterUserID = decodeInviteCode(inviteCode.trim());
+    if (!inviterUserID) {
+      console.error("Invalid invite code", { inviteCode });
+      throw new ServiceException("Invalid invite code", "INVALID_INVITE_CODE");
+    }
     const inviter = await this.prisma.user.findUnique({
       where: {
         id: inviterUserID,

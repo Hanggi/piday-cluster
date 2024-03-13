@@ -32,15 +32,17 @@ export const virtualEstateRTKApi = createApi({
       },
     }),
 
+    // Needs Payment Password ================================================
     mintOneVirtualEstate: builder.mutation<
       VirtualEstate,
-      { hexID: string; name: string }
+      { hexID: string; name: string; paymentPassword?: string }
     >({
-      query: ({ hexID, name }) => ({
+      query: ({ hexID, name, paymentPassword }) => ({
         url: `/virtual-estates/${hexID}`,
         method: "POST",
         body: {
           name,
+          paymentPassword,
         },
       }),
       transformResponse: (response: { ve: VirtualEstate }) => {
@@ -92,13 +94,17 @@ export const virtualEstateRTKApi = createApi({
       },
     }),
 
+    // Needs Payment Password ================================================
     acceptBidToSellVirtualEstate: builder.mutation<
       VirtualEstateTransactionRecord,
-      { hexID: string; bidID: string }
+      { hexID: string; bidID: string; paymentPassword?: string }
     >({
-      query: ({ hexID, bidID }) => ({
+      query: ({ hexID, bidID, paymentPassword }) => ({
         url: `/virtual-estates/${hexID}/bid/${bidID}/accept`,
         method: "PATCH",
+        body: {
+          paymentPassword,
+        },
       }),
       transformResponse: (response: {
         transactionRecord: VirtualEstateTransactionRecord;
@@ -120,13 +126,18 @@ export const virtualEstateRTKApi = createApi({
         return response?.transactions;
       },
     }),
+
+    // Needs Payment Password ================================================
     acceptAskToBuyVirtualEstate: builder.mutation<
       VirtualEstateTransactionRecord,
-      { hexID: string; askID: string }
+      { hexID: string; askID: string; paymentPassword?: string }
     >({
-      query: ({ hexID, askID }) => ({
+      query: ({ hexID, askID, paymentPassword }) => ({
         url: `/virtual-estates/${hexID}/ask/${askID}/accept`,
         method: "PATCH",
+        body: {
+          paymentPassword,
+        },
       }),
       transformResponse: (response: {
         transactionRecord: VirtualEstateTransactionRecord;
@@ -134,14 +145,16 @@ export const virtualEstateRTKApi = createApi({
         return response?.transactionRecord;
       },
     }),
+
+    // Needs Payment Password ================================================
     transferVirtualEstateToUser: builder.mutation<
       VirtualEstateTransactionRecord,
-      { hexID: string; receiverID: string }
+      { hexID: string; receiverID: string; paymentPassword?: string }
     >({
-      query: ({ hexID, receiverID }) => ({
+      query: ({ hexID, receiverID, paymentPassword }) => ({
         url: `/virtual-estates/${hexID}/transfer`,
         method: "POST",
-        body: { receiverID },
+        body: { receiverID, paymentPassword },
       }),
       transformResponse: (response: {
         transactionRecord: VirtualEstateTransactionRecord;

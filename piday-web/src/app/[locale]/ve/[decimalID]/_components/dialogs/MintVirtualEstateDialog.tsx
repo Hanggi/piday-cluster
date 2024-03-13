@@ -36,6 +36,7 @@ export default function MintVirtualEstateDialog({
 
   const [mintVirtualEstate, mintVirtualEstateResult] =
     useMintOneVirtualEstateMutation();
+    
   useErrorToast(mintVirtualEstateResult.error);
   useSuccessToast(
     mintVirtualEstateResult.isSuccess,
