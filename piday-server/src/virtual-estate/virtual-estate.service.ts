@@ -20,6 +20,7 @@ export class VirtualEstateService {
     const virtualEstates = await this.prisma.virtualEstate.findMany({
       include: {
         owner: true,
+        listings: true,
       },
       take: +size,
       skip: +(page - 1) * size,
