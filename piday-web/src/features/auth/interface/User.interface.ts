@@ -20,4 +20,7 @@ export interface User {
   // relations
   balance?: number;
   vid?: string;
+
+  // Additional fields
+  isPaymentPasswordSet?: boolean;
 }

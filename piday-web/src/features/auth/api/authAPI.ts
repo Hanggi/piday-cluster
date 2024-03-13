@@ -60,6 +60,23 @@ export const authRTKApi = createApi({
         return response.user;
       },
     }),
+
+    setPaymentPassword: builder.mutation<
+      void,
+      {
+        password: string;
+        confirmPassword: string;
+      }
+    >({
+      query: ({ password, confirmPassword }) => ({
+        url: `/auth/payment-password`,
+        method: "POST",
+        body: {
+          password,
+          confirmPassword,
+        },
+      }),
+    }),
   }),
 });
 
@@ -69,4 +86,6 @@ export const {
 
   usePiSignInMutation,
   useGetMyUserQuery,
+
+  useSetPaymentPasswordMutation,
 } = authRTKApi;

@@ -23,8 +23,14 @@ export class UserController {
   async getMyUser(@Req() req: AuthenticatedRequest, @Res() res: Response) {
     const myUser = await this.userService.getUser(req.user.userID);
 
+    // Sanitize user data
+    delete myUser.keycloakID;
+    delete myUser.piUid;
+    const isPaymentPasswordSet = !!myUser.paymentPassword;
+    delete myUser.paymentPassword;
+
     return res.status(HttpStatus.OK).json({
-      user: myUser,
+      user: { ...myUser, isPaymentPasswordSet },
       success: true,
     });
   }

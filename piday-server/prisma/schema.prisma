@@ -23,6 +23,7 @@ model User {
 
   piUid           String? @unique
   piWalletAddress String? @unique
+  paymentPassword String?
 
   // VirtualEstate[]
   virtualEstates                        VirtualEstate[]

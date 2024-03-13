@@ -5,8 +5,10 @@ import { useGetMyUserQuery } from "@/src/features/auth/api/authAPI";
 import { useGetInviteCodeQuery } from "@/src/features/user/api/userAPI";
 import { useSession } from "next-auth/react";
 
+import Alert from "@mui/joy/Alert";
 import Button from "@mui/joy/Button";
 import Card from "@mui/joy/Card";
+import Divider from "@mui/joy/Divider";
 import Input from "@mui/joy/Input";
 import Typography from "@mui/joy/Typography";
 
@@ -14,11 +16,17 @@ import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 
+import SetPaymentPasswordModel from "./modals/SetPaymentPasswordModel";
+
 export default function MyProfile() {
   const { t } = useTranslation("profile");
 
   const { data: session } = useSession();
-  const { data: myUser, refetch: refetchMyUser } = useGetMyUserQuery();
+  const {
+    data: myUser,
+    isLoading: isLoadingMyUser,
+    refetch: refetchMyUser,
+  } = useGetMyUserQuery();
 
   const [piWalletAddress, setPiWalletAddress] = useState("");
   const [updateWalletAddress, UpdatePiWalletAddressResult] =
@@ -36,6 +44,10 @@ export default function MyProfile() {
       refetchMyUser();
     }
   }, [UpdatePiWalletAddressResult.isSuccess, refetchMyUser, t]);
+
+  // Payment password
+  const [openPaymentPasswordModal, setOpenPaymentPasswordModal] =
+    useState(false);
 
   return (
     <Card className="mt-8" size="lg">
@@ -80,12 +92,44 @@ export default function MyProfile() {
               />
               <Button
                 disabled={UpdatePiWalletAddressResult.isLoading}
+                loading={isLoadingMyUser}
                 onClick={() => {
                   updateWalletAddress({ piWalletAddress });
                 }}
               >
                 {t("profile:button.save")}
               </Button>
+            </div>
+          )}
+        </div>
+
+        <Divider />
+
+        <div className="my-4">
+          {myUser?.isPaymentPasswordSet ? (
+            <div>
+              <Alert color="success">支付密码已设</Alert>
+            </div>
+          ) : (
+            <div>
+              <Button
+                loading={isLoadingMyUser}
+                onClick={() => {
+                  setOpenPaymentPasswordModal(true);
+                }}
+              >
+                设置支付密码
+              </Button>
+
+              <SetPaymentPasswordModel
+                open={openPaymentPasswordModal}
+                onClose={() => {
+                  setOpenPaymentPasswordModal(false);
+                }}
+                onSuccess={() => {
+                  refetchMyUser();
+                }}
+              />
             </div>
           )}
         </div>

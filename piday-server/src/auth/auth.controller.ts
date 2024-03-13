@@ -10,10 +10,14 @@ import {
   HttpStatus,
   Post,
   Query,
+  Req,
   Res,
+  UseGuards,
 } from "@nestjs/common";
 import { Throttle } from "@nestjs/throttler";
 
+import { AuthenticatedRequest } from "../lib/keycloak/interfaces/authenticated-request";
+import { KeycloakJwtGuard } from "../lib/keycloak/keycloak-jwt.guard";
 import { AuthService } from "./auth.service";
 import { EmailQueryDto, EmailSignupDto } from "./dto/email-query.dto";
 import { generatePasswordFromPiUid } from "./utils/generatePiUidPass";
@@ -166,5 +170,28 @@ export class AuthController {
     console.log(data);
 
     return data;
+  }
+
+  // Set payment password
+  @Post("payment-password")
+  @UseGuards(KeycloakJwtGuard)
+  async setPaymentPassword(
+    @Body() { password }: { password: string },
+    @Req() req: AuthenticatedRequest,
+  ) {
+    if (password.length < 6) {
+      throw new HttpException(
+        "Password must be at least 6 characters",
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    const { userID } = req.user;
+
+    await this.authService.setPaymentPassword({ userID, password });
+
+    return {
+      message: "Payment password set",
+    };
   }
 }
