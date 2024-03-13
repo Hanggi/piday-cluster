@@ -34,15 +34,19 @@ export async function POST(request: Request, res: Response) {
     );
   } catch (error) {
     const axiosError = error as AxiosError;
+
     console.error(
       "User registration failed!!",
       axiosError.response?.status,
       axiosError?.response?.data,
     );
+    console.log(axiosError?.response);
     return new Response(
       JSON.stringify({
         success: false,
-        message: "User registration failed",
+        message:
+          (axiosError?.response?.data as any)?.message ||
+          "User registration failed",
       }),
       {
         status: axiosError.response?.status,

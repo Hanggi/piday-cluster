@@ -1,7 +1,6 @@
 "use client";
 
 import { usePiSignInMutation } from "@/src/features/auth/api/authAPI";
-import { AuthResult } from "@/src/types/pi/AuthResult";
 import { clsx } from "clsx";
 import { StatusCodes } from "http-status-codes";
 import { signIn } from "next-auth/react";
@@ -94,10 +93,10 @@ export default function SignInDialog({
       return;
     }
 
-    if (!inviteCode) {
-      toast.warn(t("common:auth.invitationCodePlaceholder"));
-      return;
-    }
+    // if (!inviteCode) {
+    //   toast.warn(t("common:auth.invitationCodePlaceholder"));
+    //   return;
+    // }
 
     setIsLoading(true);
     try {

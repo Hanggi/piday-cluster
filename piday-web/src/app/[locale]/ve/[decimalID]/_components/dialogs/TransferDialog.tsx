@@ -6,6 +6,7 @@ import {
   useSuccessToast,
 } from "@/src/features/rtk-utils/use-error-toast.hook";
 import { useLazyGetUserInfoQuery } from "@/src/features/user/api/userAPI";
+import { myUserValue } from "@/src/features/user/user-slice";
 import { useTransferVirtualEstateToUserMutation } from "@/src/features/virtual-estate/api/virtualEstateAPI";
 import { debounce } from "lodash";
 
@@ -16,6 +17,7 @@ import Typography from "@mui/joy/Typography";
 
 import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 
 interface Props {
@@ -30,6 +32,8 @@ export default function TransferVirtualEstateDialog({
   onClose,
 }: Props) {
   const { t } = useTranslation(["virtual-estate"]);
+
+  const myUser = useSelector(myUserValue);
 
   const [userInput, setUserInput] = useState(""); // email, userID, piAddress
 
@@ -60,6 +64,8 @@ export default function TransferVirtualEstateDialog({
     }, 500),
     [],
   );
+
+  const [paymentPassword, setPaymentPassword] = useState("");
 
   const [trnasferVirtualEstateToUser, trnasferVirtualEstateToUserResponse] =
     useTransferVirtualEstateToUserMutation();
@@ -97,6 +103,7 @@ export default function TransferVirtualEstateDialog({
           trnasferVirtualEstateToUser({
             hexID,
             receiverID: userInfo?.id,
+            paymentPassword,
           });
           onClose();
         }}
@@ -117,6 +124,21 @@ export default function TransferVirtualEstateDialog({
                 }}
               />
             </FormControl>
+
+            {myUser?.isPaymentPasswordSet ? (
+              <FormControl>
+                <FormLabel>支付密码</FormLabel>
+                <Input
+                  placeholder="请输入支付密码"
+                  value={paymentPassword}
+                  onChange={(e) => {
+                    setPaymentPassword(e.target.value);
+                  }}
+                />
+              </FormControl>
+            ) : (
+              <div></div>
+            )}
 
             {userInfo && (
               <div className="py-4">

@@ -86,6 +86,7 @@ export const {
 
   usePiSignInMutation,
   useGetMyUserQuery,
+  useLazyGetMyUserQuery,
 
   useSetPaymentPasswordMutation,
 } = authRTKApi;

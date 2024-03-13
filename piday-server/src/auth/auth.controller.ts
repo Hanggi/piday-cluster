@@ -82,6 +82,11 @@ export class AuthController {
             "Invalid verification code",
             HttpStatus.BAD_REQUEST,
           );
+        case "INVALID_INVITE_CODE":
+          throw new HttpException(
+            "Invalid invite code",
+            HttpStatus.BAD_REQUEST,
+          );
       }
       throw new HttpException(
         "Internal Server Error",
@@ -142,6 +147,15 @@ export class AuthController {
         console.log(user);
       } catch (err) {
         console.error(err);
+
+        switch (err.code) {
+          case "INVALID_INVITE_CODE":
+            throw new HttpException(
+              "Invalid invite code",
+              HttpStatus.BAD_REQUEST,
+            );
+        }
+
         throw new HttpException(
           "Internal Server Error",
           HttpStatus.INTERNAL_SERVER_ERROR,

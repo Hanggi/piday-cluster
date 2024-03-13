@@ -97,7 +97,13 @@ export class AuthService {
       throw new ServiceException("Email already exists", "EMAIL_EXISTS");
     }
 
-    const inviterUserID = decodeInviteCode(inviteCode.trim());
+    let inviterUserID: number | undefined;
+    try {
+      inviterUserID = decodeInviteCode(inviteCode.trim());
+    } catch (err) {
+      console.error("Invalid invite code", { inviteCode });
+      throw new ServiceException("Invalid invite code", "INVALID_INVITE_CODE");
+    }
     if (!inviterUserID) {
       console.error("Invalid invite code", { inviteCode });
       throw new ServiceException("Invalid invite code", "INVALID_INVITE_CODE");
@@ -174,7 +180,13 @@ export class AuthService {
     const piUsername = "pi_" + username;
 
     // Find inviter user
-    const inviterUserID = decodeInviteCode(inviteCode.trim());
+    let inviterUserID: number | undefined;
+    try {
+      inviterUserID = decodeInviteCode(inviteCode.trim());
+    } catch (err) {
+      console.error("Invalid invite code", { inviteCode });
+      throw new ServiceException("Invalid invite code", "INVALID_INVITE_CODE");
+    }
     if (!inviterUserID) {
       console.error("Invalid invite code", { inviteCode });
       throw new ServiceException("Invalid invite code", "INVALID_INVITE_CODE");

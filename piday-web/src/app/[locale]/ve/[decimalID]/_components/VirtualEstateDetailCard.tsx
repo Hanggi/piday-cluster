@@ -1,6 +1,8 @@
 "use client";
 
 import PiCoinLogo from "@/src/components/piday-ui/PiCoinLogo";
+import { useLazyGetMyUserQuery } from "@/src/features/auth/api/authAPI";
+import { myUserValue } from "@/src/features/user/user-slice";
 import { VirtualEstateListing } from "@/src/features/virtual-estate-listing/interface/virtual-estate-listing.interface";
 import { useGetPlacesQuery } from "@/src/features/virtual-estate/api/mapboxAPI";
 import { VirtualEstate } from "@/src/features/virtual-estate/interface/virtual-estate.interface";
@@ -11,8 +13,9 @@ import { useSession } from "next-auth/react";
 import Button from "@mui/joy/Button";
 import Typography from "@mui/joy/Typography";
 
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
 
 import AcceptAskToBuyDialog from "./dialogs/AcceptAskToBuyDialog";
 import AskToSellDialog from "./dialogs/AskToSellDialog";
@@ -40,6 +43,15 @@ export default function VirtualEstateDetailCard({
     lat: geo[0],
     lng: geo[1],
   });
+
+  const myUser = useSelector(myUserValue);
+  const [getMyUserTrigger, { data: myUserData, isLoading: isLoadingMyUser }] =
+    useLazyGetMyUserQuery();
+  useEffect(() => {
+    if (!myUser) {
+      getMyUserTrigger();
+    }
+  }, [getMyUserTrigger, myUser]);
 
   // Dialogs
   const [openMintVirtualEstateDialog, setOpenMintVirtualEstateDialog] =

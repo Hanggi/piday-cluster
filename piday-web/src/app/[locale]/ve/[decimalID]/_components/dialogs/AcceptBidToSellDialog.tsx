@@ -8,14 +8,14 @@ import {
 } from "@/src/features/rtk-utils/use-error-toast.hook";
 import { myUserValue } from "@/src/features/user/user-slice";
 import { VirtualEstateListing } from "@/src/features/virtual-estate-listing/interface/virtual-estate-listing.interface";
-import { useAcceptAskToBuyVirtualEstateMutation } from "@/src/features/virtual-estate/api/virtualEstateAPI";
+import { useAcceptBidToSellVirtualEstateMutation } from "@/src/features/virtual-estate/api/virtualEstateAPI";
 
 import FormControl from "@mui/joy/FormControl";
 import FormLabel from "@mui/joy/FormLabel";
 import Input from "@mui/joy/Input";
 import Typography from "@mui/joy/Typography";
 
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 
@@ -27,7 +27,7 @@ interface Props {
   onClose: () => void;
 }
 
-export default function AcceptAskToBuyDialog({
+export default function AcceptBidToSellDialog({
   open,
   onClose,
   hexID,
@@ -39,16 +39,23 @@ export default function AcceptAskToBuyDialog({
   const myUser = useSelector(myUserValue);
   const [paymentPassword, setPaymentPassword] = useState("");
 
-  const [acceptAskToBuyVirtualEstate, acceptAskToBuyVirtualEstateResult] =
-    useAcceptAskToBuyVirtualEstateMutation();
-
-  useErrorToast(acceptAskToBuyVirtualEstateResult.error);
+  const [acceptBidToSellVirtualEstate, acceptBidToSellVirtualEstateResult] =
+    useAcceptBidToSellVirtualEstateMutation();
+  useErrorToast(acceptBidToSellVirtualEstateResult.error);
   useSuccessToast(
-    acceptAskToBuyVirtualEstateResult.isSuccess,
-    "Buy successfully",
-    () => {
-      window.location.reload();
+    acceptBidToSellVirtualEstateResult.isSuccess,
+    t("virtual-estate:toast.acceptBidSuccessfully"),
+  );
+
+  const handelAcceptBidToSellVirtualEstate = useCallback(
+    (bidID: string) => {
+      acceptBidToSellVirtualEstate({
+        hexID,
+        bidID,
+      });
+      onClose();
     },
+    [acceptBidToSellVirtualEstate, hexID, onClose],
   );
 
   return (
@@ -60,9 +67,9 @@ export default function AcceptAskToBuyDialog({
           onClose();
         }}
         onConfirm={() => {
-          acceptAskToBuyVirtualEstate({
+          acceptBidToSellVirtualEstate({
             hexID,
-            askID: listing.listingID,
+            bidID: listing.listingID,
             paymentPassword,
           });
           onClose();

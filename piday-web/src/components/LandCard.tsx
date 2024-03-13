@@ -17,7 +17,6 @@ interface Props {
 export function VirtualEstateCard({ ve }: Props) {
   const { t } = useTranslation("home");
 
-  console.log(ve);
   return (
     <div className="flex flex-col items-stretch max-md:w-full max-md:ml-0">
       <Link href={`/ve/${hexIDtoDecimal(ve.virtualEstateID)}`}>

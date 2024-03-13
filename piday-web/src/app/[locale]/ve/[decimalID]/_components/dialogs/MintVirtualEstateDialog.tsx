@@ -5,14 +5,18 @@ import {
   useErrorToast,
   useSuccessToast,
 } from "@/src/features/rtk-utils/use-error-toast.hook";
+import { myUserValue } from "@/src/features/user/user-slice";
 import { useMintOneVirtualEstateMutation } from "@/src/features/virtual-estate/api/virtualEstateAPI";
 
+import { FormControl, FormLabel } from "@mui/joy";
+import Input from "@mui/joy/Input";
 import Typography from "@mui/joy/Typography";
 
 import { useRouter } from "next/navigation";
 
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
 
 interface Props {
   open: boolean;
@@ -34,9 +38,11 @@ export default function MintVirtualEstateDialog({
   const { t } = useTranslation(["virtual-estate"]);
   const router = useRouter();
 
+  const myUser = useSelector(myUserValue);
+
   const [mintVirtualEstate, mintVirtualEstateResult] =
     useMintOneVirtualEstateMutation();
-    
+
   useErrorToast(mintVirtualEstateResult.error);
   useSuccessToast(
     mintVirtualEstateResult.isSuccess,
@@ -47,10 +53,12 @@ export default function MintVirtualEstateDialog({
     },
   );
 
+  const [paymentPassword, setPaymentPassword] = useState("");
+
   const handleMintVritualEstate = useCallback(() => {
-    mintVirtualEstate({ hexID, name: getPlaceName(place) });
+    mintVirtualEstate({ hexID, name: getPlaceName(place), paymentPassword });
     onClose();
-  }, [hexID, mintVirtualEstate, onClose, place]);
+  }, [hexID, mintVirtualEstate, onClose, paymentPassword, place]);
 
   return (
     <div>
@@ -81,6 +89,21 @@ export default function MintVirtualEstateDialog({
             </Typography>
             <Typography className="w-2/3">{hexID}</Typography>
           </div>
+
+          {myUser?.isPaymentPasswordSet ? (
+            <FormControl>
+              <FormLabel>支付密码</FormLabel>
+              <Input
+                placeholder="请输入支付密码"
+                value={paymentPassword}
+                onChange={(e) => {
+                  setPaymentPassword(e.target.value);
+                }}
+              />
+            </FormControl>
+          ) : (
+            <div></div>
+          )}
         </div>
       </ConfirmDialog>
     </div>

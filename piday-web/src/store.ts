@@ -8,6 +8,7 @@ import { authRTKApi } from "./features/auth/api/authAPI";
 import globalSlice from "./features/global/global.slice";
 import { pointRTKApi } from "./features/point/api/pointAPI";
 import { userRTKAPI } from "./features/user/api/userAPI";
+import userSlice from "./features/user/user-slice";
 import { virtualEstateListingRTKApi } from "./features/virtual-estate-listing/api/virtualEstateListingAPI";
 import { virtualEstateTransactionRecordsRTKApi } from "./features/virtual-estate-transaction-record/api/virtualEstateTransactionRecordAPI";
 import { mapboxRTKApi } from "./features/virtual-estate/api/mapboxAPI";
@@ -19,6 +20,7 @@ export const store = configureStore({
   reducer: {
     [globalSlice.name]: globalSlice.reducer,
     [virtualEstatelSlice.name]: virtualEstatelSlice.reducer,
+    [userSlice.name]: userSlice.reducer,
 
     [authRTKApi.reducerPath]: authRTKApi.reducer,
     [accountRTKApi.reducerPath]: accountRTKApi.reducer,
