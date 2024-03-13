@@ -60,7 +60,6 @@ export default function MyBalanceRecords({ rechargeAddress }: Props) {
     }
   }, [UpdatePiWalletAddressResult.isSuccess, refetchMyUser, t]);
 
-  console.log(balanceRecordsRes?.records);
   return (
     <div>
       <div className="mb-4 flex justify-end">
