@@ -37,7 +37,7 @@ export class WithdrawService {
         ? balance._sum.amount.sub(pendingWithdrawalRequestsAmount._sum.amount)
         : balance._sum.amount;
 
-      if (remainingBalance.lessThan(amount)) {
+      if (!remainingBalance || remainingBalance.lessThan(amount)) {
         throw new ServiceException("Not enough balance", "NOT_ENOUGH_BALANCE");
       }
 

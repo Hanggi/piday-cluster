@@ -53,7 +53,10 @@ export class VirtualEstateTransactionRecordsService {
           amount: true,
         },
       });
-      if (balance._sum.amount.lessThan(new Decimal(price))) {
+      if (
+        !balance._sum.amount ||
+        balance._sum.amount.lessThan(new Decimal(price))
+      ) {
         throw new ServiceException("Not enough balance", "NOT_ENOUGH_BALANCE");
       }
 
@@ -226,7 +229,10 @@ export class VirtualEstateTransactionRecordsService {
           amount: true,
         },
       });
-      if (balance._sum.amount.lessThan(new Decimal(price))) {
+      if (
+        !balance._sum.amount ||
+        balance._sum.amount.lessThan(new Decimal(price))
+      ) {
         throw new ServiceException("Not enough balance", "NOT_ENOUGH_BALANCE");
       }
 

@@ -59,7 +59,10 @@ export class WithdrawRequestAdminService {
         },
       });
 
-      if (balance._sum.amount.lessThan(withdrawRequest.amount)) {
+      if (
+        !balance._sum.amount ||
+        balance._sum.amount.lessThan(withdrawRequest.amount)
+      ) {
         throw new ServiceException("Not enough balance", "NOT_ENOUGH_BALANCE");
       }
 
