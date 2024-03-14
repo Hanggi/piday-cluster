@@ -56,7 +56,9 @@ export default function RechargeModal({
 
           <div className="mb-4">
             <Typography>{t("asset-center:label.rechargeAddress")}</Typography>
-            <Typography color="success">{rechargeAddress}</Typography>
+            <Typography color="success">
+              {rechargeAddress} （平台总地址）
+            </Typography>
           </div>
 
           <div className="mb-4">
