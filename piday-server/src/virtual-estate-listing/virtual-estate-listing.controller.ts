@@ -4,12 +4,10 @@ import { Response } from "express";
 import {
   Body,
   Controller,
-  Get,
   HttpException,
   HttpStatus,
   Param,
   Post,
-  Query,
   Req,
   Res,
   UseGuards,
@@ -19,7 +17,6 @@ import {
 
 import { AuthenticatedRequest } from "../lib/keycloak/interfaces/authenticated-request";
 import { KeycloakJwtGuard } from "../lib/keycloak/keycloak-jwt.guard";
-import { VirtualEstateResponseDto } from "../virtual-estate/dto/virtual-estate.dto";
 import { HexIdValidationPipe } from "../virtual-estate/pipes/hex-id-validation.pipe";
 import { CreateVirtualEstateListingDto } from "./dto/create-virtual-estate-listing.dto";
 import { VirtualEstateListingResponseDto } from "./dto/virtual-estate-listing.dto";

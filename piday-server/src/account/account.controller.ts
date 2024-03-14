@@ -7,6 +7,7 @@ import {
   Get,
   HttpException,
   HttpStatus,
+  Post,
   Put,
   Query,
   Req,
@@ -17,19 +18,24 @@ import {
 import { AuthenticatedRequest } from "../lib/keycloak/interfaces/authenticated-request";
 import { KeycloakJwtGuard } from "../lib/keycloak/keycloak-jwt.guard";
 import { KeycloakService } from "../lib/keycloak/keycloak.service";
+import { UserService } from "../user/user.service";
 import { AccountService } from "./account.service";
 import { UpdatePiWalletAddressDto } from "./dto/addPiWalletAddress.dto";
-import { RechargeRecordResponseDto } from "./dto/rechargeRecords.dto";
+import {
+  RechargeRecordResponseDto,
+  TransferAmountBody,
+} from "./dto/rechargeRecords.dto";
 
 @Controller("account")
 export class AccountController {
   constructor(
     private readonly accountService: AccountService,
     private readonly keycloakService: KeycloakService,
+    private readonly userService: UserService,
   ) {}
 
-  @UseGuards(KeycloakJwtGuard)
   @Get("balance/records")
+  @UseGuards(KeycloakJwtGuard)
   async getMyAllRechargeRecords(
     @Req() req: AuthenticatedRequest,
     @Res() res: Response,
@@ -64,8 +70,8 @@ export class AccountController {
     }
   }
 
-  @UseGuards(KeycloakJwtGuard)
   @Get("balance")
+  @UseGuards(KeycloakJwtGuard)
   async getMyBalance(@Req() req: AuthenticatedRequest, @Res() res: Response) {
     try {
       const totalBalance = await this.accountService.getMyBalance({
@@ -83,8 +89,8 @@ export class AccountController {
     }
   }
 
-  @UseGuards(KeycloakJwtGuard)
   @Put("pi-address")
+  @UseGuards(KeycloakJwtGuard)
   async addPiWalletAddress(
     @Req() req: AuthenticatedRequest,
     @Res() res: Response,
@@ -107,6 +113,53 @@ export class AccountController {
         user: user,
       });
     } catch (error) {
+      throw new HttpException(
+        "Internal Server Error",
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+
+  @Post("balance/transfer")
+  @UseGuards(KeycloakJwtGuard)
+  async transferBalance(
+    @Req() req: AuthenticatedRequest,
+    @Res() res: Response,
+    @Body() body: TransferAmountBody,
+  ) {
+    console.log("???@");
+    try {
+      const { amount, piWalletAddress, paymentPassword } = body;
+      this.userService.checkPaymentPassword({
+        userID: req.user.userID,
+        password: paymentPassword,
+      });
+
+      await this.accountService.transferAmount(
+        req.user.userID,
+        piWalletAddress,
+        amount,
+      );
+
+      res.status(HttpStatus.OK).json({
+        success: true,
+        message: "recharge record created",
+      });
+
+      return;
+    } catch (error) {
+      switch (error.code) {
+        case "NOT_ENOUGH_BALANCE":
+          throw new HttpException("Not enough balance.", HttpStatus.FORBIDDEN);
+        case "IN_VALID_WALLET_ADDRESS":
+          throw new HttpException("User not found.", HttpStatus.NOT_FOUND);
+        case "INVALID_PASSWORD":
+          throw new HttpException(
+            "In valid payment password.",
+            HttpStatus.NOT_FOUND,
+          );
+      }
+      console.error("Error", error);
       throw new HttpException(
         "Internal Server Error",
         HttpStatus.INTERNAL_SERVER_ERROR,

@@ -1,4 +1,13 @@
-import { Controller, Get, Post, Query, Req, UseGuards } from "@nestjs/common";
+import {
+  Controller,
+  Get,
+  HttpException,
+  HttpStatus,
+  Post,
+  Query,
+  Req,
+  UseGuards,
+} from "@nestjs/common";
 
 import { AuthenticatedRequest } from "../lib/keycloak/interfaces/authenticated-request";
 import { KeycloakJwtGuard } from "../lib/keycloak/keycloak-jwt.guard";
@@ -42,7 +51,21 @@ export class PointController {
   @UseGuards(KeycloakJwtGuard)
   async checkIn(@Req() req: AuthenticatedRequest) {
     const { userID } = req.user;
-    await this.pointService.checkIn({ userID });
+
+    try {
+      await this.pointService.checkIn({ userID });
+    } catch (err) {
+      console.log(err.code);
+      switch (err.code) {
+        case "ALREADY_CHECKED_IN_TODAY":
+          throw new HttpException(
+            "Already checked in today",
+            HttpStatus.BAD_REQUEST,
+          );
+      }
+
+      throw err;
+    }
 
     return {
       message: "Checked in successfully",

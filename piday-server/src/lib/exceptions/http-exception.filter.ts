@@ -16,11 +16,14 @@ export class HttpExceptionFilter implements ExceptionFilter {
     const status = exception.getStatus();
     const exceptionResponse = exception.getResponse();
 
+    console.log(exception instanceof HttpException);
+    console.log(exceptionResponse.hasOwnProperty("message"));
     let messages = [];
     if (
       exception instanceof HttpException &&
       exceptionResponse.hasOwnProperty("message")
     ) {
+      console.log("???");
       messages = exceptionResponse["message"];
 
       // 如果消息是数组，则可能来自 ValidationPipe
@@ -37,6 +40,16 @@ export class HttpExceptionFilter implements ExceptionFilter {
       }
     }
 
+    console.log({
+      statusCode: status,
+      timestamp: new Date().toISOString(),
+      message:
+        exceptionResponse ||
+        messages ||
+        exception.getResponse() ||
+        exception.message,
+      // path: request.url,
+    });
     response.status(status).json({
       statusCode: status,
       timestamp: new Date().toISOString(),

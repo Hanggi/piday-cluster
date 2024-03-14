@@ -1,7 +1,6 @@
 import { Module } from "@nestjs/common";
 
 import { PrismaService } from "../lib/prisma/prisma.service";
-import { WithdrawController } from "../withdraw/withdraw.controller";
 import { TransactionAdminController } from "./transaction/transaction-admin.controller";
 import { TransactionAdminService } from "./transaction/transaction-admin.service";
 import { UserAdminController } from "./user/user-admin.controller";

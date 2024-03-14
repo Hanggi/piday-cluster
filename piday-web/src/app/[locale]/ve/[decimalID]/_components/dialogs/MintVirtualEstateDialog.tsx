@@ -95,6 +95,7 @@ export default function MintVirtualEstateDialog({
               <FormLabel>支付密码</FormLabel>
               <Input
                 placeholder="请输入支付密码"
+                type="password"
                 value={paymentPassword}
                 onChange={(e) => {
                   setPaymentPassword(e.target.value);

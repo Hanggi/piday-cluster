@@ -53,11 +53,23 @@ export const accountRTKApi = createApi({
         return error.data;
       },
     }),
+
+    transferBalance: builder.mutation<
+      void,
+      { amount: number; to: string; paymentPassword: string }
+    >({
+      query: ({ amount, to, paymentPassword }) => ({
+        url: "/account/balance/transfer",
+        method: "POST",
+        body: { amount, piWalletAddress: to, paymentPassword },
+      }),
+    }),
   }),
 });
 
 export const {
   useGetBalanceQuery,
   useGetMyRechargeRecordsQuery,
+  useTransferBalanceMutation,
   useUpdateMyPiWalletAddressMutation,
 } = accountRTKApi;

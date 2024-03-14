@@ -1,5 +1,6 @@
 import { Decimal } from "@prisma/client/runtime/library";
 import { Exclude, Expose, Type } from "class-transformer";
+import { IsNotEmpty, IsNumber, IsString } from "class-validator";
 
 export class RechargeRecordResponseDto {
   @Exclude()
@@ -17,4 +18,15 @@ export class RechargeRecordResponseDto {
 
   @Expose()
   createdAt: Date;
+}
+
+export class TransferAmountBody {
+  @IsNumber()
+  amount: string;
+
+  @IsString()
+  @IsNotEmpty()
+  piWalletAddress: string;
+
+  paymentPassword?: string;
 }

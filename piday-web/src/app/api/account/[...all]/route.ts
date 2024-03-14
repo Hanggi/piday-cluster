@@ -4,6 +4,7 @@ import { decrypt } from "@/src/utils/encryption";
 import { NextRequest } from "next/server";
 
 async function handler(request: NextRequest) {
+  console.log("All route! /account!");
   let authorization = request.headers.get("authorization");
   if (authorization && authorization.split(" ").length >= 2) {
     authorization =
@@ -20,23 +21,28 @@ async function handler(request: NextRequest) {
       cleanHeaderValue(value),
     ]),
   );
+
+  const body = await request.json();
   try {
     const res = await instance.request({
       method: request.method,
       url: request.url.split("/api")[1],
 
-      data: {
-        ...(await request.json()),
-      },
+      data: body,
+      // headers: HeaderFilters(requestHeaders),
       headers: headersForAxios,
     });
 
     return new Response(JSON.stringify(res.data), {
       status: res.status,
     });
-  } catch (err) {
-    console.log("Error on virtual estates route!");
-    // console.error(err);
+  } catch (err: any) {
+    console.log("Error on /account route!");
+    // console.error(err.response.data);
+
+    return new Response(JSON.stringify(err?.response.data), {
+      status: err?.response.status,
+    });
   }
 }
 

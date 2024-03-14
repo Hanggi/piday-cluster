@@ -26,16 +26,21 @@ async function handler(request: NextRequest) {
       method: request.method,
       url: request.url.split("/api")[1],
 
-      data: request.body,
+      data: {
+        ...(await request.json()),
+      },
       headers: headersForAxios,
     });
 
     return new Response(JSON.stringify(res.data), {
       status: res.status,
     });
-  } catch (err) {
+  } catch (err: any) {
     console.log("Error on all route /point");
     // console.error(err);
+    return new Response(JSON.stringify(err?.response.data), {
+      status: err?.response.status,
+    });
   }
 }
 

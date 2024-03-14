@@ -1,9 +1,6 @@
-import { Decimal } from "@prisma/client/runtime/library";
-
 import { Injectable } from "@nestjs/common";
 
 import { ServiceException } from "../lib/exceptions/service-exception";
-import { generateFlakeID } from "../lib/generate-id/generate-flake-id";
 import { generateInvitationCode } from "../lib/generate-id/generate-user-id";
 import { KeycloakService } from "../lib/keycloak/keycloak.service";
 import { PrismaService } from "../lib/prisma/prisma.service";
@@ -157,63 +154,5 @@ export class UserService {
         "INVALID_PASSWORD",
       );
     }
-  }
-
-  async transferAmount(
-    userID: string,
-    toPiWalletAddress: string,
-    amount: string,
-  ) {
-    const rechargeRecord = await this.prisma.$transaction(async (tx) => {
-      const externalID = generateFlakeID();
-      const balance = await tx.rechargeRecords.aggregate({
-        where: {
-          ownerID: userID,
-        },
-        _sum: {
-          amount: true,
-        },
-      });
-      if (
-        !balance._sum.amount ||
-        balance._sum.amount.lessThan(new Decimal(amount))
-      ) {
-        throw new ServiceException("Not enough balance", "NOT_ENOUGH_BALANCE");
-      }
-      const receiver = await tx.user.findUnique({
-        where: {
-          piWalletAddress: toPiWalletAddress,
-        },
-      });
-
-      if (!receiver) {
-        throw new ServiceException(
-          "In Valid Wallet Address",
-          "IN_VALID_WALLET_ADDRESS",
-        );
-      }
-
-      await tx.rechargeRecords.create({
-        data: {
-          ownerID: userID,
-          reason: "TRANSFER_BALANCE",
-          amount: -amount,
-          externalID: externalID,
-        },
-      });
-
-      const receiverRechargeRecord = await tx.rechargeRecords.create({
-        data: {
-          ownerID: receiver.keycloakID,
-          reason: "RECEIVE_BALANCE",
-          amount: amount,
-          externalID: externalID,
-        },
-      });
-
-      return receiverRechargeRecord;
-    });
-
-    return rechargeRecord;
   }
 }

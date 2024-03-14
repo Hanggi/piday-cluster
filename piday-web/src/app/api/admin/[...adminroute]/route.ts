@@ -25,7 +25,9 @@ async function handler(request: NextRequest) {
       method: request.method,
       url: request.url.split("/api")[1],
 
-      data: request.body,
+      data: {
+        ...(await request.json()),
+      },
       headers: headersForAxios,
     });
 
