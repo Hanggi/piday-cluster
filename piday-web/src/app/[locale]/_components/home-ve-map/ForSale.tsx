@@ -16,7 +16,7 @@ export function ForSale({ className, ...props }: ForSaleProps) {
 
   const { data: latestVirtualEstates } = useGetLatestVirtualEstatesQuery({
     page: 1,
-    size: 8,
+    size: 20,
   });
 
   return (

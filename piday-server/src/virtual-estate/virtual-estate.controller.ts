@@ -237,7 +237,7 @@ export class VirtualEstateController {
   async getLatestVirtualEstates(
     @Res() res: Response,
     @Query("page") page = 1, // default to page 1
-    @Query("size") size = 10, //default to size 10,
+    @Query("size") size = 20, //default to size 20,
   ) {
     try {
       const virtualEstatesRes =
