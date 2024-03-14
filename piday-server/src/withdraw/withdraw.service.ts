@@ -73,6 +73,7 @@ export class WithdrawService {
         "CAN_NOT_BE_CANCELLED",
       );
     }
+    // TODO(Hanggi): Check user ID
 
     const updatedRequest = await this.prisma.withdrawRequest.update({
       data: {

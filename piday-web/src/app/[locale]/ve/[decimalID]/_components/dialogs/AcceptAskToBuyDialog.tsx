@@ -15,9 +15,10 @@ import FormLabel from "@mui/joy/FormLabel";
 import Input from "@mui/joy/Input";
 import Typography from "@mui/joy/Typography";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
 interface Props {
   open: boolean;
@@ -37,6 +38,12 @@ export default function AcceptAskToBuyDialog({
   const { t } = useTranslation(["virtual-estate"]);
 
   const myUser = useSelector(myUserValue);
+  useEffect(() => {
+    if (myUser && !myUser.isPaymentPasswordSet) {
+      toast.warn("请先设置支付密码");
+    }
+  }, [myUser]);
+
   const [paymentPassword, setPaymentPassword] = useState("");
 
   const [acceptAskToBuyVirtualEstate, acceptAskToBuyVirtualEstateResult] =

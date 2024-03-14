@@ -21,14 +21,13 @@ async function handler(request: NextRequest) {
     ]),
   );
 
+  const body = await request.json();
   try {
     const res = await instance.request({
       method: request.method,
       url: request.url.split("/api")[1],
 
-      data: {
-        ...(await request.json()),
-      },
+      data: body,
       headers: headersForAxios,
     });
 

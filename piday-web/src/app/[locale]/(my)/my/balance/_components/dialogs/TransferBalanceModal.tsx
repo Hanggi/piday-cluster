@@ -33,6 +33,12 @@ export default function TransferBalanceModal({
   onSuccess,
 }: Props) {
   const myUser = useSelector(myUserValue);
+  useEffect(() => {
+    if (myUser && !myUser.isPaymentPasswordSet) {
+      toast.warn("请先设置支付密码");
+    }
+  }, [myUser]);
+
   const [paymentPassword, setPaymentPassword] = useState("");
 
   const { data: balance } = useGetBalanceQuery({});
@@ -77,6 +83,11 @@ export default function TransferBalanceModal({
   );
 
   const handleSubmit = useCallback(() => {
+    if (amount <= 0) {
+      toast.error("转账金额必须大于0");
+      return;
+    }
+
     transferBalance({
       amount,
       to: transferTo.trim(),
@@ -127,7 +138,7 @@ export default function TransferBalanceModal({
               type="number"
               value={amount}
               onChange={(e) => {
-                if (+e.target.value > 0) {
+                if (+e.target.value >= 0) {
                   setAmount(+e.target.value);
                 }
               }}

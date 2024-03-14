@@ -66,7 +66,7 @@ export class WithdrawRequestAdminService {
         throw new ServiceException("Not enough balance", "NOT_ENOUGH_BALANCE");
       }
 
-      const rechargeRecord = await tx.rechargeRecords.create({
+      await tx.rechargeRecords.create({
         data: {
           amount: -withdrawRequest.amount,
           externalID: withdrawRequest.withdrawStatusID.toString(),

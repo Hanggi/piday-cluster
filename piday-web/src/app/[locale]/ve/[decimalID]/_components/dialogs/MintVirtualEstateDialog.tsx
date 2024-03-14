@@ -14,9 +14,10 @@ import Typography from "@mui/joy/Typography";
 
 import { useRouter } from "next/navigation";
 
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
 interface Props {
   open: boolean;
@@ -39,6 +40,11 @@ export default function MintVirtualEstateDialog({
   const router = useRouter();
 
   const myUser = useSelector(myUserValue);
+  useEffect(() => {
+    if (myUser && !myUser.isPaymentPasswordSet) {
+      toast.warn("请先设置支付密码");
+    }
+  }, [myUser]);
 
   const [mintVirtualEstate, mintVirtualEstateResult] =
     useMintOneVirtualEstateMutation();

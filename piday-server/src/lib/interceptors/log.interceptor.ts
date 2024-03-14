@@ -21,7 +21,7 @@ export class LoggingInterceptor implements NestInterceptor {
 
     return next.handle().pipe(
       tap({
-        next: (response: any) => {
+        next: () => {
           const delay = Date.now() - now;
           // 记录请求信息和响应时间
           this.logger.log(`${method} ${url} Response time: ${delay}ms`);
