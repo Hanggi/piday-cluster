@@ -1,4 +1,5 @@
 import { useSetPaymentPasswordMutation } from "@/src/features/auth/api/authAPI";
+import { set } from "lodash";
 
 import Button from "@mui/joy/Button";
 import DialogContent from "@mui/joy/DialogContent";
@@ -54,10 +55,16 @@ export default function SetPaymentPasswordModel({
   useEffect(() => {
     if (setPaymentPasswordResult.isSuccess) {
       toast.success("设置支付密码成功");
+      setPaymentPasswordResult.reset();
       onClose();
       onSuccess?.();
     }
-  }, [onClose, onSuccess, setPaymentPasswordResult.isSuccess]);
+  }, [
+    onClose,
+    onSuccess,
+    setPaymentPasswordResult,
+    setPaymentPasswordResult.isSuccess,
+  ]);
 
   return (
     <Modal open={open} onClose={onClose}>
@@ -117,6 +124,7 @@ export default function SetPaymentPasswordModel({
               <Button
                 disabled={setPaymentPasswordResult.isLoading}
                 fullWidth
+                loading={setPaymentPasswordResult.isLoading}
                 type="submit"
               >
                 {t("profile:button.save")}
