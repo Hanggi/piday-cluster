@@ -20,6 +20,7 @@ export const pointRTKApi = createApi({
       query: () => ({
         url: `/point/check-in`,
         method: "POST",
+        body: {},
       }),
     }),
     getPointRecords: builder.query<

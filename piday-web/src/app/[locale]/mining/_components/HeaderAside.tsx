@@ -15,7 +15,11 @@ import { toast } from "react-toastify";
 export const HeaderAside = () => {
   const { t } = useTranslation("mining");
 
-  const { data: myPoint, isLoading: isLoadingMyPoint } = useGetMyPointQuery();
+  const {
+    data: myPoint,
+    isLoading: isLoadingMyPoint,
+    refetch: refetchMyPoint,
+  } = useGetMyPointQuery();
   const { data: myPointInfo, isLoading: isLoadingMyPointInfo } =
     useGetMyPointInfoQuery();
   const [checkIn, checkInResult] = useCheckInMutation();
@@ -27,8 +31,10 @@ export const HeaderAside = () => {
   useEffect(() => {
     if (checkInResult.isSuccess) {
       toast.success("领取成功");
+      checkInResult.reset();
+      refetchMyPoint();
     }
-  }, [checkInResult.isSuccess]);
+  }, [checkInResult, checkInResult.isSuccess, refetchMyPoint]);
 
   return (
     <aside className="min-w-[300px] aspect-square flex flex-col p-5 h-full bg-neutral-100 rounded-2xl">

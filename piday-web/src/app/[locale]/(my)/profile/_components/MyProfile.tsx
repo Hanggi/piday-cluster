@@ -41,9 +41,15 @@ export default function MyProfile() {
   useEffect(() => {
     if (UpdatePiWalletAddressResult.isSuccess) {
       toast.success(t("profile:toast.updatePiWalletAddressSuccess"));
+      UpdatePiWalletAddressResult.reset();
       refetchMyUser();
     }
-  }, [UpdatePiWalletAddressResult.isSuccess, refetchMyUser, t]);
+  }, [
+    UpdatePiWalletAddressResult,
+    UpdatePiWalletAddressResult.isSuccess,
+    refetchMyUser,
+    t,
+  ]);
 
   // Payment password
   const [openPaymentPasswordModal, setOpenPaymentPasswordModal] =
@@ -92,7 +98,9 @@ export default function MyProfile() {
               />
               <Button
                 disabled={UpdatePiWalletAddressResult.isLoading}
-                loading={isLoadingMyUser}
+                loading={
+                  isLoadingMyUser || UpdatePiWalletAddressResult.isLoading
+                }
                 onClick={() => {
                   updateWalletAddress({ piWalletAddress });
                 }}

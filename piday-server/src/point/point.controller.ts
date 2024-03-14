@@ -54,6 +54,11 @@ export class PointController {
 
     try {
       await this.pointService.checkIn({ userID });
+
+      return {
+        success: true,
+        message: "Checked in successfully",
+      };
     } catch (err) {
       console.log(err.code);
       switch (err.code) {
@@ -64,12 +69,11 @@ export class PointController {
           );
       }
 
-      throw err;
+      throw new HttpException(
+        "Internal server error",
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
     }
-
-    return {
-      message: "Checked in successfully",
-    };
   }
 
   @Get("info")
