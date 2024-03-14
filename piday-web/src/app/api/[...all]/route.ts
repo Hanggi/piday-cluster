@@ -22,12 +22,19 @@ async function handler(request: NextRequest) {
     ]),
   );
 
+  let body = {};
+  try {
+    body = await request.json();
+  } catch (error) {
+    console.log("Error on api route!");
+  }
+
   try {
     const res = await instance.request({
       method: request.method,
       url: request.url.split("/api")[1],
 
-      data: request.body,
+      data: body,
       headers: headersForAxios,
     });
 

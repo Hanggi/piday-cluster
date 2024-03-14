@@ -20,16 +20,23 @@ async function handler(request: NextRequest) {
       cleanHeaderValue(value),
     ]),
   );
+
+  let body = {};
+  try {
+    body = await request.json();
+  } catch (error) {
+    console.log("Error on admin route!");
+  }
+
   try {
     const res = await instance.request({
       method: request.method,
       url: request.url.split("/api")[1],
 
-      data: {
-        ...(await request.json()),
-      },
+      data: body,
       headers: headersForAxios,
     });
+    console.log(res);
 
     return new Response(JSON.stringify(res.data), {
       status: res.status,

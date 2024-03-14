@@ -22,7 +22,12 @@ async function handler(request: NextRequest) {
     ]),
   );
 
-  const body = await request.json();
+  let body = {};
+  try {
+    body = await request.json();
+  } catch (error) {
+    console.log("Error on point route!");
+  }
   try {
     const res = await instance.request({
       method: request.method,
