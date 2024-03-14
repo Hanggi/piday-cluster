@@ -196,7 +196,7 @@ export class UserService {
       await tx.rechargeRecords.create({
         data: {
           ownerID: userID,
-          reason: "TRANSFER",
+          reason: "TRANSFER_BALANCE",
           amount: -amount,
           externalID: externalID,
         },
@@ -205,7 +205,7 @@ export class UserService {
       const receiverRechargeRecord = await tx.rechargeRecords.create({
         data: {
           ownerID: receiver.keycloakID,
-          reason: "TRANSFER",
+          reason: "RECEIVE_BALANCE",
           amount: amount,
           externalID: externalID,
         },
