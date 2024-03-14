@@ -2,7 +2,7 @@ FROM node:20 AS builder
 WORKDIR /app
 COPY ./piday-server/package.json ./
 RUN yarn
-RUN yarn rebuild bcrypt --build-from-source  
+RUN npm rebuild bcrypt --build-from-source
 COPY ./piday-server .
 ENV TZ Asia/Shanghai
 # ENV NODE_ENV production
