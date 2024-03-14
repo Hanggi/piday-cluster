@@ -80,7 +80,7 @@ export class UserController {
   }
 
   @UseGuards(KeycloakJwtGuard)
-  @Post("transfer-amount")
+  @Post("transfer-balance")
   async transferAmount(
     @Req() req: AuthenticatedRequest,
     @Res() res: Response,
@@ -99,34 +99,28 @@ export class UserController {
         amount,
       );
 
-      if (!rechargeRecord) {
-        res.status(HttpStatus.UNPROCESSABLE_ENTITY).json({
-          success: false,
-          msg: "recharge record created",
-          recahrgeRecord: null,
+      if (rechargeRecord) {
+        res.status(HttpStatus.OK).json({
+          success: true,
+          message: "recharge record created",
+          
         });
       }
     } catch (error) {
       switch (error.code) {
         case "NOT_ENOUGH_BALANCE":
           throw new HttpException(
-            {
-              message: "Not enough balance.",
-            },
+              "Not enough balance.",
             HttpStatus.FORBIDDEN,
           );
         case "IN_VALID_WALLET_ADDRESS":
           throw new HttpException(
-            {
-              message: "User not found.",
-            },
+               "User not found.",
             HttpStatus.NOT_FOUND,
           );
         case "INVALID_PASSWORD":
           throw new HttpException(
-            {
-              message: "In valid payment password.",
-            },
+              "In valid payment password.",
             HttpStatus.NOT_FOUND,
           );
       }
