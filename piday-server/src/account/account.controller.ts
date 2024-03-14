@@ -96,6 +96,13 @@ export class AccountController {
     @Res() res: Response,
     @Body() body: UpdatePiWalletAddressDto,
   ) {
+    if (
+      !body.piWalletAddress ||
+      body.piWalletAddress == process.env.RECHARGING_ADDRESS
+    ) {
+      throw new HttpException("Invalid wallet address", HttpStatus.BAD_REQUEST);
+    }
+
     try {
       const user = await this.accountService.updateWalletAddress(
         req.user.userID,
@@ -127,7 +134,6 @@ export class AccountController {
     @Res() res: Response,
     @Body() body: TransferAmountBody,
   ) {
-    console.log("???@");
     try {
       const { amount, piWalletAddress, paymentPassword } = body;
       this.userService.checkPaymentPassword({
