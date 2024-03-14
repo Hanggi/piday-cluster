@@ -10,7 +10,7 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
     super({
       log: config.get("prismaDebug")
         ? ["query", "info", "warn", "error"]
-        : ["error"],
+        : ["warn", "error"],
     });
   }
 
