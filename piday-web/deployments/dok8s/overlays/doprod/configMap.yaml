@@ -5,6 +5,7 @@ metadata:
   # namespace: piday-prod
 data:
   REACT_APP_VERSION: 0.0.1
+  ENV: prod
   BACKEND_BASE_URL: http://piday-server-service.piday-prod
 
   NEXTAUTH_URL: https://piday.world

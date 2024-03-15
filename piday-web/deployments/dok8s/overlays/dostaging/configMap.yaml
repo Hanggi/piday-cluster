@@ -5,6 +5,7 @@ metadata:
   # namespace: piday-staging
 data:
   REACT_APP_VERSION: 0.0.1
+  ENV: staging
   BACKEND_BASE_URL: http://piday-server-service.piday-staging
 
   NEXTAUTH_URL: https://testnet.piday.world

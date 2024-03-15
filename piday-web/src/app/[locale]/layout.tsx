@@ -13,6 +13,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import initTranslations from "../i18n";
+import EnvironmentAlert from "./_components/layout/EnvironmentAlert";
 import Footer from "./_components/layout/Footer";
 import Header from "./_components/layout/Header";
 import "./globals.css";
@@ -49,6 +50,7 @@ export default async function RootLayout({
                 namespaces={options.ns as string[]}
               >
                 <Header />
+                <EnvironmentAlert env={process.env.ENV} />
                 <main className="mt-10 relative z-10  min-h-[80vh]">
                   {children}
                 </main>

@@ -90,6 +90,10 @@ export default function MyProfile() {
           ) : (
             <div className="flex gap-4">
               <Input
+                error={
+                  piWalletAddress.length > 0 &&
+                  !isValidPiAddress(piWalletAddress)
+                }
                 placeholder={t(
                   "profile:profile.placeholder.enterYourPiWalletAddress",
                 )}
@@ -102,6 +106,10 @@ export default function MyProfile() {
                   isLoadingMyUser || UpdatePiWalletAddressResult.isLoading
                 }
                 onClick={() => {
+                  if (!isValidPiAddress(piWalletAddress)) {
+                    toast.warn("Invalid Pi Wallet Address");
+                    return;
+                  }
                   updateWalletAddress({ piWalletAddress });
                 }}
               >
@@ -151,4 +159,10 @@ function formatID(id?: string) {
     return "";
   }
   return id.toString().padStart(8, "0");
+}
+
+function isValidPiAddress(address: string) {
+  const regex = /^[A-Z0-9]{56}$/i;
+
+  return regex.test(address);
 }

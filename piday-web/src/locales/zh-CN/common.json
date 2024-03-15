@@ -47,6 +47,11 @@
       "emailVerificationSent": "验证码已发送至邮箱，请注意查收"
     }
   },
+  "env": {
+    "local": "当前访问的环境是本地环境",
+    "dev": "当前访问的环境是内测环境",
+    "staging": "当前访问的环境是测试网环境"
+  },
   "button": {
     "send": "发送",
     "cancel": "取消",

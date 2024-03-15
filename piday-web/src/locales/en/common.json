@@ -47,6 +47,11 @@
       "emailVerificationSent": "Email verification sent"
     }
   },
+  "env": {
+    "local": "The environment currently being accessed is the local environment",
+    "dev": "The environment currently being accessed is the development environment",
+    "staging": "The environment currently being accessed is the testnet environment"
+  },
   "button": {
     "send": "Send",
     "cancel": "Cancel",
