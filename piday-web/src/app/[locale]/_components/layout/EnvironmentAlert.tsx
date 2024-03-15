@@ -5,7 +5,7 @@ import Alert from "@mui/joy/Alert";
 import { useTranslation } from "react-i18next";
 
 interface Props {
-  env: string;
+  env?: string;
 }
 export default function EnvironmentAlert({ env }: Props) {
   const { t } = useTranslation("common");
