@@ -1,5 +1,4 @@
 import { useSetPaymentPasswordMutation } from "@/src/features/auth/api/authAPI";
-import { set } from "lodash";
 
 import Button from "@mui/joy/Button";
 import DialogContent from "@mui/joy/DialogContent";
