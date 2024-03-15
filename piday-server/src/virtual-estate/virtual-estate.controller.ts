@@ -61,7 +61,6 @@ export class VirtualEstateController {
         });
       }
 
-      // console.log(virtualEstates[0].listings);
       res.status(HttpStatus.OK).json({
         virtualEstates: plainToInstance(
           VirtualEstateResponseDto,

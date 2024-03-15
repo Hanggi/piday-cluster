@@ -23,10 +23,8 @@ export class KeycloakJwtAdminGuard implements CanActivate {
       jwksUri: process.env.KEYCLOAK_CERTS_URL,
     });
 
-    // console.log(client);
     function getKey(header, callback: jwt.SigningKeyCallback) {
       client.getSigningKey(header.kid, function (err, key: any) {
-        // console.log("key", key);
         const signingKey =
           key?.getPublicKey() || key?.publicKey || key?.rsaPublicKey;
         callback(null, signingKey);

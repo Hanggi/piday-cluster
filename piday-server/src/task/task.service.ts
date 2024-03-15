@@ -32,7 +32,7 @@ export class TasksService {
     );
 
     if (!hasLock) {
-      console.log("Locked by another process. Skipping.");
+      console.info("Locked by another process. Skipping.");
       return;
     }
 
@@ -50,7 +50,7 @@ export class TasksService {
         });
 
       if (existingRechargeRecord) {
-        console.log(
+        console.info(
           `Payment with ID ${payment.id} already processed. Skipping.`,
         );
         continue;
@@ -66,7 +66,7 @@ export class TasksService {
       await this.redis.set(PI_NETWORK_PAYMENT_ID_CURSOR, payment.id.toString());
 
       if (!user) {
-        console.log(
+        console.info(
           `User with piWalletAddress ${payment.from} not found. Skipping.`,
         );
         continue;

@@ -58,6 +58,7 @@ export default function MintVirtualEstateDialog({
       router.refresh();
     },
   );
+  console.log(place);
 
   const [paymentPassword, setPaymentPassword] = useState("");
 
@@ -119,12 +120,29 @@ export default function MintVirtualEstateDialog({
 
 function getPlaceName(place: any) {
   console.log(place);
-  const placeName = place.features.find((v: any) => {
+  let placeName = place.features.find((v: any) => {
     if (v.id.includes("place")) {
       return true;
     }
     return false;
   });
+
+  if (!placeName) {
+    placeName = place.features.find((v: any) => {
+      if (v.id.includes("region")) {
+        return true;
+      }
+      return false;
+    });
+  }
+  if (!placeName) {
+    placeName = place.features.find((v: any) => {
+      if (v.id.includes("address")) {
+        return true;
+      }
+      return false;
+    });
+  }
 
   const countryName = place.features.find((v: any) => {
     if (v.id.includes("country")) {

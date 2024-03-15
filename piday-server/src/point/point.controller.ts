@@ -60,7 +60,6 @@ export class PointController {
         message: "Checked in successfully",
       };
     } catch (err) {
-      console.log(err.code);
       switch (err.code) {
         case "ALREADY_CHECKED_IN_TODAY":
           throw new HttpException(

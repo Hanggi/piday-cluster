@@ -117,7 +117,6 @@ export class AuthController {
         },
       });
 
-      console.log(me);
       myPiUser = me.data;
     } catch (err) {
       console.error(err.response.status);
@@ -148,7 +147,6 @@ export class AuthController {
           inviteCode,
           piUid: myPiUser.uid,
         });
-        console.log(user);
       } catch (err) {
         console.error(err);
 
@@ -185,7 +183,6 @@ export class AuthController {
     });
 
     const data = await tokenResponse.json();
-    console.log(data);
 
     return data;
   }

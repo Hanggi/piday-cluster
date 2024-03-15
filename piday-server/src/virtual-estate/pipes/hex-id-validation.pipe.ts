@@ -5,7 +5,6 @@ import { BadRequestException, Injectable, PipeTransform } from "@nestjs/common";
 @Injectable()
 export class HexIdValidationPipe implements PipeTransform {
   transform(value: any): any {
-    console.log(value);
     if (!h3.h3IsValid(value) || h3.h3GetResolution(value) !== 12) {
       console.error("Invalid Hex ID: ", value);
       throw new BadRequestException("Invalid Hex ID");
