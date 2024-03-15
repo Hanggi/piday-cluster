@@ -52,6 +52,9 @@ export default function RechargeModal({
         <DialogContent>
           <div className="mb-4">
             <Typography>{t("asset-center:hint.howToRecharge")}</Typography>
+            <Typography>
+              充值进账需要30秒～1分钟，充值成功后，您可以在“我的余额”中查看到充值的资产。
+            </Typography>
           </div>
 
           <div className="mb-4">
