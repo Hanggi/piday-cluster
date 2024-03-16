@@ -9,7 +9,7 @@ import Card from "@mui/joy/Card";
 import CircularProgress from "@mui/joy/CircularProgress";
 import Table from "@mui/joy/Table";
 
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 export default function LedgerRecords() {
   const [page, setPage] = useState(1);
