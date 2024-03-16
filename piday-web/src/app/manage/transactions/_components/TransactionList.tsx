@@ -9,7 +9,7 @@ import CircularProgress from "@mui/joy/CircularProgress";
 import Table from "@mui/joy/Table";
 import Typography from "@mui/joy/Typography";
 
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 export default function TransactionList() {
   const [page, setPage] = useState(1);
@@ -20,7 +20,9 @@ export default function TransactionList() {
     size,
   });
 
-  console.log("transactionRes", transactionRes);
+  const handlePageClick = useCallback(({ selected }: { selected: number }) => {
+    setPage(selected + 1);
+  }, []);
 
   return (
     <div className="mt-8">
@@ -65,6 +67,7 @@ export default function TransactionList() {
           <Pagination
             currentPage={page}
             pageCount={(transactionRes?.totalCount || 0) / size}
+            onPageChange={handlePageClick}
           />
         </div>
       </Card>

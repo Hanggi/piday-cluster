@@ -2141,12 +2141,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^20.11.27":
-  version: 20.11.27
-  resolution: "@types/node@npm:20.11.27"
+"@types/node@npm:^20.11.28":
+  version: 20.11.28
+  resolution: "@types/node@npm:20.11.28"
   dependencies:
     undici-types: "npm:~5.26.4"
-  checksum: ec40bea80c60a12b39bd0da9b16333237a84c67ae83c8aa382b88381ae3948943bf6af969442e209270ad3e109f301a6b01ab243f80bd0e69673a877425f9418
+  checksum: c599745243ed9ae4ca87460f18f88d02ab7424b545136aa504ed7a1d898e3a9bb133c927bcc7e861f79d7f6043ef917a173e780c8a001e129221e92f6d97b0ee
   languageName: node
   linkType: hard
 
@@ -2200,14 +2200,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:^18.2.65":
-  version: 18.2.65
-  resolution: "@types/react@npm:18.2.65"
+"@types/react@npm:^18.2.66":
+  version: 18.2.66
+  resolution: "@types/react@npm:18.2.66"
   dependencies:
     "@types/prop-types": "npm:*"
     "@types/scheduler": "npm:*"
     csstype: "npm:^3.0.2"
-  checksum: 91158b5a9e90489a5984bb610c3692001ecdf1d286c78384252698bcb306ef88e9434e75f01bf7739017e949e7690b7d6f1b7ef9d7097f86f3f649482a33604b
+  checksum: 56e4b841f2daf03a0b3268d4f2bcf5841167fe56742b9f1c076fad66587fb59191bdaba4d5727dbfbcff750d5e8797fdd4e57d8d9704b0bfc6ad31ee1e268a70
   languageName: node
   linkType: hard
 
@@ -2610,14 +2610,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:^1.6.7":
-  version: 1.6.7
-  resolution: "axios@npm:1.6.7"
+"axios@npm:^1.6.8":
+  version: 1.6.8
+  resolution: "axios@npm:1.6.8"
   dependencies:
-    follow-redirects: "npm:^1.15.4"
+    follow-redirects: "npm:^1.15.6"
     form-data: "npm:^4.0.0"
     proxy-from-env: "npm:^1.1.0"
-  checksum: 131bf8e62eee48ca4bd84e6101f211961bf6a21a33b95e5dfb3983d5a2fe50d9fffde0b57668d7ce6f65063d3dc10f2212cbcb554f75cfca99da1c73b210358d
+  checksum: 0f22da6f490335479a89878bc7d5a1419484fbb437b564a80c34888fc36759ae4f56ea28d55a191695e5ed327f0bad56e7ff60fb6770c14d1be6501505d47ab9
   languageName: node
   linkType: hard
 
@@ -3140,10 +3140,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"date-fns@npm:^3.4.0":
-  version: 3.4.0
-  resolution: "date-fns@npm:3.4.0"
-  checksum: e4395adcdf10b1784c6479b9d715ed9a1cb06c9d99b95607ad6db43b18371e22314d3e9e5509a378da1c5a6b34b313049bf82897b7f263f413e051f59e0ea5c2
+"date-fns@npm:^3.5.0":
+  version: 3.5.0
+  resolution: "date-fns@npm:3.5.0"
+  checksum: 588866a963af617c46f71d7ae4971d2e88bce67bda39916f03ec6c2807c0344da27c4793d718a9082e7651d37a4c9ffaecc1cc1dee057d6eafcd85535a795a9f
   languageName: node
   linkType: hard
 
@@ -3929,13 +3929,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"follow-redirects@npm:^1.15.4":
-  version: 1.15.4
-  resolution: "follow-redirects@npm:1.15.4"
+"follow-redirects@npm:^1.15.6":
+  version: 1.15.6
+  resolution: "follow-redirects@npm:1.15.6"
   peerDependenciesMeta:
     debug:
       optional: true
-  checksum: 5f37ed9170c9eb19448c5418fdb0f2b73f644b5364834e70791a76ecc7db215246f9773bbef4852cfae4067764ffc852e047f744b661b0211532155b73556a6a
+  checksum: 9ff767f0d7be6aa6870c82ac79cf0368cd73e01bbc00e9eb1c2a16fbb198ec105e3c9b6628bb98e9f3ac66fe29a957b9645bcb9a490bb7aa0d35f908b6b85071
   languageName: node
   linkType: hard
 
@@ -5847,16 +5847,16 @@ __metadata:
     "@reduxjs/toolkit": "npm:^2.2.1"
     "@trivago/prettier-plugin-sort-imports": "npm:^4.3.0"
     "@types/lodash": "npm:^4.17.0"
-    "@types/node": "npm:^20.11.27"
-    "@types/react": "npm:^18.2.65"
+    "@types/node": "npm:^20.11.28"
+    "@types/react": "npm:^18.2.66"
     "@types/react-dom": "npm:^18.2.22"
     "@types/react-paginate": "npm:^7.1.4"
     "@types/validator": "npm:^13.11.9"
     autoprefixer: "npm:^10.4.18"
-    axios: "npm:^1.6.7"
+    axios: "npm:^1.6.8"
     clsx: "npm:^2.1.0"
     cryptr: "npm:^6.3.0"
-    date-fns: "npm:^3.4.0"
+    date-fns: "npm:^3.5.0"
     deck.gl: "npm:^8.9.35"
     env-cmd: "npm:^10.1.0"
     eslint: "npm:^8.57.0"
@@ -5884,7 +5884,7 @@ __metadata:
     react-paginate: "npm:^8.2.0"
     react-redux: "npm:^9.1.0"
     react-spinners: "npm:^0.13.8"
-    react-toastify: "npm:^10.0.4"
+    react-toastify: "npm:^10.0.5"
     remixicon: "npm:^4.2.0"
     sharp: "npm:^0.33.2"
     tailwind-merge: "npm:^2.2.1"
@@ -6259,15 +6259,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-toastify@npm:^10.0.4":
-  version: 10.0.4
-  resolution: "react-toastify@npm:10.0.4"
+"react-toastify@npm:^10.0.5":
+  version: 10.0.5
+  resolution: "react-toastify@npm:10.0.5"
   dependencies:
     clsx: "npm:^2.1.0"
   peerDependencies:
-    react: ">=16"
-    react-dom: ">=16"
-  checksum: 3d31edf81e8b394fd0085615fd7ba9fb9546c7cdae56e5334df67b58d65450c73af14a8fc163f19ceed03cfee7a344d1af1489422536f52c9516ca45e9b61a37
+    react: ">=18"
+    react-dom: ">=18"
+  checksum: 66c68ec3d6c017d9f32652d73bb925224921c6a80b629b9d481430d5b4fd504abb7a99995a64b9aef0fc31326c74f3cbe088b3287b978dd0c355079c4bbf4158
   languageName: node
   linkType: hard
 

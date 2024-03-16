@@ -20,6 +20,10 @@ export default function LedgerRecords() {
     size,
   });
 
+  const handlePageClick = useCallback(({ selected }: { selected: number }) => {
+    setPage(selected + 1);
+  }, []);
+
   return (
     <div>
       <Card>
@@ -52,6 +56,7 @@ export default function LedgerRecords() {
         <Pagination
           currentPage={page}
           pageCount={(ledgerRecords?.totalCount || 0) / 20}
+          onPageChange={handlePageClick}
         />
       </Card>
     </div>

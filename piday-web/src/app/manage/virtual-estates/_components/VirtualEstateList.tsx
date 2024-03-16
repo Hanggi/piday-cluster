@@ -9,7 +9,7 @@ import CircularProgress from "@mui/joy/CircularProgress";
 import Table from "@mui/joy/Table";
 import Typography from "@mui/joy/Typography";
 
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 export default function VritualEstateList() {
   const [page, setPage] = useState(1);
@@ -19,6 +19,10 @@ export default function VritualEstateList() {
     page,
     size,
   });
+
+  const handlePageClick = useCallback(({ selected }: { selected: number }) => {
+    setPage(selected + 1);
+  }, []);
 
   return (
     <div className="mt-8">
@@ -56,6 +60,7 @@ export default function VritualEstateList() {
           <Pagination
             currentPage={page}
             pageCount={(virtualEstateRes?.totalCount || 0) / size}
+            onPageChange={handlePageClick}
           />
         </div>
       </Card>

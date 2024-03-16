@@ -11,7 +11,7 @@ import Table from "@mui/joy/Table";
 import Tooltip from "@mui/joy/Tooltip";
 import Typography from "@mui/joy/Typography";
 
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 export default function UserList() {
   const [page, setPage] = useState(1);
@@ -21,6 +21,10 @@ export default function UserList() {
     page,
     size,
   });
+
+  const handlePageClick = useCallback(({ selected }: { selected: number }) => {
+    setPage(selected + 1);
+  }, []);
 
   return (
     <div className="mt-8">
@@ -73,6 +77,7 @@ export default function UserList() {
           <Pagination
             currentPage={page}
             pageCount={(userRes?.totalCount || 0) / size}
+            onPageChange={handlePageClick}
           />
         </div>
       </Card>

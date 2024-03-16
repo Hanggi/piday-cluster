@@ -7,7 +7,7 @@ import { useGetMyVirtualEstatesQuery } from "@/src/features/virtual-estate/api/v
 import { VirtualEstate } from "@/src/features/virtual-estate/interface/virtual-estate.interface";
 import { setMyVirtualEstatesCount } from "@/src/features/virtual-estate/virtual-estate-slice";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
 interface Props {}
@@ -31,10 +31,14 @@ export const MyVritualEstates = ({}: Props) => {
     }
   }, [dispatch, myVritualEstatesRes?.totalCount]);
 
+  const handlePageClick = useCallback(({ selected }: { selected: number }) => {
+    setPage(selected + 1);
+  }, []);
+
   return (
     <div className="overflow-hidden">
       <WrapperCard>
-        <div className="grid grid-cols-2 gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {myVritualEstatesRes?.virtualEstates &&
             myVritualEstatesRes?.virtualEstates.map((ve: VirtualEstate, i) => {
               return (
@@ -44,10 +48,13 @@ export const MyVritualEstates = ({}: Props) => {
               );
             })}
         </div>
-        <Pagination
-          currentPage={page}
-          pageCount={myVritualEstatesRes?.totalCount || 0 / 20}
-        />
+        <div className="mt-4">
+          <Pagination
+            currentPage={page}
+            pageCount={(myVritualEstatesRes?.totalCount || 0) / 20}
+            onPageChange={handlePageClick}
+          />
+        </div>
       </WrapperCard>
     </div>
   );

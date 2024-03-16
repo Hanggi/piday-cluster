@@ -9,7 +9,7 @@ import { cn } from "@/src/utils/cn";
 import { CircularProgress } from "@mui/joy";
 import Table from "@mui/joy/Table";
 
-import { ComponentProps, useState } from "react";
+import { ComponentProps, useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 type TableProps = ComponentProps<typeof WrapperCard>;
@@ -24,6 +24,10 @@ export function MyPointRecords({ className, ...props }: TableProps) {
     page,
     size,
   });
+
+  const handlePageClick = useCallback(({ selected }: { selected: number }) => {
+    setPage(selected + 1);
+  }, []);
 
   return (
     <WrapperCard className={cn("w-full", className)} {...props}>
@@ -54,6 +58,7 @@ export function MyPointRecords({ className, ...props }: TableProps) {
       <Pagination
         currentPage={page}
         pageCount={(pointRecords?.totalCount || 0) / 20}
+        onPageChange={handlePageClick}
       />
     </WrapperCard>
   );
