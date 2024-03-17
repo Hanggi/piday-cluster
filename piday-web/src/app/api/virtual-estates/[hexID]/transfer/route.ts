@@ -12,13 +12,13 @@ export async function POST(
   },
 ) {
   const body = await request.json();
-  const { receiverID } = body;
+  const { receiverID, paymentPassword } = body;
   const { headers } = request;
   const hexID = params.hexID;
   try {
     const res = await instance.post(
       "/virtual-estates/" + hexID + "/transfer",
-      { receiverID },
+      { receiverID, paymentPassword },
       {
         headers: HeaderFilters(headers),
       },

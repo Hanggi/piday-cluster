@@ -58,7 +58,6 @@ export default function MintVirtualEstateDialog({
       router.refresh();
     },
   );
-  console.log(place);
 
   const [paymentPassword, setPaymentPassword] = useState("");
 

@@ -130,6 +130,13 @@ export default function TransferVirtualEstateDialog({
               />
             </FormControl>
 
+            {userInfo && (
+              <div className="py-4">
+                <Typography level="title-md">User: </Typography>
+                <Typography>{userInfo?.username}</Typography>
+              </div>
+            )}
+
             {myUser?.isPaymentPasswordSet ? (
               <FormControl>
                 <FormLabel>支付密码</FormLabel>
@@ -144,13 +151,6 @@ export default function TransferVirtualEstateDialog({
               </FormControl>
             ) : (
               <div></div>
-            )}
-
-            {userInfo && (
-              <div className="py-4">
-                <Typography level="title-md">User: </Typography>
-                <Typography>{userInfo?.username}</Typography>
-              </div>
             )}
           </div>
         </div>
