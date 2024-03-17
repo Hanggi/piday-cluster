@@ -29,6 +29,7 @@ export class VirtualEstateResponseDto {
 
   @Expose()
   createdAt: Date;
+
   @Expose()
   updatedAt: Date;
 

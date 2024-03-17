@@ -14,10 +14,15 @@ export async function PATCH(
   const { headers } = request;
   const hexID = params.hexID;
   const bidID = params.bidID;
+
+  const req = await request.json();
+
   try {
     const res = await instance.patch(
       "/virtual-estates/" + hexID + "/bid/" + bidID + "/accept",
-      {},
+      {
+        ...req,
+      },
       {
         headers: HeaderFilters(headers),
       },

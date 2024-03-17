@@ -45,7 +45,9 @@ export function VirtualEstateCard({ ve }: Props) {
           </div>
           <div className="px-4 pt-4 flex flex-col gap-3">
             <div className="h-12">
-              <Typography level="title-lg">{ve?.name}</Typography>
+              <Typography className="line-clamp-2" level="title-lg">
+                {ve?.name}
+              </Typography>
             </div>
             <Typography level="body-sm">{ve?.virtualEstateID}</Typography>
 

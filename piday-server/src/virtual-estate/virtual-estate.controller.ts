@@ -17,6 +17,7 @@ import {
 } from "@nestjs/common";
 
 import { AccountService } from "../account/account.service";
+import commonControllerErrorHandler from "../lib/errors/common-controller-error-handler";
 import { AuthenticatedRequest } from "../lib/keycloak/interfaces/authenticated-request";
 import { KeycloakJwtGuard } from "../lib/keycloak/keycloak-jwt.guard";
 import { UserService } from "../user/user.service";
@@ -581,10 +582,7 @@ export class VirtualEstateController {
       });
     } catch (error) {
       console.error(error);
-      throw new HttpException(
-        "Internal Server Error",
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      );
+      commonControllerErrorHandler(error.code);
     }
   }
 
@@ -623,11 +621,7 @@ export class VirtualEstateController {
         message: "Virtual estate transferred successfully",
       });
     } catch (err) {
-      console.error(err);
-      throw new HttpException(
-        "Internal Server Error",
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      );
+      commonControllerErrorHandler(err.code);
     }
   }
 }

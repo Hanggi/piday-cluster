@@ -6,13 +6,16 @@ export class UserResponseDto {
 
   @Expose()
   username: string;
+
   @Expose()
   avatar?: string;
 
   @Expose()
   email: string;
+
   @Expose()
   createdAt: Date;
+
   @Expose()
   updatedAt: Date;
 }

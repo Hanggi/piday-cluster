@@ -93,6 +93,12 @@ export default function AcceptAskToBuyDialog({
               <Typography className="w-2/3">{listing.price}</Typography>
             </div>
           </div>
+          <div className="flex mb-2">
+            <Typography className="w-1/3" level="title-md">
+              {t("virtual-estate:label.hashValue")}:
+            </Typography>
+            <Typography className="w-2/3">{hexID}</Typography>
+          </div>
           {myUser?.isPaymentPasswordSet ? (
             <FormControl>
               <FormLabel>支付密码</FormLabel>
@@ -108,12 +114,6 @@ export default function AcceptAskToBuyDialog({
           ) : (
             <div></div>
           )}
-          <div className="flex mb-2">
-            <Typography className="w-1/3" level="title-md">
-              {t("virtual-estate:label.hashValue")}:
-            </Typography>
-            <Typography className="w-2/3">{hexID}</Typography>
-          </div>
         </div>
       </ConfirmDialog>
     </div>

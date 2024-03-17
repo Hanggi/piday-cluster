@@ -35,7 +35,7 @@ export async function POST(
     return new Response(
       JSON.stringify({
         success: false,
-        message: "Fail to sell virtual estate",
+        message: "Fail to transfer virtual estate",
         error: axiosError.response?.data || "Unknown error",
       }),
       {

@@ -119,13 +119,12 @@ export default function MintVirtualEstateDialog({
 }
 
 function getPlaceName(place: any) {
-  console.log(place);
   let placeName = place.features.find((v: any) => {
     if (v.id.includes("place")) {
       return true;
     }
     return false;
-  });
+  })?.text;
 
   if (!placeName) {
     placeName = place.features.find((v: any) => {
@@ -133,7 +132,7 @@ function getPlaceName(place: any) {
         return true;
       }
       return false;
-    });
+    })?.text;
   }
   if (!placeName) {
     placeName = place.features.find((v: any) => {
@@ -141,7 +140,7 @@ function getPlaceName(place: any) {
         return true;
       }
       return false;
-    });
+    })?.text;
   }
 
   const countryName = place.features.find((v: any) => {
@@ -149,7 +148,11 @@ function getPlaceName(place: any) {
       return true;
     }
     return false;
-  });
+  })?.text;
 
-  return `.${placeName.text}.${countryName.text}.world`;
+  try {
+    return `.${placeName}${countryName ? "." + countryName : ""}.world`;
+  } catch (error) {
+    toast.error("Invalid place name: ", error);
+  }
 }

@@ -14,10 +14,15 @@ export async function PATCH(
   const { headers } = request;
   const hexID = params.hexID;
   const askID = params.askID;
+
+  const req = await request.json();
+
   try {
     const res = await instance.patch(
       "/virtual-estates/" + hexID + "/ask/" + askID + "/accept",
-      {},
+      {
+        ...req,
+      },
       {
         headers: HeaderFilters(headers),
       },
@@ -28,10 +33,14 @@ export async function PATCH(
     });
   } catch (error) {
     const axiosError = error as AxiosError;
+
+    console.log(axiosError.response?.data);
     return new Response(
       JSON.stringify({
         success: false,
-        message: "Fail to sell virtual estate",
+        message:
+          (axiosError.response?.data as any)?.message ||
+          "Fail to buy virtual estate",
         error: axiosError.response?.data || "Unknown error",
       }),
       {
