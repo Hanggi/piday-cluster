@@ -153,6 +153,8 @@ function getPlaceName(place: any) {
   try {
     return `.${placeName}${countryName ? "." + countryName : ""}.world`;
   } catch (error) {
-    toast.error("Invalid place name: ", error);
+    toast.error("Invalid place name: ");
+    console.error(error);
+    return "";
   }
 }
