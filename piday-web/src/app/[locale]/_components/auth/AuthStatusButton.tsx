@@ -18,7 +18,11 @@ import { useTranslation } from "react-i18next";
 
 import SignInButton from "./SignInButton";
 
-export default function AuthStatusButton() {
+interface Props {
+  size?: "sm" | "md" | "lg";
+}
+
+export default function AuthStatusButton({ size = "md" }: Props) {
   const { t } = useTranslation(["common", "profile"]);
 
   const { data: session, status } = useSession();
@@ -32,12 +36,21 @@ export default function AuthStatusButton() {
   }, [session?.error]);
 
   if (status == "loading") {
-    return <Button className="my-3">Loading...</Button>;
+    return (
+      <Button className="my-3" size={size}>
+        Loading...
+      </Button>
+    );
   } else if (session) {
     return (
       <Dropdown>
-        <MenuButton color="primary" variant="solid">
-          {session.user?.name}
+        <MenuButton
+          className="max-w-[120px]"
+          color="primary"
+          size={size}
+          variant="solid"
+        >
+          <div className="w-full truncate">{session.user?.name}</div>
         </MenuButton>
         <Menu>
           <MenuItem>

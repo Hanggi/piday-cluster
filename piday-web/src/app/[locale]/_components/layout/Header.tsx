@@ -3,10 +3,16 @@
 import { cn } from "@/src/utils/cn";
 
 import Button from "@mui/joy/Button";
+import Drawer from "@mui/joy/Drawer";
+import IconButton from "@mui/joy/IconButton";
+import List from "@mui/joy/List";
+import ListDivider from "@mui/joy/ListDivider";
+import ListItemButton from "@mui/joy/ListItemButton";
 
 import Image from "next/image";
 import Link from "next/link";
 
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import AuthStatusButton from "../auth/AuthStatusButton";
@@ -14,9 +20,12 @@ import AuthStatusButton from "../auth/AuthStatusButton";
 export default function Header() {
   const { t } = useTranslation("common");
 
+  const [open, setOpen] = useState(false);
+
   return (
     <header className="bg-[rgba(89,59,139,100)]">
-      <div className="container py-4 flex justify-between ">
+      {/* DESKTOP */}
+      <div className="container py-4 lg:flex justify-between hidden">
         <Link href="/">
           <div className={"relative h-12 w-12"}>
             <Image
@@ -62,6 +71,74 @@ export default function Header() {
 
         <AuthStatusButton />
       </div>
+
+      {/* MOBILE */}
+      <div className=" py-2 flex justify-between lg:hidden">
+        <IconButton
+          className="flex-none w-16"
+          color="neutral"
+          variant="plain"
+          onClick={() => setOpen(true)}
+        >
+          <i className="ri-menu-line text-white"></i>
+        </IconButton>
+
+        <Link href="/">
+          <div className={"relative h-12 w-12"}>
+            <Image
+              alt="logo"
+              className="block"
+              fill
+              priority
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              src="/logo.png"
+            />
+          </div>
+        </Link>
+
+        <AuthStatusButton size="sm" />
+      </div>
+
+      <Drawer open={open} onClose={() => setOpen(false)}>
+        <List component="nav" size="lg">
+          <ListItemButton>
+            <Link href="/" onClick={() => setOpen(false)}>
+              Home
+            </Link>
+          </ListItemButton>
+          <ListDivider />
+          <ListItemButton>
+            <Link
+              className={cn("flex items-center gap-1.5 py-1 rounded px-5", {})}
+              href="/market"
+              onClick={() => setOpen(false)}
+            >
+              <i className="ri-store-2-line text-xl"></i>
+              <p className="text-lg">{t("common:nav.store")}</p>
+            </Link>
+          </ListItemButton>
+          <ListItemButton>
+            <Link
+              className={cn("flex items-center gap-1.5 py-1 rounded px-5", {})}
+              href="/mining"
+              onClick={() => setOpen(false)}
+            >
+              <i className="ri-hammer-line text-xl"></i>
+              <p className="text-lg">{t("common:nav.mining")}</p>
+            </Link>
+          </ListItemButton>
+          <ListItemButton>
+            <Link
+              className={cn("flex items-center gap-1.5 py-1 rounded px-5", {})}
+              href="/my/balance"
+              onClick={() => setOpen(false)}
+            >
+              <i className="ri-wallet-3-line text-xl"></i>
+              <p className="text-lg">{t("common:nav.wallet")}</p>
+            </Link>
+          </ListItemButton>
+        </List>
+      </Drawer>
     </header>
   );
 }
