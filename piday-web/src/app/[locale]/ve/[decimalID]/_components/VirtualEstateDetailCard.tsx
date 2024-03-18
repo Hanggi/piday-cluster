@@ -44,6 +44,8 @@ export default function VirtualEstateDetailCard({
     lng: geo[1],
   });
 
+  console.log(virtualEstate);
+
   const myUser = useSelector(myUserValue);
   const [getMyUserTrigger, { data: myUserData, isLoading: isLoadingMyUser }] =
     useLazyGetMyUserQuery();
