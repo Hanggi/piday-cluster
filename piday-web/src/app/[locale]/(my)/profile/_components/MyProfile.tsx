@@ -85,7 +85,7 @@ export default function MyProfile() {
         </div>
         <div className="mb-4">
           <Typography level="title-md">
-            Pi Wallet Address（我的派钱包地址）
+            My Pi Wallet Address（我的派钱包地址）
           </Typography>
           {myUser?.piWalletAddress ? (
             <Typography>{myUser?.piWalletAddress}</Typography>
