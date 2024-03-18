@@ -36,7 +36,6 @@ async function handler(request: NextRequest) {
       data: body,
       headers: headersForAxios,
     });
-    console.log(res);
 
     return new Response(JSON.stringify(res.data), {
       status: res.status,

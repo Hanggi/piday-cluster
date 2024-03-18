@@ -68,7 +68,6 @@ export default function SignInDialog({
         password: data.password,
       })
         .then((res) => {
-          console.log(res);
           if (res?.status == StatusCodes.UNAUTHORIZED) {
             toast.error(t("common:auth.validation.emailOrPasswordIncorrect"));
             return;
@@ -104,7 +103,6 @@ export default function SignInDialog({
       const authResponse = await window.Pi.authenticate(
         scopes,
         (payment: any) => {
-          console.log("onIncompletePaymentFound", payment);
           // return axiosClient.post("/incomplete", { payment }, config);
         },
       );

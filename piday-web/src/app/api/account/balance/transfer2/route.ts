@@ -1,6 +1,5 @@
 import { HeaderFilters } from "@/src/features/axios/header-filters";
 import instance from "@/src/features/axios/instance";
-import { decrypt } from "@/src/utils/encryption";
 import { AxiosError } from "axios";
 import { StatusCodes } from "http-status-codes";
 
@@ -14,10 +13,8 @@ export async function POST(
     params: { hexID: string; bidID: string };
   },
 ) {
-  console.log("All route! /account/balance/transfer!");
   const { headers } = request;
 
-  console.log(request.body);
   try {
     const res = await instance.post(
       "/account/balance/transfer",

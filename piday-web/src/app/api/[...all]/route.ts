@@ -4,7 +4,6 @@ import { decrypt } from "@/src/utils/encryption";
 import { NextRequest } from "next/server";
 
 async function handler(request: NextRequest) {
-  console.log("All route! ????");
   let authorization = request.headers.get("authorization");
   if (authorization && authorization.split(" ").length >= 2) {
     authorization =

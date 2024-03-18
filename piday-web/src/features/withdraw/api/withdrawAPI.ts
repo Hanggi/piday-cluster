@@ -1,6 +1,5 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 
-import { User } from "../../auth/interface/User.interface";
 import { baseQuery } from "../../rtk-utils/fetch-base-query";
 import { WithdrawRequest } from "../interface/withdraw-request.interface";
 

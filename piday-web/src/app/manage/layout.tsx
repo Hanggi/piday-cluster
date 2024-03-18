@@ -7,7 +7,7 @@ import { getServerSession } from "next-auth/next";
 import "remixicon/fonts/remixicon.css";
 
 import { Inter } from "next/font/google";
-import Script from "next/script";
+import { redirect } from "next/navigation";
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -38,9 +38,10 @@ export default async function RootLayout({
   const session = await getServerSession(authOptions);
 
   if (!session || !session.roles.includes("PIDAY_ADMIN")) {
-    console.log("Not admin");
+    console.info("Not admin");
+    redirect("/");
   } else {
-    console.log("Admin!!");
+    console.info("Admin!!");
   }
 
   return (

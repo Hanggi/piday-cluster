@@ -12,8 +12,6 @@ async function handler(request: NextRequest) {
   //     ]),
   //   );
   const body = await request.json();
-  console.log("PI SIGN IN ROUTE")
-  console.log(body);
   try {
     const res = await instance.request({
       method: request.method,
