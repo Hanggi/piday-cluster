@@ -4,6 +4,7 @@
     "logOut": "退出"
   },
   "nav": {
+    "home": "首页",
     "store": "市场",
     "mining": "挖矿",
     "wallet": "钱包"

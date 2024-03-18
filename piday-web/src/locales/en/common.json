@@ -4,6 +4,7 @@
     "logOut": "Log Out"
   },
   "nav": {
+    "home": "Home",
     "store": "store",
     "mining": "mining",
     "wallet": "wallet"

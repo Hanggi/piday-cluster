@@ -11,6 +11,7 @@ import ListItemButton from "@mui/joy/ListItemButton";
 
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -19,6 +20,7 @@ import AuthStatusButton from "../auth/AuthStatusButton";
 
 export default function Header() {
   const { t } = useTranslation("common");
+  const router = useRouter();
 
   const [open, setOpen] = useState(false);
 
@@ -101,41 +103,41 @@ export default function Header() {
 
       <Drawer open={open} onClose={() => setOpen(false)}>
         <List component="nav" size="lg">
-          <ListItemButton>
-            <Link href="/" onClick={() => setOpen(false)}>
-              Home
-            </Link>
+          <ListItemButton
+            onClick={() => {
+              router.push("/");
+              setOpen(false);
+            }}
+          >
+            {t("common:nav.home")}
           </ListItemButton>
           <ListDivider />
-          <ListItemButton>
-            <Link
-              className={cn("flex items-center gap-1.5 py-1 rounded px-5", {})}
-              href="/market"
-              onClick={() => setOpen(false)}
-            >
-              <i className="ri-store-2-line text-xl"></i>
-              <p className="text-lg">{t("common:nav.store")}</p>
-            </Link>
+          <ListItemButton
+            onClick={() => {
+              router.push("/market");
+              setOpen(false);
+            }}
+          >
+            <i className="ri-store-2-line text-xl"></i>
+            <p className="text-lg">{t("common:nav.store")}</p>
           </ListItemButton>
-          <ListItemButton>
-            <Link
-              className={cn("flex items-center gap-1.5 py-1 rounded px-5", {})}
-              href="/mining"
-              onClick={() => setOpen(false)}
-            >
-              <i className="ri-hammer-line text-xl"></i>
-              <p className="text-lg">{t("common:nav.mining")}</p>
-            </Link>
+          <ListItemButton
+            onClick={() => {
+              router.push("/mining");
+              setOpen(false);
+            }}
+          >
+            <i className="ri-hammer-line text-xl"></i>
+            <p className="text-lg">{t("common:nav.mining")}</p>
           </ListItemButton>
-          <ListItemButton>
-            <Link
-              className={cn("flex items-center gap-1.5 py-1 rounded px-5", {})}
-              href="/my/balance"
-              onClick={() => setOpen(false)}
-            >
-              <i className="ri-wallet-3-line text-xl"></i>
-              <p className="text-lg">{t("common:nav.wallet")}</p>
-            </Link>
+          <ListItemButton
+            onClick={() => {
+              router.push("/my/balance");
+              setOpen(false);
+            }}
+          >
+            <i className="ri-wallet-3-line text-xl"></i>
+            <p className="text-lg">{t("common:nav.wallet")}</p>
           </ListItemButton>
         </List>
       </Drawer>
