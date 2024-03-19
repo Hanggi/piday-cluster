@@ -175,12 +175,23 @@ export const virtualEstateRTKApi = createApi({
         return response.virtualEstates;
       },
     }),
+    searchVirtualEstates: builder.query<
+      VirtualEstate[],
+      { page: number; size: number; name: string }
+    >({
+      query: ({ page, size }) => ({
+        url: `/virtual-estates/search?page=${page}&size=${size}&name=${name}`,
+        method: "GET",
+      }),
+      transformResponse: (response: { virtualEstates: VirtualEstate[] }) => {
+        return response.virtualEstates;
+      },
+    }),
   }),
 });
 
 export const {
   useGetLatestVirtualEstatesQuery,
-
   useGetOneVirtualEstateQuery,
   useMintOneVirtualEstateMutation,
   useGetMyVirtualEstatesQuery,
@@ -191,4 +202,5 @@ export const {
   useAcceptAskToBuyVirtualEstateMutation,
   useTransferVirtualEstateToUserMutation,
   useGetListedVirtualEstatesQuery,
+  useSearchVirtualEstatesQuery,
 } = virtualEstateRTKApi;

@@ -356,4 +356,25 @@ export class VirtualEstateService {
 
     return virtualEstateListingsActive;
   }
+
+  async searchVirtualEstate(page: number, size: number, name: string) {
+    const virtualEstates = await this.prisma.virtualEstate.findMany({
+      where: {
+        name: {
+          contains: name,
+          mode: "insensitive",
+        },
+      },
+      include: {
+        listings: true,
+      },
+      take: +size,
+      skip: +(page == 0 ? 0 : page - 1) * size,
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+
+    return virtualEstates;
+  }
 }
