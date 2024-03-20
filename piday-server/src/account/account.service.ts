@@ -98,6 +98,9 @@ export class AccountService {
             {
               email: to,
             },
+            {
+              keycloakID: to,
+            },
           ],
         },
       });
