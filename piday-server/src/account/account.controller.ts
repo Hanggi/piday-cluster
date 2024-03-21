@@ -135,17 +135,13 @@ export class AccountController {
     @Body() body: TransferAmountBody,
   ) {
     try {
-      const { amount, piWalletAddress, paymentPassword } = body;
+      const { amount, to, paymentPassword } = body;
       this.userService.checkPaymentPassword({
         userID: req.user.userID,
         password: paymentPassword,
       });
 
-      await this.accountService.transferAmount(
-        req.user.userID,
-        piWalletAddress,
-        amount,
-      );
+      await this.accountService.transferAmount(req.user.userID, to, amount);
 
       res.status(HttpStatus.OK).json({
         success: true,

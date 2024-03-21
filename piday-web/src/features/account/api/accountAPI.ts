@@ -61,7 +61,7 @@ export const accountRTKApi = createApi({
       query: ({ amount, to, paymentPassword }) => ({
         url: "/account/balance/transfer",
         method: "POST",
-        body: { amount, piWalletAddress: to, paymentPassword },
+        body: { amount, to, paymentPassword },
       }),
     }),
   }),
