@@ -54,7 +54,6 @@ export default function MintVirtualEstateDialog({
     mintVirtualEstateResult.isSuccess,
     "Mint successfully",
     () => {
-      // window.location.reload();
       router.refresh();
     },
   );

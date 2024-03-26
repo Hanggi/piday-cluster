@@ -26,6 +26,7 @@ interface Props {
   placeName: string;
   listing: VirtualEstateListing;
   onClose: () => void;
+  onConfirm: () => void;
 }
 
 export default function AcceptBidToSellDialog({
@@ -34,6 +35,7 @@ export default function AcceptBidToSellDialog({
   hexID,
   placeName,
   listing,
+  onConfirm,
 }: Props) {
   const { t } = useTranslation(["virtual-estate"]);
 
@@ -51,18 +53,25 @@ export default function AcceptBidToSellDialog({
   useSuccessToast(
     acceptBidToSellVirtualEstateResult.isSuccess,
     t("virtual-estate:toast.acceptBidSuccessfully"),
+    () => {
+      onConfirm();
+    },
   );
 
-  const handelAcceptBidToSellVirtualEstate = useCallback(
-    (bidID: string) => {
-      acceptBidToSellVirtualEstate({
-        hexID,
-        bidID,
-      });
-      onClose();
-    },
-    [acceptBidToSellVirtualEstate, hexID, onClose],
-  );
+  const handelAcceptBidToSellVirtualEstate = useCallback(() => {
+    acceptBidToSellVirtualEstate({
+      hexID,
+      bidID: listing?.listingID,
+      paymentPassword,
+    });
+    onClose();
+  }, [
+    acceptBidToSellVirtualEstate,
+    hexID,
+    listing?.listingID,
+    onClose,
+    paymentPassword,
+  ]);
 
   return (
     <div>
@@ -72,14 +81,7 @@ export default function AcceptBidToSellDialog({
         onCancel={() => {
           onClose();
         }}
-        onConfirm={() => {
-          acceptBidToSellVirtualEstate({
-            hexID,
-            bidID: listing.listingID,
-            paymentPassword,
-          });
-          onClose();
-        }}
+        onConfirm={handelAcceptBidToSellVirtualEstate}
       >
         <div className="mt-4">
           <div className="flex mb-2">
@@ -96,7 +98,7 @@ export default function AcceptBidToSellDialog({
               <div className="w-6 h-6 relative">
                 <PiCoinLogo />
               </div>
-              <Typography className="w-2/3">{listing.price}</Typography>
+              <Typography className="w-2/3">{listing?.price}</Typography>
             </div>
           </div>
           <div className="flex mb-2">

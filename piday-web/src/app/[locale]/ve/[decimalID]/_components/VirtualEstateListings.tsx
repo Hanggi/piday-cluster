@@ -1,15 +1,10 @@
 "use client";
 
 import { WrapperCard } from "@/src/components/WrapperCard";
-import {
-  useErrorToast,
-  useSuccessToast,
-} from "@/src/features/rtk-utils/use-error-toast.hook";
-import {
-  useAcceptBidToSellVirtualEstateMutation,
-  useGetVirtualEstateBidsAndOffersQuery,
-} from "@/src/features/virtual-estate/api/virtualEstateAPI";
+import { VirtualEstateListing } from "@/src/features/virtual-estate-listing/interface/virtual-estate-listing.interface";
+import { useGetVirtualEstateBidsAndOffersQuery } from "@/src/features/virtual-estate/api/virtualEstateAPI";
 import { VirtualEstate } from "@/src/features/virtual-estate/interface/virtual-estate.interface";
+import { shouldRefreshListingsValue } from "@/src/features/virtual-estate/virtual-estate-slice";
 import { format } from "date-fns";
 import { useSession } from "next-auth/react";
 
@@ -17,8 +12,13 @@ import Button from "@mui/joy/Button";
 import Table from "@mui/joy/Table";
 import Typography from "@mui/joy/Typography";
 
-import { useCallback } from "react";
+import { useRouter } from "next/navigation";
+
+import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
+
+import AcceptBidToSellDialog from "./dialogs/AcceptBidToSellDialog";
 
 interface Props {
   hexID: string;
@@ -27,31 +27,19 @@ interface Props {
 
 export default function VirtualEstateListings({ hexID, virtualEstate }: Props) {
   const { t } = useTranslation(["virtual-estate"]);
+  const router = useRouter();
 
   const { data: session } = useSession();
 
+  const shouldRefreshListings = useSelector(shouldRefreshListingsValue);
   // Listings of bid and ask
-  const { data: virtualEstateListings } = useGetVirtualEstateBidsAndOffersQuery(
-    { hexID },
-  );
+  const { data: virtualEstateListings, refetch: refetchVEListings } =
+    useGetVirtualEstateBidsAndOffersQuery({ hexID });
 
-  const [acceptBidToSellVirtualEstate, acceptBidToSellVirtualEstateResult] =
-    useAcceptBidToSellVirtualEstateMutation();
-  useErrorToast(acceptBidToSellVirtualEstateResult.error);
-  useSuccessToast(
-    acceptBidToSellVirtualEstateResult.isSuccess,
-    t("virtual-estate:toast.acceptBidSuccessfully"),
-  );
-
-  const handelAcceptBidToSellVirtualEstate = useCallback(
-    (bidID: string) => {
-      acceptBidToSellVirtualEstate({
-        hexID,
-        bidID,
-      });
-    },
-    [hexID, acceptBidToSellVirtualEstate],
-  );
+  const [selectedListing, setSelectedListing] =
+    useState<VirtualEstateListing>();
+  const [openAcceptBidToSellDialog, setOpenAcceptAskToBuyDialog] =
+    useState(false);
 
   const isMyVirtualEstate = useCallback(() => {
     return (
@@ -59,6 +47,11 @@ export default function VirtualEstateListings({ hexID, virtualEstate }: Props) {
       virtualEstate?.owner?.id == session?.user?.id
     );
   }, [session, virtualEstate?.owner]);
+
+  useEffect(() => {
+    refetchVEListings();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [shouldRefreshListings]);
 
   return (
     <WrapperCard className="container mx-auto">
@@ -113,9 +106,11 @@ export default function VirtualEstateListings({ hexID, virtualEstate }: Props) {
                 {isMyVirtualEstate() && (
                   <td>
                     <Button
-                      onClick={() =>
-                        handelAcceptBidToSellVirtualEstate(listing.listingID)
-                      }
+                      onClick={() => {
+                        // handelAcceptBidToSellVirtualEstate(listing.listingID)
+                        setSelectedListing(listing);
+                        setOpenAcceptAskToBuyDialog(true);
+                      }}
                     >
                       {t("virtual-estate:button.acceptBid")}
                     </Button>
@@ -125,6 +120,21 @@ export default function VirtualEstateListings({ hexID, virtualEstate }: Props) {
             ))}
           </tbody>
         </Table>
+        {selectedListing && (
+          <AcceptBidToSellDialog
+            hexID={hexID}
+            listing={selectedListing}
+            open={openAcceptBidToSellDialog}
+            placeName={virtualEstate?.name as string}
+            onClose={() => {
+              setOpenAcceptAskToBuyDialog(false);
+            }}
+            onConfirm={() => {
+              router.refresh();
+              refetchVEListings();
+            }}
+          />
+        )}
       </div>
     </WrapperCard>
   );

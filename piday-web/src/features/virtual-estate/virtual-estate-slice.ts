@@ -5,11 +5,14 @@ interface VirtualEstateSlice {
   showInitialMapAnimation: true;
 
   myVirtualEstatesCount: number;
+
+  shouldRefreshListings: boolean;
 }
 
 const initialState: VirtualEstateSlice = {
   showInitialMapAnimation: true,
   myVirtualEstatesCount: 0,
+  shouldRefreshListings: false,
 };
 
 export const virtualEstatelSlice = createSlice({
@@ -22,15 +25,25 @@ export const virtualEstatelSlice = createSlice({
     setMyVirtualEstatesCount: (state, action) => {
       state.myVirtualEstatesCount = action.payload;
     },
+
+    signalRefreshListings: (state) => {
+      state.shouldRefreshListings = !state.shouldRefreshListings;
+    },
   },
 });
 
-export const { setInitialMapAnimation, setMyVirtualEstatesCount } =
-  virtualEstatelSlice.actions;
+export const {
+  setInitialMapAnimation,
+  setMyVirtualEstatesCount,
+  signalRefreshListings,
+} = virtualEstatelSlice.actions;
 
 export const showInitialMapAnimationValue = (state: RootState) =>
   state.virtualEstate.showInitialMapAnimation;
 export const myVirtualEstatesCountValue = (state: RootState) =>
   state.virtualEstate.myVirtualEstatesCount;
+
+export const shouldRefreshListingsValue = (state: RootState) =>
+  state.virtualEstate.shouldRefreshListings;
 
 export default virtualEstatelSlice;

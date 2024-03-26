@@ -9,6 +9,7 @@ import {
 } from "@/src/features/rtk-utils/use-error-toast.hook";
 import { useCreateVirtualEstateListingMutation } from "@/src/features/virtual-estate-listing/api/virtualEstateListingAPI";
 import { TransactionType } from "@/src/features/virtual-estate-listing/interface/virtual-estate-listing.interface";
+import { signalRefreshListings } from "@/src/features/virtual-estate/virtual-estate-slice";
 
 import FormControl from "@mui/joy/FormControl";
 import FormLabel from "@mui/joy/FormLabel";
@@ -17,6 +18,7 @@ import Typography from "@mui/joy/Typography";
 
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 
 interface Props {
@@ -27,6 +29,7 @@ interface Props {
 
 export default function AskToSellDialog({ open, hexID, onClose }: Props) {
   const { t } = useTranslation(["virtual-estate"]);
+  const dispatch = useDispatch();
 
   const [askAmount, setAskAmount] = useState(0);
 
@@ -37,7 +40,7 @@ export default function AskToSellDialog({ open, hexID, onClose }: Props) {
     createVirtualEstateListingResult.isSuccess,
     "Ask successfully",
     () => {
-      // TODO: Reload the listing table
+      dispatch(signalRefreshListings());
     },
   );
 
