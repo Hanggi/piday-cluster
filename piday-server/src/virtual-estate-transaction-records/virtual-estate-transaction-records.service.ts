@@ -176,6 +176,7 @@ export class VirtualEstateTransactionRecordsService {
         },
         data: {
           ownerID: buyerID,
+          lastPrice: price,
         },
       });
 
@@ -355,6 +356,7 @@ export class VirtualEstateTransactionRecordsService {
         },
         data: {
           ownerID: buyerID,
+          lastPrice: price,
         },
       });
       // -----------------------------------------------------------------------------
