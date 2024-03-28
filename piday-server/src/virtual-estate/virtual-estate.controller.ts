@@ -81,6 +81,46 @@ export class VirtualEstateController {
       );
     }
   }
+
+  @Get("search")
+  async searchVirtualEstate(
+    @Res() res: Response,
+    @Query("page") page = 1, // default to page 1
+    @Query("size") size = 10, //default to size 10,
+    @Query("name") name,
+  ) {
+    try {
+      const virtualEstates =
+        await this.virtualEstateService.searchVirtualEstate(page, size, name);
+
+      if (!virtualEstates) {
+        res.status(HttpStatus.OK).json({
+          success: true,
+          virtualEstates: [],
+          message: "No virtual estates listings",
+        });
+      }
+
+      res.status(HttpStatus.OK).json({
+        virtualEstates: plainToInstance(
+          VirtualEstateResponseDto,
+          virtualEstates,
+          {
+            excludeExtraneousValues: true,
+          },
+        ),
+        success: true,
+        message: "Virtual states found successfully",
+      });
+    } catch (error) {
+      console.error(error);
+      throw new HttpException(
+        "Internal Server Error",
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+
   // =============================================================================
   // My Virtual Estates
   // =============================================================================
