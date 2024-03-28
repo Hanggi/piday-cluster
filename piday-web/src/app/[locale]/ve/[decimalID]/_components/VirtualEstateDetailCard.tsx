@@ -22,6 +22,7 @@ import AskToSellDialog from "./dialogs/AskToSellDialog";
 import BidToBuyDialog from "./dialogs/BidToBuyDialog";
 import MintVirtualEstateDialog from "./dialogs/MintVirtualEstateDialog";
 import TransferVirtualEstateDialog from "./dialogs/TransferDialog";
+import CancelListingDialog from "./dialogs/CancelListingDialog"
 
 interface Props {
   hexID: string;
@@ -63,6 +64,8 @@ export default function VirtualEstateDetailCard({
   const [openTransferVirtualEstateDialog, setOpenTransferVirtualEstateDialog] =
     useState(false);
 
+  const [openCancelListingDialog, setOpenCancelListingDialog] = useState(false)
+
   const handleOpenMintDialog = useCallback(() => {
     if (!place) return;
     setOpenMintVirtualEstateDialog(true);
@@ -80,6 +83,10 @@ export default function VirtualEstateDetailCard({
     setOpenTransferVirtualEstateDialog(true);
   }, []);
 
+  const handleOpenCancelListingDialog = useCallback(() => {
+    setOpenCancelListingDialog(true);
+  }, []);
+
   const isMyVirtualEstate = useCallback(() => {
     return (
       !!virtualEstate?.owner?.id &&
@@ -87,6 +94,9 @@ export default function VirtualEstateDetailCard({
     );
   }, [session, virtualEstate?.owner]);
 
+  const isMyListing = useCallback(()=>{
+    return (listing?.owner?.id === session?.user?.id)
+  }, [session, listing])
   const placeName = place?.features[0]?.text;
   const placeAddress = place?.features[0]?.place_name;
 
@@ -206,6 +216,14 @@ export default function VirtualEstateDetailCard({
             )}
           </div>
         )}
+         {!isMyListing() && listing && (
+          <div className="w-full flex gap-4">
+              <Button className="w-full" onClick={handleOpenCancelListingDialog}>
+                {t("virtual-estate:button.cancelListing")}
+              </Button>
+            
+          </div>
+        )}
       </div>
 
       {/* Dialogs */}
@@ -244,6 +262,15 @@ export default function VirtualEstateDetailCard({
           placeName={placeName}
           onClose={() => {
             setOpenAcceptAskToBuyDialog(false);
+          }}
+        />
+      )}
+       {listing && (
+        <CancelListingDialog
+          listingID={listing.listingID}
+          open={openCancelListingDialog}
+          onClose={() => {
+            setOpenCancelListingDialog(false);
           }}
         />
       )}

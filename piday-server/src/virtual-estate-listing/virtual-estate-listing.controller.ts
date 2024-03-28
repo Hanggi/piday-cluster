@@ -74,4 +74,39 @@ export class VirtualEstateListingController {
       );
     }
   }
+  @UseGuards(KeycloakJwtGuard)
+  @Post("cancel/:listingID")
+  async cancelVirtualEstateListing(
+    @Req() req: AuthenticatedRequest,
+    @Res() res: Response,
+    @Param("listingID") listingID,
+  ) {
+    try {
+      const cancelledVirtualEstateListing =
+        await this.virtualEstateListingService.cancelVirtualEstateListing(
+          listingID,
+          req.user.userID,
+        );
+
+      if (cancelledVirtualEstateListing) {
+        res.status(HttpStatus.OK).json({
+          success: true,
+          message: "Virtual states listing canceled successfully",
+        });
+      }
+    } catch (error) {
+      switch (error.code) {
+        case "NOT_OWNER":
+          throw new HttpException(
+            "Not owner of the listing",
+            HttpStatus.FORBIDDEN,
+          );
+      }
+      console.error(error);
+      throw new HttpException(
+        "Internal Server Error",
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
 }
