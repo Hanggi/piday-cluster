@@ -141,4 +141,30 @@ export class VirtualEstateListingService {
       throw error;
     }
   }
+
+  async cancelVirtualEstateListing(listingID, ownerID) {
+    const virtualEstateListing =
+      await this.prisma.virtualEstateListing.findFirst({
+        where: {
+          listingID: listingID,
+        },
+      });
+
+    if (virtualEstateListing.ownerID !== ownerID)
+      throw new ServiceException(
+        "You are not the owner of the virtual estate listing",
+        "NOT_OWNER",
+      );
+
+    await this.prisma.virtualEstateListing.update({
+      where: {
+        listingID: listingID,
+      },
+      data: {
+        expiresAt: new Date(),
+      },
+    });
+
+    return true;
+  }
 }

@@ -23,8 +23,22 @@ export const virtualEstateListingRTKApi = createApi({
         return response?.ve;
       },
     }),
+    cancelVirtualEstateListing: builder.mutation<
+      VirtualEstateListing,
+      { listingID: string }
+    >({
+      query: ({ listingID }) => ({
+        url: `/virtual-estate-listing/cancel/${listingID}`,
+        method: "POST",
+      }),
+      transformResponse: (response: { ve: VirtualEstateListing }) => {
+        return response?.ve;
+      },
+    }),
   }),
 });
 
-export const { useCreateVirtualEstateListingMutation } =
-  virtualEstateListingRTKApi;
+export const {
+  useCreateVirtualEstateListingMutation,
+  useCancelVirtualEstateListingMutation,
+} = virtualEstateListingRTKApi;
