@@ -176,15 +176,16 @@ export class VirtualEstateTransactionRecordsService {
         },
         data: {
           ownerID: buyerID,
+          lastPrice: price,
         },
       });
 
       // -----------------------------------------------------------------------------
-      // Update the listing status
-      const listingID = BigInt(bidID);
-      await tx.virtualEstateListing.update({
+
+      // Expires all the listing for the virtual estate
+      await tx.virtualEstateListing.updateMany({
         where: {
-          listingID,
+          virtualEstateID: virtualEstateID,
         },
         data: {
           expiresAt: new Date(),
@@ -355,14 +356,15 @@ export class VirtualEstateTransactionRecordsService {
         },
         data: {
           ownerID: buyerID,
+          lastPrice: price,
         },
       });
       // -----------------------------------------------------------------------------
-      // Update the listing status
-      const listingID = BigInt(askID);
-      await tx.virtualEstateListing.update({
+
+      // Expires all the listing for the virtual estate
+      await tx.virtualEstateListing.updateMany({
         where: {
-          listingID,
+          virtualEstateID: virtualEstateID,
         },
         data: {
           expiresAt: new Date(),

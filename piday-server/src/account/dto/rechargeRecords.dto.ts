@@ -26,7 +26,7 @@ export class TransferAmountBody {
 
   @IsString()
   @IsNotEmpty()
-  piWalletAddress: string;
+  to: string;
 
   paymentPassword?: string;
 }

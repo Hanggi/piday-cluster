@@ -10,6 +10,7 @@ import {
 } from "@/src/features/rtk-utils/use-error-toast.hook";
 import { useCreateVirtualEstateListingMutation } from "@/src/features/virtual-estate-listing/api/virtualEstateListingAPI";
 import { TransactionType } from "@/src/features/virtual-estate-listing/interface/virtual-estate-listing.interface";
+import { signalRefreshListings } from "@/src/features/virtual-estate/virtual-estate-slice";
 
 import FormControl from "@mui/joy/FormControl";
 import FormHelperText from "@mui/joy/FormHelperText";
@@ -19,6 +20,7 @@ import Typography from "@mui/joy/Typography";
 
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 
 interface Props {
@@ -29,6 +31,7 @@ interface Props {
 
 export default function BidToBuyDialog({ open, hexID, onClose }: Props) {
   const { t } = useTranslation(["virtual-estate"]);
+  const dispatch = useDispatch();
 
   const [bidAmount, setBidAmount] = useState(0);
 
@@ -39,7 +42,7 @@ export default function BidToBuyDialog({ open, hexID, onClose }: Props) {
     createVirtualEstateListingResult.isSuccess,
     "Bid successfully",
     () => {
-      // TODO: Reload the listing table
+      dispatch(signalRefreshListings());
     },
   );
 

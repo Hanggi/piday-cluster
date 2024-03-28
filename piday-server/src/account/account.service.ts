@@ -72,11 +72,7 @@ export class AccountService {
     }
   }
 
-  async transferAmount(
-    userID: string,
-    toPiWalletAddress: string,
-    amount: string,
-  ) {
+  async transferAmount(userID: string, to: string, amount: string) {
     const rechargeRecord = await this.prisma.$transaction(async (tx) => {
       const externalID = generateFlakeID();
       const balance = await tx.rechargeRecords.aggregate({
@@ -93,9 +89,19 @@ export class AccountService {
       ) {
         throw new ServiceException("Not enough balance", "NOT_ENOUGH_BALANCE");
       }
-      const receiver = await tx.user.findUnique({
+      const receiver = await tx.user.findFirst({
         where: {
-          piWalletAddress: toPiWalletAddress,
+          OR: [
+            {
+              piWalletAddress: to,
+            },
+            {
+              email: to,
+            },
+            {
+              keycloakID: to,
+            },
+          ],
         },
       });
 

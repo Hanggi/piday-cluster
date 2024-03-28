@@ -15,6 +15,8 @@ import FormLabel from "@mui/joy/FormLabel";
 import Input from "@mui/joy/Input";
 import Typography from "@mui/joy/Typography";
 
+import { useRouter } from "next/navigation";
+
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
@@ -36,6 +38,7 @@ export default function AcceptAskToBuyDialog({
   listing,
 }: Props) {
   const { t } = useTranslation(["virtual-estate"]);
+  const router = useRouter();
 
   const myUser = useSelector(myUserValue);
   useEffect(() => {
@@ -54,7 +57,7 @@ export default function AcceptAskToBuyDialog({
     acceptAskToBuyVirtualEstateResult.isSuccess,
     "Buy successfully",
     () => {
-      window.location.reload();
+      router.refresh();
     },
   );
 
