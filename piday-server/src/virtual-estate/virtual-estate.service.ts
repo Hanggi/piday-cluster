@@ -16,7 +16,10 @@ export class VirtualEstateService {
   async getLatestVirtualEstates(
     size: number,
     page: number,
-  ): Promise<VirtualEstate[]> {
+  ): Promise<{
+    virtualEstates: VirtualEstate[];
+    totalCount: number;
+  }> {
     const virtualEstates = await this.prisma.virtualEstate.findMany({
       include: {
         owner: true,
@@ -29,7 +32,9 @@ export class VirtualEstateService {
       },
     });
 
-    return virtualEstates;
+    const totalCount = await this.prisma.virtualEstate.count();
+
+    return { virtualEstates, totalCount };
   }
 
   async getOneVirtualEstate(

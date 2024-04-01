@@ -1,25 +1,17 @@
 "use client";
 
-import { NumericFormatAdapter } from "@/src/components/numeric-format/NumericFormatAdapter";
-import PiCoinLogo from "@/src/components/piday-ui/PiCoinLogo";
 import ConfirmDialog from "@/src/components/piday-ui/confirm-dialog/ConfirmDialog";
 import {
   useErrorToast,
   useSuccessToast,
 } from "@/src/features/rtk-utils/use-error-toast.hook";
 import { useCancelVirtualEstateListingMutation } from "@/src/features/virtual-estate-listing/api/virtualEstateListingAPI";
-import { TransactionType } from "@/src/features/virtual-estate-listing/interface/virtual-estate-listing.interface";
 import { signalRefreshListings } from "@/src/features/virtual-estate/virtual-estate-slice";
 
-import FormControl from "@mui/joy/FormControl";
-import FormLabel from "@mui/joy/FormLabel";
-import Input from "@mui/joy/Input";
 import Typography from "@mui/joy/Typography";
 
-import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
-import { toast } from "react-toastify";
 
 interface Props {
   open: boolean;
@@ -36,7 +28,7 @@ export default function AskToSellDialog({ open, listingID, onClose }: Props) {
   useErrorToast(cancelVirtualEstateListingResult.error);
   useSuccessToast(
     cancelVirtualEstateListingResult.isSuccess,
-    "Cancel listing successfully",
+    t("virtual-estate:toast.cancelListingSuccess"),
     () => {
       dispatch(signalRefreshListings());
     },
@@ -51,19 +43,17 @@ export default function AskToSellDialog({ open, listingID, onClose }: Props) {
           onClose();
         }}
         onConfirm={() => {
-         
-
           cancelVirtualEstateListing({
-            listingID
+            listingID,
           });
 
           onClose();
         }}
       >
-       <div className="mt-4">
+        <div className="mt-4">
           <div className="flex mb-2">
-            <Typography className="w-1/3" level="title-md">
-              {t("virtual-estate:label.sureCancelTheListing")}:
+            <Typography level="title-md">
+              {t("virtual-estate:label.sureCancelTheListing")}
             </Typography>
           </div>
         </div>

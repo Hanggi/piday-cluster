@@ -6,11 +6,13 @@
     "bidToBuy": "Bid to Buy",
     "askToSell": "Ask to Sell",
     "acceptBid": "Accept Bid",
+    "cancelListing": "Cancel Listing",
     "transfer": "Transfer"
   },
   "label": {
     "name": "Name",
     "transferVirtualEstate": "Transfer Virtual Estate",
+    "sureCancelTheListing": "Are you sure to cancel the listing?",
     "lastPrice": "Last Price",
     "sellingPrice": "Selling Price",
     "currentBid": "Current Bid",
@@ -45,6 +47,7 @@
   "toast": {
     "acceptBidSuccessfully": "Accept bid successfully",
     "userNotFound": "User not found",
+    "cancelListingSuccess": "Cancel listing successfully",
     "invalidAmount": "Invalid amount"
   }
 }

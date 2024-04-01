@@ -6,11 +6,13 @@
     "bidToBuy": "出价购买",
     "askToSell": "上架土地",
     "acceptBid": "接受出价",
+    "cancelListing": "取消挂单",
     "transfer": "转账"
   },
   "label": {
     "name": "名称",
     "transferVirtualEstate": "转账土地",
+    "sureCancelTheListing": "您确定要取消这个挂单吗?",
     "lastPrice": "最后价格",
     "sellingPrice": "出售价格",
     "currentBid": "当前出价",
@@ -45,6 +47,7 @@
   "toast": {
     "acceptBidSuccessfully": "接受出价成功",
     "userNotFound": "用户不存在",
+    "cancelListingSuccess": "取消挂单成功",
     "invalidAmount": "无效的金额"
   }
 }

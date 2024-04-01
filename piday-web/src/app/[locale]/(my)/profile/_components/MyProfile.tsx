@@ -29,6 +29,7 @@ export default function MyProfile() {
   } = useGetMyUserQuery();
 
   const [piWalletAddress, setPiWalletAddress] = useState("");
+  const [editWalletAddress, setEditWalletAddress] = useState(false);
   const [updateWalletAddress, UpdatePiWalletAddressResult] =
     useUpdateMyPiWalletAddressMutation();
 
@@ -43,6 +44,7 @@ export default function MyProfile() {
       toast.success(t("profile:toast.updatePiWalletAddressSuccess"));
       UpdatePiWalletAddressResult.reset();
       refetchMyUser();
+      setEditWalletAddress(false);
     }
   }, [
     UpdatePiWalletAddressResult,
@@ -87,9 +89,29 @@ export default function MyProfile() {
           <Typography level="title-md">
             My Pi Wallet Address（我的派钱包地址）
           </Typography>
-          {myUser?.piWalletAddress ? (
-            <Typography>{myUser?.piWalletAddress}</Typography>
-          ) : (
+
+          {myUser?.piWalletAddress && !editWalletAddress && (
+            <div className="flex gap-4 items-center flex-wrap">
+              <Typography>{myUser?.piWalletAddress}</Typography>
+              {/* Pi Wallet Address updated 1 month ago */}
+              {(!myUser.piWalletAddressUpdatedAt ||
+                +new Date(myUser.piWalletAddressUpdatedAt) +
+                  1000 * 60 * 60 * 24 * 30 <
+                  +new Date()) && (
+                <div>
+                  <Button
+                    onClick={() => {
+                      setEditWalletAddress(true);
+                    }}
+                  >
+                    编辑
+                  </Button>
+                </div>
+              )}
+            </div>
+          )}
+
+          {(editWalletAddress || !myUser?.piWalletAddress) && (
             <div className="flex gap-4">
               <Input
                 error={
@@ -126,7 +148,10 @@ export default function MyProfile() {
         <div className="my-4">
           {myUser?.isPaymentPasswordSet ? (
             <div>
-              <Alert color="success">支付密码已设</Alert>
+              <Alert color="success">
+                <i className="ri-verified-badge-fill text-lg"></i>
+                支付密码已设
+              </Alert>
             </div>
           ) : (
             <div>
