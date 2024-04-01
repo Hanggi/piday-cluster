@@ -1,7 +1,9 @@
 prismaDebug: true
 
 piNetworkPayment:
-  cursor: "54060263728488449"
+  # cursor: "54060263728488449"
+  cursor: "60067239348408321"
+  #        60067239348408321
 
 redis:
   host: localhost
