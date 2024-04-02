@@ -1,26 +1,41 @@
 "use client";
 
 import { VirtualEstateCard } from "@/src/components/LandCard";
+import Pagination from "@/src/components/piday-ui/pagination/Pagination";
 import { useGetLatestVirtualEstatesQuery } from "@/src/features/virtual-estate/api/virtualEstateAPI";
+import { VirtualEstate } from "@/src/features/virtual-estate/interface/virtual-estate.interface";
 import { cn } from "@/src/utils/cn";
 
 import { Input, Option, Select, Typography } from "@mui/joy";
 
-import { ComponentProps } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
-type ForSaleProps = ComponentProps<"div">;
+interface Props {}
 
-export function ForSale({ className, ...props }: ForSaleProps) {
+export function ForSale({}: Props) {
   const { t } = useTranslation("home");
 
-  const { data: latestVirtualEstates } = useGetLatestVirtualEstatesQuery({
-    page: 1,
-    size: 20,
+  const [page, setPage] = useState(1);
+  const [size, setSize] = useState(20);
+
+  const handlePageClick = useCallback(({ selected }: { selected: number }) => {
+    setPage(selected + 1);
+  }, []);
+
+  const [virtualEstates, setVirtualEstates] = useState<VirtualEstate[]>([]);
+
+  const { data: latestVERes } = useGetLatestVirtualEstatesQuery({
+    page: page,
+    size: size,
   });
 
+  useEffect(() => {
+    setVirtualEstates(latestVERes?.virtualEstates || []);
+  }, [latestVERes?.virtualEstates]);
+
   return (
-    <div className={cn("py-10", className)} {...props}>
+    <div className={cn("py-10")}>
       <Typography className="text-center font-semibold" level="h4">
         {t("onSaleLand")}
       </Typography>
@@ -47,10 +62,18 @@ export function ForSale({ className, ...props }: ForSaleProps) {
       />
       <br />
       <section className="grid py-6 container-mini grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {(latestVirtualEstates || []).map((ve, index) => (
+        {(virtualEstates || []).map((ve, index) => (
           <VirtualEstateCard key={index} ve={ve} />
         ))}
       </section>
+
+      <div>
+        <Pagination
+          currentPage={page}
+          pageCount={(latestVERes?.totalCount || 0) / size}
+          onPageChange={handlePageClick}
+        />
+      </div>
     </div>
   );
 }

@@ -19,6 +19,7 @@ import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 
 import AcceptBidToSellDialog from "./dialogs/AcceptBidToSellDialog";
+import CancelListingDialog from "./dialogs/CancelListingDialog";
 
 interface Props {
   hexID: string;
@@ -40,6 +41,7 @@ export default function VirtualEstateListings({ hexID, virtualEstate }: Props) {
     useState<VirtualEstateListing>();
   const [openAcceptBidToSellDialog, setOpenAcceptAskToBuyDialog] =
     useState(false);
+  const [openCancelListingDialog, setOpenCancelListingDialog] = useState(false);
 
   const isMyVirtualEstate = useCallback(() => {
     return (
@@ -52,6 +54,10 @@ export default function VirtualEstateListings({ hexID, virtualEstate }: Props) {
     refetchVEListings();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [shouldRefreshListings]);
+
+  const handleOpenCancelListingDialog = useCallback(() => {
+    setOpenCancelListingDialog(true);
+  }, []);
 
   return (
     <WrapperCard className="container mx-auto">
@@ -75,7 +81,7 @@ export default function VirtualEstateListings({ hexID, virtualEstate }: Props) {
               <th>
                 <Typography>{t("virtual-estate:table.expiresAt")}</Typography>
               </th>
-              {isMyVirtualEstate() && <th>Action</th>}
+              <th>操作</th>
             </tr>
           </thead>
           <tbody>
@@ -106,6 +112,7 @@ export default function VirtualEstateListings({ hexID, virtualEstate }: Props) {
                 {isMyVirtualEstate() && (
                   <td>
                     <Button
+                      size="sm"
                       onClick={() => {
                         // handelAcceptBidToSellVirtualEstate(listing.listingID)
                         setSelectedListing(listing);
@@ -113,6 +120,20 @@ export default function VirtualEstateListings({ hexID, virtualEstate }: Props) {
                       }}
                     >
                       {t("virtual-estate:button.acceptBid")}
+                    </Button>
+                  </td>
+                )}
+
+                {listing && listing?.owner?.id === session?.user?.id && (
+                  <td>
+                    <Button
+                      size="sm"
+                      onClick={() => {
+                        setSelectedListing(listing);
+                        handleOpenCancelListingDialog();
+                      }}
+                    >
+                      {t("virtual-estate:button.cancelListing")}
                     </Button>
                   </td>
                 )}
@@ -132,6 +153,16 @@ export default function VirtualEstateListings({ hexID, virtualEstate }: Props) {
             onConfirm={() => {
               router.refresh();
               refetchVEListings();
+            }}
+          />
+        )}
+
+        {selectedListing && (
+          <CancelListingDialog
+            listingID={selectedListing.listingID}
+            open={openCancelListingDialog}
+            onClose={() => {
+              setOpenCancelListingDialog(false);
             }}
           />
         )}

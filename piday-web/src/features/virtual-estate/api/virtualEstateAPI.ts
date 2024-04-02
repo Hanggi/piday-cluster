@@ -10,15 +10,21 @@ export const virtualEstateRTKApi = createApi({
   baseQuery: baseQuery,
   endpoints: (builder) => ({
     getLatestVirtualEstates: builder.query<
-      VirtualEstate[],
+      {
+        virtualEstates: VirtualEstate[];
+        totalCount: number;
+      },
       { page: number; size: number }
     >({
       query: ({ page, size }) => ({
         url: `/virtual-estates/latest?page=${page}&size=${size}`,
         method: "GET",
       }),
-      transformResponse: (response: { virtualEstates: VirtualEstate[] }) => {
-        return response.virtualEstates;
+      transformResponse: (response: {
+        virtualEstates: VirtualEstate[];
+        totalCount: number;
+      }) => {
+        return response;
       },
     }),
 

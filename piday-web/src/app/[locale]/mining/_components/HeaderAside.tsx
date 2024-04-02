@@ -20,8 +20,11 @@ export const HeaderAside = () => {
     isLoading: isLoadingMyPoint,
     refetch: refetchMyPoint,
   } = useGetMyPointQuery();
-  const { data: myPointInfo, isLoading: isLoadingMyPointInfo } =
-    useGetMyPointInfoQuery();
+  const {
+    data: myPointInfo,
+    isLoading: isLoadingMyPointInfo,
+    refetch: refetchMyPointInfo,
+  } = useGetMyPointInfoQuery();
   const [checkIn, checkInResult] = useCheckInMutation();
 
   const handleCheckIn = useCallback(() => {
@@ -33,8 +36,14 @@ export const HeaderAside = () => {
       toast.success("领取成功");
       checkInResult.reset();
       refetchMyPoint();
+      refetchMyPointInfo();
     }
-  }, [checkInResult, checkInResult.isSuccess, refetchMyPoint]);
+  }, [
+    checkInResult,
+    checkInResult.isSuccess,
+    refetchMyPoint,
+    refetchMyPointInfo,
+  ]);
 
   return (
     <aside className="min-w-[300px] aspect-square flex flex-col p-5 h-full bg-neutral-100 rounded-2xl">

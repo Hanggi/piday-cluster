@@ -6,13 +6,15 @@ import { StatusCodes } from "http-status-codes";
 import { NextRequest } from "next/server";
 
 export async function GET(
-  request: Request,
+  request: NextRequest,
   { params }: { params: { hexID: string } },
 ) {
   const hexID = params.hexID;
 
   try {
-    const res = await instance.get("/virtual-estates/" + hexID);
+    const res = await instance.get(
+      "/virtual-estates/" + hexID + request.nextUrl.search,
+    );
 
     return new Response(JSON.stringify(res.data), {
       status: StatusCodes.OK,

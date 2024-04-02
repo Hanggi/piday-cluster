@@ -57,6 +57,25 @@ export class AccountService {
   }
 
   async updateWalletAddress(userId: string, walletAddress: string) {
+    const myUser = await this.prisma.user.findFirst({
+      where: {
+        keycloakID: userId,
+      },
+    });
+
+    // Update wallet address once a month
+    if (
+      myUser.piWalletAddress &&
+      myUser.piWalletAddressUpdatedAt &&
+      new Date().getTime() - myUser.piWalletAddressUpdatedAt.getTime() <
+        30 * 24 * 60 * 60 * 1000
+    ) {
+      throw new ServiceException(
+        "You can only update your wallet address once a month",
+        "UPDATE_WALLET_ADDRESS_LIMIT",
+      );
+    }
+
     try {
       const user = await this.prisma.user.update({
         where: {
@@ -64,6 +83,7 @@ export class AccountService {
         },
         data: {
           piWalletAddress: walletAddress,
+          piWalletAddressUpdatedAt: new Date(),
         },
       });
       return user;

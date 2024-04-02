@@ -7,7 +7,7 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <section className="w-full  bg-primary">
+    <section className="w-full  bg-[rgba(89,59,139,100)]">
       <div
         className={cn("top-0 w-full max-md:py-4 md:h-20", {
           // "absolute max-md:pt-0": navType === NavType.header,
@@ -55,7 +55,7 @@ export default function Footer() {
         </nav>
       </div>
       <hr className="opacity-50" />
-      <center className="text-black/80 py-4 text-sm font-normal">
+      <center className="text-white py-4 text-sm font-normal">
         Copyright © Piday Metaverse 2024
       </center>
     </section>

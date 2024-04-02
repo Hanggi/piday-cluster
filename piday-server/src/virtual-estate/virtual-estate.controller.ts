@@ -279,6 +279,7 @@ export class VirtualEstateController {
     @Query("page") page = 1, // default to page 1
     @Query("size") size = 20, //default to size 20,
   ) {
+    console.log(page, size);
     try {
       const virtualEstatesRes =
         await this.virtualEstateService.getLatestVirtualEstates(size, page);
@@ -294,11 +295,12 @@ export class VirtualEstateController {
       res.status(HttpStatus.OK).json({
         virtualEstates: plainToInstance(
           VirtualEstateResponseDto,
-          virtualEstatesRes,
+          virtualEstatesRes.virtualEstates,
           {
             excludeExtraneousValues: true,
           },
         ),
+        totalCount: virtualEstatesRes.totalCount,
         success: true,
         message: "Virtual states found successfully",
       });

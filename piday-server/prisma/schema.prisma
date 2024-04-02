@@ -2,8 +2,8 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider      = "prisma-client-js"
-  binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
+  provider        = "prisma-client-js"
+  binaryTargets   = ["native", "linux-musl-openssl-3.0.x"]
   previewFeatures = ["fullTextSearch", "fullTextIndex"]
 }
 
@@ -22,9 +22,10 @@ model User {
   username   String  @unique
   avatar     String?
 
-  piUid           String? @unique
-  piWalletAddress String? @unique
-  paymentPassword String?
+  piUid                    String?   @unique
+  piWalletAddress          String?   @unique
+  piWalletAddressUpdatedAt DateTime?
+  paymentPassword          String?
 
   // VirtualEstate[]
   virtualEstates                        VirtualEstate[]
