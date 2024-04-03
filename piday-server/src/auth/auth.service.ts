@@ -244,11 +244,15 @@ export class AuthService {
       },
     });
 
-    if (!user) throw new ServiceException("user not found", "USER_NOT_FOUND");
+    if (!user) {
+      throw new ServiceException("user not found", "USER_NOT_FOUND");
+    }
+
     const oldPasswordCheck = await this.keycloakService.authenticateOldPassword(
       user.email,
       oldPassword,
     );
+
     if (oldPasswordCheck.ok) {
       return this.keycloakService.updateAccountPassword(userID, newPassword);
     } else {

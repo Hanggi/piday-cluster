@@ -226,7 +226,7 @@ export class AuthController {
         req.user.userID,
       );
       if (!result) {
-        res.status(HttpStatus.AMBIGUOUS).json({
+        res.status(HttpStatus.UNPROCESSABLE_ENTITY).json({
           success: result,
           message: "Error updating password please try again",
         });
@@ -240,7 +240,9 @@ export class AuthController {
 
       switch (err.code) {
         case "INVALID_PASSWORD":
-          throw new HttpException("Invalid Password", HttpStatus.BAD_REQUEST);
+          throw new HttpException("Invalid Password", HttpStatus.UNAUTHORIZED);
+        case "USER_NOT_FOUND":
+          throw new HttpException("user not found", HttpStatus.NOT_FOUND);
       }
 
       throw new HttpException(
