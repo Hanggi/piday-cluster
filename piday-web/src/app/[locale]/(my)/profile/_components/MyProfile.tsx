@@ -112,33 +112,38 @@ export default function MyProfile() {
           )}
 
           {(editWalletAddress || !myUser?.piWalletAddress) && (
-            <div className="flex gap-4">
-              <Input
-                error={
-                  piWalletAddress.length > 0 &&
-                  !isValidPiAddress(piWalletAddress)
-                }
-                placeholder={t(
-                  "profile:profile.placeholder.enterYourPiWalletAddress",
-                )}
-                value={piWalletAddress}
-                onChange={handlePiWalletAddressChange}
-              />
-              <Button
-                disabled={UpdatePiWalletAddressResult.isLoading}
-                loading={
-                  isLoadingMyUser || UpdatePiWalletAddressResult.isLoading
-                }
-                onClick={() => {
-                  if (!isValidPiAddress(piWalletAddress)) {
-                    toast.warn("Invalid Pi Wallet Address");
-                    return;
+            <div>
+              <div className="flex gap-4">
+                <Input
+                  error={
+                    piWalletAddress.length > 0 &&
+                    !isValidPiAddress(piWalletAddress)
                   }
-                  updateWalletAddress({ piWalletAddress });
-                }}
-              >
-                {t("profile:button.save")}
-              </Button>
+                  placeholder={t(
+                    "profile:profile.placeholder.enterYourPiWalletAddress",
+                  )}
+                  value={piWalletAddress}
+                  onChange={handlePiWalletAddressChange}
+                />
+                <Button
+                  disabled={UpdatePiWalletAddressResult.isLoading}
+                  loading={
+                    isLoadingMyUser || UpdatePiWalletAddressResult.isLoading
+                  }
+                  onClick={() => {
+                    if (!isValidPiAddress(piWalletAddress)) {
+                      toast.warn("Invalid Pi Wallet Address");
+                      return;
+                    }
+                    updateWalletAddress({ piWalletAddress });
+                  }}
+                >
+                  {t("profile:button.save")}
+                </Button>
+              </div>
+              <Typography level="body-sm">
+                （修改后一个月内无法修改）
+              </Typography>
             </div>
           )}
         </div>
