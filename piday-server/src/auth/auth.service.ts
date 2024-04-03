@@ -232,4 +232,27 @@ export class AuthService {
 
     return createdUser;
   }
+
+  async updateAccountPassword(
+    newPassword: string,
+    oldPassword: string,
+    userID: string,
+  ) {
+    const user = await this.prisma.user.findUnique({
+      where: {
+        keycloakID: userID,
+      },
+    });
+
+    if (!user) throw new ServiceException("user not found", "USER_NOT_FOUND");
+    const oldPasswordCheck = await this.keycloakService.authenticateOldPassword(
+      user.email,
+      oldPassword,
+    );
+    if (oldPasswordCheck.ok) {
+      return this.keycloakService.updateAccountPassword(userID, newPassword);
+    } else {
+      throw new ServiceException("Invalid password ", "INVALID_PASSWORD");
+    }
+  }
 }

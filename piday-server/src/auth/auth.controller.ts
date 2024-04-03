@@ -21,6 +21,7 @@ import { KeycloakJwtGuard } from "../lib/keycloak/keycloak-jwt.guard";
 import { UserService } from "../user/user.service";
 import { AuthService } from "./auth.service";
 import { EmailQueryDto, EmailSignupDto } from "./dto/email-query.dto";
+import { UpdatePasswordDto } from "./dto/update-password.dto";
 import { generatePasswordFromPiUid } from "./utils/generatePiUidPass";
 
 @Controller("auth")
@@ -208,5 +209,44 @@ export class AuthController {
     return {
       message: "Payment password set",
     };
+  }
+
+  @Post("update-password")
+  @UseGuards(KeycloakJwtGuard)
+  async updateAccountPassword(
+    @Req() req: AuthenticatedRequest,
+    @Res() res: Response,
+    @Body() body: UpdatePasswordDto,
+  ) {
+    try {
+      const { newPassword, oldPassword } = body;
+      const result = await this.authService.updateAccountPassword(
+        newPassword,
+        oldPassword,
+        req.user.userID,
+      );
+      if (!result) {
+        res.status(HttpStatus.AMBIGUOUS).json({
+          success: result,
+          message: "Error updating password please try again",
+        });
+      }
+      res.status(HttpStatus.OK).json({
+        success: result,
+        message: "Successfully updated password",
+      });
+    } catch (err) {
+      console.error(err);
+
+      switch (err.code) {
+        case "INVALID_PASSWORD":
+          throw new HttpException("Invalid Password", HttpStatus.BAD_REQUEST);
+      }
+
+      throw new HttpException(
+        "Internal Server Error",
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
   }
 }
