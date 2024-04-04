@@ -142,7 +142,7 @@ export default function MyProfile() {
                 </Button>
               </div>
               <Typography level="body-sm">
-                （修改后一个月内无法修改）
+                （修改后一个月内无法再次修改）
               </Typography>
             </div>
           )}

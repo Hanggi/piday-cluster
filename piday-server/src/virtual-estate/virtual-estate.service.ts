@@ -362,6 +362,34 @@ export class VirtualEstateService {
     return virtualEstateListingsActive;
   }
 
+  async getTransactedVirtualEstates(page: number, size: number) {
+    const latestTransactions =
+      await this.prisma.virtualEstateTransactionRecords.findMany({
+        take: +size,
+        skip: +(page == 0 ? 0 : page - 1) * size,
+        orderBy: {
+          createdAt: "desc",
+        },
+      });
+
+    const virtualEstateIDs = latestTransactions.map(
+      (transaction) => transaction.virtualEstateID,
+    );
+
+    const virtualEstates = await this.prisma.virtualEstate.findMany({
+      where: {
+        virtualEstateID: {
+          in: virtualEstateIDs,
+        },
+      },
+      include: {
+        listings: true,
+      },
+    });
+
+    return virtualEstates;
+  }
+
   async searchVirtualEstate(page: number, size: number, name: string) {
     const virtualEstates = await this.prisma.virtualEstate.findMany({
       where: {

@@ -1,9 +1,15 @@
 import { WrapperCard } from "@/src/components/WrapperCard";
-import { decimalToHexID } from "@/src/components/virtual-estate-map/h3";
+import {
+  decimalToHexID,
+  hexIDtoDecimal,
+} from "@/src/components/virtual-estate-map/h3";
 import instance from "@/src/features/axios/instance";
 import { VirtualEstateListing } from "@/src/features/virtual-estate-listing/interface/virtual-estate-listing.interface";
 import { VirtualEstate } from "@/src/features/virtual-estate/interface/virtual-estate.interface";
 import { AxiosError } from "axios";
+import { isNaN, isNumber } from "lodash";
+
+import { redirect } from "next/navigation";
 
 import VirtualEstateMapClientWrapper from "../../_components/home-ve-map/VirtualEstateMapClientWrapper";
 import VirtualEstateDetailCard from "./_components/VirtualEstateDetailCard";
@@ -19,6 +25,13 @@ interface Props {
 export default async function VirtualEstateDetailPage({
   params: { decimalID },
 }: Props) {
+  // if decimalID is not a decimal number then it's a hexID
+  if (isNaN(+decimalID) || !isNumber(+decimalID)) {
+    const deciamlPathID = hexIDtoDecimal(decimalID);
+
+    redirect(`/ve/${deciamlPathID}`);
+  }
+
   const hexID = decimalToHexID(decimalID);
 
   let virtualEstate: VirtualEstate | undefined;
