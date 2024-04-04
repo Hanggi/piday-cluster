@@ -8,7 +8,8 @@
     "myProfile": "My Profile",
     "myBalance": "My Balance",
     "myAssets": "My Assets",
-    "settings": "Settings"
+    "settings": "Settings",
+    "changePassword":"Update Password"
   },
   "leaderboard": {
     "overviewStatistics": "Overview Statistics",

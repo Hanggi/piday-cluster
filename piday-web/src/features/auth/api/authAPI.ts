@@ -77,6 +77,31 @@ export const authRTKApi = createApi({
         },
       }),
     }),
+    updateAccountPassword: builder.mutation<
+      void,
+      {
+        oldPassword: string;
+        confirmPassword: string;
+        newPassword: string;
+      }
+    >({
+      query: ({ oldPassword, confirmPassword, newPassword }) => ({
+        url: `/auth/update-password`,
+        method: "POST",
+        body: {
+          oldPassword,
+          confirmPassword,
+          newPassword,
+        },
+      }),
+      transformResponse: (response: AxiosResponse) => {
+        return response.data;
+      },
+      transformErrorResponse: (error: any) => {
+        console.log(error);
+        return error.data;
+      },
+    }),
   }),
 });
 
@@ -89,4 +114,5 @@ export const {
   useLazyGetMyUserQuery,
 
   useSetPaymentPasswordMutation,
+  useUpdateAccountPasswordMutation,
 } = authRTKApi;

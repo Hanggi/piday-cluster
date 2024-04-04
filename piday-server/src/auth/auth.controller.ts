@@ -219,12 +219,15 @@ export class AuthController {
     @Body() body: UpdatePasswordDto,
   ) {
     try {
-      const { newPassword, oldPassword } = body;
+      const { newPassword, oldPassword, confirmPassword } = body;
+
       const result = await this.authService.updateAccountPassword(
         newPassword,
         oldPassword,
+        confirmPassword,
         req.user.userID,
       );
+
       if (!result) {
         res.status(HttpStatus.UNPROCESSABLE_ENTITY).json({
           success: result,
@@ -243,6 +246,11 @@ export class AuthController {
           throw new HttpException("Invalid Password", HttpStatus.UNAUTHORIZED);
         case "USER_NOT_FOUND":
           throw new HttpException("user not found", HttpStatus.NOT_FOUND);
+        case "PASSWORD_DO_NOT_MATCH":
+          throw new HttpException(
+            "password does not match",
+            HttpStatus.BAD_REQUEST,
+          );
       }
 
       throw new HttpException(

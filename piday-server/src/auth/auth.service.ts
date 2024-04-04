@@ -236,6 +236,7 @@ export class AuthService {
   async updateAccountPassword(
     newPassword: string,
     oldPassword: string,
+    confirmPassword: string,
     userID: string,
   ) {
     const user = await this.prisma.user.findUnique({
@@ -254,6 +255,12 @@ export class AuthService {
     );
 
     if (oldPasswordCheck.ok) {
+      if (confirmPassword !== newPassword) {
+        throw new ServiceException(
+          "passwords do not match",
+          "PASSWORD_DO_NOT_MATCH",
+        );
+      }
       return this.keycloakService.updateAccountPassword(userID, newPassword);
     } else {
       throw new ServiceException("Invalid password ", "INVALID_PASSWORD");

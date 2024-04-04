@@ -66,6 +66,11 @@ const navItems = [
     href: "/my/assets",
     icon: <i className="ri-community-line"></i>,
   },
+  {
+    translationKey: "nav.changePassword",
+    href: "/profile/update-password",
+    icon: <i className="ri-community-line"></i>,
+  },
   // {
   //   translationKey: "nav.settings",
   //   href: "/my/settings",
