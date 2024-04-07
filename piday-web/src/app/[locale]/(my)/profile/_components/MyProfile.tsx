@@ -176,6 +176,18 @@ export default function MyProfile() {
             </div>
           )}
         </div>
+        <div className="my-4">
+          <div>
+            <Button
+              loading={isLoadingMyUser}
+              onClick={() => {
+                window.location.href = "/profile/update-password";
+              }}
+            >
+              更改密码
+            </Button>
+          </div>
+        </div>
       </div>
     </Card>
   );

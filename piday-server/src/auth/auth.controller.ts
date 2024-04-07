@@ -251,6 +251,8 @@ export class AuthController {
             "password does not match",
             HttpStatus.BAD_REQUEST,
           );
+        case "NOT_VALID_USER":
+          throw new HttpException("Not valid user", HttpStatus.NOT_ACCEPTABLE);
       }
 
       throw new HttpException(

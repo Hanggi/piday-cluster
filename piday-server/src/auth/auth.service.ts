@@ -249,6 +249,10 @@ export class AuthService {
       throw new ServiceException("user not found", "USER_NOT_FOUND");
     }
 
+    if (user.piUid) {
+      throw new ServiceException("Not Valid user", "NOT_VALID_USER");
+    }
+
     const oldPasswordCheck = await this.keycloakService.authenticateOldPassword(
       user.email,
       oldPassword,
