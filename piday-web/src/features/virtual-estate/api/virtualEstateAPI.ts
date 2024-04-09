@@ -197,7 +197,7 @@ export const virtualEstateRTKApi = createApi({
       VirtualEstate[],
       { page: number; size: number; name: string }
     >({
-      query: ({ page, size }) => ({
+      query: ({ page, size, name }) => ({
         url: `/virtual-estates/search?page=${page}&size=${size}&name=${name}`,
         method: "GET",
       }),
@@ -222,4 +222,5 @@ export const {
   useGetListedVirtualEstatesQuery,
   useGetTransactedVirtualEstatesQuery,
   useSearchVirtualEstatesQuery,
+  useLazySearchVirtualEstatesQuery,
 } = virtualEstateRTKApi;
