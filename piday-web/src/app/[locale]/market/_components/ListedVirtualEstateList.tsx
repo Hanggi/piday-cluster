@@ -52,6 +52,7 @@ export default function ListedVirtualEstateList() {
   return (
     <div className="lg:px-16 py-8">
       <Tabs
+        defaultValue="listed"
         orientation="horizontal"
         size="lg"
         onChange={(event, newValue) => {

@@ -54,7 +54,6 @@ export function ForSale({}: Props) {
       <br />
       <Input
         className="[&_.MuiSelect-root]:!border-0 mx-auto !rounded-full [&_.MuiSelect-root]:hover:!bg-transparent max-w-xl"
-        onChange={(e) => setSearchInput(e.target.value)}
         endDecorator={
           <IconButton
             onClick={() => {
@@ -66,6 +65,7 @@ export function ForSale({}: Props) {
         }
         placeholder={t("enterLandToQuery")}
         size="lg"
+        onChange={(e) => setSearchInput(e.target.value)}
         onKeyDown={(e) => {
           if (e.key === "Enter") {
             handleSearch();
