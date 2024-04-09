@@ -8,6 +8,7 @@ import {
 import { VirtualEstate } from "@/src/features/virtual-estate/interface/virtual-estate.interface";
 
 import Button from "@mui/joy/Button";
+import CircularProgress from "@mui/joy/CircularProgress";
 import Tab from "@mui/joy/Tab";
 import TabList from "@mui/joy/TabList";
 import TabPanel from "@mui/joy/TabPanel";
@@ -27,21 +28,24 @@ export default function ListedVirtualEstateList() {
     VirtualEstate[]
   >([]);
 
-  const { data: listedVirtualEstateList } = useGetListedVirtualEstatesQuery({
-    page,
-    size,
-  });
+  const { data: listedVirtualEstateList, isFetching: isFetchingListed } =
+    useGetListedVirtualEstatesQuery({
+      page,
+      size,
+    });
   useEffect(() => {
     if (listedVirtualEstateList) {
       setListingVirtualEstates(listedVirtualEstateList);
     }
   }, [listedVirtualEstateList]);
 
-  const { data: transactedVirtualEstateList } =
-    useGetTransactedVirtualEstatesQuery({
-      page,
-      size,
-    });
+  const {
+    data: transactedVirtualEstateList,
+    isFetching: isFetchingTransacted,
+  } = useGetTransactedVirtualEstatesQuery({
+    page,
+    size,
+  });
 
   useEffect(() => {
     if (transactedVirtualEstateList) {
@@ -70,6 +74,12 @@ export default function ListedVirtualEstateList() {
           </Tab>
         </TabList>
         <TabPanel value="listed">
+          {isFetchingListed && (
+            <div className="w-full flex justify-center">
+              <CircularProgress />
+            </div>
+          )}
+
           <div className="grid py-6 grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {listingVirtualEstates?.map((ve, index) => (
               <div key={index}>
@@ -90,6 +100,11 @@ export default function ListedVirtualEstateList() {
         </TabPanel>
 
         <TabPanel value="transacted">
+          {isFetchingTransacted && (
+            <div className="w-full flex justify-center">
+              <CircularProgress />
+            </div>
+          )}
           <div className="grid py-6 grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {transactedVirtualEstates?.map((ve, index) => (
               <div key={index}>
