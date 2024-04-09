@@ -355,7 +355,7 @@ export class VirtualEstateService {
         take: +size,
         skip: +(page == 0 ? 0 : page - 1) * size,
         orderBy: {
-          createdAt: "desc",
+          updatedAt: "desc",
         },
       });
 
