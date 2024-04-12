@@ -3,7 +3,9 @@ import { IsEmail } from "class-validator";
 export class UpdatePasswordDto {
   newPassword: string;
 
-  oldPassword: string;
+  code: string;
 
   confirmPassword: string;
+
+  email: string;
 }

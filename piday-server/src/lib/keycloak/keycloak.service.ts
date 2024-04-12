@@ -52,23 +52,6 @@ export class KeycloakService {
     return await this.kcAdminClient.users.create(user);
   }
 
-  async authenticateOldPassword(email: string, password: string) {
-    const keycloakTokenUrl = `${config.get<string>("keycloak.baseUrl")}/realms/piday/protocol/openid-connect/token`;
-
-    return await fetch(keycloakTokenUrl, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body: new URLSearchParams({
-        client_id: config.get<string>("keycloak.clientId") as string,
-        client_secret: config.get<string>("keycloak.clientSecret") as string,
-        grant_type: "password",
-        username: email,
-        password: password,
-      }),
-    });
-  }
   async updateAccountPassword(userID: string, password: string) {
     try {
       await this.getAccessToken();

@@ -8,7 +8,8 @@ export async function POST(request: Request, res: Response) {
   const req = await request.json();
 
   const body = {
-    oldPassword: req.oldPassword,
+    code: req.code,
+    email: req.email,
     confirmPassword: req.confirmPassword,
     newPassword: req.newPassword,
   };
@@ -37,7 +38,8 @@ export async function POST(request: Request, res: Response) {
     return new Response(
       JSON.stringify({
         success: false,
-        message: "Updating password failed",
+        data: axiosError?.response?.data,
+        message: "updating password failed",
       }),
       {
         status: axiosError.response?.status,

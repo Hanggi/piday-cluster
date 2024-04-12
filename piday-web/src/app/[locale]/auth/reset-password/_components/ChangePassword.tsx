@@ -13,13 +13,14 @@ import FormHelperText from "@mui/joy/FormHelperText";
 import FormLabel from "@mui/joy/FormLabel";
 import Input from "@mui/joy/Input";
 
+import { useSearchParams } from "next/navigation";
+
 import { useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import BeatLoader from "react-spinners/BeatLoader";
 
 interface ChangePasswordFormProps {
-  oldPassword: string;
   newPassword: string;
   confirmPassword: string;
 }
@@ -34,7 +35,10 @@ export default function ChangePassword() {
     t("changePassword.success"),
     () => {},
   );
+  const searchParams = useSearchParams();
 
+  const code = searchParams.get("code") as string;
+  const email = searchParams.get("email") as string;
   const {
     register,
     handleSubmit,
@@ -44,7 +48,8 @@ export default function ChangePassword() {
   const onSubmit = useCallback(
     (data: ChangePasswordFormProps) => {
       updateAccountPassword({
-        oldPassword: data.oldPassword,
+        code: code,
+        email: email,
         newPassword: data.newPassword,
         confirmPassword: data.confirmPassword,
       });
@@ -53,23 +58,9 @@ export default function ChangePassword() {
   );
   const newPassword = watch("newPassword");
   return (
-    <Card className="mt-8" size="lg">
+    <Card className="m-12" size="md">
       <div className="my-4">
         <form onSubmit={handleSubmit(onSubmit)}>
-          <FormControl className="mb-4" error={!!errors.oldPassword}>
-            <FormLabel>{t("changePassword.oldPassword.label")}</FormLabel>
-            <Input
-              {...register("oldPassword", {
-                required: t("changePassword.oldPassword.required"),
-              })}
-              placeholder={t("changePassword.oldPassword.placeholder")}
-              type="password"
-            />
-            {errors.oldPassword && (
-              <FormHelperText>{errors.oldPassword.message}</FormHelperText>
-            )}
-          </FormControl>
-
           <FormControl className="mb-4" error={!!errors.newPassword}>
             <FormLabel>{t("changePassword.newPassword.label")}</FormLabel>
             <Input

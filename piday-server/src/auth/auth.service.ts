@@ -233,15 +233,54 @@ export class AuthService {
     return createdUser;
   }
 
+  async sendUpdatePasswordEmail(email: string) {
+    const user = await this.keycloakService.findUserByEmail(email);
+
+    if (!user) {
+      throw new ServiceException("user not found", "USER_NOT_FOUND");
+    }
+    const redisKey = `piday::forgot_password.${user.email}`;
+    // Get exisint verification code
+    let verificationCode = await this.redis.get(redisKey);
+    if (!verificationCode) {
+      verificationCode = Math.floor(Math.random() * 900000 + 100000).toString();
+
+      this.redis.set(redisKey, verificationCode);
+      this.redis.expire(redisKey, 60 * 60 * 24);
+    }
+
+    try {
+      await this.mailService.sendTemplateEmail({
+        to: user.email,
+        subject: `Update Password`,
+        template: "x2p0347x96kgzdrn",
+        variables: {
+          verification_code: verificationCode,
+        },
+      });
+    } catch (error) {
+      console.error("Send email failed:", error);
+      throw new ServiceException("Send email failed", "SEND_EMAIL_FAILED");
+    }
+  }
   async updateAccountPassword(
     newPassword: string,
-    oldPassword: string,
     confirmPassword: string,
-    userID: string,
+    email: string,
+    code: string,
   ) {
+    const redisKey = `piday::forgot_password.${email}`;
+    // Get exisint verification code
+    const verificationCode = await this.redis.get(redisKey);
+    if (verificationCode !== code) {
+      throw new ServiceException(
+        "Invalid verification code",
+        "INVALID_VERIFICATION_CODE",
+      );
+    }
     const user = await this.prisma.user.findUnique({
       where: {
-        keycloakID: userID,
+        email: email,
       },
     });
 
@@ -253,21 +292,22 @@ export class AuthService {
       throw new ServiceException("Not Valid user", "NOT_VALID_USER");
     }
 
-    const oldPasswordCheck = await this.keycloakService.authenticateOldPassword(
-      user.email,
-      oldPassword,
+    if (confirmPassword !== newPassword) {
+      throw new ServiceException(
+        "passwords do not match",
+        "PASSWORD_DO_NOT_MATCH",
+      );
+    }
+    const passwordUpdated = await this.keycloakService.updateAccountPassword(
+      user.keycloakID,
+      newPassword,
     );
 
-    if (oldPasswordCheck.ok) {
-      if (confirmPassword !== newPassword) {
-        throw new ServiceException(
-          "passwords do not match",
-          "PASSWORD_DO_NOT_MATCH",
-        );
-      }
-      return this.keycloakService.updateAccountPassword(userID, newPassword);
+    if (passwordUpdated) {
+      this.redis.expire(redisKey, 0);
+      return passwordUpdated;
     } else {
-      throw new ServiceException("Invalid password ", "INVALID_PASSWORD");
+      return false;
     }
   }
 }

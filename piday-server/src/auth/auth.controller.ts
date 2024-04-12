@@ -14,6 +14,7 @@ import {
   Res,
   UseGuards,
 } from "@nestjs/common";
+import { ExceptionsHandler } from "@nestjs/core/exceptions/exceptions-handler";
 import { Throttle } from "@nestjs/throttler";
 
 import { AuthenticatedRequest } from "../lib/keycloak/interfaces/authenticated-request";
@@ -212,20 +213,18 @@ export class AuthController {
   }
 
   @Post("update-password")
-  @UseGuards(KeycloakJwtGuard)
   async updateAccountPassword(
-    @Req() req: AuthenticatedRequest,
     @Res() res: Response,
     @Body() body: UpdatePasswordDto,
   ) {
     try {
-      const { newPassword, oldPassword, confirmPassword } = body;
+      const { newPassword, confirmPassword, code, email } = body;
 
       const result = await this.authService.updateAccountPassword(
         newPassword,
-        oldPassword,
         confirmPassword,
-        req.user.userID,
+        email,
+        code,
       );
 
       if (!result) {
@@ -253,6 +252,8 @@ export class AuthController {
           );
         case "NOT_VALID_USER":
           throw new HttpException("Not valid user", HttpStatus.NOT_ACCEPTABLE);
+        case "INVALID_VERIFICATION_CODE":
+          throw new HttpException("In valid code", HttpStatus.BAD_REQUEST);
       }
 
       throw new HttpException(
@@ -260,5 +261,29 @@ export class AuthController {
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }
+  }
+  @Get("send-password-update-email")
+  @Throttle({ default: { limit: 2, ttl: 60000 } })
+  async sendUpdatePasswordEmail(
+    @Query() { email }: EmailQueryDto,
+    @Res() res: Response,
+  ) {
+    try {
+      await this.authService.sendUpdatePasswordEmail(email);
+    } catch (err) {
+      console.error(err);
+      switch (err.code) {
+        case "USER_NOT_FOUND":
+          throw new HttpException("user not found", HttpStatus.NOT_FOUND);
+      }
+      throw new HttpException(
+        "Internal Server Error",
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+
+    res.status(HttpStatus.OK).json({
+      message: "Update email sent",
+    });
   }
 }

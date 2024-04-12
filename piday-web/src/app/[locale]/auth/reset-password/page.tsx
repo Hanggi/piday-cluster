@@ -4,7 +4,7 @@ export const metadata = {
   title: "Profile",
 };
 
-export default function ProfilePage() {
+export default function ResetPassword() {
   return (
     <main>
       <ChangePassword />

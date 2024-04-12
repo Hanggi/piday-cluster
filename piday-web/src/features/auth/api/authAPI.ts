@@ -80,16 +80,18 @@ export const authRTKApi = createApi({
     updateAccountPassword: builder.mutation<
       void,
       {
-        oldPassword: string;
+        code: string;
+        email: string;
         confirmPassword: string;
         newPassword: string;
       }
     >({
-      query: ({ oldPassword, confirmPassword, newPassword }) => ({
+      query: ({ code, email, confirmPassword, newPassword }) => ({
         url: `/auth/update-password`,
         method: "POST",
         body: {
-          oldPassword,
+          code,
+          email,
           confirmPassword,
           newPassword,
         },
