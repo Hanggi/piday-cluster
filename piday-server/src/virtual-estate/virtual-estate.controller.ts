@@ -82,6 +82,36 @@ export class VirtualEstateController {
     }
   }
 
+  @Get("transacted")
+  async getTransactedVirtualEstates(
+    @Res() res: Response,
+    @Query("page") page = 1, // default to page 1
+    @Query("size") size = 10, //default to size 10,
+  ) {
+    try {
+      const virtualEstates =
+        await this.virtualEstateService.getTransactedVirtualEstates(page, size);
+
+      res.status(HttpStatus.OK).json({
+        virtualEstates: plainToInstance(
+          VirtualEstateResponseDto,
+          virtualEstates,
+          {
+            excludeExtraneousValues: true,
+          },
+        ),
+        success: true,
+        message: "Virtual states found successfully",
+      });
+    } catch (error) {
+      console.error(error);
+      throw new HttpException(
+        "Internal Server Error",
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+
   @Get("search")
   async searchVirtualEstate(
     @Res() res: Response,
