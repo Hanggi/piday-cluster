@@ -104,6 +104,25 @@ export const authRTKApi = createApi({
         return error.data;
       },
     }),
+    sendPasswordResetEmail: builder.mutation<
+      void,
+      { email: string; locale: string }
+    >({
+      query: ({ email, locale }: { email: string; locale: string }) => ({
+        url: `/auth/send-password-update-email?email=${email}`,
+        method: "GET",
+        headers: {
+          locale,
+        },
+      }),
+      transformResponse: (response: AxiosResponse) => {
+        return response.data;
+      },
+      transformErrorResponse: (error: any) => {
+        console.log(error);
+        return error.data;
+      },
+    }),
   }),
 });
 
