@@ -13,7 +13,7 @@ export async function GET(request: NextRequest, res: Response) {
 
   try {
     const axiosRes = await instance.get(
-      `/auth/send-password-update-email?email=${email}`,
+      `/auth/send-password-reset-email?email=${email}`,
     );
 
     if (axiosRes.status == StatusCodes.OK) {
@@ -30,7 +30,7 @@ export async function GET(request: NextRequest, res: Response) {
       return new Response(
         JSON.stringify({
           success: false,
-          message: "Password update email not sent",
+          message: "Password reset email not sent",
         }),
         {
           status: StatusCodes.INTERNAL_SERVER_ERROR,

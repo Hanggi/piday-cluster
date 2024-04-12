@@ -1,6 +1,6 @@
 "use client";
 
-import { useUpdateAccountPasswordMutation } from "@/src/features/auth/api/authAPI";
+import { useResetAccountPasswordMutation } from "@/src/features/auth/api/authAPI";
 import {
   useErrorToast,
   useSuccessToast,
@@ -27,11 +27,11 @@ interface ChangePasswordFormProps {
 export default function ChangePassword() {
   const { t } = useTranslation("change-password");
   // Payment password
-  const [updateAccountPassword, updateAccountPasswordResult] =
-    useUpdateAccountPasswordMutation();
-  useErrorToast(updateAccountPasswordResult.error);
+  const [resetAccountPassword, resetAccountPasswordResult] =
+    useResetAccountPasswordMutation();
+  useErrorToast(resetAccountPasswordResult.error);
   useSuccessToast(
-    updateAccountPasswordResult.isSuccess,
+    resetAccountPasswordResult.isSuccess,
     t("changePassword.success"),
     () => {},
   );
@@ -47,14 +47,14 @@ export default function ChangePassword() {
   } = useForm<ChangePasswordFormProps>();
   const onSubmit = useCallback(
     (data: ChangePasswordFormProps) => {
-      updateAccountPassword({
+      resetAccountPassword({
         code: code,
         email: email,
         newPassword: data.newPassword,
         confirmPassword: data.confirmPassword,
       });
     },
-    [updateAccountPassword],
+    [resetAccountPassword],
   );
   const newPassword = watch("newPassword");
   return (
@@ -102,11 +102,11 @@ export default function ChangePassword() {
             )}
           </FormControl>
           <Button
-            disabled={updateAccountPasswordResult.isLoading}
+            disabled={resetAccountPasswordResult.isLoading}
             fullWidth
             type="submit"
           >
-            {updateAccountPasswordResult.isLoading ? (
+            {resetAccountPasswordResult.isLoading ? (
               <BeatLoader />
             ) : (
               t("changePassword.submitButton")

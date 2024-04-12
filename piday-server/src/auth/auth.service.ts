@@ -1,5 +1,6 @@
 import Redis from "ioredis";
 import { IMailgunClient } from "mailgun.js/Interfaces";
+import { v4 as uuidv4 } from "uuid";
 
 import { Inject, Injectable } from "@nestjs/common";
 
@@ -233,26 +234,26 @@ export class AuthService {
     return createdUser;
   }
 
-  async sendUpdatePasswordEmail(email: string) {
+  async sendResetPasswordEmail(email: string) {
     const user = await this.keycloakService.findUserByEmail(email);
 
     if (!user) {
       throw new ServiceException("user not found", "USER_NOT_FOUND");
     }
     const redisKey = `piday::forgot_password.${user.email}`;
-    // Get exisint verification code
+    // Get existing verification code
     let verificationCode = await this.redis.get(redisKey);
     if (!verificationCode) {
-      verificationCode = Math.floor(Math.random() * 900000 + 100000).toString();
+      verificationCode = uuidv4();
 
       this.redis.set(redisKey, verificationCode);
-      this.redis.expire(redisKey, 60 * 60 * 24);
+      this.redis.expire(redisKey, 60 * 30);
     }
 
     try {
       await this.mailService.sendTemplateEmail({
         to: user.email,
-        subject: `Update Password`,
+        subject: `Reset Password`,
         template: "x2p0347x96kgzdrn",
         variables: {
           verification_code: verificationCode,
@@ -263,7 +264,7 @@ export class AuthService {
       throw new ServiceException("Send email failed", "SEND_EMAIL_FAILED");
     }
   }
-  async updateAccountPassword(
+  async resetAccountPassword(
     newPassword: string,
     confirmPassword: string,
     email: string,

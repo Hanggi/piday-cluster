@@ -16,7 +16,7 @@ export async function POST(request: Request, res: Response) {
 
   try {
     const res = await instance.post(
-      `${process.env.BACKEND_BASE_URL}/auth/update-password`,
+      `${process.env.BACKEND_BASE_URL}/auth/reset-password`,
       {
         ...body,
       },

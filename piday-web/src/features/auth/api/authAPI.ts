@@ -77,7 +77,7 @@ export const authRTKApi = createApi({
         },
       }),
     }),
-    updateAccountPassword: builder.mutation<
+    resetAccountPassword: builder.mutation<
       void,
       {
         code: string;
@@ -87,7 +87,7 @@ export const authRTKApi = createApi({
       }
     >({
       query: ({ code, email, confirmPassword, newPassword }) => ({
-        url: `/auth/update-password`,
+        url: `/auth/reset-password`,
         method: "POST",
         body: {
           code,
@@ -109,7 +109,7 @@ export const authRTKApi = createApi({
       { email: string; locale: string }
     >({
       query: ({ email, locale }: { email: string; locale: string }) => ({
-        url: `/auth/send-password-update-email?email=${email}`,
+        url: `/auth/send-password-reset-email?email=${email}`,
         method: "GET",
         headers: {
           locale,
@@ -135,5 +135,5 @@ export const {
   useLazyGetMyUserQuery,
 
   useSetPaymentPasswordMutation,
-  useUpdateAccountPasswordMutation,
+  useResetAccountPasswordMutation,
 } = authRTKApi;

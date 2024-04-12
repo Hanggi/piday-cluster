@@ -22,7 +22,7 @@ import { KeycloakJwtGuard } from "../lib/keycloak/keycloak-jwt.guard";
 import { UserService } from "../user/user.service";
 import { AuthService } from "./auth.service";
 import { EmailQueryDto, EmailSignupDto } from "./dto/email-query.dto";
-import { UpdatePasswordDto } from "./dto/update-password.dto";
+import { ResetPasswordDto } from "./dto/reset-password.dto";
 import { generatePasswordFromPiUid } from "./utils/generatePiUidPass";
 
 @Controller("auth")
@@ -212,15 +212,15 @@ export class AuthController {
     };
   }
 
-  @Post("update-password")
-  async updateAccountPassword(
+  @Post("reset-password")
+  async resetAccountPassword(
     @Res() res: Response,
-    @Body() body: UpdatePasswordDto,
+    @Body() body: ResetPasswordDto,
   ) {
     try {
       const { newPassword, confirmPassword, code, email } = body;
 
-      const result = await this.authService.updateAccountPassword(
+      const result = await this.authService.resetAccountPassword(
         newPassword,
         confirmPassword,
         email,
@@ -230,12 +230,12 @@ export class AuthController {
       if (!result) {
         res.status(HttpStatus.UNPROCESSABLE_ENTITY).json({
           success: result,
-          message: "Error updating password please try again",
+          message: "Error resetting password please try again",
         });
       }
       res.status(HttpStatus.OK).json({
         success: result,
-        message: "Successfully updated password",
+        message: "Successfully reset password",
       });
     } catch (err) {
       console.error(err);
@@ -262,14 +262,14 @@ export class AuthController {
       );
     }
   }
-  @Get("send-password-update-email")
+  @Get("send-password-reset-email")
   @Throttle({ default: { limit: 2, ttl: 60000 } })
-  async sendUpdatePasswordEmail(
+  async sendResetPasswordEmail(
     @Query() { email }: EmailQueryDto,
     @Res() res: Response,
   ) {
     try {
-      await this.authService.sendUpdatePasswordEmail(email);
+      await this.authService.sendResetPasswordEmail(email);
     } catch (err) {
       console.error(err);
       switch (err.code) {
@@ -283,7 +283,7 @@ export class AuthController {
     }
 
     res.status(HttpStatus.OK).json({
-      message: "Update email sent",
+      message: "Reset password email sent",
     });
   }
 }
