@@ -1666,6 +1666,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/mime@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "@types/mime@npm:4.0.0"
+  dependencies:
+    mime: "npm:*"
+  checksum: c544ca670c2cb53b96c7e4a1b4ecfdf3777dad4b74f7bb305680eed82c753a7ccfdf03c8b06c9fba48bb10d2a96ae95c9a4007b6c83bc5fdc9cfa7250c07b85b
+  languageName: node
+  linkType: hard
+
 "@types/node@npm:*":
   version: 20.10.8
   resolution: "@types/node@npm:20.10.8"
@@ -5904,6 +5913,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"mime@npm:*":
+  version: 4.0.1
+  resolution: "mime@npm:4.0.1"
+  bin:
+    mime: bin/cli.js
+  checksum: 8b89fb8d93dca1ce068d072c09faa8e04e85fb1e763197cbf8adaba0aa05eb795197cca332309f724cc2239d99c9c127eccb777d97efddb11aa9e9bcb9538818
+  languageName: node
+  linkType: hard
+
 "mime@npm:1.6.0":
   version: 1.6.0
   resolution: "mime@npm:1.6.0"
@@ -6531,6 +6549,7 @@ __metadata:
     "@types/form-data": "npm:^2.5.0"
     "@types/jest": "npm:^29.5.12"
     "@types/jsonwebtoken": "npm:^9.0.6"
+    "@types/mime": "npm:^4.0.0"
     "@types/node": "npm:^20.11.27"
     "@types/supertest": "npm:^6.0.2"
     "@typescript-eslint/eslint-plugin": "npm:^7.2.0"
