@@ -24,16 +24,11 @@ export default function Footer() {
         )} */}
         <nav
           className={cn(
-            "container mx-auto px-2 h-full flex  justify-between items-center",
-            { "max-md:flex-col": true },
+            "container mx-auto px-4 h-full flex justify-between items-center",
           )}
         >
           <Link href="/">
-            <div
-              className={cn("relative h-12 w-12", {
-                grayscale: true,
-              })}
-            >
+            <div className={cn("relative h-12 w-12", {})}>
               <Image
                 alt="logo"
                 className="block"
@@ -48,7 +43,7 @@ export default function Footer() {
           <div className="flex items-center gap-5">
             {socials.map((social) => (
               <Link href={social.href} key={social.href} target="_blank">
-                <i className={cn("text-lg", social.icon)} />
+                <i className={cn("text-xl", "text-yellow-500", social.icon)} />
               </Link>
             ))}
           </div>
