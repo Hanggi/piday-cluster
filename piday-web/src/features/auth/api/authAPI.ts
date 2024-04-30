@@ -106,7 +106,7 @@ export const authRTKApi = createApi({
     }),
     sendPasswordResetEmail: builder.mutation<
       void,
-      { email: string; locale: string }
+      { email: string; locale?: string }
     >({
       query: ({ email, locale }: { email: string; locale: string }) => ({
         url: `/auth/send-password-reset-email?email=${email}`,
@@ -136,4 +136,5 @@ export const {
 
   useSetPaymentPasswordMutation,
   useResetAccountPasswordMutation,
+  useSendPasswordResetEmailMutation,
 } = authRTKApi;

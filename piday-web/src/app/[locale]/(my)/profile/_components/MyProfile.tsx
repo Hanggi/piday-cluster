@@ -181,7 +181,13 @@ export default function MyProfile() {
             </div>
           )}
         </div>
+
+        <div className="my-4">
+          <Button>重置密码</Button>
+        </div>
       </div>
+
+      
     </Card>
   );
 }

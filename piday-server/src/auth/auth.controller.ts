@@ -14,7 +14,6 @@ import {
   Res,
   UseGuards,
 } from "@nestjs/common";
-import { ExceptionsHandler } from "@nestjs/core/exceptions/exceptions-handler";
 import { Throttle } from "@nestjs/throttler";
 
 import { AuthenticatedRequest } from "../lib/keycloak/interfaces/authenticated-request";
@@ -143,7 +142,7 @@ export class AuthController {
       }
 
       try {
-        const user = await this.authService.piSignUp({
+        await this.authService.piSignUp({
           username: myPiUser.username,
           password: pass,
           inviteCode,

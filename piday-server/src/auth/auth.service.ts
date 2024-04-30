@@ -1,3 +1,4 @@
+import config from "config";
 import Redis from "ioredis";
 import { IMailgunClient } from "mailgun.js/Interfaces";
 import { v4 as uuidv4 } from "uuid";
@@ -251,11 +252,18 @@ export class AuthService {
     }
 
     try {
+      console.log({
+        name: user.username,
+        action_url: `${process.env.FRONTEND_URL}/auth/reset-password?email=${user.email}&code=${verificationCode}`,
+        verification_code: verificationCode,
+      });
       await this.mailService.sendTemplateEmail({
         to: user.email,
         subject: `Reset Password`,
         template: "x2p0347x96kgzdrn",
         variables: {
+          name: user.username,
+          action_url: `${config.get("frontend.url")}/auth/reset-password?email=${user.email}&code=${verificationCode}`,
           verification_code: verificationCode,
         },
       });
@@ -264,6 +272,7 @@ export class AuthService {
       throw new ServiceException("Send email failed", "SEND_EMAIL_FAILED");
     }
   }
+
   async resetAccountPassword(
     newPassword: string,
     confirmPassword: string,
