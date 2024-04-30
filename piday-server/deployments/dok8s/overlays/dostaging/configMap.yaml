@@ -7,6 +7,8 @@ data:
   GIN_MODE: release
   NODE_ENV: staging
 
+  FRONTEND_URL: https://app-staging.piday.world
+
   RECHARGING_ADDRESS: "GBFF6AGW2TBXKBEGJAKMXPYV3MRTGCIJ74J66YSBOILBMJRRGLSLJWV5"
   KEYCLOAK_CERTS_URL: "https://staging-auth.piday.world/realms/piday/protocol/openid-connect/certs"
 

@@ -5,6 +5,9 @@ piNetworkPayment:
   cursor: "60067239348408321"
   #        60067239348408321
 
+frontend:
+  url: http://localhost:3000
+
 redis:
   host: localhost
   password:

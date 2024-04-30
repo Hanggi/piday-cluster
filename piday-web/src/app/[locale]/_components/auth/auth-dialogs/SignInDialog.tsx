@@ -5,11 +5,12 @@ import { clsx } from "clsx";
 import { StatusCodes } from "http-status-codes";
 import { signIn } from "next-auth/react";
 
-import { CircularProgress, Divider } from "@mui/joy";
 import Button from "@mui/joy/Button";
 import CardOverflow from "@mui/joy/CardOverflow";
+import CircularProgress from "@mui/joy/CircularProgress";
 import DialogContent from "@mui/joy/DialogContent";
 import DialogTitle from "@mui/joy/DialogTitle";
+import Divider from "@mui/joy/Divider";
 import FormControl from "@mui/joy/FormControl";
 import FormHelperText from "@mui/joy/FormHelperText";
 import FormLabel from "@mui/joy/FormLabel";
@@ -27,6 +28,7 @@ import BeatLoader from "react-spinners/BeatLoader";
 import { toast } from "react-toastify";
 
 import { AuthDialogType } from "../SignInButton";
+import ResetPasswordByEmailDialog from "./ResetPasswordByEmail";
 
 interface SignInFormProps {
   username: string;
@@ -44,6 +46,8 @@ export default function SignInDialog({
 }: Props) {
   const { t } = useTranslation("common");
   const searchParams = useSearchParams();
+
+  const [openResetPasswordDialog, setOpenResetPasswordDialog] = useState(false);
 
   const [inviteCode, setInviteCode] = useState<string>(
     searchParams.get("ic") as string,
@@ -177,24 +181,38 @@ export default function SignInDialog({
               <FormHelperText>{errors.password.message}</FormHelperText>
             )}
           </FormControl>
-          <div className="mb-8 text-right flex justify-end items-center">
-            <Typography level="body-sm">
-              {t("common:auth.signIn.signUpHint")}
-            </Typography>
-            <Typography
-              className={clsx(
-                "!text-blue-500",
-                "hover:!text-blue-300",
-                "cursor-pointer",
-                "!ml-2",
-              )}
-              level="body-sm"
-              onClick={() => {
-                onAuthTypeChange(AuthDialogType.EMAIL_SIGN_UP);
-              }}
-            >
-              {t("common:auth.signUp.title")}
-            </Typography>
+          <div className="flex justify-between">
+            <div>
+              <Typography
+                className={"!text-blue-500 hover:!text-blue-300 cursor-pointer"}
+                level="body-sm"
+                onClick={() => {
+                  console.log("!");
+                  setOpenResetPasswordDialog(true);
+                }}
+              >
+                忘记密码
+              </Typography>
+            </div>
+            <div className="mb-8 text-right flex justify-end items-center">
+              <Typography level="body-sm">
+                {t("common:auth.signIn.signUpHint")}
+              </Typography>
+              <Typography
+                className={clsx(
+                  "!text-blue-500",
+                  "hover:!text-blue-300",
+                  "cursor-pointer",
+                  "!ml-2",
+                )}
+                level="body-sm"
+                onClick={() => {
+                  onAuthTypeChange(AuthDialogType.EMAIL_SIGN_UP);
+                }}
+              >
+                {t("common:auth.signUp.title")}
+              </Typography>
+            </div>
           </div>
           <Button disabled={isLoading} fullWidth type="submit">
             {isLoading ? <BeatLoader /> : t("common:auth.signIn.title")}
@@ -229,6 +247,12 @@ export default function SignInDialog({
           </div>
         </form>
       </DialogContent>
+      <ResetPasswordByEmailDialog
+        open={openResetPasswordDialog}
+        onClose={() => {
+          setOpenResetPasswordDialog(false);
+        }}
+      />
     </ModalDialog>
   );
 }
