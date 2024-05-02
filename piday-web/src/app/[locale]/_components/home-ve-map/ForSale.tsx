@@ -101,7 +101,7 @@ export function ForSale({}: Props) {
         ))}
       </section>
 
-      <div>
+      <div className="w-full overflow-auto">
         <Pagination
           currentPage={page}
           pageCount={(latestVERes?.totalCount || 0) / size}
