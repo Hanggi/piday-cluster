@@ -51,4 +51,23 @@ export class KeycloakService {
     await this.getAccessToken();
     return await this.kcAdminClient.users.create(user);
   }
+
+  async updateAccountPassword(userID: string, password: string) {
+    try {
+      await this.getAccessToken();
+
+      await this.kcAdminClient.users.resetPassword({
+        id: userID,
+        credential: {
+          type: "password",
+          value: password,
+          temporary: false,
+        },
+      });
+
+      return true;
+    } catch (error) {
+      return false;
+    }
+  }
 }

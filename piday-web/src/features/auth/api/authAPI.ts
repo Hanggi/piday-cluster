@@ -77,6 +77,52 @@ export const authRTKApi = createApi({
         },
       }),
     }),
+    resetAccountPassword: builder.mutation<
+      void,
+      {
+        code: string;
+        email: string;
+        confirmPassword: string;
+        newPassword: string;
+      }
+    >({
+      query: ({ code, email, confirmPassword, newPassword }) => ({
+        url: `/auth/reset-password`,
+        method: "POST",
+        body: {
+          code,
+          email,
+          confirmPassword,
+          newPassword,
+        },
+      }),
+      transformResponse: (response: AxiosResponse) => {
+        return response.data;
+      },
+      transformErrorResponse: (error: any) => {
+        console.log(error);
+        return error.data;
+      },
+    }),
+    sendPasswordResetEmail: builder.mutation<
+      void,
+      { email: string; locale?: string }
+    >({
+      query: ({ email, locale }: { email: string; locale: string }) => ({
+        url: `/auth/send-password-reset-email?email=${email}`,
+        method: "GET",
+        headers: {
+          locale,
+        },
+      }),
+      transformResponse: (response: AxiosResponse) => {
+        return response.data;
+      },
+      transformErrorResponse: (error: any) => {
+        console.log(error);
+        return error.data;
+      },
+    }),
   }),
 });
 
@@ -89,4 +135,6 @@ export const {
   useLazyGetMyUserQuery,
 
   useSetPaymentPasswordMutation,
+  useResetAccountPasswordMutation,
+  useSendPasswordResetEmailMutation,
 } = authRTKApi;

@@ -14,6 +14,8 @@
       "piSignIn": "Sign In with Pi",
       "title": "Sign In",
       "signUpHint": "Don't have an account?",
+      "resetPassword": "Reset password",
+      "resetPasswordEmailSent": "Reset password email sent",
       "success": "Sign in successfully"
     },
     "signUp": {

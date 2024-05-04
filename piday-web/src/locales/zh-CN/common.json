@@ -14,6 +14,8 @@
       "piSignIn": "Pi 账号登陆",
       "title": "登录",
       "signUpHint": "没有账号?",
+      "resetPassword": "重制密码",
+      "resetPasswordEmailSent": "重制密码邮件已发送",
       "success": "登录成功"
     },
     "signUp": {

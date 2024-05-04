@@ -21,6 +21,7 @@ import { KeycloakJwtGuard } from "../lib/keycloak/keycloak-jwt.guard";
 import { UserService } from "../user/user.service";
 import { AuthService } from "./auth.service";
 import { EmailQueryDto, EmailSignupDto } from "./dto/email-query.dto";
+import { ResetPasswordDto } from "./dto/reset-password.dto";
 import { generatePasswordFromPiUid } from "./utils/generatePiUidPass";
 
 @Controller("auth")
@@ -141,7 +142,7 @@ export class AuthController {
       }
 
       try {
-        const user = await this.authService.piSignUp({
+        await this.authService.piSignUp({
           username: myPiUser.username,
           password: pass,
           inviteCode,
@@ -208,5 +209,80 @@ export class AuthController {
     return {
       message: "Payment password set",
     };
+  }
+
+  @Post("reset-password")
+  async resetAccountPassword(
+    @Res() res: Response,
+    @Body() body: ResetPasswordDto,
+  ) {
+    try {
+      const { newPassword, confirmPassword, code, email } = body;
+
+      const result = await this.authService.resetAccountPassword(
+        newPassword,
+        confirmPassword,
+        email,
+        code,
+      );
+
+      if (!result) {
+        res.status(HttpStatus.UNPROCESSABLE_ENTITY).json({
+          success: result,
+          message: "Error resetting password please try again",
+        });
+      }
+      res.status(HttpStatus.OK).json({
+        success: result,
+        message: "Successfully reset password",
+      });
+    } catch (err) {
+      console.error(err);
+
+      switch (err.code) {
+        case "INVALID_PASSWORD":
+          throw new HttpException("Invalid Password", HttpStatus.UNAUTHORIZED);
+        case "USER_NOT_FOUND":
+          throw new HttpException("user not found", HttpStatus.NOT_FOUND);
+        case "PASSWORD_DO_NOT_MATCH":
+          throw new HttpException(
+            "password does not match",
+            HttpStatus.BAD_REQUEST,
+          );
+        case "NOT_VALID_USER":
+          throw new HttpException("Not valid user", HttpStatus.NOT_ACCEPTABLE);
+        case "INVALID_VERIFICATION_CODE":
+          throw new HttpException("In valid code", HttpStatus.BAD_REQUEST);
+      }
+
+      throw new HttpException(
+        "Internal Server Error",
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+  @Get("send-password-reset-email")
+  @Throttle({ default: { limit: 2, ttl: 60000 } })
+  async sendResetPasswordEmail(
+    @Query() { email }: EmailQueryDto,
+    @Res() res: Response,
+  ) {
+    try {
+      await this.authService.sendResetPasswordEmail(email);
+    } catch (err) {
+      console.error(err);
+      switch (err.code) {
+        case "USER_NOT_FOUND":
+          throw new HttpException("user not found", HttpStatus.NOT_FOUND);
+      }
+      throw new HttpException(
+        "Internal Server Error",
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+
+    res.status(HttpStatus.OK).json({
+      message: "Reset password email sent",
+    });
   }
 }

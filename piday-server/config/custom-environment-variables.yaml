@@ -1,6 +1,9 @@
 piNetworkPayment:
   cursor: ACCOUNT_PAYMENTS_CURSOR
 
+frontend:
+  url: FRONTEND_URL
+
 redis:
   host: REDIS_HOST
   password: REDIS_PASSWORD
