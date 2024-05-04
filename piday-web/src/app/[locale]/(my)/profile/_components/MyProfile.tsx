@@ -16,6 +16,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 
+import ResetPasswordByEmailDialog from "../../../_components/auth/auth-dialogs/ResetPasswordByEmail";
 import SetPaymentPasswordModel from "./modals/SetPaymentPasswordModel";
 
 export default function MyProfile() {
@@ -56,6 +57,7 @@ export default function MyProfile() {
   // Payment password
   const [openPaymentPasswordModal, setOpenPaymentPasswordModal] =
     useState(false);
+  const [openResetPasswordDialog, setOpenResetPasswordDialog] = useState(false);
 
   return (
     <Card className="mt-8" size="lg">
@@ -185,9 +187,13 @@ export default function MyProfile() {
         <div className="my-4">
           <Button>重置密码</Button>
         </div>
+        <ResetPasswordByEmailDialog
+          open={openResetPasswordDialog}
+          onClose={() => {
+            setOpenResetPasswordDialog(false);
+          }}
+        />
       </div>
-
-      
     </Card>
   );
 }
