@@ -185,7 +185,13 @@ export default function MyProfile() {
         </div>
 
         <div className="my-4">
-          <Button>重置密码</Button>
+          <Button
+            onClick={() => {
+              setOpenResetPasswordDialog(true);
+            }}
+          >
+            重置密码
+          </Button>
         </div>
         <ResetPasswordByEmailDialog
           open={openResetPasswordDialog}
