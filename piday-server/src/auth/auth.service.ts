@@ -347,7 +347,7 @@ export class AuthService {
       await this.mailService.sendTemplateEmail({
         to: user.email,
         subject: `Reset Payment Password`,
-        template: "x2p0347x96kgzdrn",
+        template: "v69oxl51w6k4785k",
         variables: {
           name: user.username,
           action_url: `${config.get("frontend.url")}/auth/reset-payment-password?email=${user.email}&code=${verificationCode}`,
