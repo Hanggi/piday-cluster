@@ -11,6 +11,7 @@ import { KeycloakService } from "../lib/keycloak/keycloak.service";
 import { MailService } from "../lib/mailgun/mailgun.service";
 import { PrismaService } from "../lib/prisma/prisma.service";
 import { generateUsername } from "../lib/utils/extract-username-from-email";
+import { encodePaymentPassword } from "../user/utils/paymentPassword";
 
 @Injectable()
 export class AuthService {
@@ -316,6 +317,96 @@ export class AuthService {
     if (passwordUpdated) {
       this.redis.expire(redisKey, 0);
       return passwordUpdated;
+    } else {
+      return false;
+    }
+  }
+
+  async sendResetPaymentPasswordEmail(email: string) {
+    const user = await this.keycloakService.findUserByEmail(email);
+
+    if (!user) {
+      throw new ServiceException("user not found", "USER_NOT_FOUND");
+    }
+    const redisKey = `piday::forgot_payment_password.${user.email}`;
+    // Get existing verification code
+    let verificationCode = await this.redis.get(redisKey);
+    if (!verificationCode) {
+      verificationCode = uuidv4();
+
+      this.redis.set(redisKey, verificationCode);
+      this.redis.expire(redisKey, 60 * 30);
+    }
+
+    try {
+      console.log({
+        name: user.username,
+        action_url: `${process.env.FRONTEND_URL}/auth/reset-payment-password?email=${user.email}&code=${verificationCode}`,
+        verification_code: verificationCode,
+      });
+      await this.mailService.sendTemplateEmail({
+        to: user.email,
+        subject: `Reset Payment Password`,
+        template: "x2p0347x96kgzdrn",
+        variables: {
+          name: user.username,
+          action_url: `${config.get("frontend.url")}/auth/reset-payment-password?email=${user.email}&code=${verificationCode}`,
+          verification_code: verificationCode,
+        },
+      });
+    } catch (error) {
+      console.error("Send email failed:", error);
+      throw new ServiceException("Send email failed", "SEND_EMAIL_FAILED");
+    }
+  }
+  async updatePaymentPassword({
+    code,
+    email,
+    newPassword,
+    confirmPassword,
+  }: {
+    code: string;
+    email: string;
+    newPassword: string;
+    confirmPassword: string;
+  }) {
+    const redisKey = `piday::forgot_payment_password.${email}`;
+    // Get exisint verification code
+    const verificationCode = await this.redis.get(redisKey);
+    if (verificationCode !== code) {
+      throw new ServiceException(
+        "Invalid verification code",
+        "INVALID_VERIFICATION_CODE",
+      );
+    }
+    const user = await this.prisma.user.findUnique({
+      where: {
+        email: email,
+      },
+    });
+
+    if (!user) {
+      throw new ServiceException("user not found", "USER_NOT_FOUND");
+    }
+    if (confirmPassword !== newPassword) {
+      throw new ServiceException(
+        "passwords do not match",
+        "PASSWORD_DO_NOT_MATCH",
+      );
+    }
+    const passwordHash = encodePaymentPassword(newPassword);
+
+    const passwordUpdated = await this.prisma.user.update({
+      data: {
+        paymentPassword: passwordHash,
+      },
+      where: {
+        keycloakID: user.keycloakID,
+      },
+    });
+    if (passwordUpdated) {
+      this.redis.expire(redisKey, 0);
+      return true;
     } else {
       return false;
     }

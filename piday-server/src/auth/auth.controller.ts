@@ -22,13 +22,14 @@ import { UserService } from "../user/user.service";
 import { AuthService } from "./auth.service";
 import { EmailQueryDto, EmailSignupDto } from "./dto/email-query.dto";
 import { ResetPasswordDto } from "./dto/reset-password.dto";
+import { ResetPaymentPasswordDto } from "./dto/reset-payment-password.dto";
 import { generatePasswordFromPiUid } from "./utils/generatePiUidPass";
 
 @Controller("auth")
 export class AuthController {
   constructor(
     private readonly authService: AuthService,
-    private readonly userSerivce: UserService,
+    private readonly userService: UserService,
   ) {}
 
   @Get("send-email-verification")
@@ -204,11 +205,75 @@ export class AuthController {
 
     const { userID } = req.user;
 
-    await this.userSerivce.setPaymentPassword({ userID, password });
+    await this.userService.setPaymentPassword({ userID, password });
 
     return {
       message: "Payment password set",
     };
+  }
+
+  // Set payment password
+  @Post("reset-payment-password")
+  async resetPaymentPassword(
+    @Body()
+    { newPassword, confirmPassword, code, email }: ResetPaymentPasswordDto,
+    @Req() req: AuthenticatedRequest,
+  ) {
+    try {
+      await this.authService.updatePaymentPassword({
+        code,
+        email,
+        newPassword,
+        confirmPassword,
+      });
+
+      return {
+        message: "Payment password updated",
+      };
+    } catch (error) {
+      switch (error.code) {
+        case "INVALID_PASSWORD":
+          throw new HttpException(
+            "Invalid old password",
+            HttpStatus.BAD_REQUEST,
+          );
+        case "USER_NOT_FOUND":
+          throw new HttpException("User not found", HttpStatus.NOT_FOUND);
+        case "PASSWORD_DO_NOT_MATCH":
+          throw new HttpException(
+            "password does not match",
+            HttpStatus.BAD_REQUEST,
+          );
+      }
+      throw new HttpException(
+        "Internal Server Error",
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+  @Get("send-payment-password-reset-email")
+  @Throttle({ default: { limit: 2, ttl: 60000 } })
+  async sendResetPaymentPasswordEmail(
+    @Query() { email }: EmailQueryDto,
+    @Res() res: Response,
+  ) {
+    try {
+      await this.authService.sendResetPaymentPasswordEmail(email);
+    } catch (err) {
+      console.error(err);
+      switch (err.code) {
+        case "USER_NOT_FOUND":
+          throw new HttpException("user not found", HttpStatus.NOT_FOUND);
+      }
+      throw new HttpException(
+        "Internal Server Error",
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+
+    res.status(HttpStatus.OK).json({
+      message: "Reset password email sent",
+    });
   }
 
   @Post("reset-password")
