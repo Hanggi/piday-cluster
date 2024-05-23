@@ -8,6 +8,7 @@ import IconButton from "@mui/joy/IconButton";
 import List from "@mui/joy/List";
 import ListDivider from "@mui/joy/ListDivider";
 import ListItemButton from "@mui/joy/ListItemButton";
+import Typography from "@mui/joy/Typography";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -29,19 +30,32 @@ export default function Header() {
       {/* DESKTOP */}
       <div className="container py-4 lg:flex justify-between hidden">
         <Link href="/">
-          <div className={"relative h-12 w-12"}>
-            <Image
-              alt="logo"
-              className="block"
-              fill
-              priority
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-              src="/logo.png"
-            />
+          <div className="flex items-center gap-2">
+            <div className={"relative h-12 w-12"}>
+              <Image
+                alt="logo"
+                className="block"
+                fill
+                priority
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                src="/logo.png"
+              />
+            </div>
+            <Typography className="!text-2xl !text-yellow-500" level="title-lg">
+              Piday World
+            </Typography>
           </div>
         </Link>
-
-        <ul className="lg:flex items-center capitalize gap-5 hidden">
+        <ul className="lg:flex items-center capitalize gap-4 hidden">
+          <Button className="!text-slate-100 hover:!text-black" variant="plain">
+            <Link
+              className={cn("flex items-center gap-1.5 py-1 rounded px-5", {})}
+              href="/market"
+            >
+              <i className="ri-home-2-line text-xl"></i>
+              <p className="text-lg">{t("common:nav.home")}</p>
+            </Link>
+          </Button>
           <Button className="!text-slate-100 hover:!text-black" variant="plain">
             <Link
               className={cn("flex items-center gap-1.5 py-1 rounded px-5", {})}
@@ -70,7 +84,6 @@ export default function Header() {
             </Link>
           </Button>
         </ul>
-
         <AuthStatusButton />
       </div>
 
