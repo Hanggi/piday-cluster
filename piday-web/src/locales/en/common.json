@@ -15,7 +15,9 @@
       "title": "Sign In",
       "signUpHint": "Don't have an account?",
       "resetPassword": "Reset password",
+      "resetPaymentPassword": "Reset payment password",
       "resetPasswordEmailSent": "Reset password email sent",
+      "resetPaymentPasswordEmailSent": "Reset payment password email sent",
       "success": "Sign in successfully"
     },
     "signUp": {
