@@ -50,7 +50,7 @@ export default function Header() {
           <Button className="!text-slate-100 hover:!text-black" variant="plain">
             <Link
               className={cn("flex items-center gap-1.5 py-1 rounded px-5", {})}
-              href="/market"
+              href="/"
             >
               <i className="ri-home-2-line text-xl"></i>
               <p className="text-lg">{t("common:nav.home")}</p>
