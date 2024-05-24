@@ -199,7 +199,7 @@ export default function MyProfile() {
           )}
         </div>
 
-        {myUser?.email && (
+        {myUser?.email && myUser?.isPaymentPasswordSet && (
           <div className="my-4">
             <Button
               onClick={() => {
