@@ -1,4 +1,5 @@
 import {
+  useGetMyUserQuery,
   useSendPasswordResetEmailMutation,
   useSendPaymentPasswordResetEmailMutation,
 } from "@/src/features/auth/api/authAPI";
@@ -28,14 +29,26 @@ export default function ResetPaymentPasswordByEmailDialog({
 }: Props) {
   const { t } = useTranslation("common");
 
+  const { data: myUser } = useGetMyUserQuery();
   const [email, setEmail] = useState("");
 
   const [sendResetPaymentPasswordEmail, sendResetPaymentPasswordEmailResult] =
     useSendPaymentPasswordResetEmailMutation();
 
   const handleSubmit = useCallback(() => {
+    if (!email) {
+      toast.warn("邮箱不能为空");
+      return;
+    }
     sendResetPaymentPasswordEmail({ email });
+    onClose && onClose();
   }, [email, sendResetPaymentPasswordEmail]);
+
+  useEffect(() => {
+    if (myUser?.email) {
+      setEmail(myUser.email);
+    }
+  }, [myUser]);
 
   useEffect(() => {
     if (sendResetPaymentPasswordEmailResult.isSuccess) {
@@ -57,6 +70,7 @@ export default function ResetPaymentPasswordByEmailDialog({
             <FormControl>
               <FormLabel>{t("common:auth.email")}</FormLabel>
               <Input
+                disabled
                 placeholder="Email"
                 value={email}
                 onChange={(event) => {

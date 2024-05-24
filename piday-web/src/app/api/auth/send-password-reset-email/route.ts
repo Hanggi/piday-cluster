@@ -20,7 +20,7 @@ export async function GET(request: NextRequest, res: Response) {
       return new Response(
         JSON.stringify({
           success: true,
-          message: "Email sent",
+          message: "Reset password email sent",
         }),
         {
           status: StatusCodes.OK,
