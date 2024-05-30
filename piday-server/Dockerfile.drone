@@ -1,6 +1,7 @@
 FROM node:20 AS builder
 WORKDIR /app
 COPY ./piday-server/package.json ./
+RUN yarn set version stable
 RUN yarn
 RUN npm rebuild bcrypt --build-from-source
 COPY ./piday-server .
