@@ -359,7 +359,19 @@ export class VirtualEstateService {
         },
       });
 
-    return virtualEstateListingsActive;
+    const totalCount = await this.prisma.virtualEstate.count({
+      where: {
+        listings: {
+          some: {
+            expiresAt: {
+              gt: new Date(), // Check if the expiration date is in the future
+            },
+          },
+        },
+      },
+    });
+
+    return { virtualEstateListingsActive, totalCount };
   }
 
   async getTransactedVirtualEstates(page: number, size: number) {
