@@ -379,6 +379,11 @@ export class VirtualEstateService {
       await this.prisma.virtualEstateTransactionRecords.findMany({
         take: +size,
         skip: +(page == 0 ? 0 : page - 1) * size,
+        where: {
+          sellerID: {
+            not: process.env.PLATFORM_ACCOUNT_ID,
+          },
+        },
         orderBy: {
           createdAt: "desc",
         },
