@@ -30,6 +30,7 @@ export default function ListedVirtualEstateList() {
   >([]);
 
   const [totalCountListed, setTotalCountListed] = useState<number>(0);
+  const [totalCountTransacted, setTotalCountTransacted] = useState<number>(0);
 
   const { data: listedVirtualEstateList, isFetching: isFetchingListed } =
     useGetListedVirtualEstatesQuery({
@@ -58,7 +59,8 @@ export default function ListedVirtualEstateList() {
 
   useEffect(() => {
     if (transactedVirtualEstateList) {
-      setTransactedVirtualEstates(transactedVirtualEstateList);
+      setTransactedVirtualEstates(transactedVirtualEstateList.virtualEstates);
+      setTotalCountTransacted(transactedVirtualEstateList.totalCount);
     }
   }, [transactedVirtualEstateList]);
 
@@ -123,13 +125,13 @@ export default function ListedVirtualEstateList() {
           </div>
 
           <div>
-            <Button
-              onClick={() => {
-                setPage(page + 1);
-              }}
-            >
-              Load more
-            </Button>
+            <div className="w-full overflow-auto">
+              <Pagination
+                currentPage={page}
+                pageCount={(totalCountTransacted || 0) / size}
+                onPageChange={handlePageClick}
+              />
+            </div>
           </div>
         </TabPanel>
       </Tabs>

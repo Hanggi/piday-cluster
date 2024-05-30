@@ -403,8 +403,15 @@ export class VirtualEstateService {
         listings: true,
       },
     });
+    const totalCount = await this.prisma.virtualEstateTransactionRecords.count({
+      where: {
+        sellerID: {
+          not: process.env.PLATFORM_ACCOUNT_ID,
+        },
+      },
+    });
 
-    return virtualEstates;
+    return { virtualEstates, totalCount };
   }
 
   async searchVirtualEstate(page: number, size: number, name: string) {
