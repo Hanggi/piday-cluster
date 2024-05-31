@@ -12,6 +12,7 @@ RUN yarn build
 
 FROM node:20-alpine
 WORKDIR /app
+RUN corepack enable
 # ENV NODE_ENV production
 ENV TZ Asia/Shanghai
 COPY --from=builder /app ./
