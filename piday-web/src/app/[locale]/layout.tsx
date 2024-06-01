@@ -41,7 +41,7 @@ export default async function RootLayout({
 
   return (
     <html dir={dir(locale)} lang={locale}>
-      <body className={inter.className}>
+      <body className={`${inter.className}  bg-[url('/img/background/honeycomb.svg')]`}>
         <ThemeRegistry>
           <SessionProviderWrapper>
             <ReduxProviderWrapper>
