@@ -258,7 +258,6 @@ export class VirtualEstateController {
     @Body("name") name: string,
     @Body("paymentPassword") paymentPassword: string,
   ) {
-    console.log("Minting Virtual Estate", hexID, name);
     try {
       await this.userService.checkPaymentPassword({
         userID: req.user.userID,
@@ -274,12 +273,14 @@ export class VirtualEstateController {
           HttpStatus.BAD_REQUEST,
         );
       }
+      console.log("Minting Virtual Estate", hexID, name);
 
       const virtualEstate = await this.virtualEstateService.mintVirtualEstate({
         userID: req.user.userID, // keycloakID
         hexID,
         name,
       });
+      console.log("Minting Virtual Estate!!", hexID, name);
 
       return virtualEstate;
     } catch (err) {
