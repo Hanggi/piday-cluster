@@ -258,6 +258,7 @@ export class VirtualEstateController {
     @Body("name") name: string,
     @Body("paymentPassword") paymentPassword: string,
   ) {
+    console.log("Minting Virtual Estate", hexID, name);
     try {
       await this.userService.checkPaymentPassword({
         userID: req.user.userID,
