@@ -359,7 +359,19 @@ export class VirtualEstateService {
         },
       });
 
-    return virtualEstateListingsActive;
+    const totalCount = await this.prisma.virtualEstate.count({
+      where: {
+        listings: {
+          some: {
+            expiresAt: {
+              gt: new Date(), // Check if the expiration date is in the future
+            },
+          },
+        },
+      },
+    });
+
+    return { virtualEstateListingsActive, totalCount };
   }
 
   async getTransactedVirtualEstates(page: number, size: number) {
@@ -367,6 +379,11 @@ export class VirtualEstateService {
       await this.prisma.virtualEstateTransactionRecords.findMany({
         take: +size,
         skip: +(page == 0 ? 0 : page - 1) * size,
+        where: {
+          sellerID: {
+            not: process.env.PLATFORM_ACCOUNT_ID,
+          },
+        },
         orderBy: {
           createdAt: "desc",
         },
@@ -386,8 +403,15 @@ export class VirtualEstateService {
         listings: true,
       },
     });
+    const totalCount = await this.prisma.virtualEstateTransactionRecords.count({
+      where: {
+        sellerID: {
+          not: process.env.PLATFORM_ACCOUNT_ID,
+        },
+      },
+    });
 
-    return virtualEstates;
+    return { virtualEstates, totalCount };
   }
 
   async searchVirtualEstate(page: number, size: number, name: string) {

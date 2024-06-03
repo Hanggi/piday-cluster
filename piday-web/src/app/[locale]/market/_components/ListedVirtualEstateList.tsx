@@ -1,6 +1,7 @@
 "use client";
 
 import { VirtualEstateCard } from "@/src/components/LandCard";
+import Pagination from "@/src/components/piday-ui/pagination/Pagination";
 import {
   useGetListedVirtualEstatesQuery,
   useGetTransactedVirtualEstatesQuery,
@@ -14,7 +15,7 @@ import TabList from "@mui/joy/TabList";
 import TabPanel from "@mui/joy/TabPanel";
 import Tabs from "@mui/joy/Tabs";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 export default function ListedVirtualEstateList() {
   const [page, setPage] = useState(1);
@@ -28,14 +29,19 @@ export default function ListedVirtualEstateList() {
     VirtualEstate[]
   >([]);
 
+  const [totalCountListed, setTotalCountListed] = useState<number>(0);
+  const [totalCountTransacted, setTotalCountTransacted] = useState<number>(0);
+
   const { data: listedVirtualEstateList, isFetching: isFetchingListed } =
     useGetListedVirtualEstatesQuery({
       page,
       size,
     });
+
   useEffect(() => {
     if (listedVirtualEstateList) {
-      setListingVirtualEstates(listedVirtualEstateList);
+      setListingVirtualEstates(listedVirtualEstateList.virtualEstates);
+      setTotalCountListed(listedVirtualEstateList.totalCount);
     }
   }, [listedVirtualEstateList]);
 
@@ -47,9 +53,14 @@ export default function ListedVirtualEstateList() {
     size,
   });
 
+  const handlePageClick = useCallback(({ selected }: { selected: number }) => {
+    setPage(selected + 1);
+  }, []);
+
   useEffect(() => {
     if (transactedVirtualEstateList) {
-      setTransactedVirtualEstates(transactedVirtualEstateList);
+      setTransactedVirtualEstates(transactedVirtualEstateList.virtualEstates);
+      setTotalCountTransacted(transactedVirtualEstateList.totalCount);
     }
   }, [transactedVirtualEstateList]);
 
@@ -89,13 +100,13 @@ export default function ListedVirtualEstateList() {
           </div>
 
           <div>
-            <Button
-              onClick={() => {
-                setPage(page + 1);
-              }}
-            >
-              Load more
-            </Button>
+            <div className="w-full overflow-auto">
+              <Pagination
+                currentPage={page}
+                pageCount={(totalCountListed || 0) / size}
+                onPageChange={handlePageClick}
+              />
+            </div>
           </div>
         </TabPanel>
 
@@ -114,13 +125,13 @@ export default function ListedVirtualEstateList() {
           </div>
 
           <div>
-            <Button
-              onClick={() => {
-                setPage(page + 1);
-              }}
-            >
-              Load more
-            </Button>
+            <div className="w-full overflow-auto">
+              <Pagination
+                currentPage={page}
+                pageCount={(totalCountTransacted || 0) / size}
+                onPageChange={handlePageClick}
+              />
+            </div>
           </div>
         </TabPanel>
       </Tabs>

@@ -17,6 +17,7 @@ import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 
 import ResetPasswordByEmailDialog from "../../../_components/auth/auth-dialogs/ResetPasswordByEmail";
+import ResetPaymentPasswordByEmailDialog from "../../../_components/auth/auth-dialogs/ResetPaymentPasswordByEmail";
 import SetPaymentPasswordModel from "./modals/SetPaymentPasswordModel";
 
 export default function MyProfile() {
@@ -58,6 +59,8 @@ export default function MyProfile() {
   const [openPaymentPasswordModal, setOpenPaymentPasswordModal] =
     useState(false);
   const [openResetPasswordDialog, setOpenResetPasswordDialog] = useState(false);
+  const [openResetPaymentPasswordDialog, setOpenResetPaymentPasswordDialog] =
+    useState(false);
 
   return (
     <Card className="mt-8" size="lg">
@@ -150,6 +153,18 @@ export default function MyProfile() {
           )}
         </div>
 
+        {myUser?.email && (
+          <div className="my-4">
+            <Button
+              onClick={() => {
+                setOpenResetPasswordDialog(true);
+              }}
+            >
+              修改账户密码
+            </Button>
+          </div>
+        )}
+
         <Divider />
 
         <div className="my-4">
@@ -184,19 +199,29 @@ export default function MyProfile() {
           )}
         </div>
 
-        <div className="my-4">
-          <Button
-            onClick={() => {
-              setOpenResetPasswordDialog(true);
-            }}
-          >
-            重置密码
-          </Button>
-        </div>
+        {myUser?.email && myUser?.isPaymentPasswordSet && (
+          <div className="my-4">
+            <Button
+              onClick={() => {
+                setOpenResetPaymentPasswordDialog(true);
+              }}
+            >
+              修改支付密码
+            </Button>
+          </div>
+        )}
+
         <ResetPasswordByEmailDialog
           open={openResetPasswordDialog}
           onClose={() => {
             setOpenResetPasswordDialog(false);
+          }}
+        />
+
+        <ResetPaymentPasswordByEmailDialog
+          open={openResetPaymentPasswordDialog}
+          onClose={() => {
+            setOpenResetPaymentPasswordDialog(false);
           }}
         />
       </div>

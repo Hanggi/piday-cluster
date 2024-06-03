@@ -13,14 +13,14 @@ export async function GET(request: NextRequest, res: Response) {
 
   try {
     const axiosRes = await instance.get(
-      `/auth/send-password-reset-email?email=${email}`,
+      `/auth/send-payment-password-reset-email?email=${email}`,
     );
 
     if (axiosRes.status == StatusCodes.OK) {
       return new Response(
         JSON.stringify({
           success: true,
-          message: "Reset password email sent",
+          message: "Reset payment password email sent",
         }),
         {
           status: StatusCodes.OK,

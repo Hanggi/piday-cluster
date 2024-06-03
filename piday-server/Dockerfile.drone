@@ -1,6 +1,7 @@
 FROM node:20 AS builder
 WORKDIR /app
 COPY ./piday-server/package.json ./
+RUN corepack enable
 RUN yarn
 RUN npm rebuild bcrypt --build-from-source
 COPY ./piday-server .
@@ -11,6 +12,7 @@ RUN yarn build
 
 FROM node:20-alpine
 WORKDIR /app
+RUN corepack enable
 # ENV NODE_ENV production
 ENV TZ Asia/Shanghai
 COPY --from=builder /app ./

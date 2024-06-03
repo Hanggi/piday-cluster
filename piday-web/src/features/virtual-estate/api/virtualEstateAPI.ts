@@ -170,27 +170,39 @@ export const virtualEstateRTKApi = createApi({
     }),
 
     getListedVirtualEstates: builder.query<
-      VirtualEstate[],
+      {
+        virtualEstates: VirtualEstate[];
+        totalCount: number;
+      },
       { page: number; size: number }
     >({
       query: ({ page, size }) => ({
         url: `/virtual-estates/listed?page=${page}&size=${size}`,
         method: "GET",
       }),
-      transformResponse: (response: { virtualEstates: VirtualEstate[] }) => {
-        return response.virtualEstates;
+      transformResponse: (response: {
+        virtualEstates: VirtualEstate[];
+        totalCount: number;
+      }) => {
+        return response;
       },
     }),
     getTransactedVirtualEstates: builder.query<
-      VirtualEstate[],
+      {
+        virtualEstates: VirtualEstate[];
+        totalCount: number;
+      },
       { page: number; size: number }
     >({
       query: ({ page, size }) => ({
         url: `/virtual-estates/transacted?page=${page}&size=${size}`,
         method: "GET",
       }),
-      transformResponse: (response: { virtualEstates: VirtualEstate[] }) => {
-        return response.virtualEstates;
+      transformResponse: (response: {
+        virtualEstates: VirtualEstate[];
+        totalCount: number;
+      }) => {
+        return response;
       },
     }),
     searchVirtualEstates: builder.query<

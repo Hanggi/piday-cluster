@@ -51,10 +51,10 @@ export class VirtualEstateController {
     @Query("size") size = 10, //default to size 10,
   ) {
     try {
-      const virtualEstates =
+      const virtualEstatesRes =
         await this.virtualEstateService.getListedVirtualEstates(page, size);
 
-      if (!virtualEstates) {
+      if (!virtualEstatesRes) {
         res.status(HttpStatus.OK).json({
           success: true,
           virtualEstates: [],
@@ -65,11 +65,12 @@ export class VirtualEstateController {
       res.status(HttpStatus.OK).json({
         virtualEstates: plainToInstance(
           VirtualEstateResponseDto,
-          virtualEstates,
+          virtualEstatesRes.virtualEstateListingsActive,
           {
             excludeExtraneousValues: true,
           },
         ),
+        totalCount: virtualEstatesRes.totalCount,
         success: true,
         message: "Virtual states found successfully",
       });
@@ -89,17 +90,18 @@ export class VirtualEstateController {
     @Query("size") size = 10, //default to size 10,
   ) {
     try {
-      const virtualEstates =
+      const virtualEstatesRes =
         await this.virtualEstateService.getTransactedVirtualEstates(page, size);
 
       res.status(HttpStatus.OK).json({
         virtualEstates: plainToInstance(
           VirtualEstateResponseDto,
-          virtualEstates,
+          virtualEstatesRes.virtualEstates,
           {
             excludeExtraneousValues: true,
           },
         ),
+        totalCount: virtualEstatesRes.totalCount,
         success: true,
         message: "Virtual states found successfully",
       });

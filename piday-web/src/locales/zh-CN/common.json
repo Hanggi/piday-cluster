@@ -15,7 +15,9 @@
       "title": "登录",
       "signUpHint": "没有账号?",
       "resetPassword": "重制密码",
+      "resetPaymentPassword": "重制支付密码",
       "resetPasswordEmailSent": "重制密码邮件已发送",
+      "resetPaymentPasswordEmailSent": "重制支付密码邮件已发送",
       "success": "登录成功"
     },
     "signUp": {

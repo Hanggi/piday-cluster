@@ -1,6 +1,7 @@
 FROM node:20 AS builder
 WORKDIR /app
 COPY ./package.json ./
+RUN corepack enable
 RUN yarn
 COPY . .
 ENV TZ Asia/Shanghai
