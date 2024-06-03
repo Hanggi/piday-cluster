@@ -29,9 +29,9 @@ spec:
         kubernetes.io/os: linux
       serviceAccountName: default
       containers:
-        - image: registry.digitalocean.com/davinqi/piday-server:v0.0.81
+        - image: registry.igitalocean.com/davinqi/piday-server:v0.0.82
           imagePullPolicy: Always
-          command: ["sh", "-c"]
+          command: ["bash", "-c"]
           args: ["source /vault/secrets/config && yarn start:prod"]
           name: piday-server-deployment
           #        ports: # Is it useful?
