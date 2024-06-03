@@ -273,14 +273,12 @@ export class VirtualEstateController {
           HttpStatus.BAD_REQUEST,
         );
       }
-      console.log("Minting Virtual Estate", hexID, name);
 
       const virtualEstate = await this.virtualEstateService.mintVirtualEstate({
         userID: req.user.userID, // keycloakID
         hexID,
         name,
       });
-      console.log("Minting Virtual Estate!!", hexID, name);
 
       return virtualEstate;
     } catch (err) {
