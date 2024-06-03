@@ -3,7 +3,7 @@ WORKDIR /app
 COPY ./piday-server/package.json ./
 RUN corepack enable
 RUN yarn
-# RUN npm rebuild bcrypt --build-from-source
+RUN npm rebuild bcrypt --build-from-source
 COPY ./piday-server .
 ENV TZ Asia/Shanghai
 # ENV NODE_ENV production
