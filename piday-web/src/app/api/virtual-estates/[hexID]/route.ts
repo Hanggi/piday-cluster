@@ -77,6 +77,7 @@ export async function POST(
     });
   } catch (error) {
     const axiosError = error as AxiosError<{ message: string }>;
+    console.error(error)
     console.error(
       "Fail to mint virtual estate!!",
       axiosError.response?.status,
