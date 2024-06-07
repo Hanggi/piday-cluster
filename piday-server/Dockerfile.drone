@@ -10,7 +10,7 @@ ENV TZ Asia/Shanghai
 RUN npx prisma generate
 RUN yarn build
 
-FROM node:20-slim
+FROM node:20
 WORKDIR /app
 RUN corepack enable
 # ENV NODE_ENV production
