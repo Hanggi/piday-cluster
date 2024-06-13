@@ -43,5 +43,18 @@
   },
   "toast": {
     "updatePiWalletAddressSuccess": "更新Pi钱包地址成功"
-  }
+  },
+  "balance": {
+    "TRANSFER_BALANCE": "转账余额",
+    "RECEIVE_BALANCE": "接收余额",
+    "WITHDRAW": "提现余额",
+    "RECHARGE_FROM_PI_NETWORK_TRANSFER": "从 PI 网络充值",
+    "MINT_VIRTUAL_ESTATE": "铸造虚拟地产",
+    "INVITER_PROFIT": "邀请人利润",
+    "PLATFORM_MINT_VIRTUAL_ESTATE": "平台收入",
+    "SELLER_INVITER_TRADING_PROFIT": "卖家邀请人利润",
+    "SELL_ASK": "卖方出价",
+    "BUY_BID": "买方出价",
+    "PLATFORM_TRADING_COMMISSION": "平台佣金"
+}
 }
