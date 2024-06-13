@@ -47,7 +47,7 @@
   "balance": {
     "TRANSFER_BALANCE": "转账余额",
     "RECEIVE_BALANCE": "接收余额",
-    "WITHDRAW": "提现"",
+    "WITHDRAW": "提现",
     "RECHARGE_FROM_PI_NETWORK_TRANSFER": "充值",
     "MINT_VIRTUAL_ESTATE": "铸造",
     "INVITER_PROFIT": "邀请人收益",
