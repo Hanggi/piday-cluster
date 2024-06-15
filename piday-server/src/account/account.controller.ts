@@ -56,9 +56,7 @@ export class AccountController {
         });
       }
       res.status(HttpStatus.OK).json({
-        rechargeRecords: plainToInstance(RechargeRecordResponseDto, records, {
-          excludeExtraneousValues: true,
-        }),
+        rechargeRecords: records,
         totalCount,
       });
     } catch (err) {

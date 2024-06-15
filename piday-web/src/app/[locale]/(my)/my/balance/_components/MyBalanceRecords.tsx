@@ -65,11 +65,15 @@ export default function MyBalanceRecords({ rechargeAddress }: Props) {
             <tr>
               <th>ID</th>
               <th>tx ID</th>
+              <th>To</th>
+              <th>From</th>
+              <th>Reason</th>
               <th>
                 <Typography level="title-md">
                   {t("asset-center:table.amount")}
                 </Typography>
               </th>
+
               <th>
                 <Typography level="title-md">
                   {t("asset-center:table.createdAt")}
@@ -82,10 +86,13 @@ export default function MyBalanceRecords({ rechargeAddress }: Props) {
               <tr key={i}>
                 <td>{(page - 1) * size + i + 1}</td>
                 <td>{record.externalID}</td>
+                <td>{record?.receiver?.username}</td>
+                <td>{record?.sender?.username}</td>
+                <td>{t(`profile:balance.${record?.reason}`)}</td>
                 <td>
                   <Typography
                     className={
-                      (record.amount > 0 ? "text-green-500" : "text-red-500") +
+                      (record?.amount > 0 ? "text-green-500" : "text-red-500") +
                       " font-bold"
                     }
                   >

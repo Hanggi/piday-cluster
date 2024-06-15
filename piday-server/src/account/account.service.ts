@@ -6,6 +6,7 @@ import { ServiceException } from "../lib/exceptions/service-exception";
 import { generateFlakeID } from "../lib/generate-id/generate-flake-id";
 import { PrismaService } from "../lib/prisma/prisma.service";
 import { ZERO_DECIMAL } from "../lib/prisma/utils/zerro-decimal";
+import { getWhereClause } from "../lib/utils/rechargeRecordsReasonPairs";
 import { RechargeRecordResponseDto } from "./dto/rechargeRecords.dto";
 
 @Injectable()
@@ -44,13 +45,63 @@ export class AccountService {
         orderBy: {
           createdAt: "desc",
         },
+        include: {
+          owner: true,
+        },
       });
 
       const totalCount = await this.prisma.rechargeRecords.count({
         where: query,
       });
 
-      return { records: rechargeRecords, totalCount };
+      const combinedRecords = [];
+
+      for (const record of rechargeRecords) {
+        const externalID = record.externalID;
+        const combinedRecord = {
+          externalID,
+          sender: null,
+          receiver: null,
+          reason: record.reason,
+          amount: record.amount,
+          createdAt: record.createdAt,
+          id: record.id,
+        };
+
+        const isSender = record.amount.lessThan(0);
+        const userType = isSender ? "sender" : "receiver";
+        combinedRecord[userType] = {
+          username: record.owner.username,
+          avatar: record.owner.avatar,
+          email: record.owner.email,
+          createdAt: record.owner.createdAt,
+          updatedAt: record.owner.updatedAt,
+        };
+
+        const where = getWhereClause(record, externalID);
+
+        const relatedRecord = await this.prisma.rechargeRecords.findFirst({
+          where: where,
+          include: {
+            owner: true,
+          },
+        });
+
+        if (relatedRecord) {
+          const relatedUserType = isSender ? "receiver" : "sender";
+          combinedRecord[relatedUserType] = {
+            username: relatedRecord.owner.username,
+            avatar: relatedRecord.owner.avatar,
+            email: relatedRecord.owner.email,
+            createdAt: relatedRecord.owner.createdAt,
+            updatedAt: relatedRecord.owner.updatedAt,
+          };
+        }
+
+        combinedRecords.push(combinedRecord);
+      }
+
+      return { records: combinedRecords, totalCount };
     } catch (error) {
       throw new Error("Internal Server Error");
     }

@@ -43,5 +43,18 @@
   },
   "toast": {
     "updatePiWalletAddressSuccess": "Update Pi Wallet Address Success"
+  },
+  "balance":{
+    "TRANSFER_BALANCE":"Transfer balance",
+    "RECEIVE_BALANCE":"Receive balance",
+    "WITHDRAW": "Withdraw balance",
+    "RECHARGE_FROM_PI_NETWORK_TRANSFER": "Recharge from PI network",
+    "MINT_VIRTUAL_ESTATE":"Mint virtual estate",
+    "INVITER_PROFIT": "Inviter profit",
+    "PLATFORM_MINT_VIRTUAL_ESTATE": "Platform income",
+    "SELLER_INVITER_TRADING_PROFIT": "Seller inviter profit",
+    "SELL_ASK": "Sell ask",
+    "BUY_BID":"Buy bid",
+    "PLATFORM_TRADING_COMMISSION":"Platform commission"
   }
 }
