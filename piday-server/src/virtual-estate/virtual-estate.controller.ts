@@ -49,10 +49,15 @@ export class VirtualEstateController {
     @Res() res: Response,
     @Query("page") page = 1, // default to page 1
     @Query("size") size = 10, //default to size 10,
+    @Query("sort") sort = "LATEST",
   ) {
     try {
       const virtualEstatesRes =
-        await this.virtualEstateService.getListedVirtualEstates(page, size);
+        await this.virtualEstateService.getListedVirtualEstates(
+          page,
+          size,
+          sort,
+        );
 
       if (!virtualEstatesRes) {
         res.status(HttpStatus.OK).json({
@@ -88,10 +93,15 @@ export class VirtualEstateController {
     @Res() res: Response,
     @Query("page") page = 1, // default to page 1
     @Query("size") size = 10, //default to size 10,
+    @Query("sort") sort = "LATEST",
   ) {
     try {
       const virtualEstatesRes =
-        await this.virtualEstateService.getTransactedVirtualEstates(page, size);
+        await this.virtualEstateService.getTransactedVirtualEstates(
+          page,
+          size,
+          sort,
+        );
 
       res.status(HttpStatus.OK).json({
         virtualEstates: plainToInstance(

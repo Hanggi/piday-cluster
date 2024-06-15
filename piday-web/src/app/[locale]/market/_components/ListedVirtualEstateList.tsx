@@ -8,8 +8,9 @@ import {
 } from "@/src/features/virtual-estate/api/virtualEstateAPI";
 import { VirtualEstate } from "@/src/features/virtual-estate/interface/virtual-estate.interface";
 
-import Button from "@mui/joy/Button";
 import CircularProgress from "@mui/joy/CircularProgress";
+import Option from "@mui/joy/Option";
+import Select from "@mui/joy/Select";
 import Tab from "@mui/joy/Tab";
 import TabList from "@mui/joy/TabList";
 import TabPanel from "@mui/joy/TabPanel";
@@ -21,6 +22,7 @@ export default function ListedVirtualEstateList() {
   const [page, setPage] = useState(1);
   const [size, setSize] = useState(20);
   const [type, setType] = useState<string | null>("listed");
+  const [sort, setSort] = useState("LATEST");
 
   const [listingVirtualEstates, setListingVirtualEstates] = useState<
     VirtualEstate[]
@@ -36,6 +38,7 @@ export default function ListedVirtualEstateList() {
     useGetListedVirtualEstatesQuery({
       page,
       size,
+      sort,
     });
 
   useEffect(() => {
@@ -51,11 +54,19 @@ export default function ListedVirtualEstateList() {
   } = useGetTransactedVirtualEstatesQuery({
     page,
     size,
+    sort,
   });
 
   const handlePageClick = useCallback(({ selected }: { selected: number }) => {
     setPage(selected + 1);
   }, []);
+
+  const handleSortChange = (
+    event: React.SyntheticEvent | null,
+    newValue: string | null,
+  ) => {
+    setSort(newValue as string);
+  };
 
   useEffect(() => {
     if (transactedVirtualEstateList) {
@@ -66,6 +77,13 @@ export default function ListedVirtualEstateList() {
 
   return (
     <div className="lg:px-16 py-8">
+      <div className="flex justify-between items-center mb-4">
+        <Select defaultValue={sort} onChange={handleSortChange}>
+          <Option value="LATEST">Latest</Option>
+          <Option value="LOWEST_PRICE">Lowest Price</Option>
+          <Option value="HIGHEST_PRICE">Highest Price</Option>
+        </Select>
+      </div>
       <Tabs
         defaultValue="listed"
         orientation="horizontal"
@@ -84,6 +102,7 @@ export default function ListedVirtualEstateList() {
             热门成交
           </Tab>
         </TabList>
+
         <TabPanel value="listed">
           {isFetchingListed && (
             <div className="w-full flex justify-center">
@@ -103,7 +122,7 @@ export default function ListedVirtualEstateList() {
             <div className="w-full overflow-auto">
               <Pagination
                 currentPage={page}
-                pageCount={(totalCountListed || 0) / size}
+                pageCount={Math.ceil((totalCountListed || 0) / size)}
                 onPageChange={handlePageClick}
               />
             </div>
@@ -128,7 +147,7 @@ export default function ListedVirtualEstateList() {
             <div className="w-full overflow-auto">
               <Pagination
                 currentPage={page}
-                pageCount={(totalCountTransacted || 0) / size}
+                pageCount={Math.ceil((totalCountTransacted || 0) / size)}
                 onPageChange={handlePageClick}
               />
             </div>

@@ -174,10 +174,10 @@ export const virtualEstateRTKApi = createApi({
         virtualEstates: VirtualEstate[];
         totalCount: number;
       },
-      { page: number; size: number }
+      { page: number; size: number; sort: string }
     >({
-      query: ({ page, size }) => ({
-        url: `/virtual-estates/listed?page=${page}&size=${size}`,
+      query: ({ page, size, sort }) => ({
+        url: `/virtual-estates/listed?page=${page}&size=${size}&sort=${sort}`,
         method: "GET",
       }),
       transformResponse: (response: {
@@ -192,10 +192,10 @@ export const virtualEstateRTKApi = createApi({
         virtualEstates: VirtualEstate[];
         totalCount: number;
       },
-      { page: number; size: number }
+      { page: number; size: number; sort: string }
     >({
-      query: ({ page, size }) => ({
-        url: `/virtual-estates/transacted?page=${page}&size=${size}`,
+      query: ({ page, size, sort }) => ({
+        url: `/virtual-estates/transacted?page=${page}&size=${size}&sort=${sort}`,
         method: "GET",
       }),
       transformResponse: (response: {

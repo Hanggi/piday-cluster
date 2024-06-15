@@ -80,10 +80,13 @@ export function VirtualEstateCard({ ve }: Props) {
 }
 
 function getVirtualEstatePrice(ve: VirtualEstate) {
-  // Find a listing item which has type of "ASK" listing items from the ve.listings, and return the price.
-  const askListing = ve?.listings?.find((listing) => listing.type === "ASK");
+  // Find latest listing item which has type of "ASK" listing items from the ve.listings, and return the price.
+  const askListing = ve?.listings
+    ?.slice()
+    .reverse()
+    .find((listing) => listing.type === "ASK");
   if (askListing) {
-    return askListing?.price;
+    return askListing.price;
   }
 
   return ve?.lastPrice;

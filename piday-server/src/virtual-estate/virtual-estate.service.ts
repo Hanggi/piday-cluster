@@ -13,6 +13,11 @@ import { ZERO_DECIMAL } from "../lib/prisma/utils/zerro-decimal";
 export class VirtualEstateService {
   constructor(private prisma: PrismaService) {}
 
+  private sortOptions = {
+    LATEST: { createdAt: "desc" },
+    LOWEST_PRICE: { lastPrice: "asc" },
+    HIGHEST_PRICE: { lastPrice: "desc" },
+  };
   async getLatestVirtualEstates(
     size: number,
     page: number,
@@ -337,7 +342,7 @@ export class VirtualEstateService {
     });
   }
 
-  async getListedVirtualEstates(page: number, size: number) {
+  async getListedVirtualEstates(page: number, size: number, sort: string) {
     const virtualEstateListingsActive =
       await this.prisma.virtualEstate.findMany({
         where: {
@@ -354,9 +359,7 @@ export class VirtualEstateService {
         },
         take: +size,
         skip: +(page == 0 ? 0 : page - 1) * size,
-        orderBy: {
-          updatedAt: "desc",
-        },
+        orderBy: this.sortOptions[sort] || this.sortOptions.LATEST,
       });
 
     const totalCount = await this.prisma.virtualEstate.count({
@@ -374,7 +377,7 @@ export class VirtualEstateService {
     return { virtualEstateListingsActive, totalCount };
   }
 
-  async getTransactedVirtualEstates(page: number, size: number) {
+  async getTransactedVirtualEstates(page: number, size: number, sort: string) {
     const latestTransactions =
       await this.prisma.virtualEstateTransactionRecords.findMany({
         take: +size,
@@ -402,6 +405,7 @@ export class VirtualEstateService {
       include: {
         listings: true,
       },
+      orderBy: this.sortOptions[sort] || this.sortOptions.LATEST,
     });
     const totalCount = await this.prisma.virtualEstateTransactionRecords.count({
       where: {
