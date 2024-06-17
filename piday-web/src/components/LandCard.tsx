@@ -12,9 +12,10 @@ import { hexIDtoDecimal } from "./virtual-estate-map/h3";
 
 interface Props {
   ve: VirtualEstate;
+  showLastPrice?: boolean;
 }
 
-export function VirtualEstateCard({ ve }: Props) {
+export function VirtualEstateCard({ ve, showLastPrice }: Props) {
   const { t } = useTranslation("home");
 
   return (
@@ -57,7 +58,7 @@ export function VirtualEstateCard({ ve }: Props) {
                   <PiCoinLogo />
                 </div>
                 <Typography level="title-lg">
-                  {getVirtualEstatePrice(ve)}
+                  {showLastPrice ? ve.lastPrice : getVirtualEstatePrice(ve)}
                 </Typography>
               </div>
               <div>
