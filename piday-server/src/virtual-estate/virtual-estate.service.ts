@@ -384,8 +384,10 @@ export class VirtualEstateService {
       HIGHEST_PRICE: { price: "desc" },
     };
 
+    // If 1 month is not enough, increase it.
     const startDate = new Date();
     startDate.setMonth(startDate.getMonth() - 1);
+    
     // Fetch all unique transactions sorted
     const allTransactions =
       await this.prisma.virtualEstateTransactionRecords.findMany({
