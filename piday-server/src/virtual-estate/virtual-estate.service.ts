@@ -337,7 +337,12 @@ export class VirtualEstateService {
     });
   }
 
-  async getListedVirtualEstates(page: number, size: number) {
+  async getListedVirtualEstates(page: number, size: number, sort: string) {
+    const sortOptions = {
+      LATEST: { createdAt: "desc" },
+      LOWEST_PRICE: { lastPrice: "asc" },
+      HIGHEST_PRICE: { lastPrice: "desc" },
+    };
     const virtualEstateListingsActive =
       await this.prisma.virtualEstate.findMany({
         where: {
@@ -354,9 +359,7 @@ export class VirtualEstateService {
         },
         take: +size,
         skip: +(page == 0 ? 0 : page - 1) * size,
-        orderBy: {
-          updatedAt: "desc",
-        },
+        orderBy: sortOptions[sort] || sortOptions.LATEST,
       });
 
     const totalCount = await this.prisma.virtualEstate.count({
@@ -374,44 +377,67 @@ export class VirtualEstateService {
     return { virtualEstateListingsActive, totalCount };
   }
 
-  async getTransactedVirtualEstates(page: number, size: number) {
-    const latestTransactions =
+  async getTransactedVirtualEstates(page: number, size: number, sort: string) {
+    const sortOptions = {
+      LATEST: { createdAt: "desc" },
+      LOWEST_PRICE: { price: "asc" },
+      HIGHEST_PRICE: { price: "desc" },
+    };
+
+    // If 1 month is not enough, increase it.
+    const startDate = new Date();
+    startDate.setMonth(startDate.getMonth() - 1);
+    
+    // Fetch all unique transactions sorted
+    const allTransactions =
       await this.prisma.virtualEstateTransactionRecords.findMany({
-        take: +size,
-        skip: +(page == 0 ? 0 : page - 1) * size,
         where: {
           sellerID: {
             not: process.env.PLATFORM_ACCOUNT_ID,
           },
+          createdAt: {
+            gte: startDate,
+          },
         },
-        orderBy: {
-          createdAt: "desc",
+        orderBy: sortOptions[sort] || sortOptions.LATEST,
+        select: {
+          virtualEstateID: true,
         },
+        distinct: ["virtualEstateID"],
       });
 
-    const virtualEstateIDs = latestTransactions.map(
-      (transaction) => transaction.virtualEstateID,
+    // Extract unique virtual estate IDs while maintaining order
+    const uniqueEstateIDs = Array.from(
+      new Set(allTransactions.map((t) => t.virtualEstateID)),
     );
 
+    // Paginate the unique virtual estate IDs
+    const paginatedEstateIDs = uniqueEstateIDs.slice(
+      (page - 1) * size,
+      page * size,
+    );
+
+    // Fetch the virtual estates for the paginated IDs
     const virtualEstates = await this.prisma.virtualEstate.findMany({
       where: {
         virtualEstateID: {
-          in: virtualEstateIDs,
+          in: paginatedEstateIDs,
         },
       },
       include: {
         listings: true,
       },
     });
-    const totalCount = await this.prisma.virtualEstateTransactionRecords.count({
-      where: {
-        sellerID: {
-          not: process.env.PLATFORM_ACCOUNT_ID,
-        },
-      },
-    });
 
-    return { virtualEstates, totalCount };
+    // Maintain the order of virtual estates as per the paginated estate IDs
+    const orderedVirtualEstates = paginatedEstateIDs.map((id) =>
+      virtualEstates.find((estate) => estate.virtualEstateID === id),
+    );
+
+    // Count total transactions for pagination
+    const totalCount = uniqueEstateIDs.length;
+
+    return { virtualEstates: orderedVirtualEstates, totalCount };
   }
 
   async searchVirtualEstate(page: number, size: number, name: string) {

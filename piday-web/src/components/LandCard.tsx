@@ -12,9 +12,10 @@ import { hexIDtoDecimal } from "./virtual-estate-map/h3";
 
 interface Props {
   ve: VirtualEstate;
+  showLastPrice?: boolean;
 }
 
-export function VirtualEstateCard({ ve }: Props) {
+export function VirtualEstateCard({ ve, showLastPrice }: Props) {
   const { t } = useTranslation("home");
 
   return (
@@ -57,7 +58,7 @@ export function VirtualEstateCard({ ve }: Props) {
                   <PiCoinLogo />
                 </div>
                 <Typography level="title-lg">
-                  {getVirtualEstatePrice(ve)}
+                  {showLastPrice ? ve.lastPrice : getVirtualEstatePrice(ve)}
                 </Typography>
               </div>
               <div>
@@ -80,10 +81,13 @@ export function VirtualEstateCard({ ve }: Props) {
 }
 
 function getVirtualEstatePrice(ve: VirtualEstate) {
-  // Find a listing item which has type of "ASK" listing items from the ve.listings, and return the price.
-  const askListing = ve?.listings?.find((listing) => listing.type === "ASK");
+  // Find latest listing item which has type of "ASK" listing items from the ve.listings, and return the price.
+  const askListing = ve?.listings
+    ?.slice()
+    .reverse()
+    .find((listing) => listing.type === "ASK");
   if (askListing) {
-    return askListing?.price;
+    return askListing.price;
   }
 
   return ve?.lastPrice;

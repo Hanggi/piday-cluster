@@ -9,10 +9,10 @@ export async function GET(request: NextRequest) {
 
   const page = searchParams.get("page");
   const size = searchParams.get("size");
-
+  const sort = searchParams.get("sort");
   try {
     const res = await instance.get(
-      `/virtual-estates/listed?page=${page}&size=${size}`,
+      `/virtual-estates/listed?page=${page}&size=${size}&sort=${sort}`,
     );
 
     return new Response(JSON.stringify(res.data), {
