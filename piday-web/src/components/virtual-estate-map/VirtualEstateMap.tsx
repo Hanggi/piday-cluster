@@ -1,19 +1,22 @@
 "use client";
 
-import { FlyToInterpolator, MapViewState } from "@deck.gl/core/typed";
-import type { ViewStateChangeParameters } from "@deck.gl/core/typed/controllers/controller";
-import { PickingInfo } from "@deck.gl/core/typed/lib/picking/pick-info";
-import { H3HexagonLayer } from "@deck.gl/geo-layers/typed";
-import { TextLayer } from "@deck.gl/layers/typed";
-import DeckGL from "@deck.gl/react/typed";
+import { FlyToInterpolator, MapViewState } from "@deck.gl/core";
+import { PickingInfo } from "@deck.gl/core";
+import type { ViewStateChangeParameters } from "@deck.gl/core";
+import { H3HexagonLayer } from "@deck.gl/geo-layers";
+import { TextLayer } from "@deck.gl/layers";
+import DeckGL from "@deck.gl/react";
+import { ZoomWidget } from "@deck.gl/widgets";
+import "@deck.gl/widgets/stylesheet.css";
 import { geoToH3, h3ToGeo, kRing } from "h3-js";
 import { debounce } from "lodash";
 
 import Card from "@mui/joy/Card";
 import Typography from "@mui/joy/Typography";
 
-import { useCallback, useEffect, useState } from "react";
-import Map, { GeolocateControl, NavigationControl } from "react-map-gl";
+import { useCallback, useEffect, useRef, useState } from "react";
+import type { MapRef } from "react-map-gl";
+import Map, { GeolocateControl, NavigationControl, useMap } from "react-map-gl";
 
 const SHOW_HEXAGON_LAYER_FROM_ZOOM = 15;
 
@@ -52,6 +55,8 @@ export default function VirtualEstateMap({
   onVirtualEstateClick,
   onCenterHexChange,
 }: Props) {
+  const mapRef = useRef<MapRef | null>(null);
+
   const [viewState, setViewState] = useState<MapViewState>(INITIAL_VIEW_STATE);
   const [hexagons, setHexagons] = useState<VirtualEstate[]>([]);
   // hexagonsCenter is the hexagon that is currently in the center of the hexagons array
@@ -220,7 +225,11 @@ export default function VirtualEstateMap({
   );
 
   const handleClickHexagon = useCallback(
-    (pi: PickingInfo) => {
+    (pi: PickingInfo, e: any) => {
+      if (e.target.className == "deck-widget-icon") {
+        return;
+      }
+
       if (pi.coordinate) {
         const hexID = geoToH3(pi.coordinate[1], pi.coordinate[0], 12);
         setSelectedHexID(hexID);
@@ -235,7 +244,7 @@ export default function VirtualEstateMap({
   );
 
   return (
-    <div className="w-full h-full">
+    <div className="relative w-full h-full">
       <DeckGL
         controller={true}
         initialViewState={viewState}
@@ -247,39 +256,67 @@ export default function VirtualEstateMap({
         }}
         onClick={handleClickHexagon}
         onViewStateChange={handleMapViewChange}
+        widgets={[
+          new ZoomWidget({
+            id: "zoom",
+            placement: "bottom-right",
+            style: {
+              margin: "21px",
+              // position: "absolute",
+              // right: "-20px",
+              // bottom: "-20px",
+              zIndex: "100",
+            },
+          }),
+        ]}
+        style={{
+          // zIndex: "-1",
+          position: "relative",
+        }}
       >
         <Map
           mapStyle="mapbox://styles/mapbox/streets-v9"
           mapboxAccessToken={token}
-          style={{
-            position: "absolute",
-            top: "0",
-            left: "0",
-            right: "0",
-            bottom: "-50px",
-          }}
+          id="pidayMap"
+          ref={mapRef}
+          // style={{
+          //   position: "absolute",
+          //   top: "0",
+          //   left: "0",
+          //   right: "0",
+          //   bottom: "-50px",
+          // }}
         >
-          <NavigationControl position="bottom-right" />
-          <GeolocateControl
-            position="bottom-left"
-            style={{ zIndex: 110, position: "relative" }}
-            trackUserLocation
-          />
+          {/* <div style={{ position: "absolute", right: 10, top: 10 }}>
+            <GeolocateControl
+              position="bottom-left"
+              style={{ zIndex: 110, position: "relative" }}
+              trackUserLocation
+            />
+          </div>
+          <NavigationControl position="bottom-right" /> */}
         </Map>
       </DeckGL>
-      <Card className="absolute top-4 m-4 w-max z-[1000]" size="sm">
-        <div className="flex gap-2">
-          <Typography level="body-sm">
-            Latitude: {viewState.latitude.toFixed(4)}
-          </Typography>
-          <Typography level="body-sm">
-            Longitude: {viewState.longitude.toFixed(4)}
-          </Typography>
-          <Typography level="body-sm">
-            Zoom: {viewState.zoom.toFixed(2)}
-          </Typography>
-        </div>
-      </Card>
+      <div className="absolute top-4 m-4">
+        <Card className=" w-max z-[1000]" size="sm">
+          <div
+            className="flex gap-2"
+            onClick={() => {
+              console.log(viewState);
+            }}
+          >
+            <Typography level="body-sm">
+              Latitude: {viewState.latitude.toFixed(4)}
+            </Typography>
+            <Typography level="body-sm">
+              Longitude: {viewState.longitude.toFixed(4)}
+            </Typography>
+            <Typography level="body-sm">
+              Zoom: {viewState.zoom.toFixed(2)}
+            </Typography>
+          </div>
+        </Card>
+      </div>
     </div>
   );
 }
