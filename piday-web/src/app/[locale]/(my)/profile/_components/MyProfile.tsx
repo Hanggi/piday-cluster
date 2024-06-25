@@ -2,9 +2,14 @@
 
 import { useUpdateMyPiWalletAddressMutation } from "@/src/features/account/api/accountAPI";
 import { useGetMyUserQuery } from "@/src/features/auth/api/authAPI";
-import { useGetInviteCodeQuery } from "@/src/features/user/api/userAPI";
+import {
+  useGetInviteCodeQuery,
+  useUpdateUserNationalityMutation,
+} from "@/src/features/user/api/userAPI";
+import { countries } from "@/src/utils/constant";
 import { useSession } from "next-auth/react";
 
+import { Option, Select } from "@mui/joy";
 import Alert from "@mui/joy/Alert";
 import Button from "@mui/joy/Button";
 import Card from "@mui/joy/Card";
@@ -22,7 +27,6 @@ import SetPaymentPasswordModel from "./modals/SetPaymentPasswordModel";
 
 export default function MyProfile() {
   const { t } = useTranslation("profile");
-
   const { data: session } = useSession();
   const {
     data: myUser,
@@ -32,13 +36,22 @@ export default function MyProfile() {
 
   const [piWalletAddress, setPiWalletAddress] = useState("");
   const [editWalletAddress, setEditWalletAddress] = useState(false);
+  const [nationality, setNationality] = useState(myUser?.nationality || "");
+
   const [updateWalletAddress, UpdatePiWalletAddressResult] =
     useUpdateMyPiWalletAddressMutation();
 
+  const [updateNationality, updateNationalityResult] =
+    useUpdateUserNationalityMutation();
   const { data: invitationCode } = useGetInviteCodeQuery();
 
   const handlePiWalletAddressChange = useCallback((e: any) => {
     setPiWalletAddress(e.target.value.trim());
+  }, []);
+
+  const handleNationalityChange = useCallback((event: any, value: string) => {
+    setNationality(value);
+    updateNationality({ nationality: value });
   }, []);
 
   useEffect(() => {
@@ -54,7 +67,22 @@ export default function MyProfile() {
     refetchMyUser,
     t,
   ]);
+  useEffect(() => {
+    if (updateNationalityResult.isSuccess) {
+      toast.success(t("profile:toast.updateNationalitySuccess"));
+      updateNationalityResult.reset();
+      refetchMyUser();
+    }
+  }, [
+    updateNationalityResult,
+    updateNationalityResult.isSuccess,
+    refetchMyUser,
+    t,
+  ]);
 
+  useEffect(() => {
+    setNationality(myUser?.nationality);
+  }, [myUser]);
   // Payment password
   const [openPaymentPasswordModal, setOpenPaymentPasswordModal] =
     useState(false);
@@ -89,6 +117,19 @@ export default function MyProfile() {
             {t("profile:profile.username")}
           </Typography>
           <Typography>{session?.user?.name}</Typography>
+        </div>
+        <div className="mb-4 w-6/12">
+          <Select
+            value={nationality}
+            placeholder="Nationality"
+            onChange={handleNationalityChange}
+          >
+            {countries.map((country) => (
+              <Option key={country.value} value={country.value}>
+                {t(`countries.${country.value}`)}
+              </Option>
+            ))}
+          </Select>
         </div>
         <div className="mb-4">
           <Typography level="title-md">

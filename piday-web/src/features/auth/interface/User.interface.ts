@@ -9,7 +9,7 @@ export interface User {
   preferredUsername: string;
   sid: string;
   emailVerified: boolean;
-
+  nationality?: string;
   piWalletAddress: string;
   piWalletAddressUpdatedAt?: string;
 

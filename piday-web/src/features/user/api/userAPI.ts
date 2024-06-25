@@ -29,6 +29,16 @@ export const userRTKAPI = createApi({
         return response.inviteCode;
       },
     }),
+    updateUserNationality: builder.mutation<boolean, { nationality: string }>({
+      query: ({ nationality }) => ({
+        url: `user/update-nationality`,
+        method: "POST",
+        body: { nationality },
+      }),
+      transformResponse: (response: { success: boolean }) => {
+        return response.success;
+      },
+    }),
   }),
 });
 
@@ -36,4 +46,5 @@ export const {
   useGetUserInfoQuery,
   useLazyGetUserInfoQuery,
   useGetInviteCodeQuery,
+  useUpdateUserNationalityMutation,
 } = userRTKAPI;
