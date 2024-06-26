@@ -158,4 +158,24 @@ export class UserService {
       );
     }
   }
+
+  async updateUserNationality(userID: string, nationality: string) {
+    const user = await this.prisma.user.findUnique({
+      where: {
+        keycloakID: userID,
+      },
+    });
+    if (!user) {
+      throw new ServiceException("User not found", "USER_NOT_FOUND");
+    }
+
+    await this.prisma.user.update({
+      where: {
+        id: user.id,
+      },
+      data: {
+        nationality: nationality,
+      },
+    });
+  }
 }

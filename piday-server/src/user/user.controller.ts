@@ -1,9 +1,12 @@
 import { Request, Response } from "express";
 
 import {
+  Body,
   Controller,
   Get,
+  HttpException,
   HttpStatus,
+  Post,
   Query,
   Req,
   Res,
@@ -12,6 +15,7 @@ import {
 
 import { AuthenticatedRequest } from "../lib/keycloak/interfaces/authenticated-request";
 import { KeycloakJwtGuard } from "../lib/keycloak/keycloak-jwt.guard";
+import { UpdateNationalityDto } from "./dto/update-nationality.dto";
 import { UserService } from "./user.service";
 
 @Controller("user")
@@ -33,6 +37,35 @@ export class UserController {
       user: { ...myUser, isPaymentPasswordSet },
       success: true,
     });
+  }
+
+  @UseGuards(KeycloakJwtGuard)
+  @Post("update-nationality")
+  async updateUserNationality(
+    @Req() req: AuthenticatedRequest,
+    @Res() res: Response,
+    @Body() { nationality }: UpdateNationalityDto,
+  ) {
+    try {
+      await this.userService.updateUserNationality(
+        req.user.userID,
+        nationality,
+      );
+
+      res.status(HttpStatus.OK).json({
+        success: true,
+        message: "Successfully updated nationality",
+      });
+    } catch (error) {
+      switch (error.code) {
+        case "USER_NOT_FOUND":
+          throw new HttpException("user not found", HttpStatus.NOT_FOUND);
+      }
+      throw new HttpException(
+        "Internal Server Error",
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
   }
 
   @Get("info")

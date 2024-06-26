@@ -21,6 +21,7 @@ model User {
   email      String? @unique
   username   String  @unique
   avatar     String?
+  nationality String?
 
   piUid                    String?   @unique
   piWalletAddress          String?   @unique
