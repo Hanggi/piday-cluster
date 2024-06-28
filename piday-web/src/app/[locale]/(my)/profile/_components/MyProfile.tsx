@@ -49,10 +49,13 @@ export default function MyProfile() {
     setPiWalletAddress(e.target.value.trim());
   }, []);
 
-  const handleNationalityChange = useCallback((event: any, value: string) => {
-    setNationality(value);
-    updateNationality({ nationality: value });
-  }, []);
+  const handleNationalityChange = useCallback(
+    (event: any, value: string | null) => {
+      setNationality(value || "");
+      updateNationality({ nationality: value || "" });
+    },
+    [],
+  );
 
   useEffect(() => {
     if (UpdatePiWalletAddressResult.isSuccess) {
@@ -81,7 +84,7 @@ export default function MyProfile() {
   ]);
 
   useEffect(() => {
-    setNationality(myUser?.nationality);
+    setNationality(myUser?.nationality || "");
   }, [myUser]);
   // Payment password
   const [openPaymentPasswordModal, setOpenPaymentPasswordModal] =

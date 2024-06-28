@@ -7,7 +7,8 @@
     "home": "首页",
     "store": "市场",
     "mining": "挖矿",
-    "wallet": "钱包"
+    "wallet": "钱包",
+    "about": "关于"
   },
   "auth": {
     "signIn": {
