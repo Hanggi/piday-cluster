@@ -4,8 +4,9 @@ import path from "path";
 import Link from "next/link";
 
 type Blog = {
-  id: string;
+  slug: string;
   title: string;
+  date: string;
 };
 
 async function getBlogs(): Promise<Blog[]> {
@@ -18,10 +19,13 @@ async function getBlogs(): Promise<Blog[]> {
 
     const filePath = path.join(blogDir, filename);
     const fileContents = fs.readFileSync(filePath, "utf8");
-    const title = fileContents.split("\n")[0].replace("# ", "");
+    const date = fileContents.split("\n")[0].replace("# ", "");
+    const title = fileContents.split("\n")[2].replace("# ", "");
+
     return {
-      id: filename.replace(".md", ""),
+      slug: filename.replace(".md", ""),
       title,
+      date: date,
     };
   });
 }
@@ -34,8 +38,8 @@ export default async function Home() {
       <h1 className="text-3xl font-bold text-center mb-8">Blog List</h1>
       <ul className="list-disc list-inside">
         {blogs.map((blog) => (
-          <li key={blog.id} className="mb-4">
-            <Link href={`/blog/${blog.id}`}>
+          <li key={blog.slug} className="mb-4">
+            <Link href={`/blog/${blog.date}/${blog.slug}`}>
               <h2 className="text-blue-500 hover:underline">{blog.title}</h2>
             </Link>
           </li>

@@ -11,13 +11,14 @@ import ReactMarkdown from "react-markdown";
 
 type BlogProps = {
   params: {
-    id: string;
+    slug: string;
+    date: string;
   };
 };
 
-async function getBlogContent(id: string): Promise<string | null> {
+async function getBlogContent(slug: string): Promise<string | null> {
   const blogDir = path.join(process.cwd(), "public", "blogs");
-  const filePath = path.join(blogDir, `${id}.md`);
+  const filePath = path.join(blogDir, `${slug}.md`);
 
   if (fs.existsSync(filePath)) {
     return fs.readFileSync(filePath, "utf8");
@@ -27,8 +28,8 @@ async function getBlogContent(id: string): Promise<string | null> {
 }
 
 export default async function BlogPost({ params }: BlogProps) {
-  const { id } = params;
-  const content = await getBlogContent(id);
+  const { slug, date } = params;
+  const content = await getBlogContent(slug);
 
   if (!content) {
     notFound();
@@ -40,7 +41,7 @@ export default async function BlogPost({ params }: BlogProps) {
         <div className="container mx-auto px-6 md:px-12 lg:px-24">
           <div className="text-center mb-10">
             <h1 className="text-5xl font-extrabold text-[rgba(89,59,139,100)] mb-4">
-              {id}
+              {slug} | {date}
             </h1>
           </div>
 

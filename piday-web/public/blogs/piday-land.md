@@ -1,3 +1,5 @@
+# 2024-07-21
+
 # Piday Land 派对土地铸造攻略
 
 ## 前景提示
@@ -17,33 +19,33 @@
 
 先找到欧洲，拉伸到法国为止。
 
-![第一步：找到法国](/blog-images/piday-land-1.png)
+![第一步：找到法国](/blog-images/piday-land/piday-land-1.png)
 
 ### 第二步
 
 拉伸到巴黎为止，继续放大地图。
 
-![第二步：拉伸到巴黎](/blog-images/piday-land-2.png)
+![第二步：拉伸到巴黎](/blog-images/piday-land/piday-land-2.png)
 
 ### 第三步
 
 找到埃菲尔铁塔区域，寻找河流形状更容易。先用百度地图查看大概位置，然后回到Piday 地图里找。
 
-![第三步：找到埃菲尔铁塔](/blog-images/piday-land-3.png)
+![第三步：找到埃菲尔铁塔](/blog-images/piday-land/piday-land-3.png)
 
-![第四步：选择六边形](/blog-images/piday-land-4.png)
+![第四步：选择六边形](/blog-images/piday-land/piday-land-4.png)
 
 ### 第四步
 
 继续放大地图，看到蜂窝状图层后，选中某个六边形。图中紫色表示已经被铸造，选择紫色周边的位置。
 
-![第五步：支付铸造](/blog-images/piday-land-5.png)
+![第五步：支付铸造](/blog-images/piday-land/piday-land-5.png)
 
 ### 第五步
 
 鼠标选中地块，或者手指双击某个地块，地图会自动缩放到此土地详情页面，然后右侧有“创世铸造”按钮，点击支付即可完成铸造。
 
-![总结](/blog-images/piday-land-6.png)
+![总结](/blog-images/piday-land/piday-land-6.png)
 
 ## 最佳土地
 
