@@ -1,6 +1,8 @@
 import fs from "fs";
 import path from "path";
 
+import Card from "@mui/joy/Card";
+
 import Link from "next/link";
 
 type Blog = {
@@ -34,17 +36,17 @@ export default async function Home() {
   const blogs = await getBlogs();
 
   return (
-    <div className="max-w-2xl mx-auto p-4">
+    <div className="container max-w-2xl mx-auto p-4 mb-40">
       <h1 className="text-3xl font-bold text-center mb-8">Blog List</h1>
-      <ul className="list-disc list-inside">
+      <div className="list-disc list-inside">
         {blogs.map((blog) => (
-          <li key={blog.slug} className="mb-4">
+          <Card key={blog.slug} className="mb-4">
             <Link href={`/blog/${blog.date}/${blog.slug}`}>
-              <h2 className="text-blue-500 hover:underline">{blog.title}</h2>
+              <h2 className=" hover:underline">{blog.title}</h2>
             </Link>
-          </li>
+          </Card>
         ))}
-      </ul>
+      </div>
     </div>
   );
 }
