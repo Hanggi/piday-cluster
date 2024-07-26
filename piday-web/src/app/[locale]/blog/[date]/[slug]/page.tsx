@@ -37,10 +37,10 @@ export default async function BlogPost({ params }: BlogProps) {
   }
 
   return (
-    <div className="container px-40 mb-40">
+    <div className="container sm:px-10 lg:px-40 px-2 mb-40">
       <Card className="mt-8" size="lg">
         <div className="min-h-screen py-10">
-          <div className="container mx-auto px-6 md:px-12 lg:px-24">
+          <div className="container mx-auto px-0 md:px-12 lg:px-24">
             <div className="text-center mb-10">
               <h1 className="text-5xl font-extrabold text-[rgba(89,59,139,100)] mb-4">
                 {slug} | {date}
