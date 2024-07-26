@@ -38,7 +38,7 @@ export class WithdrawRequestAdminController {
     @Query("sort") sort: SortByOptions = SortByOptions.CREATED_AT,
     @Query("orderBy") orderBy: OrderByOptions = OrderByOptions.DESC,
   ) {
-    const veRes = await this.withdrawRequestAdminService.getWithdrawRequest({
+    const wrRes = await this.withdrawRequestAdminService.getWithdrawRequest({
       page: +page,
       size: +size,
       sortBy: sort || "createdAt",
@@ -47,8 +47,8 @@ export class WithdrawRequestAdminController {
 
     return {
       success: true,
-      virtualEstates: veRes.virtualEstates,
-      totalCount: veRes.totalCount,
+      withdrawRequests: wrRes.withdrawRequests,
+      totalCount: wrRes.totalCount,
     };
   }
 

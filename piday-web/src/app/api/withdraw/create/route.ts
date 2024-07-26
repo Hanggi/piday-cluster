@@ -5,12 +5,12 @@ import { StatusCodes } from "http-status-codes";
 
 export async function POST(request: Request) {
   const body = await request.json();
-  const { amount } = body;
+  const { amount, paymentPassword } = body;
   const { headers } = request;
   try {
     const res = await instance.post(
       "/withdraw/create",
-      { amount },
+      { amount, paymentPassword },
       {
         headers: HeaderFilters(headers),
       },
@@ -20,6 +20,7 @@ export async function POST(request: Request) {
       status: StatusCodes.OK,
     });
   } catch (error) {
+    console.log("Error ", error);
     const axiosError = error as AxiosError;
     return new Response(
       JSON.stringify({

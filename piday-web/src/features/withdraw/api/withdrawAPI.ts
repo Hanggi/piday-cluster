@@ -9,12 +9,12 @@ export const withdrawRequestRTKApi = createApi({
   endpoints: (builder) => ({
     createWithdrawRequest: builder.mutation<
       WithdrawRequest,
-      { amount: string }
+      { amount: string; paymentPassword: string }
     >({
-      query: ({ amount }) => ({
+      query: ({ amount, paymentPassword }) => ({
         url: "/withdraw/create",
         method: "POST",
-        body: { amount },
+        body: { amount, paymentPassword },
       }),
       transformResponse: (response: { withdrawRequest: WithdrawRequest }) => {
         return response?.withdrawRequest;

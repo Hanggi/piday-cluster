@@ -4,6 +4,7 @@ import { accountRTKApi } from "./features/account/api/accountAPI";
 import { transactionAdminAPI } from "./features/admin/transactions/transaction-admin-api";
 import { userAdminAPI } from "./features/admin/users/user-admin-api";
 import { virtualEstatesAdminAPI } from "./features/admin/vritual-estates/virtual-estates-admin-api";
+import { withdrawRequestAdminAPI } from "./features/admin/withdraw-requests/withdraw-requests-api";
 import { authRTKApi } from "./features/auth/api/authAPI";
 import globalSlice from "./features/global/global.slice";
 import { pointRTKApi } from "./features/point/api/pointAPI";
@@ -38,6 +39,7 @@ export const store = configureStore({
     [transactionAdminAPI.reducerPath]: transactionAdminAPI.reducer,
     [withdrawRequestRTKApi.reducerPath]: withdrawRequestRTKApi.reducer,
     [userAdminAPI.reducerPath]: userAdminAPI.reducer,
+    [withdrawRequestAdminAPI.reducerPath]: withdrawRequestAdminAPI.reducer,
   },
   middleware: (getDefaultMiddleware) => {
     return getDefaultMiddleware()
@@ -52,7 +54,8 @@ export const store = configureStore({
       .concat(transactionAdminAPI.middleware)
       .concat(withdrawRequestRTKApi.middleware)
       .concat(pointRTKApi.middleware)
-      .concat(userAdminAPI.middleware);
+      .concat(userAdminAPI.middleware)
+      .concat(withdrawRequestAdminAPI.middleware);
   },
 });
 

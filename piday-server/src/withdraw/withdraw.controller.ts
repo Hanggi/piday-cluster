@@ -7,10 +7,14 @@ import {
   HttpException,
   HttpStatus,
   Post,
+  Req,
   Res,
+  UseGuards,
 } from "@nestjs/common";
 
 import { AuthenticatedRequest } from "../lib/keycloak/interfaces/authenticated-request";
+import { KeycloakJwtGuard } from "../lib/keycloak/keycloak-jwt.guard";
+import { UserService } from "../user/user.service";
 import {
   CancelWithdrawRequestDTO,
   CreateWithdrawRequestDTO,
@@ -19,17 +23,29 @@ import { WithdrawService } from "./withdraw.service";
 
 @Controller("withdraw")
 export class WithdrawController {
-  constructor(private readonly withdrawService: WithdrawService) {}
+  constructor(
+    private readonly withdrawService: WithdrawService,
+    private readonly userService: UserService,
+  ) {}
 
   @Post("create")
+  @UseGuards(KeycloakJwtGuard)
   async createWithdrawRequest(
     @Res() res: Response,
-    req: AuthenticatedRequest,
+    @Req() req: AuthenticatedRequest,
     @Body() body: CreateWithdrawRequestDTO,
   ) {
     try {
+      const paymentPassword = body.paymentPassword;
+      await this.userService.checkPaymentPassword({
+        userID: req.user.userID,
+        password: paymentPassword,
+      });
+
       const amount = new Decimal(body.amount);
+
       const userID = req.user.userID;
+
       const withdrawRequest = await this.withdrawService.createWithdrawRequest(
         amount,
         userID,
@@ -56,6 +72,13 @@ export class WithdrawController {
             },
             HttpStatus.FORBIDDEN,
           );
+        case "INVALID_PASSWORD":
+          throw new HttpException(
+            {
+              message: "Payment password invalid",
+            },
+            HttpStatus.FORBIDDEN,
+          );
       }
       console.error("Error", error);
       throw new HttpException(
@@ -66,9 +89,10 @@ export class WithdrawController {
   }
 
   @Post("cancel")
+  @UseGuards(KeycloakJwtGuard)
   async cancelWithdrawRequest(
     @Res() res: Response,
-    req: AuthenticatedRequest,
+    @Req() req: AuthenticatedRequest,
     @Body() body: CancelWithdrawRequestDTO,
   ) {
     try {

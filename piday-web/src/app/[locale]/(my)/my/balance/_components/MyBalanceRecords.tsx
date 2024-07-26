@@ -2,6 +2,7 @@
 
 import Pagination from "@/src/components/piday-ui/pagination/Pagination";
 import { useGetMyRechargeRecordsQuery } from "@/src/features/account/api/accountAPI";
+import { useGetWithdrawRequestsQuery } from "@/src/features/admin/withdraw-requests/withdraw-requests-api";
 import { format } from "date-fns";
 
 import Button from "@mui/joy/Button";
@@ -14,6 +15,7 @@ import { useTranslation } from "react-i18next";
 
 import RechargeModal from "./dialogs/RechargeModal";
 import TransferBalanceModal from "./dialogs/TransferBalanceModal";
+import WithdrawRequestModal from "./dialogs/WithdrawBalanceModal";
 
 interface Props {
   rechargeAddress: string;
@@ -25,6 +27,7 @@ export default function MyBalanceRecords({ rechargeAddress }: Props) {
   const [page, setPage] = useState(1);
   const [size, setSize] = useState(20);
 
+  const { data: withdrawRequest } = useGetWithdrawRequestsQuery({ page, size });
   const { data: balanceRecordsRes, refetch: refetchBalanceRecords } =
     useGetMyRechargeRecordsQuery({
       page,
@@ -38,6 +41,7 @@ export default function MyBalanceRecords({ rechargeAddress }: Props) {
   const [openRecharge, setOpenRecharge] = useState(false);
   const [openTransferBalance, setOpenTransferBalance] = useState(false);
 
+  const [openWithdraw, setOpenWithdraw] = useState(false);
   return (
     <div>
       <div className="mb-4 flex justify-between">
@@ -47,6 +51,13 @@ export default function MyBalanceRecords({ rechargeAddress }: Props) {
           }}
         >
           <Typography className="z-10 !text-white">转账</Typography>
+        </Button>
+        <Button
+          onClick={() => {
+            setOpenWithdraw(true);
+          }}
+        >
+          <Typography className="z-10 !text-white">Withdraw</Typography>
         </Button>
         <Button
           onClick={() => {
@@ -125,6 +136,15 @@ export default function MyBalanceRecords({ rechargeAddress }: Props) {
         open={openTransferBalance}
         onClose={() => {
           setOpenTransferBalance(false);
+        }}
+        onSuccess={() => {
+          refetchBalanceRecords();
+        }}
+      />
+      <WithdrawRequestModal
+        open={openWithdraw}
+        onClose={() => {
+          setOpenWithdraw(false);
         }}
         onSuccess={() => {
           refetchBalanceRecords();

@@ -19,7 +19,7 @@ export class WithdrawRequestAdminService {
     sortBy?: string;
     sortOrder?: "asc" | "desc";
   }) {
-    const virtualEstates = await this.prisma.withdrawRequest.findMany({
+    const withdrawRequests = await this.prisma.withdrawRequest.findMany({
       take: size,
       skip: (page - 1) * size,
       orderBy: {
@@ -33,9 +33,9 @@ export class WithdrawRequestAdminService {
       },
     });
 
-    const totalCount = await this.prisma.virtualEstate.count();
+    const totalCount = await this.prisma.withdrawRequest.count();
 
-    return { virtualEstates, totalCount };
+    return { withdrawRequests, totalCount };
   }
 
   async acceptWithdrawRequest(withdrawStatusID: string) {
