@@ -27,7 +27,6 @@ export default function MyBalanceRecords({ rechargeAddress }: Props) {
   const [page, setPage] = useState(1);
   const [size, setSize] = useState(20);
 
-  const { data: withdrawRequest } = useGetWithdrawRequestsQuery({ page, size });
   const { data: balanceRecordsRes, refetch: refetchBalanceRecords } =
     useGetMyRechargeRecordsQuery({
       page,

@@ -1,5 +1,6 @@
 import { AuthenticatedRequest } from "@/src/lib/keycloak/interfaces/authenticated-request";
 import { KeycloakJwtAdminGuard } from "@/src/lib/keycloak/keycloak-jwt-admin.guard";
+import { plainToClass, plainToInstance } from "class-transformer";
 import { Response } from "express";
 
 import {
@@ -21,6 +22,7 @@ import {
   OrderByOptions,
   SortByOptions,
 } from "../dto/admin.dto";
+import { WithdrawRequestDto } from "./dto/withdraw-request-dto";
 import { WithdrawRequestAdminService } from "./withdraw-request-admin.service";
 
 @Controller("admin/withdraw-request")
@@ -32,7 +34,6 @@ export class WithdrawRequestAdminController {
 
   @Get()
   async getWithdrawRequest(
-    @Req() req: AuthenticatedRequest,
     @Query("page") page: number = 1,
     @Query("size") size: number = 50,
     @Query("sort") sort: SortByOptions = SortByOptions.CREATED_AT,
@@ -45,10 +46,16 @@ export class WithdrawRequestAdminController {
       sortOrder: orderBy || "desc",
     });
 
+    const withdrawRequests = wrRes.withdrawRequests.map((request) => ({
+      ...request,
+      withdrawStatusID: request.withdrawStatusID
+        ? request.withdrawStatusID.toString()
+        : request.withdrawStatusID,
+    }));
     return {
       success: true,
-      withdrawRequests: wrRes.withdrawRequests,
-      totalCount: wrRes.totalCount,
+      withdrawRequests,
+      totalCount: Number(wrRes.totalCount),
     };
   }
 

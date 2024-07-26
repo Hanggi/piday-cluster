@@ -1,6 +1,7 @@
 "use client";
 
 import { useGetGeneralLedgerQuery } from "@/src/features/admin/users/user-admin-api";
+import { useGetWithdrawRequestsQuery } from "@/src/features/admin/withdraw-requests/withdraw-requests-api";
 
 import Card from "@mui/joy/Card";
 import CircularProgress from "@mui/joy/CircularProgress";
@@ -9,6 +10,10 @@ import Typography from "@mui/joy/Typography";
 export default function GeneralLedger() {
   const { data: generalLedger, isLoading } = useGetGeneralLedgerQuery();
 
+  const { data: withdrawRequest } = useGetWithdrawRequestsQuery({
+    page: 1,
+    size: 10,
+  });
   return (
     <div>
       <div className="grid grid-cols-3 gap-4">
