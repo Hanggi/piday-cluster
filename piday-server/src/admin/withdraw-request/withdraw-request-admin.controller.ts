@@ -81,7 +81,12 @@ export class WithdrawRequestAdminController {
 
       res.status(HttpStatus.OK).json({
         msg: "Withdraw request accepted successfully ",
-        data: updateWithdrawRequest,
+        data: {
+          ...updateWithdrawRequest,
+          withdrawStatusID: updateWithdrawRequest.withdrawStatusID
+            ? updateWithdrawRequest.withdrawStatusID.toString()
+            : updateWithdrawRequest.withdrawStatusID,
+        },
         success: true,
       });
     } catch (error) {
@@ -99,6 +104,13 @@ export class WithdrawRequestAdminController {
               message: "Not enough balance in your account",
             },
             HttpStatus.FORBIDDEN,
+          );
+        case "BAD_REQUEST":
+          throw new HttpException(
+            {
+              message: "Request already accepted or cancelled",
+            },
+            HttpStatus.BAD_REQUEST,
           );
       }
       console.error("Error", error);
@@ -137,6 +149,54 @@ export class WithdrawRequestAdminController {
         success: true,
       });
     } catch (error) {
+      console.error("Error", error);
+      throw new HttpException(
+        "Internal Server Error",
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+
+  @Post("cancel")
+  async cancelWithdrawRequest(
+    @Res() res: Response,
+    @Body() body: AcceptWithdrawRequestBody,
+  ) {
+    try {
+      const { withdrawStatusID } = body;
+      const updateWithdrawRequest =
+        await this.withdrawRequestAdminService.cancelWithdrawRequest(
+          withdrawStatusID,
+        );
+
+      if (!updateWithdrawRequest) {
+        res.status(HttpStatus.UNPROCESSABLE_ENTITY).json({
+          success: false,
+          data: null,
+          msg: "Withdraw request not accepted",
+        });
+      }
+
+      res.status(HttpStatus.OK).json({
+        msg: "Withdraw request canceled successfully ",
+        data: {
+          ...updateWithdrawRequest,
+          withdrawStatusID: updateWithdrawRequest.withdrawStatusID
+            ? updateWithdrawRequest.withdrawStatusID.toString()
+            : updateWithdrawRequest.withdrawStatusID,
+        },
+        success: true,
+      });
+    } catch (error) {
+      switch (error.code) {
+        case "NOT_FOUND":
+          throw new HttpException(
+            {
+              message: "Withdraw Request can not be found",
+            },
+            HttpStatus.FORBIDDEN,
+          );
+      }
       console.error("Error", error);
       throw new HttpException(
         "Internal Server Error",

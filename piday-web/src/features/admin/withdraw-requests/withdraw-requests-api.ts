@@ -36,7 +36,10 @@ export const withdrawRequestAdminAPI = createApi({
     }),
 
     acceptWithdrawRequest: builder.mutation<
-      { res: any },
+      {
+        success: boolean;
+        res: any;
+      },
       { withdrawStatusID: string }
     >({
       query: ({ withdrawStatusID }) => ({
@@ -45,7 +48,20 @@ export const withdrawRequestAdminAPI = createApi({
         method: "POST",
       }),
     }),
+    cancelWithdrawRequest: builder.mutation<
+      { success: boolean; res: any },
+      { withdrawStatusID: string }
+    >({
+      query: ({ withdrawStatusID }) => ({
+        url: `admin/withdraw-request/cancel`,
+        body: { withdrawStatusID },
+        method: "POST",
+      }),
+    }),
   }),
 });
-export const { useGetWithdrawRequestsQuery, useAcceptWithdrawRequestMutation } =
-  withdrawRequestAdminAPI;
+export const {
+  useGetWithdrawRequestsQuery,
+  useAcceptWithdrawRequestMutation,
+  useCancelWithdrawRequestMutation,
+} = withdrawRequestAdminAPI;

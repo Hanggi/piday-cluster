@@ -183,6 +183,20 @@ export default function Sidebar() {
               </ListItemContent>
             </ListItemButton>
           </ListItem>
+          <ListItem>
+            <ListItemButton
+              selected={pathname === "/manage/withdraw-requests"}
+              onClick={() => {
+                router.push("/manage/withdraw-requests");
+              }}
+            >
+              <i className="ri-dashboard-line"></i>
+              <ListItemContent>
+                <Typography level="title-sm">Withdraw requests</Typography>
+              </ListItemContent>
+            </ListItemButton>
+          </ListItem>
+
           {/* <ListItem nested>
             <Toggler
               renderToggle={({ open, setOpen }) => (
