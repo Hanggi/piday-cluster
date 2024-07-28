@@ -139,7 +139,7 @@ export class VirtualEstateService {
         throw new ServiceException("Not enough balance", "NOT_ENOUGH_BALANCE");
       }
 
-      // TODO(zawar): Add logic to check freeze balance
+      // TODO(zawar): Add logic to check freeze balance.
 
       // TODO(Hanggi): Share profit with the inviter for 10%.
 
