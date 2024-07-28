@@ -83,7 +83,7 @@ export default function WithdrawRequestModal({
         <DialogTitle>Withdraw Balance</DialogTitle>
         <DialogContent>
           <FormControl className="mb-4">
-            <FormLabel>转账金额</FormLabel>
+            <FormLabel>取款数量</FormLabel>
             <Input
               endDecorator={
                 <div>

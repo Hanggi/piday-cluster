@@ -160,6 +160,9 @@ export class AccountService {
       ) {
         throw new ServiceException("Not enough balance", "NOT_ENOUGH_BALANCE");
       }
+
+      // TODO(zawar): Add logic to check freeze balance
+
       const receiver = await tx.user.findFirst({
         where: {
           OR: [

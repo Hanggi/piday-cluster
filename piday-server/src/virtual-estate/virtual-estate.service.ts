@@ -139,6 +139,8 @@ export class VirtualEstateService {
         throw new ServiceException("Not enough balance", "NOT_ENOUGH_BALANCE");
       }
 
+      // TODO(zawar): Add logic to check freeze balance
+
       // TODO(Hanggi): Share profit with the inviter for 10%.
 
       const veCount = await tx.virtualEstate.count();
@@ -387,7 +389,7 @@ export class VirtualEstateService {
     // If 1 month is not enough, increase it.
     const startDate = new Date();
     startDate.setMonth(startDate.getMonth() - 1);
-    
+
     // Fetch all unique transactions sorted
     const allTransactions =
       await this.prisma.virtualEstateTransactionRecords.findMany({

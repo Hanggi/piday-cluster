@@ -60,6 +60,8 @@ export class VirtualEstateTransactionRecordsService {
         throw new ServiceException("Not enough balance", "NOT_ENOUGH_BALANCE");
       }
 
+      // TODO(zawar): Add logic to check freeze balance
+
       const transactionID = BigInt(generateFlakeID());
       const transaction = await tx.virtualEstateTransactionRecords.create({
         data: {
@@ -236,6 +238,8 @@ export class VirtualEstateTransactionRecordsService {
       ) {
         throw new ServiceException("Not enough balance", "NOT_ENOUGH_BALANCE");
       }
+
+      // TODO(zawar): Add logic to check freeze balance
 
       const transactionID = BigInt(generateFlakeID());
       const transaction = await tx.virtualEstateTransactionRecords.create({
