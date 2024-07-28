@@ -20,7 +20,6 @@ export async function POST(request: Request) {
       status: StatusCodes.OK,
     });
   } catch (error) {
-    console.log("Error ", error);
     const axiosError = error as AxiosError;
     return new Response(
       JSON.stringify({

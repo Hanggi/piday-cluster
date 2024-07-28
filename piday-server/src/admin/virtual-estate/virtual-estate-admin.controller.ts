@@ -27,7 +27,7 @@ export class VirtualEstateAdminController {
       sortBy: sort || "createdAt",
       sortOrder: orderBy || "desc",
     });
-    console.log("\n\n\nn\n\n\nData in Virtual estates ", veRes);
+
     return {
       success: true,
       virtualEstates: veRes.virtualEstates,
