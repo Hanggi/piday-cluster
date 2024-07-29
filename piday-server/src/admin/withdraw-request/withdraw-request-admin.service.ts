@@ -72,14 +72,27 @@ export class WithdrawRequestAdminService {
         throw new ServiceException("Not enough balance", "NOT_ENOUGH_BALANCE");
       }
 
-      await tx.rechargeRecords.create({
+      // Update the FROZEN_WITHDRAW recrod status to WITHDRAW
+      await tx.rechargeRecords.update({
         data: {
-          amount: -withdrawRequest.amount,
-          externalID: withdrawRequest.withdrawStatusID.toString(),
           reason: "WITHDRAW",
-          ownerID: withdrawRequest.ownerID,
+        },
+        where: {
+          unique_externalID_reason: {
+            externalID: withdrawStatusID.toString(),
+            reason: "FROZEN_WITHDRAW",
+          },
         },
       });
+
+      // await tx.rechargeRecords.create({
+      //   data: {
+      //     amount: -withdrawRequest.amount,
+      //     externalID: withdrawRequest.withdrawStatusID.toString(),
+      //     reason: "WITHDRAW",
+      //     ownerID: withdrawRequest.ownerID,
+      //   },
+      // });
 
       const updateWithdrawRequest = await tx.withdrawRequest.update({
         data: {
@@ -113,19 +126,31 @@ export class WithdrawRequestAdminService {
   }
 
   async cancelWithdrawRequest(withdrawStatusID: string) {
-    const withdrawRequest = await this.prisma.withdrawRequest.update({
-      data: {
-        status: "CANCELED",
-      },
-      where: {
-        withdrawStatusID: BigInt(withdrawStatusID),
-      },
+    return await this.prisma.$transaction(async (tx) => {
+      const withdrawRequest = await this.prisma.withdrawRequest.update({
+        data: {
+          status: "CANCELED",
+        },
+        where: {
+          withdrawStatusID: BigInt(withdrawStatusID),
+        },
+      });
+
+      if (!withdrawRequest) {
+        throw new ServiceException("Request not found", "NOT_FOUND");
+      }
+
+      // Add the amount back to the user's balance
+      await tx.rechargeRecords.create({
+        data: {
+          ownerID: withdrawRequest.ownerID,
+          amount: withdrawRequest.amount,
+          reason: "REJECT_WITHDRAW",
+          externalID: withdrawStatusID,
+        },
+      });
+
+      return withdrawRequest;
     });
-
-    if (!withdrawRequest) {
-      throw new ServiceException("Request not found", "NOT_FOUND");
-    }
-
-    return withdrawRequest;
   }
 }

@@ -51,6 +51,16 @@ export class WithdrawService {
         },
       });
 
+      // Create a frozen balance record
+      await tx.rechargeRecords.create({
+        data: {
+          ownerID: userID,
+          amount: -amount,
+          reason: "FROZEN_WITHDRAW",
+          externalID: withdrawStatusID.toString(),
+        },
+      });
+
       return {
         ...withdrawRequest,
         withdrawStatusID: withdrawRequest.withdrawStatusID.toString(),
@@ -75,15 +85,27 @@ export class WithdrawService {
     }
     // TODO(Hanggi): Check user ID
 
-    const updatedRequest = await this.prisma.withdrawRequest.update({
-      data: {
-        status: WithdrawStatusEnum.CANCELED,
-      },
-      where: {
-        withdrawStatusID: BigInt(withdrawStatusID),
-      },
-    });
+    return await this.prisma.$transaction(async (tx) => {
+      const updatedRequest = await tx.withdrawRequest.update({
+        data: {
+          status: WithdrawStatusEnum.CANCELED,
+        },
+        where: {
+          withdrawStatusID: BigInt(withdrawStatusID),
+        },
+      });
 
-    return updatedRequest;
+      // Add the amount back to the user's balance
+      await tx.rechargeRecords.create({
+        data: {
+          ownerID: userID,
+          amount: withdrawRequest.amount,
+          reason: "CANCEL_WITHDRAW",
+          externalID: withdrawStatusID,
+        },
+      });
+
+      return updatedRequest;
+    });
   }
 }

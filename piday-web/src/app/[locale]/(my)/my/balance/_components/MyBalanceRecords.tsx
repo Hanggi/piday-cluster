@@ -1,7 +1,10 @@
 "use client";
 
 import Pagination from "@/src/components/piday-ui/pagination/Pagination";
-import { useGetMyRechargeRecordsQuery } from "@/src/features/account/api/accountAPI";
+import {
+  useGetBalanceQuery,
+  useGetMyRechargeRecordsQuery,
+} from "@/src/features/account/api/accountAPI";
 import { useGetWithdrawRequestsQuery } from "@/src/features/admin/withdraw-requests/withdraw-requests-api";
 import { format } from "date-fns";
 
@@ -27,6 +30,7 @@ export default function MyBalanceRecords({ rechargeAddress }: Props) {
   const [page, setPage] = useState(1);
   const [size, setSize] = useState(20);
 
+  const { refetch: refetchBalance } = useGetBalanceQuery({});
   const { data: balanceRecordsRes, refetch: refetchBalanceRecords } =
     useGetMyRechargeRecordsQuery({
       page,
@@ -56,7 +60,7 @@ export default function MyBalanceRecords({ rechargeAddress }: Props) {
             setOpenWithdraw(true);
           }}
         >
-          <Typography className="z-10 !text-white">Withdraw</Typography>
+          <Typography className="z-10 !text-white">提款</Typography>
         </Button>
         <Button
           onClick={() => {
@@ -147,6 +151,7 @@ export default function MyBalanceRecords({ rechargeAddress }: Props) {
         }}
         onSuccess={() => {
           refetchBalanceRecords();
+          refetchBalance();
         }}
       />
     </div>

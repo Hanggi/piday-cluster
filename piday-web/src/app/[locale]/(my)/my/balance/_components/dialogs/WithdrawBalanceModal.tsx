@@ -1,4 +1,8 @@
 import { useGetBalanceQuery } from "@/src/features/account/api/accountAPI";
+import {
+  useErrorToast,
+  useSuccessToast,
+} from "@/src/features/rtk-utils/use-error-toast.hook";
 import { useLazyGetUserInfoQuery } from "@/src/features/user/api/userAPI";
 import { myUserValue } from "@/src/features/user/user-slice";
 import { useCreateWithdrawRequestMutation } from "@/src/features/withdraw/api/withdrawAPI";
@@ -17,6 +21,7 @@ import Typography from "@mui/joy/Typography";
 
 import { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import BeatLoader from "react-spinners/BeatLoader";
 import { toast } from "react-toastify";
 
 interface Props {
@@ -43,6 +48,12 @@ export default function WithdrawRequestModal({
 
   const [createWithdraw, createWithdrawResult] =
     useCreateWithdrawRequestMutation();
+  useErrorToast(createWithdrawResult.error);
+  useSuccessToast(createWithdrawResult.isSuccess, "申请提款成功", () => {
+    createWithdrawResult.reset();
+    onSuccess?.();
+    onClose();
+  });
 
   const [amount, setAmount] = useState(0);
 
@@ -61,19 +72,19 @@ export default function WithdrawRequestModal({
     setAmount(0);
   }, [amount, paymentPassword, createWithdraw]);
 
-  useEffect(() => {
-    if (createWithdrawResult.isSuccess) {
-      createWithdrawResult.reset();
-      onSuccess?.();
-      toast.success("Withdraw request created successfully");
-      onClose();
-    }
-  }, [
-    onClose,
-    onSuccess,
-    createWithdrawResult,
-    createWithdrawResult.isSuccess,
-  ]);
+  // useEffect(() => {
+  //   if (createWithdrawResult.isSuccess) {
+  //     createWithdrawResult.reset();
+  //     onSuccess?.();
+  //     toast.success("Withdraw request created successfully");
+  //     onClose();
+  //   }
+  // }, [
+  //   onClose,
+  //   onSuccess,
+  //   createWithdrawResult,
+  //   createWithdrawResult.isSuccess,
+  // ]);
 
   return (
     <Modal open={open} onClose={onClose}>
@@ -125,9 +136,12 @@ export default function WithdrawRequestModal({
                 amount > balance ||
                 !paymentPassword
               }
+              startDecorator={
+                createWithdrawResult.isLoading ? <BeatLoader /> : <span></span>
+              }
               onClick={handleSubmit}
             >
-              Withdraw
+              提款
             </Button>
           </div>
         </DialogContent>

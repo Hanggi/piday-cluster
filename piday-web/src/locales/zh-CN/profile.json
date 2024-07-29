@@ -43,7 +43,7 @@
   },
   "toast": {
     "updatePiWalletAddressSuccess": "更新Pi钱包地址成功",
-    "updateNationalitySuccess":"国籍更新成功"
+    "updateNationalitySuccess": "国籍更新成功"
   },
   "balance": {
     "TRANSFER_BALANCE": "转账余额",
@@ -53,6 +53,9 @@
     "MINT_VIRTUAL_ESTATE": "铸造",
     "INVITER_PROFIT": "邀请人收益",
     "PLATFORM_MINT_VIRTUAL_ESTATE": "平台收入",
+    "FROZEN_WITHDRAW": "提款冻结",
+    "REJECT_WITHDRAW": "拒绝提款",
+    "CANCEL_WITHDRAW": "取消提款",
     "SELLER_INVITER_TRADING_PROFIT": "卖家邀请人收益",
     "SELL_ASK": "卖方出价",
     "BUY_BID": "买方出价",
@@ -310,7 +313,4 @@
     "ZM": "赞比亚",
     "ZW": "津巴布韦"
   }
-
-
-
 }
