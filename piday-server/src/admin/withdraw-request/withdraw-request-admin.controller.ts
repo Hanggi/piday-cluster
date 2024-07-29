@@ -1,5 +1,6 @@
 import { AuthenticatedRequest } from "@/src/lib/keycloak/interfaces/authenticated-request";
 import { KeycloakJwtAdminGuard } from "@/src/lib/keycloak/keycloak-jwt-admin.guard";
+import { plainToClass, plainToInstance } from "class-transformer";
 import { Response } from "express";
 
 import {
@@ -21,6 +22,7 @@ import {
   OrderByOptions,
   SortByOptions,
 } from "../dto/admin.dto";
+import { WithdrawRequestDto } from "./dto/withdraw-request-dto";
 import { WithdrawRequestAdminService } from "./withdraw-request-admin.service";
 
 @Controller("admin/withdraw-request")
@@ -32,23 +34,28 @@ export class WithdrawRequestAdminController {
 
   @Get()
   async getWithdrawRequest(
-    @Req() req: AuthenticatedRequest,
     @Query("page") page: number = 1,
     @Query("size") size: number = 50,
     @Query("sort") sort: SortByOptions = SortByOptions.CREATED_AT,
     @Query("orderBy") orderBy: OrderByOptions = OrderByOptions.DESC,
   ) {
-    const veRes = await this.withdrawRequestAdminService.getWithdrawRequest({
+    const wrRes = await this.withdrawRequestAdminService.getWithdrawRequest({
       page: +page,
       size: +size,
       sortBy: sort || "createdAt",
       sortOrder: orderBy || "desc",
     });
 
+    const withdrawRequests = wrRes.withdrawRequests.map((request) => ({
+      ...request,
+      withdrawStatusID: request.withdrawStatusID
+        ? request.withdrawStatusID.toString()
+        : request.withdrawStatusID,
+    }));
     return {
       success: true,
-      virtualEstates: veRes.virtualEstates,
-      totalCount: veRes.totalCount,
+      withdrawRequests,
+      totalCount: Number(wrRes.totalCount),
     };
   }
 
@@ -74,7 +81,12 @@ export class WithdrawRequestAdminController {
 
       res.status(HttpStatus.OK).json({
         msg: "Withdraw request accepted successfully ",
-        data: updateWithdrawRequest,
+        data: {
+          ...updateWithdrawRequest,
+          withdrawStatusID: updateWithdrawRequest.withdrawStatusID
+            ? updateWithdrawRequest.withdrawStatusID.toString()
+            : updateWithdrawRequest.withdrawStatusID,
+        },
         success: true,
       });
     } catch (error) {
@@ -92,6 +104,13 @@ export class WithdrawRequestAdminController {
               message: "Not enough balance in your account",
             },
             HttpStatus.FORBIDDEN,
+          );
+        case "BAD_REQUEST":
+          throw new HttpException(
+            {
+              message: "Request already accepted or cancelled",
+            },
+            HttpStatus.BAD_REQUEST,
           );
       }
       console.error("Error", error);
@@ -130,6 +149,54 @@ export class WithdrawRequestAdminController {
         success: true,
       });
     } catch (error) {
+      console.error("Error", error);
+      throw new HttpException(
+        "Internal Server Error",
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+
+  @Post("cancel")
+  async cancelWithdrawRequest(
+    @Res() res: Response,
+    @Body() body: AcceptWithdrawRequestBody,
+  ) {
+    try {
+      const { withdrawStatusID } = body;
+      const updateWithdrawRequest =
+        await this.withdrawRequestAdminService.cancelWithdrawRequest(
+          withdrawStatusID,
+        );
+
+      if (!updateWithdrawRequest) {
+        res.status(HttpStatus.UNPROCESSABLE_ENTITY).json({
+          success: false,
+          data: null,
+          msg: "Withdraw request not accepted",
+        });
+      }
+
+      res.status(HttpStatus.OK).json({
+        msg: "Withdraw request canceled successfully ",
+        data: {
+          ...updateWithdrawRequest,
+          withdrawStatusID: updateWithdrawRequest.withdrawStatusID
+            ? updateWithdrawRequest.withdrawStatusID.toString()
+            : updateWithdrawRequest.withdrawStatusID,
+        },
+        success: true,
+      });
+    } catch (error) {
+      switch (error.code) {
+        case "NOT_FOUND":
+          throw new HttpException(
+            {
+              message: "Withdraw Request can not be found",
+            },
+            HttpStatus.FORBIDDEN,
+          );
+      }
       console.error("Error", error);
       throw new HttpException(
         "Internal Server Error",

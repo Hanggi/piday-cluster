@@ -8,6 +8,7 @@ export interface WithdrawRequest {
   owner: User;
 
   amount: string;
+  status: string;
 
   createdAt: string;
   updatedAt: string;

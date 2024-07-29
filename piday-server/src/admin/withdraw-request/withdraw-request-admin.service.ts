@@ -19,7 +19,7 @@ export class WithdrawRequestAdminService {
     sortBy?: string;
     sortOrder?: "asc" | "desc";
   }) {
-    const virtualEstates = await this.prisma.withdrawRequest.findMany({
+    const withdrawRequests = await this.prisma.withdrawRequest.findMany({
       take: size,
       skip: (page - 1) * size,
       orderBy: {
@@ -28,14 +28,14 @@ export class WithdrawRequestAdminService {
       include: {
         owner: true,
       },
-      where: {
-        status: WithdrawStatusEnum.PENDING,
-      },
+      // where: {
+      //   status: WithdrawStatusEnum.PENDING,
+      // },
     });
 
-    const totalCount = await this.prisma.virtualEstate.count();
+    const totalCount = await this.prisma.withdrawRequest.count();
 
-    return { virtualEstates, totalCount };
+    return { withdrawRequests, totalCount };
   }
 
   async acceptWithdrawRequest(withdrawStatusID: string) {
@@ -50,6 +50,12 @@ export class WithdrawRequestAdminService {
         throw new ServiceException("Request not found", "NOT_FOUND");
       }
 
+      if (withdrawRequest.status !== "PENDING") {
+        throw new ServiceException(
+          "Request can not be accepted",
+          "BAD_REQUEST",
+        );
+      }
       const balance = await tx.rechargeRecords.aggregate({
         where: {
           ownerID: withdrawRequest.ownerID,
@@ -104,5 +110,22 @@ export class WithdrawRequestAdminService {
     });
 
     return updatedWithdrawRequest;
+  }
+
+  async cancelWithdrawRequest(withdrawStatusID: string) {
+    const withdrawRequest = await this.prisma.withdrawRequest.update({
+      data: {
+        status: "CANCELED",
+      },
+      where: {
+        withdrawStatusID: BigInt(withdrawStatusID),
+      },
+    });
+
+    if (!withdrawRequest) {
+      throw new ServiceException("Request not found", "NOT_FOUND");
+    }
+
+    return withdrawRequest;
   }
 }

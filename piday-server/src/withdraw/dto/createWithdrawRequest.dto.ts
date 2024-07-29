@@ -4,6 +4,10 @@ export class CreateWithdrawRequestDTO {
   @IsString()
   @IsNotEmpty()
   amount: string;
+
+  @IsString()
+  @IsNotEmpty()
+  paymentPassword: string;
 }
 export class CancelWithdrawRequestDTO {
   @IsString()
