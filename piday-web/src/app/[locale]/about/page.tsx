@@ -6,8 +6,8 @@ import React from "react";
 
 const About = () => {
   return (
-    <div className="container px-40">
-      <Card className="mt-8" size="lg">
+    <div className="container px-4 sm:px-20 lg:px-40 mb-40">
+      <Card className="mt-8" size="md">
         <div className=" min-h-screen py-10">
           <div className="container mx-auto px-6 md:px-12 lg:px-24">
             <div className="text-center mb-10">
