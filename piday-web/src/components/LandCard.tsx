@@ -94,15 +94,28 @@ function getVirtualEstatePrice(ve: VirtualEstate) {
 }
 
 function getVirtualEstateStatus(ve: VirtualEstate) {
-  const askListing = ve?.listings?.find((listing) => listing.type === "ASK");
+  if (!ve) return "未知状态"; // Default status if the virtual estate object is undefined or null
+  // Check for the latest transaction and its seller
+  const latestTransaction = ve.transactions?.[0];
+  if (latestTransaction && latestTransaction.sellerID === "ONE_PI") {
+    return "已铸造"; // Minted
+  }
+  // Check for an active "ASK" listing
+  const askListing = ve.listings?.find(
+    (listing) =>
+      listing.type === "ASK" && new Date(listing.expiresAt) > new Date(),
+  );
   if (askListing) {
-    return "在出售";
+    return "在出售"; // For sale
   }
-
-  const bidListing = ve?.listings?.find((listing) => listing.type === "BID");
+  // Check for an active "BID" listing
+  const bidListing = ve.listings?.find(
+    (listing) =>
+      listing.type === "BID" && new Date(listing.expiresAt) > new Date(),
+  );
   if (bidListing) {
-    return "在拍卖";
+    return "在拍卖"; // At auction
   }
-
-  return "已铸造";
+  // Default status if no specific conditions are met
+  return "已售出"; // Sold
 }
