@@ -152,6 +152,25 @@ export default function Header() {
             <i className="ri-wallet-3-line text-xl"></i>
             <p className="text-lg">{t("common:nav.wallet")}</p>
           </ListItemButton>
+
+          <ListItemButton
+            onClick={() => {
+              router.push("/blog");
+              setOpen(false);
+            }}
+          >
+            <i className="ri-news-line text-xl"></i>
+            <p className="text-lg">{t("common:nav.blog")}</p>
+          </ListItemButton>
+          <ListItemButton
+            onClick={() => {
+              router.push("/about");
+              setOpen(false);
+            }}
+          >
+            <i className="ri-team-line text-xl"></i>
+            <p className="text-lg">{t("common:nav.about")}</p>
+          </ListItemButton>
         </List>
       </Drawer>
     </header>

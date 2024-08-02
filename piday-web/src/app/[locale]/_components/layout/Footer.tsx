@@ -46,52 +46,58 @@ export default function Footer() {
             </div>
           </Link>
 
-          <ul className="lg:flex items-center capitalize gap-4 hidden">
-            <Button
-              className="!text-slate-100 hover:!text-black"
-              variant="plain"
-            >
-              <Link
-                className={cn(
-                  "flex items-center gap-1.5 py-1 rounded px-5",
-                  {},
-                )}
-                href="/market"
+          <ul className="lg:flex items-center capitalize gap-4">
+            <div className="inline-flex">
+              <Button
+                className="!text-slate-100 hover:!text-black"
+                variant="plain"
               >
-                <i className="ri-store-2-line text-xl"></i>
-                <p className="text-lg">{t("common:nav.store")}</p>
-              </Link>
-            </Button>
-            <Button
-              className="!text-slate-100 hover:!text-black"
-              variant="plain"
-            >
-              <Link
-                className={cn(
-                  "flex items-center gap-1.5 py-1 rounded px-5",
-                  {},
-                )}
-                href="/mining"
+                <Link
+                  className={cn(
+                    "flex items-center gap-1.5 py-1 rounded px-5",
+                    {},
+                  )}
+                  href="/market"
+                >
+                  <i className="ri-store-2-line text-xl"></i>
+                  <p className="text-lg">{t("common:nav.store")}</p>
+                </Link>
+              </Button>
+            </div>
+            <div className="inline-flex">
+              <Button
+                className="!text-slate-100 hover:!text-black"
+                variant="plain"
               >
-                <i className="ri-hammer-line text-xl"></i>
-                <p className="text-lg">{t("common:nav.mining")}</p>
-              </Link>
-            </Button>
-            <Button
-              className="!text-slate-100 hover:!text-black"
-              variant="plain"
-            >
-              <Link
-                className={cn(
-                  "flex items-center gap-1.5 py-1 rounded px-5",
-                  {},
-                )}
-                href="/my/balance"
+                <Link
+                  className={cn(
+                    "flex items-center gap-1.5 py-1 rounded px-5",
+                    {},
+                  )}
+                  href="/mining"
+                >
+                  <i className="ri-hammer-line text-xl"></i>
+                  <p className="text-lg">{t("common:nav.mining")}</p>
+                </Link>
+              </Button>
+            </div>
+            <div className="inline-flex">
+              <Button
+                className="!text-slate-100 hover:!text-black"
+                variant="plain"
               >
-                <i className="ri-wallet-3-line text-xl"></i>
-                <p className="text-lg">{t("common:nav.wallet")}</p>
-              </Link>
-            </Button>
+                <Link
+                  className={cn(
+                    "flex items-center gap-1.5 py-1 rounded px-5",
+                    {},
+                  )}
+                  href="/my/balance"
+                >
+                  <i className="ri-wallet-3-line text-xl"></i>
+                  <p className="text-lg">{t("common:nav.wallet")}</p>
+                </Link>
+              </Button>
+            </div>
 
             <Button
               className="!text-slate-100 hover:!text-black"

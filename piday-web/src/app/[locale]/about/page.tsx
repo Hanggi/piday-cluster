@@ -1,4 +1,5 @@
 import Card from "@mui/joy/Card";
+import Typography from "@mui/joy/Typography";
 
 import Image from "next/image";
 
@@ -10,13 +11,16 @@ const About = () => {
       <Card className="mt-8" size="md">
         <div className=" min-h-screen py-10">
           <div className="container mx-auto px-6 md:px-12 lg:px-24">
-            <div className="text-center mb-10">
-              <h1 className="text-5xl font-extrabold text-[rgba(89,59,139,100)] mb-4">
+            <div className="mb-10">
+              <Typography
+                level="h1"
+                className="text-center !mb-4 text-5xl font-extrabold !text-[rgba(89,59,139,100)] "
+              >
                 PiDay World 派对世界
-              </h1>
-              <p className="text-lg text-gray-700">
+              </Typography>
+              <Typography className="text-lg text-gray-700">
                 PiDay是一个地球镜像元宇宙土地平台，每块六边形土地对应的实景面积是314平方米。任何先锋都可以在PiDay中铸造土地和交易土地，每一块土地都是一个NFT。每个先锋都可以成为城市的管理者，PiDay将采取DAO治理模式，开启元宇宙虚拟城市自治和城市经济分红，人人皆是创建者、人人皆是管理者、人人皆是受益者。PidayWorld是Pinetwork生态中第一个元宇宙土地应用平台。
-              </p>
+              </Typography>
             </div>
 
             <div className="flex justify-center mb-10">
