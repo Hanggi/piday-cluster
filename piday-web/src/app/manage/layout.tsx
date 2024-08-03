@@ -47,7 +47,7 @@ export default async function RootLayout({
   return (
     <html>
       <body className={inter.className}>
-        <ThemeRegistry>
+        <ThemeRegistry options={{ key: "joy" }}>
           <SessionProviderWrapper>
             <ReduxProviderWrapper>
               <main>
