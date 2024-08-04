@@ -8,13 +8,15 @@ import {
 } from "@/src/features/admin/withdraw-requests/withdraw-requests-api";
 import { format } from "date-fns";
 
-import { Button } from "@mui/joy";
+import Alert from "@mui/joy/Alert";
+import Button from "@mui/joy/Button";
 import Card from "@mui/joy/Card";
 import CircularProgress from "@mui/joy/CircularProgress";
 import Table from "@mui/joy/Table";
 import Typography from "@mui/joy/Typography";
 
 import { useCallback, useState } from "react";
+import React from "react";
 import { toast } from "react-toastify";
 
 export default function WithdrawRequestList() {
@@ -72,48 +74,106 @@ export default function WithdrawRequestList() {
         <Table>
           <thead>
             <tr>
-              <th>ID</th>
-              <th>Amount</th>
+              <th style={{ width: "6%" }}>ID</th>
               <th>Owner</th>
-              <th>Created At</th>
-              <th>Status</th>
-              <th>Actions</th>
+              <th
+                style={{
+                  textAlign: "right",
+                }}
+              >
+                Created At
+              </th>
+              <th
+                style={{
+                  textAlign: "right",
+                }}
+              >
+                Amount
+              </th>
+              <th
+                style={{
+                  textAlign: "right",
+                }}
+              >
+                Status
+              </th>
+              <th
+                style={{
+                  textAlign: "right",
+                }}
+              >
+                Actions
+              </th>
             </tr>
           </thead>
           <tbody>
             {withdrawRequest?.withdrawRequests?.map((wr) => (
-              <tr key={wr.id}>
-                <td>{wr.id}</td>
-                <td>{wr.amount}</td>
-                <td>
-                  <Typography>{wr.owner.username}</Typography>
-                  <Typography>{wr.owner.email}</Typography>
-                </td>
-                <td>{format(new Date(wr.createdAt), "yyyy-MM-dd hh:MM:ss")}</td>
-                <td>{wr.status}</td>
-                <td>
-                  {wr.status === "PENDING" && (
-                    <>
-                      {" "}
-                      <Button
-                        onClick={() =>
-                          handleAcceptWithdrawRequest(wr.withdrawStatusID)
-                        }
-                      >
-                        Accept
-                      </Button>
-                      ||
-                      <Button
-                        onClick={() =>
-                          handleCancelWithdrawRequest(wr.withdrawStatusID)
-                        }
-                      >
-                        Cancel
-                      </Button>
-                    </>
-                  )}
-                </td>
-              </tr>
+              <React.Fragment key={wr.id}>
+                <tr>
+                  <td rowSpan={2}>{wr.id}</td>
+                  <td>
+                    <Typography>{wr.owner.username}</Typography>
+                    <Typography>{wr.owner.email}</Typography>
+                  </td>
+                  <td className="text-end">
+                    <Typography>
+                      {format(new Date(wr.createdAt), "yyyy-MM-dd hh:MM:ss")}
+                    </Typography>
+                  </td>
+                  <td className="text-end">
+                    <Typography level="title-md">{wr.amount}</Typography>
+                  </td>
+                  <td className="text-end">
+                    <Typography
+                      color={
+                        wr.status === "CANCELED"
+                          ? "danger"
+                          : wr.status === "ACCEPTED"
+                            ? "success"
+                            : "neutral"
+                      }
+                      level="title-md"
+                    >
+                      {wr.status}
+                    </Typography>
+                  </td>
+                  <td className="text-end">
+                    {wr.status === "PENDING" && (
+                      <div className="flex justify-end gap-4">
+                        <Button
+                          color="success"
+                          onClick={() =>
+                            handleAcceptWithdrawRequest(wr.withdrawStatusID)
+                          }
+                        >
+                          Accept
+                        </Button>
+
+                        <Button
+                          color="danger"
+                          onClick={() =>
+                            handleCancelWithdrawRequest(wr.withdrawStatusID)
+                          }
+                        >
+                          Cancel
+                        </Button>
+                      </div>
+                    )}
+                  </td>
+                </tr>
+                <tr>
+                  <td colSpan={5} className="text-end">
+                    <div className="flex gap-2 items-center">
+                      <Typography level="body-sm">
+                        Pi Wallet Address:
+                      </Typography>
+                      <Alert size="sm" variant="outlined">
+                        {wr.owner.piWalletAddress}
+                      </Alert>
+                    </div>
+                  </td>
+                </tr>
+              </React.Fragment>
             ))}
           </tbody>
         </Table>
