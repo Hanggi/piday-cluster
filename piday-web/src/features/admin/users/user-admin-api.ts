@@ -1,5 +1,6 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 
+import { RechargeRecordInterface } from "../../account/interface/recharge-record.interface";
 import { User } from "../../auth/interface/User.interface";
 import { baseQuery } from "../../rtk-utils/fetch-base-query";
 
@@ -75,10 +76,33 @@ export const userAdminAPI = createApi({
         };
       },
     }),
+    getRechargeRecordsByUserId: builder.query<
+      {
+        records: RechargeRecordInterface[];
+        totalCount: number;
+      },
+      { page: number; size: number; userID: string }
+    >({
+      query: ({ page, size, userID }) => ({
+        url: `admin/users/balance/records?page=${page}&size=${size}`,
+        method: "POST",
+        body: { userID },
+      }),
+      transformResponse: (response: {
+        rechargeRecords: RechargeRecordInterface[];
+        totalCount: number;
+      }) => {
+        return {
+          records: response.rechargeRecords,
+          totalCount: response.totalCount,
+        };
+      },
+    }),
   }),
 });
 export const {
   useGetUsersQuery,
   useGetGeneralLedgerQuery,
   useGetLedgerRecordsQuery,
+  useGetRechargeRecordsByUserIdQuery,
 } = userAdminAPI;
