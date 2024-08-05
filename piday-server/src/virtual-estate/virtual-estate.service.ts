@@ -524,38 +524,4 @@ export class VirtualEstateService {
 
     return virtualEstates;
   }
-
-  async getVirtualEstateStatus(hexID: string) {
-    let status = "";
-
-    const transaction =
-      await this.prisma.virtualEstateTransactionRecords.findMany({
-        where: {
-          virtualEstateID: hexID,
-        },
-        orderBy: {
-          id: "desc",
-        },
-        take: 1,
-      });
-
-    if (transaction[0].sellerID === "ONE_PI") {
-      status = "minted";
-    } else {
-      status = "sold";
-    }
-
-    const listings = await this.prisma.virtualEstateListing.findFirst({
-      where: {
-        virtualEstateID: hexID,
-        expiresAt: {
-          gt: new Date(),
-        },
-      },
-    });
-
-    if (listings) status = "listing";
-
-    return status;
-  }
 }
