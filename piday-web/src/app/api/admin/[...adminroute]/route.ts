@@ -25,7 +25,7 @@ async function handler(request: NextRequest) {
   try {
     body = await request.json();
   } catch (error) {
-    console.log("Error on admin route!");
+    console.log("Error on admin route!, parse json");
   }
 
   try {
@@ -42,7 +42,7 @@ async function handler(request: NextRequest) {
     });
   } catch (err) {
     console.log("Error on admin route!");
-    // console.error(err);
+    console.error(err);
   }
 }
 

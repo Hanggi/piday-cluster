@@ -6,6 +6,10 @@ import {
   useCancelWithdrawRequestMutation,
   useGetWithdrawRequestsQuery,
 } from "@/src/features/admin/withdraw-requests/withdraw-requests-api";
+import {
+  useErrorToast,
+  useSuccessToast,
+} from "@/src/features/rtk-utils/use-error-toast.hook";
 import { format } from "date-fns";
 
 import Alert from "@mui/joy/Alert";
@@ -34,9 +38,25 @@ export default function WithdrawRequestList() {
 
   const [acceptWithdrawRequest, acceptWithdrawRequestResult] =
     useAcceptWithdrawRequestMutation();
+  useErrorToast(acceptWithdrawRequestResult.error);
+  useSuccessToast(
+    acceptWithdrawRequestResult.isSuccess,
+    "Accept withdraw request success",
+    () => {
+      refetch();
+    },
+  );
 
   const [cancelWithdrawRequest, cancelWithdrawRequestResult] =
     useCancelWithdrawRequestMutation();
+  useErrorToast(cancelWithdrawRequestResult.error);
+  useSuccessToast(
+    cancelWithdrawRequestResult.isSuccess,
+    "Reject withdraw request success",
+    () => {
+      refetch();
+    },
+  );
 
   const handleAcceptWithdrawRequest = useCallback(
     async (withdrawStatusID: string) => {
