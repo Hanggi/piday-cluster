@@ -22,22 +22,7 @@ export class WithdrawService {
         },
       });
 
-      const pendingWithdrawalRequestsAmount =
-        await tx.withdrawRequest.aggregate({
-          where: {
-            AND: [{ ownerID: userID }, { status: "PENDING" }],
-          },
-          _sum: {
-            amount: true,
-          },
-        });
-
-      // Balance after subtracting pending withdrawel request balance from the total amount
-      const remainingBalance = pendingWithdrawalRequestsAmount._sum.amount
-        ? balance._sum.amount.sub(pendingWithdrawalRequestsAmount._sum.amount)
-        : balance._sum.amount;
-
-      if (!remainingBalance || remainingBalance.lessThan(amount)) {
+      if (!balance._sum.amount || balance._sum.amount.lessThan(amount)) {
         throw new ServiceException("Not enough balance", "NOT_ENOUGH_BALANCE");
       }
 

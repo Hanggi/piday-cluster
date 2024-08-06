@@ -61,25 +61,12 @@ export default function WithdrawRequestList() {
   const handleAcceptWithdrawRequest = useCallback(
     async (withdrawStatusID: string) => {
       const r = await acceptWithdrawRequest({ withdrawStatusID }).unwrap();
-      console.log("HEYY R", r);
-      if (r.success) {
-        refetch();
-        toast.success("Accepted the withdraw request");
-      } else {
-        toast.error("Something happened please try again");
-      }
     },
     [],
   );
   const handleCancelWithdrawRequest = useCallback(
     async (withdrawStatusID: string) => {
       const r = await cancelWithdrawRequest({ withdrawStatusID }).unwrap();
-      if (r.success) {
-        refetch();
-        toast.success("Canceled the withdraw request");
-      } else {
-        toast.error("Something happened please try again");
-      }
     },
     [],
   );
