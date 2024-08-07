@@ -1,5 +1,6 @@
 import { VirtualEstate, VirtualEstateListing } from "@prisma/client";
 import { Decimal } from "@prisma/client/runtime/library";
+import { stat } from "fs";
 import { kRing } from "h3-js";
 
 import { Injectable } from "@nestjs/common";
@@ -23,7 +24,19 @@ export class VirtualEstateService {
     const virtualEstates = await this.prisma.virtualEstate.findMany({
       include: {
         owner: true,
-        listings: true,
+        listings: {
+          where: {
+            expiresAt: {
+              gt: new Date(),
+            },
+          },
+        },
+        transactions: {
+          orderBy: {
+            id: "desc",
+          },
+          take: 1,
+        },
       },
       take: +size,
       skip: +(page - 1) * size,
@@ -84,6 +97,19 @@ export class VirtualEstateService {
       where: query,
       include: {
         owner: true,
+        listings: {
+          where: {
+            expiresAt: {
+              gt: new Date(),
+            },
+          },
+        },
+        transactions: {
+          orderBy: {
+            id: "desc",
+          },
+          take: 1,
+        },
       },
       orderBy: {
         createdAt: "desc",
@@ -357,7 +383,19 @@ export class VirtualEstateService {
           },
         },
         include: {
-          listings: true,
+          listings: {
+            where: {
+              expiresAt: {
+                gt: new Date(),
+              },
+            },
+          },
+          transactions: {
+            orderBy: {
+              id: "desc",
+            },
+            take: 1,
+          },
         },
         take: +size,
         skip: +(page == 0 ? 0 : page - 1) * size,
@@ -427,7 +465,19 @@ export class VirtualEstateService {
         },
       },
       include: {
-        listings: true,
+        listings: {
+          where: {
+            expiresAt: {
+              gt: new Date(),
+            },
+          },
+        },
+        transactions: {
+          orderBy: {
+            id: "desc",
+          },
+          take: 1,
+        },
       },
     });
 
@@ -451,7 +501,19 @@ export class VirtualEstateService {
         },
       },
       include: {
-        listings: true,
+        listings: {
+          where: {
+            expiresAt: {
+              gt: new Date(),
+            },
+          },
+        },
+        transactions: {
+          orderBy: {
+            id: "desc",
+          },
+          take: 1,
+        },
       },
       take: +size,
       skip: +(page == 0 ? 0 : page - 1) * size,

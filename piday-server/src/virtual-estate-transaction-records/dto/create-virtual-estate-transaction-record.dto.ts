@@ -1,5 +1,5 @@
 import { UserResponseDto } from "@/src/user/dto/user.dto";
-import { Expose, Type } from "class-transformer";
+import { Exclude, Expose, Type } from "class-transformer";
 import { IsNotEmpty, IsString } from "class-validator";
 
 export class CreateVirtualEstateTransactionRecordDto {
@@ -31,7 +31,14 @@ export class AcceptAskRequestTransactionRecordDto {
 }
 
 export class VirtualEstateTransactionRecordResponseDto {
+  constructor(partial: Partial<VirtualEstateTransactionRecordResponseDto>) {
+    Object.assign(this, partial);
+  }
+  @Exclude()
+  id: number;
+
   @Expose()
+  @Type(() => String)
   transactionID: string;
 
   @Expose()

@@ -1,5 +1,6 @@
 import { UserResponseDto } from "@/src/user/dto/user.dto";
 import { VirtualEstateListingResponseDto } from "@/src/virtual-estate-listing/dto/virtual-estate-listing.dto";
+import { VirtualEstateTransactionRecordResponseDto } from "@/src/virtual-estate-transaction-records/dto/create-virtual-estate-transaction-record.dto";
 import { Exclude, Expose, Type } from "class-transformer";
 
 export class VirtualEstateResponseDto {
@@ -37,4 +38,8 @@ export class VirtualEstateResponseDto {
   @Expose()
   @Type(() => VirtualEstateListingResponseDto)
   listings?: VirtualEstateListingResponseDto[];
+
+  @Expose()
+  @Type(() => VirtualEstateTransactionRecordResponseDto)
+  transactions?: VirtualEstateTransactionRecordResponseDto;
 }

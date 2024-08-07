@@ -79,6 +79,7 @@ model VirtualEstate {
   owner   User   @relation(fields: [ownerID], references: [keycloakID])
 
   listings  VirtualEstateListing[]
+  transactions VirtualEstateTransactionRecords[]
   createdAt DateTime               @default(now())
   updatedAt DateTime               @default(now()) @updatedAt
 }
@@ -117,6 +118,7 @@ model VirtualEstateTransactionRecords {
   sellerID String // Keycloak user ID
   seller   User   @relation("SellerTransaction", fields: [sellerID], references: [keycloakID])
 
+  virtualEstate VirtualEstate @relation(fields: [virtualEstateID], references: [virtualEstateID]) // Define the relation here
   price Decimal @db.Decimal(18, 8)
 
   createdAt DateTime @default(now())
