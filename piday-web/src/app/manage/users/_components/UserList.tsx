@@ -7,6 +7,7 @@ import { format } from "date-fns";
 
 import Card from "@mui/joy/Card";
 import CircularProgress from "@mui/joy/CircularProgress";
+import IconButton from "@mui/joy/IconButton";
 import Table from "@mui/joy/Table";
 import Tooltip from "@mui/joy/Tooltip";
 import Typography from "@mui/joy/Typography";
@@ -51,7 +52,16 @@ export default function UserList() {
                   <Typography>{ve.username}</Typography>
                   <Typography>{ve.email}</Typography>
                 </td>
-                <td>{ve.balance}</td>
+                <td>
+                  <> {ve.balance}</>
+                  <IconButton
+                    onClick={() => {
+                      window.location.href = `users/balance/records/${ve.keycloakID}`;
+                    }}
+                  >
+                    <i className="ri-search-line"></i>
+                  </IconButton>
+                </td>
                 <td>
                   <Tooltip title={ve.piWalletAddress}>
                     <Typography>

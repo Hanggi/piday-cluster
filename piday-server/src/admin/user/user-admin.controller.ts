@@ -2,10 +2,12 @@ import { KeycloakJwtAdminGuard } from "@/src/lib/keycloak/keycloak-jwt-admin.gua
 import { Response } from "express";
 
 import {
+  Body,
   Controller,
   Get,
   HttpException,
   HttpStatus,
+  Post,
   Query,
   Req,
   Res,
@@ -93,5 +95,37 @@ export class UserAdminController {
       success: true,
       ...ledgerRecords,
     };
+  }
+  @Post("balance/records")
+  async getRechargeRecordsByUserId(
+    @Body() { userID }: { userID: string },
+    @Res() res: Response,
+    @Query("page") page = "1", // default to page 1
+    @Query("size") size = "10", //default to size 10,
+  ) {
+    try {
+      const { records, totalCount } =
+        await this.userAdminService.getRechargeRecordsByUserId(
+          userID,
+          parseInt(size),
+          parseInt(page),
+        );
+
+      if (!records) {
+        res.status(HttpStatus.NOT_FOUND).json({
+          rechargeRecords: null,
+        });
+      }
+      res.status(HttpStatus.OK).json({
+        rechargeRecords: records,
+        totalCount,
+      });
+    } catch (err) {
+      console.error(err);
+      throw new HttpException(
+        "Internal Server Error",
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
   }
 }

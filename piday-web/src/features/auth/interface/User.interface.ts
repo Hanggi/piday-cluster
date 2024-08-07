@@ -12,7 +12,7 @@ export interface User {
   nationality?: string;
   piWalletAddress: string;
   piWalletAddressUpdatedAt?: string;
-
+  keycloakID?: string;
   inviterID?: string;
 
   roles: string[];
