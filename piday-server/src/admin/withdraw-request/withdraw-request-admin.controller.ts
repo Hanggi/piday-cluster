@@ -90,6 +90,7 @@ export class WithdrawRequestAdminController {
         success: true,
       });
     } catch (error) {
+      console.error("Error", error);
       switch (error.code) {
         case "NOT_FOUND":
           throw new HttpException(
@@ -113,7 +114,6 @@ export class WithdrawRequestAdminController {
             HttpStatus.BAD_REQUEST,
           );
       }
-      console.error("Error", error);
       throw new HttpException(
         "Internal Server Error",
         HttpStatus.INTERNAL_SERVER_ERROR,

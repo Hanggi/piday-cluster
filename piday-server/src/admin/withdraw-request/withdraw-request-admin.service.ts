@@ -56,22 +56,6 @@ export class WithdrawRequestAdminService {
           "BAD_REQUEST",
         );
       }
-      const balance = await tx.rechargeRecords.aggregate({
-        where: {
-          ownerID: withdrawRequest.ownerID,
-        },
-        _sum: {
-          amount: true,
-        },
-      });
-
-      if (
-        !balance._sum.amount ||
-        balance._sum.amount.lessThan(withdrawRequest.amount)
-      ) {
-        throw new ServiceException("Not enough balance", "NOT_ENOUGH_BALANCE");
-      }
-
       // Update the FROZEN_WITHDRAW recrod status to WITHDRAW
       await tx.rechargeRecords.update({
         data: {
@@ -84,15 +68,6 @@ export class WithdrawRequestAdminService {
           },
         },
       });
-
-      // await tx.rechargeRecords.create({
-      //   data: {
-      //     amount: -withdrawRequest.amount,
-      //     externalID: withdrawRequest.withdrawStatusID.toString(),
-      //     reason: "WITHDRAW",
-      //     ownerID: withdrawRequest.ownerID,
-      //   },
-      // });
 
       const updateWithdrawRequest = await tx.withdrawRequest.update({
         data: {
