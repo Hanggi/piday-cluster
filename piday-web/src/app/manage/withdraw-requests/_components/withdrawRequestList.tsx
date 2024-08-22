@@ -12,6 +12,7 @@ import Alert from "@mui/joy/Alert";
 import Button from "@mui/joy/Button";
 import Card from "@mui/joy/Card";
 import CircularProgress from "@mui/joy/CircularProgress";
+import IconButton from "@mui/joy/IconButton";
 import Table from "@mui/joy/Table";
 import Typography from "@mui/joy/Typography";
 
@@ -19,9 +20,14 @@ import { useCallback, useState } from "react";
 import React from "react";
 import { toast } from "react-toastify";
 
+import UserBalanceRecordDrawer from "../../users/_components/UserBalanceRecordDrawer";
+
 export default function WithdrawRequestList() {
   const [page, setPage] = useState(1);
   const [size, setSize] = useState(20);
+
+  const [selectUserID, setSelectUserID] = useState<string | null>(null);
+  const [openBalanceRecordDrawer, setOpenBalanceRecordDrawer] = useState(false);
 
   const {
     data: withdrawRequest,
@@ -121,7 +127,17 @@ export default function WithdrawRequestList() {
                     </Typography>
                   </td>
                   <td className="text-end">
-                    <Typography level="title-md">{wr.amount}</Typography>
+                    <div className="flex justify-end items-center">
+                      <Typography level="title-md">{wr.amount}</Typography>
+                      <IconButton
+                        onClick={() => {
+                          setSelectUserID(wr.owner.keycloakID as string);
+                          setOpenBalanceRecordDrawer(true);
+                        }}
+                      >
+                        <i className="ri-search-line"></i>
+                      </IconButton>
+                    </div>
                   </td>
                   <td className="text-end">
                     <Typography
@@ -191,6 +207,15 @@ export default function WithdrawRequestList() {
           />
         </div>
       </Card>
+
+      <UserBalanceRecordDrawer
+        userID={selectUserID as string}
+        open={openBalanceRecordDrawer}
+        onClose={() => {
+          setOpenBalanceRecordDrawer(false);
+          setSelectUserID(null);
+        }}
+      />
     </div>
   );
 }
