@@ -7,15 +7,21 @@ import { format } from "date-fns";
 
 import Card from "@mui/joy/Card";
 import CircularProgress from "@mui/joy/CircularProgress";
+import IconButton from "@mui/joy/IconButton";
 import Table from "@mui/joy/Table";
 import Tooltip from "@mui/joy/Tooltip";
 import Typography from "@mui/joy/Typography";
 
 import { useCallback, useState } from "react";
 
+import UserBalanceRecordDrawer from "./UserBalanceRecordDrawer";
+
 export default function UserList() {
   const [page, setPage] = useState(1);
   const [size, setSize] = useState(20);
+
+  const [selectUserID, setSelectUserID] = useState<string | null>(null);
+  const [openBalanceRecordDrawer, setOpenBalanceRecordDrawer] = useState(false);
 
   const { data: userRes, isLoading } = useGetUsersQuery({
     page,
@@ -51,7 +57,17 @@ export default function UserList() {
                   <Typography>{ve.username}</Typography>
                   <Typography>{ve.email}</Typography>
                 </td>
-                <td>{ve.balance}</td>
+                <td>
+                  <Typography> {ve.balance}</Typography>
+                  <IconButton
+                    onClick={() => {
+                      setSelectUserID(ve.keycloakID as string);
+                      setOpenBalanceRecordDrawer(true);
+                    }}
+                  >
+                    <i className="ri-search-line"></i>
+                  </IconButton>
+                </td>
                 <td>
                   <Tooltip title={ve.piWalletAddress}>
                     <Typography>
@@ -81,6 +97,15 @@ export default function UserList() {
           />
         </div>
       </Card>
+
+      <UserBalanceRecordDrawer
+        userID={selectUserID as string}
+        open={openBalanceRecordDrawer}
+        onClose={() => {
+          setOpenBalanceRecordDrawer(false);
+          setSelectUserID(null);
+        }}
+      />
     </div>
   );
 }
