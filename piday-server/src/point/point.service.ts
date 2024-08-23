@@ -85,44 +85,62 @@ export class PointService {
       },
     });
 
-    let point = 0;
+    let checkInPoint = 0;
+    let virtualEstatePoint = 0;
+    let invitedUserPoint = 0;
 
     if (userTotalCount < 10_000) {
-      point += 100;
-      point += (invitedUserCount + 1) * 20;
-      point += myVirtualEstateCount * 300;
+      checkInPoint += 100;
+      invitedUserPoint += (invitedUserCount + 1) * 20;
+      virtualEstatePoint += myVirtualEstateCount * 300;
     } else if (userTotalCount < 100_000) {
-      point += 50;
-      point += (invitedUserCount + 1) * 10;
-      point += myVirtualEstateCount * 150;
+      checkInPoint += 50;
+      invitedUserPoint += (invitedUserCount + 1) * 10;
+      virtualEstatePoint += myVirtualEstateCount * 150;
     } else if (userTotalCount < 1_000_000) {
-      point += 25;
-      point += (invitedUserCount + 1) * 5;
-      point += myVirtualEstateCount * 75;
+      checkInPoint += 25;
+      invitedUserPoint += (invitedUserCount + 1) * 5;
+      virtualEstatePoint += myVirtualEstateCount * 75;
     } else if (userTotalCount < 5_000_000) {
-      point += 12.5;
-      point += (invitedUserCount + 1) * 2.5;
-      point += myVirtualEstateCount * 37.5;
+      checkInPoint += 12.5;
+      invitedUserPoint += (invitedUserCount + 1) * 2.5;
+      virtualEstatePoint += myVirtualEstateCount * 37.5;
     } else if (userTotalCount < 10_000_000) {
-      point += 6.25;
-      point += (invitedUserCount + 1) * 1.25;
-      point += myVirtualEstateCount * 18.75;
+      checkInPoint += 6.25;
+      invitedUserPoint += (invitedUserCount + 1) * 1.25;
+      virtualEstatePoint += myVirtualEstateCount * 18.75;
     } else {
-      point += 3.125;
-      point += (invitedUserCount + 1) * 0.625;
-      point += myVirtualEstateCount * 9.375;
+      checkInPoint += 3.125;
+      invitedUserPoint += (invitedUserCount + 1) * 0.625;
+      virtualEstatePoint += myVirtualEstateCount * 9.375;
     }
 
     // TODO(Hanggi): calculate the amount of point based on the formula of minging
-    const checkIn = await this.prisma.pointRecords.create({
-      data: {
-        amount: point,
-        ownerID: userID,
-        reason: "CHECK_IN",
-      },
-    });
+    const res = await this.prisma.$transaction([
+      this.prisma.pointRecords.create({
+        data: {
+          amount: checkInPoint,
+          ownerID: userID,
+          reason: "CHECK_IN",
+        },
+      }),
+      this.prisma.pointRecords.create({
+        data: {
+          amount: invitedUserPoint,
+          ownerID: userID,
+          reason: "INVITATION_POINT",
+        },
+      }),
+      this.prisma.pointRecords.create({
+        data: {
+          amount: virtualEstatePoint,
+          ownerID: userID,
+          reason: "VIRTUAL_ESTATE_POINT",
+        },
+      }),
+    ]);
 
-    return checkIn;
+    return res;
   }
 
   // Checked in today

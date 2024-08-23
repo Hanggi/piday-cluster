@@ -37,6 +37,7 @@ export function MyPointRecords({ className, ...props }: TableProps) {
           <tr>
             <th>ID</th>
             <th>积分</th>
+            <th>类型</th>
             <th>创建时间</th>
           </tr>
         </thead>
@@ -45,6 +46,7 @@ export function MyPointRecords({ className, ...props }: TableProps) {
             <tr key={idx}>
               <td>{idx + 1}</td>
               <td>{record.amount}</td>
+              <td>{reasonToString(record.reason)}</td>
               <td>{record.createdAt}</td>
             </tr>
           ))}
@@ -64,4 +66,15 @@ export function MyPointRecords({ className, ...props }: TableProps) {
   );
 }
 
-const data = ["张飞", "2400", "24", "5", "活跃"];
+function reasonToString(reason: string) {
+  switch (reason) {
+    case "CHECK_IN":
+      return "签到奖励";
+    case "INVITATION_POINT":
+      return "邀请奖励";
+    case "VIRTUAL_ESTATE_POINT":
+      return "土地奖励";
+    default:
+      return reason;
+  }
+}

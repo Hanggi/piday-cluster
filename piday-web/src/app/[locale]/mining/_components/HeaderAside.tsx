@@ -23,6 +23,7 @@ export const HeaderAside = () => {
   const {
     data: myPointInfo,
     isLoading: isLoadingMyPointInfo,
+    isFetching: isFetchingMyPointInfo,
     refetch: refetchMyPointInfo,
   } = useGetMyPointInfoQuery();
   const [checkIn, checkInResult] = useCheckInMutation();
@@ -69,7 +70,11 @@ export const HeaderAside = () => {
       ></Modal> */}
       <Button
         className="w-full"
-        disabled={isLoadingMyPointInfo || myPointInfo?.checkedInToday}
+        disabled={
+          isLoadingMyPointInfo ||
+          isFetchingMyPointInfo ||
+          myPointInfo?.checkedInToday
+        }
         onClick={handleCheckIn}
       >
         签到领积分
