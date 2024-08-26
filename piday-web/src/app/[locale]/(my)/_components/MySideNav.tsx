@@ -66,6 +66,18 @@ const navItems = [
     href: "/my/assets",
     icon: <i className="ri-community-line"></i>,
   },
+  {
+    // blog page
+    translationKey: "nav.blogCenter",
+    href: "/blog",
+    icon: <i className="ri-article-line"></i>,
+  },
+  {
+    // about piday
+    translationKey: "nav.aboutParty",
+    href: "/about",
+    icon: <i className="ri-information-line"></i>,
+  },
   // {
   //   translationKey: "nav.settings",
   //   href: "/my/settings",
