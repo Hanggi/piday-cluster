@@ -1,7 +1,7 @@
 import { UserResponseDto } from "@/src/user/dto/user.dto";
 import { VirtualEstateListingResponseDto } from "@/src/virtual-estate-listing/dto/virtual-estate-listing.dto";
 import { VirtualEstateTransactionRecordResponseDto } from "@/src/virtual-estate-transaction-records/dto/create-virtual-estate-transaction-record.dto";
-import { Exclude, Expose, Type } from "class-transformer";
+import { Exclude, Expose, Transform, Type } from "class-transformer";
 
 export class VirtualEstateResponseDto {
   constructor(partial: Partial<VirtualEstateResponseDto>) {
@@ -42,4 +42,23 @@ export class VirtualEstateResponseDto {
   @Expose()
   @Type(() => VirtualEstateTransactionRecordResponseDto)
   transactions?: VirtualEstateTransactionRecordResponseDto;
+
+  // Custom fields
+
+  // New field: level
+  @Expose()
+  @Transform(({ obj }) => {
+    if (obj.id < 31_400) {
+      return "GENESIS";
+    } else if (obj.id >= 31_400 && obj.id < 300_000) {
+      return "GOLD";
+    } else if (obj.id >= 300_000 && obj.id < 1_000_000) {
+      return "SILVER";
+    } else if (obj.id >= 1_000_000 && obj.id < 10_000_000) {
+      return "BRONZE";
+    } else {
+      return "NORMAL";
+    }
+  })
+  level: string;
 }

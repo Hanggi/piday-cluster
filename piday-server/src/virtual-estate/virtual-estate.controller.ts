@@ -66,7 +66,6 @@ export class VirtualEstateController {
           message: "No virtual estates listings",
         });
       }
-
       res.status(HttpStatus.OK).json({
         virtualEstates: plainToInstance(
           VirtualEstateResponseDto,
@@ -321,7 +320,6 @@ export class VirtualEstateController {
     @Query("page") page = 1, // default to page 1
     @Query("size") size = 20, //default to size 20,
   ) {
-    console.log(page, size);
     try {
       const virtualEstatesRes =
         await this.virtualEstateService.getLatestVirtualEstates(size, page);
