@@ -48,9 +48,11 @@ export function ForSale({}: Props) {
 
   return (
     <div className={cn("py-10")}>
-      <Typography className="text-center font-semibold" level="h4">
-        {t("onSaleLand")}
-      </Typography>
+      <div>
+        <Typography className="text-center font-semibold" level="h4">
+          {t("onSaleLand")}
+        </Typography>
+      </div>
       <br />
       <Input
         className="[&_.MuiSelect-root]:!border-0 mx-auto !rounded-full [&_.MuiSelect-root]:hover:!bg-transparent max-w-xl"

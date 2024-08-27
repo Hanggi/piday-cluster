@@ -1,6 +1,7 @@
 "use client";
 
 import PiCoinLogo from "@/src/components/piday-ui/PiCoinLogo";
+import VirtualEstateLevelChip from "@/src/components/virtual-estate-level/VitrualEstateLevelChip";
 import { useLazyGetMyUserQuery } from "@/src/features/auth/api/authAPI";
 import { myUserValue } from "@/src/features/user/user-slice";
 import { VirtualEstateListing } from "@/src/features/virtual-estate-listing/interface/virtual-estate-listing.interface";
@@ -11,6 +12,8 @@ import { h3ToGeo } from "h3-js";
 import { useSession } from "next-auth/react";
 
 import Button from "@mui/joy/Button";
+import Card from "@mui/joy/Card";
+import Chip from "@mui/joy/Chip";
 import Typography from "@mui/joy/Typography";
 
 import { useCallback, useEffect, useState } from "react";
@@ -92,7 +95,10 @@ export default function VirtualEstateDetailCard({
 
   return (
     <div className="w-full relative pt-5">
-      <h1 className="text-3xl font-semibold">{virtualEstate?.name}</h1>
+      <div>
+        <Typography level="h2">{virtualEstate?.name}</Typography>
+        <VirtualEstateLevelChip level={virtualEstate?.level} />
+      </div>
       <div className="mt-5 p-6 bg-[#F7F7F7] rounded-xl">
         <div className="grid gap-4 grid-cols-1 lg:grid-cols-2 py-5">
           <div>

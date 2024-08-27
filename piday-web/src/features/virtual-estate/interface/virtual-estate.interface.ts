@@ -2,7 +2,7 @@ import { User } from "../../auth/interface/User.interface";
 import { VirtualEstateListing } from "../../virtual-estate-listing/interface/virtual-estate-listing.interface";
 import { VirtualEstateTransactionRecord } from "../../virtual-estate-transaction-record/interface/virtual-estate-transaction-record-interface";
 
-type VirtualEstateLevel =
+export type VirtualEstateLevel =
   | "GENESIS"
   | "GOLD"
   | "SLIVER"

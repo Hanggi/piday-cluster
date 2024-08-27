@@ -8,6 +8,7 @@ import { useTranslation } from "react-i18next";
 
 import { VirtualEstate } from "../features/virtual-estate/interface/virtual-estate.interface";
 import PiCoinLogo from "./piday-ui/PiCoinLogo";
+import VirtualEstateLevelChip from "./virtual-estate-level/VitrualEstateLevelChip";
 import { hexIDtoDecimal } from "./virtual-estate-map/h3";
 
 interface Props {
@@ -51,6 +52,8 @@ export function VirtualEstateCard({ ve, showLastPrice }: Props) {
               <Typography className="line-clamp-2" level="title-lg">
                 {ve?.name}
               </Typography>
+
+              {/* <VirtualEstateLevelChip level={ve.level} /> */}
             </div>
             <Typography level="body-sm">{ve?.virtualEstateID}</Typography>
 
