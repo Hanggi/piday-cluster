@@ -19,8 +19,6 @@ interface Props {
 export function VirtualEstateCard({ ve, showLastPrice }: Props) {
   const { t } = useTranslation("home");
 
-  console.log("ve", ve);
-
   return (
     <div className="flex flex-col items-stretch max-md:w-full max-md:ml-0">
       <Link href={`/ve/${hexIDtoDecimal(ve.virtualEstateID)}`}>
@@ -48,14 +46,15 @@ export function VirtualEstateCard({ ve, showLastPrice }: Props) {
             />
           </div>
           <div className="px-4 pt-4 flex flex-col gap-3">
-            <div className="h-12">
+            <div className="">
               <Typography className="line-clamp-2" level="title-lg">
                 {ve?.name}
               </Typography>
-
-              {/* <VirtualEstateLevelChip level={ve.level} /> */}
             </div>
-            <Typography level="body-sm">{ve?.virtualEstateID}</Typography>
+            <div className="flex justify-between">
+              <VirtualEstateLevelChip level={ve.level} />
+              <Typography level="body-sm">{ve?.virtualEstateID}</Typography>
+            </div>
 
             <div className="flex justify-between">
               <div className="flex gap-2.5">
