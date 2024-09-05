@@ -7,6 +7,7 @@ import { virtualEstatesAdminAPI } from "./features/admin/vritual-estates/virtual
 import { withdrawRequestAdminAPI } from "./features/admin/withdraw-requests/withdraw-requests-api";
 import { authRTKApi } from "./features/auth/api/authAPI";
 import globalSlice from "./features/global/global.slice";
+import { leaderboardAPI } from "./features/leaderboard/api/leaderboardAPI";
 import { pointRTKApi } from "./features/point/api/pointAPI";
 import { userRTKAPI } from "./features/user/api/userAPI";
 import userSlice from "./features/user/user-slice";
@@ -40,6 +41,7 @@ export const store = configureStore({
     [withdrawRequestRTKApi.reducerPath]: withdrawRequestRTKApi.reducer,
     [userAdminAPI.reducerPath]: userAdminAPI.reducer,
     [withdrawRequestAdminAPI.reducerPath]: withdrawRequestAdminAPI.reducer,
+    [leaderboardAPI.reducerPath]: leaderboardAPI.reducer,
   },
   middleware: (getDefaultMiddleware) => {
     return getDefaultMiddleware()
@@ -55,7 +57,8 @@ export const store = configureStore({
       .concat(withdrawRequestRTKApi.middleware)
       .concat(pointRTKApi.middleware)
       .concat(userAdminAPI.middleware)
-      .concat(withdrawRequestAdminAPI.middleware);
+      .concat(withdrawRequestAdminAPI.middleware)
+      .concat(leaderboardAPI.middleware);
   },
 });
 

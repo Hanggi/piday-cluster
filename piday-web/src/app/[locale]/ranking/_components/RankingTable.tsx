@@ -7,14 +7,18 @@ import {
   TableHeader,
   TableRow,
 } from "@/src/components/Table";
+import Pagination from "@/src/components/piday-ui/pagination/Pagination";
+import { useGetInvitationRankQuery } from "@/src/features/leaderboard/api/leaderboardAPI";
 import { cn } from "@/src/utils/cn";
 
 import Image from "next/image";
 
-import { ComponentProps, useMemo } from "react";
+import { ComponentProps, useCallback, useMemo, useState } from "react";
 
 import { RankDataKey } from "../@types/rankData.type";
 import { rankData } from "./rankData";
+import { CommissionRankingTable } from "./tables/CommissionRankTable";
+import { InvitationRankingTable } from "./tables/InvitationRankTable";
 
 type RankingTableProps = ComponentProps<typeof Table> & {
   dataKey: RankDataKey;
@@ -25,6 +29,8 @@ export function RankingTable({
   dataKey,
   ...props
 }: RankingTableProps) {
+  const [pageCount, setPageCount] = useState(0);
+  console.log("Data Key", dataKey);
   const [head, cell] = useMemo(() => {
     return [Object.keys(rankData[dataKey]?.[0]), rankData[dataKey]];
   }, [dataKey]);
@@ -42,31 +48,39 @@ export function RankingTable({
     );
   }
 
-  return (
-    <>
-      <Table className={cn(className)} {...props}>
-        <TableHeader>
-          <TableRow>
-            <TableHead>ranks</TableHead>
-            {head.map((item) => (
-              <TableHead key={item}>{item}</TableHead>
-            ))}
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {cell.map((item, idx) => (
-            <TableRow key={Object.keys(item)?.[0]}>
-              <TableCell className="flex items-center gap-2">
-                {renderIcon(idx)} {idx + 1}
-              </TableCell>
-              {Object.values(item).map((col) => (
-                <TableCell key={col}>{col}</TableCell>
+  switch (dataKey) {
+    case "invitation":
+      return <InvitationRankingTable dataKey={dataKey} />;
+
+    case "commission":
+      return <CommissionRankingTable dataKey={dataKey} />;
+    default:
+      return (
+        <>
+          <Table className={cn(className)} {...props}>
+            <TableHeader>
+              <TableRow>
+                <TableHead>ranks</TableHead>
+                {head.map((item) => (
+                  <TableHead key={item}>{item}</TableHead>
+                ))}
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {cell.map((item: any, idx: number) => (
+                <TableRow key={Object.keys(item)?.[0]}>
+                  <TableCell className="flex items-center gap-2">
+                    {renderIcon(idx)} {idx + 1}
+                  </TableCell>
+                  {Object.values(item).map((col: any) => (
+                    <TableCell key={col}>{col}</TableCell>
+                  ))}
+                </TableRow>
               ))}
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-      <PaginationDeprecated />
-    </>
-  );
+            </TableBody>
+          </Table>
+          <PaginationDeprecated />
+        </>
+      );
+  }
 }

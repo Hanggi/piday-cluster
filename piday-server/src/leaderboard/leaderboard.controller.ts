@@ -1,6 +1,6 @@
 import { Response } from "express";
 
-import { Controller, Get, HttpStatus, Req, Res } from "@nestjs/common";
+import { Controller, Get, HttpStatus, Query, Req, Res } from "@nestjs/common";
 
 import { LeaderBoardService } from "./leaderboard.service";
 
@@ -9,8 +9,13 @@ export class LeaderBoardController {
   constructor(private readonly leaderBoardService: LeaderBoardService) {}
 
   @Get("invitation-rank")
-  async getInvitationRank(@Req() req: Request, @Res() res: Response) {
-    const result = await this.leaderBoardService.getInvitationRank();
+  async getInvitationRank(
+    @Req() req: Request,
+    @Res() res: Response,
+    @Query("page") page = 1,
+    @Query("size") size = 10,
+  ) {
+    const result = await this.leaderBoardService.getInvitationRank(page, size);
     res.status(HttpStatus.OK).json({
       success: true,
       invite: result,
@@ -18,8 +23,13 @@ export class LeaderBoardController {
   }
 
   @Get("commission-rank")
-  async getCommissionRank(@Req() req: Request, @Res() res: Response) {
-    const result = await this.leaderBoardService.getCommissionRank();
+  async getCommissionRank(
+    @Req() req: Request,
+    @Res() res: Response,
+    @Query("page") page = 1,
+    @Query("size") size = 10,
+  ) {
+    const result = await this.leaderBoardService.getCommissionRank(page, size);
     res.status(HttpStatus.OK).json({
       success: true,
       commission: result,
@@ -27,8 +37,13 @@ export class LeaderBoardController {
   }
 
   @Get("points-rank")
-  async getPointsRank(@Req() req: Request, @Res() res: Response) {
-    const result = await this.leaderBoardService.getPointsRank();
+  async getPointsRank(
+    @Req() req: Request,
+    @Res() res: Response,
+    @Query("page") page = 1,
+    @Query("size") size = 10,
+  ) {
+    const result = await this.leaderBoardService.getPointsRank(page, size);
     res.status(HttpStatus.OK).json({
       success: true,
       points: result,
