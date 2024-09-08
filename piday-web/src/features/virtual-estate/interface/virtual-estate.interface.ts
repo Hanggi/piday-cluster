@@ -28,3 +28,9 @@ export interface VirtualEstate {
   listings?: VirtualEstateListing[];
   transactions?: VirtualEstateTransactionRecord[];
 }
+
+export interface H3ClusterItem {
+  count: number;
+  mean: number;
+  hexIds: string[];
+}

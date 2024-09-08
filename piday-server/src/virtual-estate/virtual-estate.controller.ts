@@ -517,6 +517,28 @@ export class VirtualEstateController {
     }
   }
 
+  @Get(":hexID/in-cluster")
+  async getClusterHexIDsInArea(
+    @Param("hexID") hexID: string,
+    @Query("depth") depth: number = 2,
+    @Res() res: Response,
+  ) {
+    try {
+      const cluster = await this.virtualEstateService.getClustersInArea({
+        hexID,
+        depth,
+      });
+
+      res.status(HttpStatus.OK).json({ cluster });
+    } catch (err) {
+      console.error(err);
+      throw new HttpException(
+        "Internal Server Error",
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+
   @Get(":hexID/transactions")
   async getVirtualEstateTransactionRecords(
     @Param("hexID") hexID,

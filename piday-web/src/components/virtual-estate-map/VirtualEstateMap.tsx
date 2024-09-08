@@ -1,9 +1,11 @@
 "use client";
 
+import { useLazyGetClusterInAreaQuery } from "@/src/features/virtual-estate/api/virtualEstateAPI";
+import { H3ClusterItem } from "@/src/features/virtual-estate/interface/virtual-estate.interface";
 import { FlyToInterpolator, MapViewState } from "@deck.gl/core";
 import { PickingInfo } from "@deck.gl/core";
 import type { ViewStateChangeParameters } from "@deck.gl/core";
-import { H3HexagonLayer } from "@deck.gl/geo-layers";
+import { H3ClusterLayer, H3HexagonLayer } from "@deck.gl/geo-layers";
 import { TextLayer } from "@deck.gl/layers";
 import DeckGL from "@deck.gl/react";
 import { ZoomWidget } from "@deck.gl/widgets";
@@ -69,6 +71,17 @@ export default function VirtualEstateMap({
 
   const [selectedHexID, setSelectedHexID] = useState<string>("");
 
+  const h3Index = geoToH3(
+    viewState.latitude,
+    viewState.longitude,
+    viewState.zoom,
+  );
+
+  const [clusterData, setClusterData] = useState<H3ClusterItem[]>([]);
+  const [clusterMaxCount, setClusterMaxCount] = useState<number>(255);
+  const [clusterDepth, setClusterDepth] = useState<number | null>(null);
+  const [triggerGetCluster, clusterResult] = useLazyGetClusterInAreaQuery();
+
   useEffect(() => {
     const ch = centerHex; // 示例中心六边形
 
@@ -91,60 +104,136 @@ export default function VirtualEstateMap({
   }, [centerHex, hexagons.length, hexagonsCenter, viewState.zoom]);
 
   useEffect(() => {
+    let depth = 2;
+    let hexID = "8212d7fffffffff";
+    if (viewState.zoom > 0 && viewState.zoom <= 4) {
+      depth = 2;
+      hexID = geoToH3(viewState.latitude, viewState.longitude, 2);
+      setClusterDepth(2);
+    } else if (viewState.zoom > 4 && viewState.zoom <= 6) {
+      depth = 4;
+      hexID = geoToH3(viewState.latitude, viewState.longitude, 4);
+      setClusterDepth(4);
+    } else if (viewState.zoom > 6 && viewState.zoom <= 9) {
+      depth = 6;
+      hexID = geoToH3(viewState.latitude, viewState.longitude, 6);
+      setClusterDepth(6);
+    } else if (viewState.zoom > 9 && viewState.zoom <= 11) {
+      depth = 8;
+      hexID = geoToH3(viewState.latitude, viewState.longitude, 8);
+      setClusterDepth(8);
+    } else if (viewState.zoom > 11 && viewState.zoom <= 12) {
+      depth = 10;
+      hexID = geoToH3(viewState.latitude, viewState.longitude, 10);
+      setClusterDepth(10);
+    } else if (viewState.zoom > 12 && viewState.zoom <= 15) {
+      depth = 12;
+      hexID = geoToH3(viewState.latitude, viewState.longitude, 12);
+      setClusterDepth(12);
+    } else {
+      setClusterDepth(null);
+    }
+
+    if (viewState.zoom < 14 && clusterDepth != depth) {
+      triggerGetCluster({
+        hexID: hexID,
+        depth,
+      });
+    }
+  }, [
+    triggerGetCluster,
+    viewState.latitude,
+    viewState.longitude,
+    viewState.zoom,
+  ]);
+
+  useEffect(() => {
+    if (clusterResult.data) {
+      // get max count from cluster
+      const maxCount = Math.max(
+        ...clusterResult.data.cluster.map((item) => item.count),
+      );
+      setClusterMaxCount(maxCount);
+
+      setClusterData(clusterResult.data.cluster);
+    }
+  }, [clusterResult.data]);
+  console.log(clusterData);
+
+  useEffect(() => {
+    console.log("?????/");
+    console.log("cluster data:", clusterData);
     setLayers([
-      new H3HexagonLayer({
-        id: "h3-hexagon-layer",
-        data: hexagons,
-        pickable: true,
-        wireframe: true,
-        extruded: false, // 确保六边形不是挤出的
-        filled: true, // 使六边形为空心
-        elevationScale: 1,
-        getLineWidth: () => {
-          return 0.1;
-        },
-        getText: () => {
-          return "hihi";
-        },
-        getLineColor: (d) => {
-          if (selectedHexID == d.hexID) {
-            // returen yellow selected color
-            return [255, 255, 0, 200];
-          }
+      hexagons &&
+        new H3HexagonLayer({
+          id: "h3-hexagon-layer",
+          data: hexagons,
+          pickable: true,
+          wireframe: true,
+          extruded: false, // 确保六边形不是挤出的
+          filled: true, // 使六边形为空心
+          elevationScale: 1,
+          getLineWidth: () => {
+            return 0.1;
+          },
+          getText: () => {
+            return "hihi";
+          },
+          getLineColor: (d) => {
+            if (selectedHexID == d.hexID) {
+              // returen yellow selected color
+              return [255, 255, 0, 200];
+            }
 
-          // If hex ID is in onSale, return green
-          if (onSaleList?.includes(d.hexID)) {
-            return [0, 255, 0, 200];
-          }
+            // If hex ID is in onSale, return green
+            if (onSaleList?.includes(d.hexID)) {
+              return [0, 255, 0, 200];
+            }
 
-          if (soldList?.includes(d.hexID)) {
-            return [255, 0, 0, 200];
-          }
+            if (soldList?.includes(d.hexID)) {
+              return [255, 0, 0, 200];
+            }
 
-          return [112, 48, 160];
-        }, // 设置六边形的边线颜色
-        getHexagon: (d) => d.hexID, // 从数据对象中获取H3索引
-        getFillColor: (d) => {
-          if (selectedHexID == d.hexID) {
-            return [112, 48, 160, 200];
-          }
+            return [112, 48, 160];
+          }, // 设置六边形的边线颜色
+          getHexagon: (d) => d.hexID, // 从数据对象中获取H3索引
+          getFillColor: (d) => {
+            if (selectedHexID == d.hexID) {
+              return [112, 48, 160, 200];
+            }
 
-          // If hex ID is in onSale, return green
-          if (onSaleList?.includes(d.hexID)) {
-            return [0, 255, 0, 200];
-          }
+            // If hex ID is in onSale, return green
+            if (onSaleList?.includes(d.hexID)) {
+              return [0, 255, 0, 200];
+            }
 
-          if (soldList?.includes(d.hexID)) {
-            return [112, 48, 160, 100];
-          }
+            if (soldList?.includes(d.hexID)) {
+              return [112, 48, 160, 100];
+            }
 
-          return [255, 255, 255, 0];
-        },
-        // getElevation: (d) => 10, // 设置六边形的高度，仅当extruded为true时有效
-        updateTriggers: {
-          getFillColor: [selectedHexID, onSaleList, soldList],
-        },
-      }),
+            return [255, 255, 255, 0];
+          },
+          // getElevation: (d) => 10, // 设置六边形的高度，仅当extruded为true时有效
+          updateTriggers: {
+            getFillColor: [selectedHexID, onSaleList, soldList],
+          },
+        }),
+      clusterData &&
+        clusterDepth &&
+        new H3ClusterLayer<H3ClusterItem>({
+          id: "H3ClusterLayer",
+          data: clusterData,
+
+          stroked: true,
+          getHexagons: (d: H3ClusterItem) => d.hexIds,
+          getFillColor: (d: H3ClusterItem) => {
+            console.log((1 - d.count / clusterMaxCount) * 255);
+            return [112, 48, 160, 70 + (d.count / clusterMaxCount) * 160];
+          },
+          getLineColor: [255, 255, 255, 100],
+          lineWidthMinPixels: 1,
+          pickable: true,
+        }),
       new TextLayer({
         id: "h3-text-layer",
         data: hexagons,
@@ -167,12 +256,13 @@ export default function VirtualEstateMap({
         },
       }),
     ]);
+
     setViewState((vs) => {
       return {
         ...vs,
       };
     });
-  }, [hexagons, onSaleList, selectedHexID, soldList]);
+  }, [hexagons, onSaleList, selectedHexID, soldList, clusterData]);
 
   // When the default hex id is non-empty, initialize coordinate animation
   useEffect(() => {

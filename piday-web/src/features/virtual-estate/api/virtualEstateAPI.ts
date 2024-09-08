@@ -3,7 +3,10 @@ import { createApi } from "@reduxjs/toolkit/query/react";
 import { baseQuery } from "../../rtk-utils/fetch-base-query";
 import { VirtualEstateListing } from "../../virtual-estate-listing/interface/virtual-estate-listing.interface";
 import { VirtualEstateTransactionRecord } from "../../virtual-estate-transaction-record/interface/virtual-estate-transaction-record-interface";
-import { VirtualEstate } from "../interface/virtual-estate.interface";
+import {
+  H3ClusterItem,
+  VirtualEstate,
+} from "../interface/virtual-estate.interface";
 
 export const virtualEstateRTKApi = createApi({
   reducerPath: "virtualEstateAPI",
@@ -96,6 +99,19 @@ export const virtualEstateRTKApi = createApi({
         method: "GET",
       }),
       transformResponse: (response: { onSale: string[]; sold: string[] }) => {
+        return response;
+      },
+    }),
+
+    getClusterInArea: builder.query<
+      { cluster: H3ClusterItem[] },
+      { hexID: string; depth: number }
+    >({
+      query: ({ hexID, depth }) => ({
+        url: `/virtual-estates/${hexID}/cluster?depth=${depth}`,
+        method: "GET",
+      }),
+      transformResponse: (response: { cluster: H3ClusterItem[] }) => {
         return response;
       },
     }),
@@ -235,4 +251,6 @@ export const {
   useGetTransactedVirtualEstatesQuery,
   useSearchVirtualEstatesQuery,
   useLazySearchVirtualEstatesQuery,
+  useGetClusterInAreaQuery,
+  useLazyGetClusterInAreaQuery,
 } = virtualEstateRTKApi;

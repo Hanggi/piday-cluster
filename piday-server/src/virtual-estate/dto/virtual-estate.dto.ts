@@ -48,9 +48,9 @@ export class VirtualEstateResponseDto {
   // New field: level
   @Expose()
   @Transform(({ obj }) => {
-    if (obj.id < 31_400) {
+    if (obj.id < 30_000) {
       return "GENESIS";
-    } else if (obj.id >= 31_400 && obj.id < 300_000) {
+    } else if (obj.id >= 30_000 && obj.id < 300_000) {
       return "GOLD";
     } else if (obj.id >= 300_000 && obj.id < 1_000_000) {
       return "SILVER";

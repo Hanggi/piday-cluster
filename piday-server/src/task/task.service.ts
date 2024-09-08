@@ -1,3 +1,4 @@
+import { h3ToParent } from "h3-js";
 import Redis from "ioredis";
 
 import { HttpService } from "@nestjs/axios";
@@ -110,5 +111,60 @@ export class TasksService {
     }
 
     return [];
+  }
+
+  @Cron(CronExpression.EVERY_10_SECONDS)
+  async generateClusterDepthAddress() {
+    console.log("hihi?");
+
+    // get 100 VEs which have not been set depth indexes.
+    const VEs = await this.prismaService.virtualEstate.findMany({
+      where: {
+        OR: [
+          {
+            depth2Index: null,
+          },
+          {
+            depth4Index: null,
+          },
+          {
+            depth6Index: null,
+          },
+          {
+            depth8Index: null,
+          },
+          {
+            depth10Index: null,
+          },
+        ],
+      },
+      take: 100,
+    });
+
+    // for each VE, get the depth index
+    VEs.forEach(async (VE) => {
+      const depth2Index = h3ToParent(VE.virtualEstateID, 2);
+      const depth3Index = h3ToParent(VE.virtualEstateID, 3);
+      const depth4Index = h3ToParent(VE.virtualEstateID, 4);
+      const depth6Index = h3ToParent(VE.virtualEstateID, 6);
+      const depth8Index = h3ToParent(VE.virtualEstateID, 8);
+      const depth10Index = h3ToParent(VE.virtualEstateID, 10);
+      // const depth12Index = h3ToParent(VE.virtualEstateID, 12);
+
+      await this.prismaService.virtualEstate.update({
+        where: {
+          id: VE.id,
+        },
+        data: {
+          depth2Index: depth2Index,
+          // depth3Index: depth3Index,
+          depth4Index: depth4Index,
+          depth6Index: depth6Index,
+          depth8Index: depth8Index,
+          depth10Index: depth10Index,
+          // depth12Index: depth12Index,
+        },
+      });
+    });
   }
 }

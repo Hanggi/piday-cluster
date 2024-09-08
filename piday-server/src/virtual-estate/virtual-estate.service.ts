@@ -1,7 +1,7 @@
 import { VirtualEstate, VirtualEstateListing } from "@prisma/client";
 import { Decimal } from "@prisma/client/runtime/library";
 import { stat } from "fs";
-import { kRing } from "h3-js";
+import { h3ToParent, kRing } from "h3-js";
 
 import { Injectable } from "@nestjs/common";
 
@@ -9,6 +9,12 @@ import { ServiceException } from "../lib/exceptions/service-exception";
 import { generateFlakeID } from "../lib/generate-id/generate-flake-id";
 import { PrismaService } from "../lib/prisma/prisma.service";
 import { ZERO_DECIMAL } from "../lib/prisma/utils/zerro-decimal";
+
+export interface H3ClusterResult {
+  count: number;
+  mean: number;
+  hexIds: string[];
+}
 
 @Injectable()
 export class VirtualEstateService {
@@ -287,6 +293,68 @@ export class VirtualEstateService {
       onSale: [],
       sold: virtualEstatesHasOwner.map((ve) => ve.virtualEstateID) || [],
     };
+  }
+
+  // This function is returning the clusters in the area (H3 Cluster)
+  async getClustersInArea({ hexID, depth }: { hexID: string; depth: number }) {
+    let h3CenterIndex = hexID;
+
+    let clusterDepth: string = "depth2Index";
+    console.log(depth);
+    if (depth <= 2) {
+      clusterDepth = "depth2Index";
+      h3CenterIndex = h3ToParent(h3CenterIndex, 2);
+    } else if (depth <= 4) {
+      clusterDepth = "depth4Index";
+      h3CenterIndex = h3ToParent(h3CenterIndex, 4);
+    } else if (depth <= 6) {
+      clusterDepth = "depth6Index";
+      h3CenterIndex = h3ToParent(h3CenterIndex, 6);
+    } else if (depth <= 8) {
+      clusterDepth = "depth8Index";
+      h3CenterIndex = h3ToParent(h3CenterIndex, 8);
+    } else if (depth <= 10) {
+      clusterDepth = "depth10Index";
+      h3CenterIndex = h3ToParent(h3CenterIndex, 10);
+    } else if (depth <= 15) {
+      clusterDepth = "depth10Index";
+      h3CenterIndex = h3ToParent(h3CenterIndex, 10);
+    }
+
+    const self = this;
+    const hexCounts = await this.prisma.virtualEstate.groupBy({
+      by: [clusterDepth as keyof typeof self.prisma.virtualEstate.fields], // 按 depth2Index 分组
+      // where: {
+      //   [clusterDepth]: {
+      //     in: hexIDsInArea,
+      //   },
+      // },
+      _count: {
+        [clusterDepth]: true,
+      },
+    });
+
+    const groupedByCount: { [key: number]: string[] } = {};
+
+    hexCounts.forEach((hexCount) => {
+      const count = hexCount._count[clusterDepth];
+      const hexID = hexCount[clusterDepth];
+
+      if (!groupedByCount[count]) {
+        groupedByCount[count] = [];
+      }
+      groupedByCount[count].push(hexID);
+    });
+
+    const result: H3ClusterResult[] = Object.entries(groupedByCount).map(
+      ([count, hexIds]) => ({
+        count: Number(count), // 将 count 转换为数字
+        mean: Number(count),
+        hexIds,
+      }),
+    );
+
+    return result;
   }
 
   async getVirtualEstateTotalMinted(
