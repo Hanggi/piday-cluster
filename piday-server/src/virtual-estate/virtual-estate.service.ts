@@ -327,7 +327,6 @@ export class VirtualEstateService {
     const redisKey = `piday-server::clustersInArea:${clusterDepth}`;
     try {
       const clusterCache = await this.redis.get(redisKey);
-      console.log("clusterCache", clusterCache);
 
       if (clusterCache) {
         return JSON.parse(clusterCache);
