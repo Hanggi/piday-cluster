@@ -3,6 +3,7 @@ import { Module } from "@nestjs/common";
 import { AccountService } from "../account/account.service";
 import { KeycloakService } from "../lib/keycloak/keycloak.service";
 import { PrismaService } from "../lib/prisma/prisma.service";
+import { RedisModule } from "../lib/redis/redis.module";
 import { UserService } from "../user/user.service";
 import { VirtualEstateListingService } from "../virtual-estate-listing/virtual-estate-listing.service";
 import { VirtualEstateTransactionRecordsService } from "../virtual-estate-transaction-records/virtual-estate-transaction-records.service";
@@ -10,6 +11,7 @@ import { VirtualEstateController } from "./virtual-estate.controller";
 import { VirtualEstateService } from "./virtual-estate.service";
 
 @Module({
+  imports: [RedisModule],
   controllers: [VirtualEstateController],
   providers: [
     VirtualEstateService,

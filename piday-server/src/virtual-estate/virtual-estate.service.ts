@@ -1,9 +1,9 @@
 import { VirtualEstate, VirtualEstateListing } from "@prisma/client";
 import { Decimal } from "@prisma/client/runtime/library";
-import { stat } from "fs";
 import { h3ToParent, kRing } from "h3-js";
+import Redis from "ioredis";
 
-import { Injectable } from "@nestjs/common";
+import { Inject, Injectable } from "@nestjs/common";
 
 import { ServiceException } from "../lib/exceptions/service-exception";
 import { generateFlakeID } from "../lib/generate-id/generate-flake-id";
@@ -18,7 +18,10 @@ export interface H3ClusterResult {
 
 @Injectable()
 export class VirtualEstateService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    @Inject("REDIS_CLIENT") readonly redis: Redis,
+  ) {}
 
   async getLatestVirtualEstates(
     size: number,
@@ -297,28 +300,40 @@ export class VirtualEstateService {
 
   // This function is returning the clusters in the area (H3 Cluster)
   async getClustersInArea({ hexID, depth }: { hexID: string; depth: number }) {
-    let h3CenterIndex = hexID;
+    // let h3CenterIndex = hexID;
 
     let clusterDepth: string = "depth2Index";
-    console.log(depth);
+
     if (depth <= 2) {
       clusterDepth = "depth2Index";
-      h3CenterIndex = h3ToParent(h3CenterIndex, 2);
+      // h3CenterIndex = h3ToParent(h3CenterIndex, 2);
     } else if (depth <= 4) {
       clusterDepth = "depth4Index";
-      h3CenterIndex = h3ToParent(h3CenterIndex, 4);
+      // h3CenterIndex = h3ToParent(h3CenterIndex, 4);
     } else if (depth <= 6) {
       clusterDepth = "depth6Index";
-      h3CenterIndex = h3ToParent(h3CenterIndex, 6);
+      // h3CenterIndex = h3ToParent(h3CenterIndex, 6);
     } else if (depth <= 8) {
       clusterDepth = "depth8Index";
-      h3CenterIndex = h3ToParent(h3CenterIndex, 8);
+      // h3CenterIndex = h3ToParent(h3CenterIndex, 8);
     } else if (depth <= 10) {
       clusterDepth = "depth10Index";
-      h3CenterIndex = h3ToParent(h3CenterIndex, 10);
+      // h3CenterIndex = h3ToParent(h3CenterIndex, 10);
     } else if (depth <= 15) {
       clusterDepth = "depth10Index";
-      h3CenterIndex = h3ToParent(h3CenterIndex, 10);
+      // h3CenterIndex = h3ToParent(h3CenterIndex, 10);
+    }
+
+    const redisKey = `piday-server::clustersInArea:${clusterDepth}`;
+    try {
+      const clusterCache = await this.redis.get(redisKey);
+      console.log("clusterCache", clusterCache);
+
+      if (clusterCache) {
+        return JSON.parse(clusterCache);
+      }
+    } catch (error) {
+      console.error("Redis get error on H3 cluster", error);
     }
 
     const self = this;
@@ -353,6 +368,12 @@ export class VirtualEstateService {
         hexIds,
       }),
     );
+
+    try {
+      await this.redis.set(redisKey, JSON.stringify(result), "EX", 60 * 60); // 1 hour
+    } catch (error) {
+      console.error("Redis set error on H3 cluster", error);
+    }
 
     return result;
   }
