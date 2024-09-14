@@ -115,8 +115,6 @@ export class TasksService {
 
   @Cron(CronExpression.EVERY_10_SECONDS)
   async generateClusterDepthAddress() {
-    console.log("hihi?");
-
     // get 100 VEs which have not been set depth indexes.
     const VEs = await this.prismaService.virtualEstate.findMany({
       where: {
