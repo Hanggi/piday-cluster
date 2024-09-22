@@ -24,6 +24,23 @@ export const metadata: Metadata = {
   title: "Happy Piday Happy World —— Piday Metaverse",
   description:
     "Piday world is a metaverse that mirrors the Earth's lands，allowing each pioneer to own their own digital land asset on the chain.",
+
+  manifest: "/manifest.json",
+  themeColor: "#593b8b",
+
+  openGraph: {
+    title: "Happy Piday Happy World —— Piday Metaverse",
+    description:
+      "Piday world is a metaverse that mirrors the Earth's lands，allowing each pioneer to own their own digital land asset on the chain.",
+    images: [
+      {
+        url: "/img/logo/piday-logo.png",
+        width: 1200,
+        height: 630,
+        alt: "Piday Metaverse",
+      },
+    ],
+  },
 };
 
 export function generateStaticParams() {

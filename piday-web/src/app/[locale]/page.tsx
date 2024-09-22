@@ -8,10 +8,6 @@ import { ForSale } from "./_components/home-ve-map/ForSale";
 import { SearchResult } from "./_components/home-ve-map/SearchResult";
 import VirtualEstateMapClientWrapper from "./_components/home-ve-map/VirtualEstateMapClientWrapper";
 
-export const metadata = {
-  title: "Home",
-};
-
 const MAPBOX_ACCESS_TOKEN = process.env.MAPBOX_ACCESS_TOKEN;
 
 interface Props {
