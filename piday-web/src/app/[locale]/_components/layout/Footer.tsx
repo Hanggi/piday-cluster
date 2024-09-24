@@ -7,13 +7,84 @@ import Button from "@mui/joy/Button";
 import Image from "next/image";
 import Link from "next/link";
 
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+
+interface BeforeInstallPromptEvent extends Event {
+  prompt: () => Promise<void>;
+  userChoice: Promise<{ outcome: "accepted" | "dismissed" }>;
+}
 
 export default function Footer() {
   const { t } = useTranslation("common");
 
+  const [deferredPrompt, setDeferredPrompt] =
+    useState<BeforeInstallPromptEvent | null>(null);
+  const [showInstallButton, setShowInstallButton] = useState<boolean>(false);
+
+  function isPWAInstalled() {
+    return (
+      window.matchMedia("(display-mode: standalone)").matches ||
+      (window?.navigator as any)?.standalone
+    );
+  }
+
+  function isMobileDevice() {
+    return /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+  }
+
+  useEffect(() => {
+    if (isPWAInstalled() && isMobileDevice()) {
+      console.log("PWA 已安装并在移动设备上运行");
+    } else if (isMobileDevice()) {
+      console.log("用户在移动设备上，但 PWA 未安装");
+      setShowInstallButton(true);
+    } else {
+      console.log("用户在桌面设备上");
+    }
+  }, []);
+
+  useEffect(() => {
+    const handler = (e: Event) => {
+      e.preventDefault();
+      setDeferredPrompt(e as BeforeInstallPromptEvent);
+      // setShowInstallButton(true);
+    };
+
+    window.addEventListener("beforeinstallprompt", handler as EventListener);
+
+    return () => {
+      window.removeEventListener(
+        "beforeinstallprompt",
+        handler as EventListener,
+      );
+    };
+  }, []);
+
+  const handleInstallClick = async () => {
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      const choiceResult = await deferredPrompt.userChoice;
+      if (choiceResult.outcome === "accepted") {
+        console.log("用户接受了安装");
+      } else {
+        console.log("用户取消了安装");
+      }
+      setDeferredPrompt(null);
+      setShowInstallButton(false);
+    }
+  };
+
   return (
     <section className="w-full  bg-[rgba(89,59,139,100)]">
+      {showInstallButton && (
+        <div className="fixed bottom-0 left-0 right-0 h-20 z-50 !bg-violet-600 opacity-80 px-8">
+          <div className="py-4 flex justify-end">
+            <Button onClick={handleInstallClick}>安装应用</Button>
+          </div>
+        </div>
+      )}
+
       <div
         className={cn("top-0 w-full max-md:py-4 md:h-20", {
           // "absolute max-md:pt-0": navType === NavType.header,

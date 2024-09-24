@@ -158,11 +158,8 @@ export default function VirtualEstateMap({
       setClusterData(clusterResult.data.cluster);
     }
   }, [clusterResult.data]);
-  console.log(clusterData);
 
   useEffect(() => {
-    console.log("?????/");
-    console.log("cluster data:", clusterData);
     setLayers([
       hexagons &&
         new H3HexagonLayer({
@@ -227,7 +224,6 @@ export default function VirtualEstateMap({
           stroked: true,
           getHexagons: (d: H3ClusterItem) => d.hexIds,
           getFillColor: (d: H3ClusterItem) => {
-            console.log((1 - d.count / clusterMaxCount) * 255);
             return [112, 48, 160, 70 + (d.count / clusterMaxCount) * 160];
           },
           getLineColor: [255, 255, 255, 100],
@@ -392,7 +388,7 @@ export default function VirtualEstateMap({
           <div
             className="flex gap-2"
             onClick={() => {
-              console.log(viewState);
+              // console.log(viewState);
             }}
           >
             <Typography level="body-sm">
