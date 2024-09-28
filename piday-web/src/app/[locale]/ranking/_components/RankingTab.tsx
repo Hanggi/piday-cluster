@@ -17,14 +17,6 @@ export const RankingTab = () => {
 
 const tabListData: TabListDataType[] = [
   {
-    icon: "/img/icons/globe.png",
-    label: "ranking:tabs.country",
-  },
-  {
-    icon: "/img/icons/User.png",
-    label: "ranking:tabs.personal",
-  },
-  {
     icon: "/img/icons/UsersThree.png",
     label: "ranking:tabs.invitation",
   },
@@ -34,6 +26,6 @@ const tabListData: TabListDataType[] = [
   },
   {
     icon: "/img/icons/Medal.png",
-    label: "ranking:tabs.transaction",
+    label: "ranking:tabs.points",
   },
 ];

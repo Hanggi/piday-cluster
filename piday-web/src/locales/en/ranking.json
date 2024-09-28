@@ -4,6 +4,7 @@
     "personal": "personal",
     "invitation": "invitation",
     "commission": "commission",
-    "transaction": "transaction"
+    "transaction": "transaction",
+    "points":"points"
   }
 }

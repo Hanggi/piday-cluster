@@ -25,8 +25,20 @@ export const leaderboardAPI = createApi({
         return res;
       },
     }),
+    getPointsRank: builder.query<any, { page: number; size: number }>({
+      query: ({ page, size }) => ({
+        url: `/leaderboard/points-rank?page=${page}&size=${size}`,
+        method: "GET",
+      }),
+      transformResponse: (res: any) => {
+        return res;
+      },
+    }),
   }),
 });
 
-export const { useGetInvitationRankQuery, useGetCommissionRankQuery } =
-  leaderboardAPI;
+export const {
+  useGetInvitationRankQuery,
+  useGetCommissionRankQuery,
+  useGetPointsRankQuery,
+} = leaderboardAPI;

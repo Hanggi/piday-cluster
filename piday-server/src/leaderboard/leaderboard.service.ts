@@ -101,6 +101,15 @@ export class LeaderBoardService {
     const skip = (page - 1) * size;
     const take = size;
 
+    // Get the total count of distinct ownerID
+    const totalCount = await this.prisma.pointRecords.groupBy({
+      by: ["ownerID"],
+      _count: {
+        _all: true,
+      },
+    });
+
+    // Fetch paginated point ranks
     const pointRanks = await this.prisma.pointRecords.groupBy({
       by: ["ownerID"],
       _sum: {
@@ -115,6 +124,7 @@ export class LeaderBoardService {
       take: parseInt(take as unknown as string),
     });
 
+    // Map the point ranks to user information
     const rankedUsers = await Promise.all(
       pointRanks.map(async (rank) => {
         const user = await this.prisma.user.findUnique({
@@ -132,6 +142,10 @@ export class LeaderBoardService {
       }),
     );
 
-    return rankedUsers;
+    // Return the paginated result along with the total count
+    return {
+      rankedUsers,
+      totalCount: totalCount.length,
+    };
   }
 }

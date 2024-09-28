@@ -19,6 +19,7 @@ import { RankDataKey } from "../@types/rankData.type";
 import { rankData } from "./rankData";
 import { CommissionRankingTable } from "./tables/CommissionRankTable";
 import { InvitationRankingTable } from "./tables/InvitationRankTable";
+import { PointsRankTable } from "./tables/PointsRankTable";
 
 type RankingTableProps = ComponentProps<typeof Table> & {
   dataKey: RankDataKey;
@@ -54,6 +55,8 @@ export function RankingTable({
 
     case "commission":
       return <CommissionRankingTable dataKey={dataKey} />;
+    case "points":
+      return <PointsRankTable dataKey={dataKey} />;
     default:
       return (
         <>
