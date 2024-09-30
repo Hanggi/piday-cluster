@@ -361,7 +361,7 @@ export default function VirtualEstateMap({
         }}
       >
         <Map
-          mapStyle="mapbox://styles/mapbox/streets-v9"
+          mapStyle="mapbox://styles/mapbox/streets-v12"
           mapboxAccessToken={token}
           id="pidayMap"
           ref={mapRef}
