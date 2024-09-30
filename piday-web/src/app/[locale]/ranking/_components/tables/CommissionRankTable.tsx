@@ -15,6 +15,7 @@ import Pagination from "../../../../../../src/components/piday-ui/pagination/Pag
 import { useGetCommissionRankQuery } from "../../../../../../src/features/leaderboard/api/leaderboardAPI";
 import { cn } from "../../../../../../src/utils/cn";
 import { RankDataKey } from "../../@types/rankData.type";
+import Card from "@mui/joy/Card";
 
 type RankingTableProps = ComponentProps<typeof Table> & {
   dataKey: RankDataKey;
@@ -50,7 +51,7 @@ export function CommissionRankingTable({
     setPage(selected + 1);
   }, []);
   return (
-    <>
+    <Card>
       <Table className={cn(className)} {...props}>
         <TableHeader>
           <TableRow>
@@ -82,6 +83,6 @@ export function CommissionRankingTable({
         pageCount={Math.ceil((commissionRank?.commission?.total || 0) / size)}
         onPageChange={handlePageClick}
       />
-    </>
+    </Card>
   );
 }

@@ -1,3 +1,5 @@
+import Card from "@mui/joy/Card";
+
 import Image from "next/image";
 
 import { ComponentProps, useCallback, useMemo, useState } from "react";
@@ -29,7 +31,7 @@ export function InvitationRankingTable({
   const [size, setSize] = useState(20);
   const { data: invitationRank } = useGetInvitationRankQuery({ page, size });
 
-  const head = ["Name", "Invited Users", "total Points"];
+  const head = ["Name", "Invited Users"];
 
   function renderIcon(idx: number) {
     if (idx > 2) return;
@@ -48,7 +50,7 @@ export function InvitationRankingTable({
     setPage(selected + 1);
   }, []);
   return (
-    <>
+    <Card>
       <Table className={cn(className)} {...props}>
         <TableHeader>
           <TableRow>
@@ -68,7 +70,6 @@ export function InvitationRankingTable({
               <TableCell key={item.numberOfInvitedUserRegistrations}>
                 {item.numberOfInvitedUserRegistrations}
               </TableCell>
-              <TableCell key={item.totalPoints}>{item.totalPoints}</TableCell>
             </TableRow>
           ))}
         </TableBody>
@@ -78,6 +79,6 @@ export function InvitationRankingTable({
         pageCount={Math.ceil((invitationRank?.invite?.total || 0) / size)}
         onPageChange={handlePageClick}
       />
-    </>
+    </Card>
   );
 }

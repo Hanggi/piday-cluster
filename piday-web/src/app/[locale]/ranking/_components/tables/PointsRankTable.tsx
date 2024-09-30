@@ -1,3 +1,5 @@
+import Card from "@mui/joy/Card";
+
 import Image from "next/image";
 
 import { ComponentProps, useCallback, useMemo, useState } from "react";
@@ -48,7 +50,7 @@ export function PointsRankTable({
     setPage(selected + 1);
   }, []);
   return (
-    <>
+    <Card>
       <Table className={cn(className)} {...props}>
         <TableHeader>
           <TableRow>
@@ -78,6 +80,6 @@ export function PointsRankTable({
         pageCount={Math.ceil((pointsRank?.points?.totalCount || 0) / size)}
         onPageChange={handlePageClick}
       />
-    </>
+    </Card>
   );
 }

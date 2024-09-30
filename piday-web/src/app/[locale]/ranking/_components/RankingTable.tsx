@@ -11,6 +11,8 @@ import Pagination from "@/src/components/piday-ui/pagination/Pagination";
 import { useGetInvitationRankQuery } from "@/src/features/leaderboard/api/leaderboardAPI";
 import { cn } from "@/src/utils/cn";
 
+import Card from "@mui/joy/Card";
+
 import Image from "next/image";
 
 import { ComponentProps, useCallback, useMemo, useState } from "react";
@@ -59,7 +61,7 @@ export function RankingTable({
       return <PointsRankTable dataKey={dataKey} />;
     default:
       return (
-        <>
+        <Card>
           <Table className={cn(className)} {...props}>
             <TableHeader>
               <TableRow>
@@ -83,7 +85,7 @@ export function RankingTable({
             </TableBody>
           </Table>
           <PaginationDeprecated />
-        </>
+        </Card>
       );
   }
 }
