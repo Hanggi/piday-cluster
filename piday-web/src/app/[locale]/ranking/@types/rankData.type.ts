@@ -3,7 +3,8 @@ export type RankDataKey =
   | "personal"
   | "invitation"
   | "commission"
-  | "transaction";
+  | "transaction"
+  | "points";
 
 export type CountryRankData = {
   nation: string;
@@ -32,9 +33,16 @@ export type TransactionRankData = {
   turnover: number;
 };
 
+export type PointRankData = {
+  username: string;
+  numberOfLandHoldings: number;
+  totalPoints: number;
+};
+
 export type RankData =
   | CountryRankData
   | PersonalRankData
   | InvitationRankData
   | CommissionRankData
-  | TransactionRankData;
+  | TransactionRankData
+  | PointRankData;

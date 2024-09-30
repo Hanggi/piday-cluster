@@ -72,10 +72,20 @@ const transaction: RankData[] = [
   },
 ];
 
+const points: RankData[] = [
+  {
+    nation: "中国",
+    numberOfLandTransactions: 2400,
+    numberOfLandTransactions2: 1000,
+    turnover: 2000,
+  },
+];
+
 export const rankData = {
   country,
   personal,
   invitation,
   commission,
   transaction,
+  points,
 };
