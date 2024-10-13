@@ -4,10 +4,11 @@ import { VirtualEstateTransactionRecord } from "../../virtual-estate-transaction
 
 export type VirtualEstateLevel =
   | "GENESIS"
-  | "GOLD"
+  | "GOLDEN"
   | "SLIVER"
   | "BRONZE"
   | "NORMAL"
+  | "ANTARCTICA"
   | "UNKNOWN";
 
 export interface VirtualEstate {

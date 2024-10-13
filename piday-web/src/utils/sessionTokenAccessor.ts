@@ -5,10 +5,14 @@ import { decrypt } from "./encryption";
 
 export async function getAccessToken() {
   const session: any = await getServerSession(authOptions);
-  if (session && session?.access_token) {
-    const accessTokenDecrypted = decrypt(session?.access_token);
+
+  if (session && (session?.access_token || session?.accessToken)) {
+    const accessTokenDecrypted = decrypt(
+      session?.access_token || session?.accessToken,
+    );
     return accessTokenDecrypted;
   }
+
   return null;
 }
 

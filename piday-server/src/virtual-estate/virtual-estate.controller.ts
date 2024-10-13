@@ -19,7 +19,10 @@ import {
 import { AccountService } from "../account/account.service";
 import commonControllerErrorHandler from "../lib/errors/common-controller-error-handler";
 import { AuthenticatedRequest } from "../lib/keycloak/interfaces/authenticated-request";
-import { KeycloakJwtGuard } from "../lib/keycloak/keycloak-jwt.guard";
+import {
+  KeycloakJwtGuard,
+  OptionalKeycloakJwtGuard,
+} from "../lib/keycloak/keycloak-jwt.guard";
 import { UserService } from "../user/user.service";
 import { VirtualEstateListingResponseDto } from "../virtual-estate-listing/dto/virtual-estate-listing.dto";
 import { VirtualEstateListingService } from "../virtual-estate-listing/virtual-estate-listing.service";
@@ -460,6 +463,7 @@ export class VirtualEstateController {
     }
   }
 
+  @UseGuards(OptionalKeycloakJwtGuard)
   @Get(":hexID")
   async getOneVirtualEstate(
     @Param("hexID") hexID,
@@ -473,7 +477,8 @@ export class VirtualEstateController {
         });
 
       if (!virtualEstate) {
-        const mintPrice = await this.virtualEstateService.getMintPrice();
+        const { mintPrice, level } =
+          await this.virtualEstateService.getMintPrice(hexID, req.user?.userID);
 
         res.status(HttpStatus.OK).json({
           mintPrice: mintPrice,

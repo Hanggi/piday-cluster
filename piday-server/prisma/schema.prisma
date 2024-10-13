@@ -80,6 +80,7 @@ model VirtualEstate {
   lastPrice Decimal
   address   String?
   isGenesis Boolean @default(false)
+  level     String  @default("UNKNOWN")
 
   ownerID String // Keycloak user ID
   owner   User   @relation(fields: [ownerID], references: [keycloakID])

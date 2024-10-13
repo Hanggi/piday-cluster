@@ -65,6 +65,12 @@ export default function WithdrawRequestModal({
 
     if (amount > balance) {
       toast.error("Not enough balance");
+      return;
+    }
+
+    if (amount < 1) {
+      toast.error("Amount can never be less than 1");
+      return;
     }
 
     createWithdraw({ amount: JSON.stringify(amount), paymentPassword });

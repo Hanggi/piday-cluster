@@ -6,8 +6,11 @@ import {
 import instance from "@/src/features/axios/instance";
 import { VirtualEstateListing } from "@/src/features/virtual-estate-listing/interface/virtual-estate-listing.interface";
 import { VirtualEstate } from "@/src/features/virtual-estate/interface/virtual-estate.interface";
+import { getAccessToken } from "@/src/utils/sessionTokenAccessor";
 import { AxiosError } from "axios";
 import { isNaN, isNumber } from "lodash";
+import { getServerSession } from "next-auth";
+import { getSession } from "next-auth/react";
 
 import { redirect } from "next/navigation";
 
@@ -38,9 +41,18 @@ export default async function VirtualEstateDetailPage({
   let onSaleListing: VirtualEstateListing | undefined;
   let mintPrice = 3.14;
   try {
-    // This request send to the backend directly.
-    const res = await instance.get(`/virtual-estates/${hexID}`);
+    const accessTokenDecrypted = await getAccessToken();
 
+    // This request send to the backend directly.
+    const res = await instance.get(`/virtual-estates/${hexID}`, {
+      headers: {
+        Authorization: accessTokenDecrypted
+          ? `Bearer ${accessTokenDecrypted}`
+          : "",
+      },
+    });
+
+    console.log(res.data);
     mintPrice = res.data.mintPrice;
     virtualEstate = res.data.ve;
     onSaleListing = res.data.listing;

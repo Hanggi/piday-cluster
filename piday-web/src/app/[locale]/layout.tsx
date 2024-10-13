@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     "Piday world is a metaverse that mirrors the Earth's lands，allowing each pioneer to own their own digital land asset on the chain.",
 
   manifest: "/manifest.json",
-  themeColor: "#593b8b",
+  // themeColor: "#593b8b",
 
   openGraph: {
     title: "Happy Piday Happy World —— Piday Metaverse",

@@ -34,7 +34,7 @@ export default function MintVirtualEstateDialog({
   placeName,
   place,
   onClose,
-  mintPrice = 10,
+  mintPrice,
 }: Props) {
   const { t } = useTranslation(["virtual-estate"]);
   const router = useRouter();
@@ -149,7 +149,7 @@ function getPlaceName(place: any) {
   })?.text;
 
   try {
-    return `.${placeName}${countryName ? "." + countryName : ""}.world`;
+    return `${placeName ? "." + placeName : ""}${countryName ? "." + countryName : ""}.world`;
   } catch (error) {
     toast.error("Invalid place name: ");
     console.error(error);

@@ -30,7 +30,7 @@ interface Props {
   hexID: string;
   virtualEstate?: VirtualEstate;
   listing?: VirtualEstateListing;
-  mintPrice?: number;
+  mintPrice: number;
 }
 
 export default function VirtualEstateDetailCard({
@@ -46,6 +46,8 @@ export default function VirtualEstateDetailCard({
     lat: geo[0],
     lng: geo[1],
   });
+
+  console.log(place);
 
   const myUser = useSelector(myUserValue);
   const [getMyUserTrigger, { data: myUserData, isLoading: isLoadingMyUser }] =
@@ -143,7 +145,7 @@ export default function VirtualEstateDetailCard({
               {t("virtual-estate:label.lastPrice")}
             </Typography>
             <Typography level="title-md">
-              {virtualEstate?.lastPrice || mintPrice || 10}
+              {virtualEstate?.lastPrice || mintPrice || "Free"}
             </Typography>
           </div>
           {listing && (
@@ -217,7 +219,7 @@ export default function VirtualEstateDetailCard({
       {/* Dialogs */}
       <MintVirtualEstateDialog
         hexID={hexID}
-        mintPrice={mintPrice || 10}
+        mintPrice={mintPrice}
         open={openMintVirtualEstateDialog}
         place={place}
         placeName={placeName}

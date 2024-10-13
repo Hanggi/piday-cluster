@@ -47,18 +47,18 @@ export class VirtualEstateResponseDto {
 
   // New field: level
   @Expose()
-  @Transform(({ obj }) => {
-    if (obj.id < 30_000) {
-      return "GENESIS";
-    } else if (obj.id >= 30_000 && obj.id < 300_000) {
-      return "GOLD";
-    } else if (obj.id >= 300_000 && obj.id < 1_000_000) {
-      return "SILVER";
-    } else if (obj.id >= 1_000_000 && obj.id < 10_000_000) {
-      return "BRONZE";
-    } else {
-      return "NORMAL";
-    }
-  })
+  // @Transform(({ obj }) => {
+  //   if (obj.id < 30_000) {
+  //     return "GENESIS";
+  //   } else if (obj.id >= 30_000 && obj.id < 300_000) {
+  //     return "GOLD";
+  //   } else if (obj.id >= 300_000 && obj.id < 1_000_000) {
+  //     return "SILVER";
+  //   } else if (obj.id >= 1_000_000 && obj.id < 10_000_000) {
+  //     return "BRONZE";
+  //   } else {
+  //     return "NORMAL";
+  //   }
+  // })
   level: string;
 }

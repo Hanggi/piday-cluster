@@ -1,6 +1,6 @@
 import { VirtualEstate, VirtualEstateListing } from "@prisma/client";
 import { Decimal } from "@prisma/client/runtime/library";
-import { h3ToParent, kRing } from "h3-js";
+import { h3ToGeo, h3ToParent, kRing } from "h3-js";
 import Redis from "ioredis";
 
 import { Inject, Injectable } from "@nestjs/common";
@@ -9,6 +9,12 @@ import { ServiceException } from "../lib/exceptions/service-exception";
 import { generateFlakeID } from "../lib/generate-id/generate-flake-id";
 import { PrismaService } from "../lib/prisma/prisma.service";
 import { ZERO_DECIMAL } from "../lib/prisma/utils/zerro-decimal";
+
+interface VirtualEstateTx {
+  virtualEstate: {
+    count: (params: { where: Record<string, any> }) => Promise<number>;
+  };
+}
 
 export interface H3ClusterResult {
   count: number;
@@ -134,16 +140,108 @@ export class VirtualEstateService {
     return { myVirtualEstates: virtualEstates, totalCount: totalCount };
   }
 
-  async getMintPrice(): Promise<number> {
-    const totalCount = await this.prisma.virtualEstate.count();
+  // async getMintPrice(hexID?: string, userID?: string): Promise<number> {
+  //   const totalCount = await this.prisma.virtualEstate.count();
 
-    if (totalCount < 100000) {
-      return 3.14;
-    } else if (totalCount < 200000) {
-      return 6.28;
-    } else {
-      return 9.42;
+  //   if (hexID && userID) {
+  //     const centerLatLng = h3ToGeo(hexID);
+
+  //     if (centerLatLng && centerLatLng[0] < -66.5) {
+  //       const antarcticaVECount = await this.prisma.virtualEstate.count({
+  //         where: {
+  //           ownerID: userID,
+  //           level: "ANTARCTICA",
+  //         },
+  //       });
+
+  //       if (antarcticaVECount < 3) {
+  //         return 0;
+  //       }
+  //     }
+  //   }
+
+  //   if (totalCount < 100000) {
+  //     return 3.14;
+  //   } else if (totalCount < 200000) {
+  //     return 6.28;
+  //   } else {
+  //     return 9.42;
+  //   }
+  // }
+
+  // getMintPrice 函数
+  async getMintPrice(
+    hexID: string, // 假设 hexID 是字符串
+    userID?: string, // 假设 userID 是字符串
+    tx?: VirtualEstateTx, // 数据库事务 tx
+  ): Promise<{ level: string; mintPrice: number }> {
+    let level = "UNKNOWN";
+    const centerLatLng = h3ToGeo(hexID); // 返回经纬度数组
+    let mintPrice = 3.14; // Genesis land default price
+
+    if (!tx) {
+      tx = this.prisma;
     }
+
+    // 如果没有 userID，只处理土地的全局计数，不涉及用户相关的逻辑
+    if (!userID) {
+      const [genesisVECount, goldenVECount] = await Promise.all([
+        tx.virtualEstate.count({
+          where: { isGenesis: true },
+        }),
+        tx.virtualEstate.count({
+          where: { level: "GOLDEN" },
+        }),
+      ]);
+
+      if (centerLatLng && centerLatLng[0] < -66.5) {
+        level = "ANTARCTICA";
+        mintPrice = 0.5; // 没有 userID，南极土地固定价格
+      } else if (genesisVECount < 30_000) {
+        level = "GENESIS";
+        mintPrice = 3.14;
+      } else if (goldenVECount < 300_000) {
+        level = "GOLDEN";
+        mintPrice = 0.5; // 没有 userID，黄金土地固定价格
+      } else {
+        level = "SLIVER";
+        mintPrice = 0.1;
+      }
+
+      return { level, mintPrice };
+    }
+
+    // 获取需要的count数据
+    const [
+      antarcticaVECount,
+      genesisVECount,
+      goldenVECount,
+      userGoldenVECount,
+    ] = await Promise.all([
+      tx.virtualEstate.count({
+        where: { ownerID: userID, level: "ANTARCTICA" },
+      }),
+      tx.virtualEstate.count({ where: { isGenesis: true } }),
+      tx.virtualEstate.count({ where: { level: "GOLDEN" } }),
+      tx.virtualEstate.count({ where: { ownerID: userID, level: "GOLDEN" } }),
+    ]);
+
+    // Check if the virtual estate is in the Antarctica region
+    if (centerLatLng && centerLatLng[0] < -66.5) {
+      level = "ANTARCTICA";
+      mintPrice = antarcticaVECount < 3 ? 0 : 0.5;
+    } else if (genesisVECount < 30_000) {
+      level = "GENESIS";
+      mintPrice = 3.14;
+    } else if (goldenVECount < 300_000) {
+      level = "GOLDEN";
+      mintPrice = userGoldenVECount < 3 ? 0 : 0.5;
+    } else {
+      level = "SLIVER";
+      mintPrice = 0.1;
+    }
+
+    return { level, mintPrice };
   }
 
   async mintVirtualEstate({
@@ -152,10 +250,11 @@ export class VirtualEstateService {
     name,
   }: {
     userID: string;
-    hexID: string;
+    hexID: string; // H3 Hexagon ID in depth 12
     name: string;
   }): Promise<VirtualEstate> {
     return this.prisma.$transaction(async (tx) => {
+      // Check if the user has enough balance to mint a virtual estate
       const balance = await tx.rechargeRecords.aggregate({
         where: {
           ownerID: userID,
@@ -165,20 +264,33 @@ export class VirtualEstateService {
         },
       });
 
-      const mintPrice = await this.getMintPrice();
+      const { level, mintPrice } = await this.getMintPrice(hexID, userID, tx);
 
       if (
-        !balance._sum.amount ||
-        balance._sum.amount.lessThan(new Decimal(mintPrice))
+        mintPrice > 0 &&
+        (!balance._sum.amount ||
+          balance._sum.amount.lessThan(new Decimal(mintPrice)))
       ) {
         throw new ServiceException("Not enough balance", "NOT_ENOUGH_BALANCE");
       }
 
-      // TODO(zawar): Add logic to check freeze balance.
-
-      // TODO(Hanggi): Share profit with the inviter for 10%.
-
-      const veCount = await tx.virtualEstate.count();
+      // Count the total number of virtual estates except the Antarctica region
+      let veCount;
+      if (level == "ANTARCTICA") {
+        veCount = await tx.virtualEstate.count({
+          where: {
+            level: "ANTARCTICA",
+          },
+        });
+      } else {
+        veCount = await tx.virtualEstate.count({
+          where: {
+            level: {
+              not: "ANTARCTICA",
+            },
+          },
+        });
+      }
 
       // Create a virtual estate with the given hexID and the ownerID
       const virtualEstatePromise = tx.virtualEstate.create({
@@ -189,7 +301,8 @@ export class VirtualEstateService {
           virtualEstateID: hexID,
 
           lastPrice: mintPrice,
-          isGenesis: veCount < 314_000,
+          isGenesis: level == "GENESIS",
+          level,
 
           ownerID: userID,
         },
@@ -231,6 +344,7 @@ export class VirtualEstateService {
       });
       let platformIncome = mintPrice;
 
+      // TODO(Hanggi): Share profit with the inviter for 10%.
       if (myUser.inviterID) {
         const inviter = await tx.user.findUnique({
           where: {

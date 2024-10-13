@@ -55,6 +55,50 @@ export class KeycloakJwtGuard implements CanActivate {
   }
 }
 
+@Injectable()
+export class OptionalKeycloakJwtGuard implements CanActivate {
+  async canActivate(context: ExecutionContext): Promise<boolean> {
+    const request = context.switchToHttp().getRequest();
+    const authHeader = request.headers.authorization;
+
+    if (!authHeader) {
+      return true; // 用户未登录，允许访问
+    }
+
+    const [bearer, token] = authHeader.split(" ");
+
+    if (bearer !== "Bearer" || !token) {
+      return true; // 格式不正确，允许访问
+    }
+
+    const client = jwksClient({
+      jwksUri: process.env.KEYCLOAK_CERTS_URL,
+    });
+
+    function getKey(header, callback: jwt.SigningKeyCallback) {
+      client.getSigningKey(header.kid, function (err, key: any) {
+        const signingKey =
+          key?.getPublicKey() || key?.publicKey || key?.rsaPublicKey;
+        callback(null, signingKey);
+      });
+    }
+
+    try {
+      const decoded = await verifyToken(token, getKey);
+      const userID = decoded.sub;
+
+      request.user = {
+        userID,
+      };
+
+      return true; // 验证成功，允许访问
+    } catch (error) {
+      console.error(error);
+      return true; // 验证失败，但允许访问
+    }
+  }
+}
+
 function verifyToken(
   token: string,
   secretOrPublicKey: jwt.Secret | jwt.GetPublicKeyOrSecret,

@@ -9,11 +9,15 @@ export async function GET(
   request: NextRequest,
   { params }: { params: { hexID: string } },
 ) {
+  const { headers } = request;
   const hexID = params.hexID;
 
   try {
     const res = await instance.get(
       "/virtual-estates/" + hexID + request.nextUrl.search,
+      {
+        headers: HeaderFilters(headers),
+      },
     );
 
     return new Response(JSON.stringify(res.data), {
@@ -21,6 +25,7 @@ export async function GET(
     });
   } catch (error) {
     const axiosError = error as AxiosError;
+
     console.error(
       "Fail to get virtual estate!!",
       axiosError.response?.status,
@@ -77,7 +82,7 @@ export async function POST(
     });
   } catch (error) {
     const axiosError = error as AxiosError<{ message: string }>;
-    console.error(error)
+    console.error(error);
     console.error(
       "Fail to mint virtual estate!!",
       axiosError.response?.status,
