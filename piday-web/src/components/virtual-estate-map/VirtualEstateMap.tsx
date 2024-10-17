@@ -238,8 +238,6 @@ export default function VirtualEstateMap({
       setCenterHex(defaultHexID);
 
       setTimeout(() => {
-        console.log(mapRef);
-
         if (withoutAnimation) {
           mapRef.current?.jumpTo({
             center: [target[1], target[0]], // 经度和纬度
@@ -274,8 +272,6 @@ export default function VirtualEstateMap({
 
   const handleMapViewChange = useCallback(
     (params: any) => {
-      // console.log(params);
-      // console.log(mounted);
       if (params.viewState.zoom >= SHOW_HEXAGON_LAYER_FROM_ZOOM) {
         debounceToSetCenterHex(params.viewState);
       }
@@ -288,7 +284,6 @@ export default function VirtualEstateMap({
 
   const handleClickHexagon = useCallback(
     (e: MapLayerMouseEvent) => {
-      // console.log(e);
       // if (e.target.className === "deck-widget-icon") {
       //   return;
       // }
