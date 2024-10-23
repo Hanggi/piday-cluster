@@ -327,7 +327,7 @@ export default function VirtualEstateMap({
 
         <GeocoderControl mapboxAccessToken={token} position="top-right" />
       </Map>
-      <div className="absolute top-4 ml-4 mt-0">
+      <div className="absolute top-4 ml-4 mt-0 hidden lg:block">
         <Card className="w-max z-[1000]" size="sm">
           <div className="flex gap-2">
             <Typography level="body-sm">
