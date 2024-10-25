@@ -14,6 +14,9 @@ interface VirtualEstateTx {
   virtualEstate: {
     count: (params: { where: Record<string, any> }) => Promise<number>;
   };
+  rechargeRecords: {
+    count: (params: { where: Record<string, any> }) => Promise<number>;
+  };
 }
 
 export interface H3ClusterResult {
@@ -217,6 +220,7 @@ export class VirtualEstateService {
       genesisVECount,
       goldenVECount,
       userGoldenVECount,
+      mintAntarcticaVECount,
     ] = await Promise.all([
       tx.virtualEstate.count({
         where: { ownerID: userID, level: "ANTARCTICA" },
@@ -224,12 +228,19 @@ export class VirtualEstateService {
       tx.virtualEstate.count({ where: { isGenesis: true } }),
       tx.virtualEstate.count({ where: { level: "GOLDEN" } }),
       tx.virtualEstate.count({ where: { ownerID: userID, level: "GOLDEN" } }),
+      tx.rechargeRecords.count({
+        where: {
+          ownerID: userID,
+          reason: "MINT_ANTARCTICA_VIRTUAL_ESTATE",
+        },
+      }),
     ]);
 
     // Check if the virtual estate is in the Antarctica region
     if (centerLatLng && centerLatLng[0] < -66.5) {
       level = "ANTARCTICA";
-      mintPrice = antarcticaVECount < 3 ? 0 : 0.5;
+      mintPrice =
+        antarcticaVECount >= 3 || mintAntarcticaVECount >= 3 ? 0.5 : 0;
     } else if (genesisVECount < 30_000) {
       level = "GENESIS";
       mintPrice = 3.14;
@@ -324,13 +335,20 @@ export class VirtualEstateService {
           },
         });
 
+      let reason = "MINT_VIRTUAL_ESTATE";
+      if (level == "ANTARCTICA") {
+        reason = "MINT_ANTARCTICA_VIRTUAL_ESTATE";
+      } else if (level == "GOLDEN") {
+        reason = "MINT_GOLDEN_VIRTUAL_ESTATE";
+      }
+
       // Create a recharge record for the minting
       const rechargeRecordPromise = tx.rechargeRecords.create({
         data: {
           amount: -mintPrice,
           externalID: transactionID.toString(),
 
-          reason: "MINT_VIRTUAL_ESTATE",
+          reason: reason || "MINT_VIRTUAL_ESTATE",
           ownerID: userID,
         },
       });

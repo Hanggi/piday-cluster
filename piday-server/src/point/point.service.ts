@@ -53,6 +53,13 @@ export class PointService {
   }
 
   // Check In
+  //   个人100/每日
+  //   邀请一人20/每日
+  // 创世300/每日
+  // 黄金200/每日
+  // 白银150/每日
+  // 南极100/每日
+  // 所有数值都以人数为准，人数10倍后积分减半。
   async checkIn({ userID }: { userID: string }) {
     const alreadyCheckedInToday = await this.checkedInToday({ userID });
     if (alreadyCheckedInToday) {
