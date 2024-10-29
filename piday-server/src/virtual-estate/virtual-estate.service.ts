@@ -321,6 +321,19 @@ export class VirtualEstateService {
 
       const transactionID = BigInt(generateFlakeID());
 
+      let reason = "MINT_VIRTUAL_ESTATE";
+      if (level == "ANTARCTICA") {
+        reason = "MINT_ANTARCTICA_VIRTUAL_ESTATE";
+      } else if (level == "GOLDEN") {
+        // Stop GOLDEN mint for now
+        throw new ServiceException(
+          "Golden virtual estate minting is disabled",
+          "GOLDEN_MINT_DISABLED",
+        );
+
+        reason = "MINT_GOLDEN_VIRTUAL_ESTATE";
+      }
+
       // Create a transaction record for the minting
       const transactionRecordPromise =
         tx.virtualEstateTransactionRecords.create({
@@ -334,13 +347,6 @@ export class VirtualEstateService {
             sellerID: process.env.PLATFORM_ACCOUNT_ID,
           },
         });
-
-      let reason = "MINT_VIRTUAL_ESTATE";
-      if (level == "ANTARCTICA") {
-        reason = "MINT_ANTARCTICA_VIRTUAL_ESTATE";
-      } else if (level == "GOLDEN") {
-        reason = "MINT_GOLDEN_VIRTUAL_ESTATE";
-      }
 
       // Create a recharge record for the minting
       const rechargeRecordPromise = tx.rechargeRecords.create({
