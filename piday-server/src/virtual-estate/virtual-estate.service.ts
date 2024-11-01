@@ -325,11 +325,11 @@ export class VirtualEstateService {
       if (level == "ANTARCTICA") {
         reason = "MINT_ANTARCTICA_VIRTUAL_ESTATE";
       } else if (level == "GOLDEN") {
-        // Stop GOLDEN mint for now
-        throw new ServiceException(
-          "Golden virtual estate minting is disabled",
-          "GOLDEN_MINT_DISABLED",
-        );
+        // // Stop GOLDEN mint for now
+        // throw new ServiceException(
+        //   "Golden virtual estate minting is disabled",
+        //   "GOLDEN_MINT_DISABLED",
+        // );
 
         reason = "MINT_GOLDEN_VIRTUAL_ESTATE";
       }
