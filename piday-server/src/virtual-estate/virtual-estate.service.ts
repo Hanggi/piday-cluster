@@ -216,11 +216,12 @@ export class VirtualEstateService {
 
     // 获取需要的count数据
     const [
-      antarcticaVECount,
+      myAntarcticaVECount,
       genesisVECount,
       goldenVECount,
       userGoldenVECount,
       mintAntarcticaVECount,
+      mintGoldenVECount,
     ] = await Promise.all([
       tx.virtualEstate.count({
         where: { ownerID: userID, level: "ANTARCTICA" },
@@ -234,19 +235,25 @@ export class VirtualEstateService {
           reason: "MINT_ANTARCTICA_VIRTUAL_ESTATE",
         },
       }),
+      tx.rechargeRecords.count({
+        where: {
+          ownerID: userID,
+          reason: "MINT_GOLDEN_VIRTUAL_ESTATE",
+        },
+      }),
     ]);
 
     // Check if the virtual estate is in the Antarctica region
     if (centerLatLng && centerLatLng[0] < -66.5) {
       level = "ANTARCTICA";
       mintPrice =
-        antarcticaVECount >= 3 || mintAntarcticaVECount >= 3 ? 0.5 : 0;
+        myAntarcticaVECount >= 3 || mintAntarcticaVECount >= 3 ? 0.5 : 0;
     } else if (genesisVECount < 30_000) {
       level = "GENESIS";
       mintPrice = 3.14;
     } else if (goldenVECount < 300_000) {
       level = "GOLDEN";
-      mintPrice = userGoldenVECount < 3 ? 0 : 0.5;
+      mintPrice = userGoldenVECount >= 3 || mintGoldenVECount >= 3 ? 0.5 : 0;
     } else {
       level = "SLIVER";
       mintPrice = 0.1;
