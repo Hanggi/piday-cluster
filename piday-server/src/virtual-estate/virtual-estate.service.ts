@@ -220,6 +220,7 @@ export class VirtualEstateService {
       genesisVECount,
       goldenVECount,
       userGoldenVECount,
+
       mintAntarcticaVECount,
       mintGoldenVECount,
     ] = await Promise.all([
@@ -229,6 +230,8 @@ export class VirtualEstateService {
       tx.virtualEstate.count({ where: { isGenesis: true } }),
       tx.virtualEstate.count({ where: { level: "GOLDEN" } }),
       tx.virtualEstate.count({ where: { ownerID: userID, level: "GOLDEN" } }),
+
+      // my mint records
       tx.rechargeRecords.count({
         where: {
           ownerID: userID,
