@@ -51,9 +51,9 @@ export function VirtualEstateCard({ ve, showLastPrice }: Props) {
                 {ve?.name}
               </Typography>
             </div>
-            <div className="flex justify-between">
+            <div className="flex justify-between items-center">
               <VirtualEstateLevelChip level={ve.level} />
-              <Typography level="body-sm">{ve?.virtualEstateID}</Typography>
+              <Typography level="body-xs">{ve?.virtualEstateID}</Typography>
             </div>
 
             <div className="flex justify-between">
@@ -103,12 +103,6 @@ function getVirtualEstateStatus(ve: VirtualEstate) {
     return "未知状态";
   }
 
-  // Check for the latest transaction and its seller
-  const latestTransaction = ve.transactions?.[0];
-  if (latestTransaction && latestTransaction.sellerID === "ONE_PI") {
-    return "已铸造"; // Minted
-  }
-
   // Check for an active "ASK" listing
   const askListing = ve.listings?.find(
     (listing) =>
@@ -127,6 +121,12 @@ function getVirtualEstateStatus(ve: VirtualEstate) {
 
   if (bidListing) {
     return "挂单中"; // At auction
+  }
+
+  // Check for the latest transaction and its seller
+  const latestTransaction = ve.transactions?.[0];
+  if (latestTransaction && latestTransaction.sellerID === "ONE_PI") {
+    return "已铸造"; // Minted
   }
 
   // Default status if no specific conditions are met

@@ -10,7 +10,7 @@ export default function VirtualEstateLevelChip({ level }: Props) {
   switch (level) {
     case "GENESIS":
       return (
-        <div className="inline-block px-4 py-1 bg-purple-700 rounded-full">
+        <div className="inline-block px-2 py-1 bg-purple-700 rounded-full">
           <Typography className="!text-yellow-400" level="title-sm">
             {"创世"}
           </Typography>
@@ -18,7 +18,7 @@ export default function VirtualEstateLevelChip({ level }: Props) {
       );
     case "ANTARCTICA":
       return (
-        <div className="inline-block px-4 py-1 bg-blue-700 rounded-full">
+        <div className="inline-block px-2 py-1 bg-blue-700 rounded-full">
           <Typography className="!text-yellow-400" level="title-sm">
             {"南极"}
           </Typography>
@@ -26,7 +26,7 @@ export default function VirtualEstateLevelChip({ level }: Props) {
       );
     case "GOLDEN":
       return (
-        <div className="inline-block px-4 py-1 bg-yellow-400 rounded-full">
+        <div className="inline-block px-2 py-1 bg-yellow-400 rounded-full">
           <Typography className="!text-black" level="title-sm">
             {"黄金"}
           </Typography>

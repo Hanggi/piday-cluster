@@ -7,6 +7,7 @@ import {
   useGetTransactedVirtualEstatesQuery,
 } from "@/src/features/virtual-estate/api/virtualEstateAPI";
 import { VirtualEstate } from "@/src/features/virtual-estate/interface/virtual-estate.interface";
+import { set } from "lodash";
 
 import CircularProgress from "@mui/joy/CircularProgress";
 import Option from "@mui/joy/Option";
@@ -16,11 +17,16 @@ import TabList from "@mui/joy/TabList";
 import TabPanel from "@mui/joy/TabPanel";
 import Tabs from "@mui/joy/Tabs";
 
+import { useRouter, useSearchParams } from "next/navigation";
+
 import { useCallback, useEffect, useState } from "react";
 
 export default function ListedVirtualEstateList() {
-  const [page, setPage] = useState(1);
-  const [size, setSize] = useState(20);
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const [page, setPage] = useState(parseInt(searchParams.get("page") || "1"));
+  const [size, setSize] = useState(window?.innerWidth <= 768 ? 30 : 60);
   const [type, setType] = useState<string | null>("listed");
   const [sort, setSort] = useState("LATEST");
 
@@ -34,14 +40,35 @@ export default function ListedVirtualEstateList() {
   const [totalCountListed, setTotalCountListed] = useState<number>(0);
   const [totalCountTransacted, setTotalCountTransacted] = useState<number>(0);
 
-  const { data: listedVirtualEstateList, isFetching: isFetchingListed } =
-    useGetListedVirtualEstatesQuery({
-      page,
-      size,
-      sort,
-    });
+  useEffect(() => {
+    const params = new URLSearchParams(searchParams);
+    params.set("page", page.toString());
 
-  console.log(listedVirtualEstateList);
+    router.replace(`?${params.toString()}`);
+  }, [page]);
+
+  const {
+    data: listedVirtualEstateList,
+    isFetching: isFetchingListed,
+    refetch: refetchListedVEList,
+  } = useGetListedVirtualEstatesQuery({
+    page,
+    size,
+    sort,
+  });
+
+  useEffect(() => {
+    if (
+      listedVirtualEstateList?.totalCount &&
+      listedVirtualEstateList.totalCount > 0 &&
+      page * size > listedVirtualEstateList.totalCount
+    ) {
+      // Jump to the first page
+      router.replace(`?page=1`);
+      setPage(1);
+      refetchListedVEList();
+    }
+  }, [listedVirtualEstateList, page, size, router]);
 
   useEffect(() => {
     if (listedVirtualEstateList) {
@@ -78,7 +105,7 @@ export default function ListedVirtualEstateList() {
   }, [transactedVirtualEstateList]);
 
   return (
-    <div className="lg:px-16 py-8">
+    <div className="lg:px-4 xl:px-8 py-8">
       <div className="flex justify-between items-center mb-4">
         <Select defaultValue={sort} onChange={handleSortChange}>
           <Option value="LATEST">Latest</Option>
@@ -112,7 +139,7 @@ export default function ListedVirtualEstateList() {
             </div>
           )}
 
-          <div className="grid py-6 grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          <div className="grid py-6 grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6">
             {listingVirtualEstates?.map((ve, index) => (
               <div key={index}>
                 <VirtualEstateCard ve={ve} showLastPrice={false} />
@@ -137,7 +164,7 @@ export default function ListedVirtualEstateList() {
               <CircularProgress />
             </div>
           )}
-          <div className="grid py-6 grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          <div className="grid py-6 grid-cols-2 gap-8 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6">
             {transactedVirtualEstates?.map((ve, index) => (
               <div key={index}>
                 <VirtualEstateCard ve={ve} showLastPrice={true} />
