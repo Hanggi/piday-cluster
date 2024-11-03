@@ -41,6 +41,8 @@ export default function ListedVirtualEstateList() {
       sort,
     });
 
+  console.log(listedVirtualEstateList);
+
   useEffect(() => {
     if (listedVirtualEstateList) {
       setListingVirtualEstates(listedVirtualEstateList.virtualEstates);
@@ -113,7 +115,7 @@ export default function ListedVirtualEstateList() {
           <div className="grid py-6 grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {listingVirtualEstates?.map((ve, index) => (
               <div key={index}>
-                <VirtualEstateCard ve={ve} showLastPrice={true} />
+                <VirtualEstateCard ve={ve} showLastPrice={false} />
               </div>
             ))}
           </div>
