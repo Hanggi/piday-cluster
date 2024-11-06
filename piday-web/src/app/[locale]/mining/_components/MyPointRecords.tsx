@@ -74,6 +74,8 @@ function reasonToString(reason: string) {
       return "邀请奖励";
     case "VIRTUAL_ESTATE_POINT":
       return "土地奖励";
+    case "GOLDEN_VIRTUAL_ESTATE_POINT":
+      return "黄金土地奖励";
     case "ANTARCTIC_VIRTUAL_ESTATE_POINT":
       return "南极土地奖励";
     default:

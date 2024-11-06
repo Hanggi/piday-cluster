@@ -85,60 +85,95 @@ export class PointService {
         inviterID: myUser.id,
       },
     });
-    const myVirtualEstateCount = await this.prisma.virtualEstate.count({
-      where: {
-        ownerID: userID,
-        isGenesis: true,
-      },
-    });
-    const myAntarcticEstateCount = await this.prisma.virtualEstate.count({
-      where: {
-        ownerID: userID,
-        level: "ANTARCTIC",
-      },
-    });
+    // const myVirtualEstateCount = await this.prisma.virtualEstate.count({
+    //   where: {
+    //     ownerID: userID,
+    //     isGenesis: true,
+    //   },
+    // });
+    // const myAntarcticEstateCount = await this.prisma.virtualEstate.count({
+    //   where: {
+    //     ownerID: userID,
+    //     level: "ANTARCTIC",
+    //   },
+    // });
+    // const myGoldenEstateCount = await this.prisma.virtualEstate.count({
+    //   where: {
+    //     ownerID: userID,
+    //     level: "GOLDEN",
+    //   },
+    // });
+
+    const [myVirtualEstateCount, myAntarcticEstateCount, myGoldenEstateCount] =
+      await Promise.all([
+        this.prisma.virtualEstate.count({
+          where: {
+            ownerID: userID,
+            isGenesis: true,
+          },
+        }),
+        this.prisma.virtualEstate.count({
+          where: {
+            ownerID: userID,
+            level: "ANTARCTIC",
+          },
+        }),
+        this.prisma.virtualEstate.count({
+          where: {
+            ownerID: userID,
+            level: "GOLDEN",
+          },
+        }),
+      ]);
 
     let checkInPoint = 0;
     let virtualEstatePoint = 0;
     let invitedUserPoint = 0;
     let antarcticEstatePoint = 0;
+    let goldenVEPoint = 0;
 
     if (userTotalCount < 10_000) {
       checkInPoint += 100;
       invitedUserPoint += (invitedUserCount + 1) * 20;
 
       virtualEstatePoint += myVirtualEstateCount * 300;
-      antarcticEstatePoint += myAntarcticEstateCount * 150; // Antarctic estate point is 50% of virtual estate point
+      goldenVEPoint += myGoldenEstateCount * 200;
+      antarcticEstatePoint += myAntarcticEstateCount * 100;
     } else if (userTotalCount < 100_000) {
       checkInPoint += 50;
       invitedUserPoint += (invitedUserCount + 1) * 10;
 
       virtualEstatePoint += myVirtualEstateCount * 150;
-      antarcticEstatePoint += myAntarcticEstateCount * 75; // Antarctic estate point is 50% of virtual estate point
+      goldenVEPoint += myGoldenEstateCount * 100;
+      antarcticEstatePoint += myAntarcticEstateCount * 50;
     } else if (userTotalCount < 1_000_000) {
       checkInPoint += 25;
       invitedUserPoint += (invitedUserCount + 1) * 5;
 
       virtualEstatePoint += myVirtualEstateCount * 75;
-      antarcticEstatePoint += myAntarcticEstateCount * 37.5; // Antarctic estate point is 50% of virtual estate point
+      goldenVEPoint += myGoldenEstateCount * 50;
+      antarcticEstatePoint += myAntarcticEstateCount * 25;
     } else if (userTotalCount < 5_000_000) {
       checkInPoint += 12.5;
       invitedUserPoint += (invitedUserCount + 1) * 2.5;
 
       virtualEstatePoint += myVirtualEstateCount * 37.5;
-      antarcticEstatePoint += myAntarcticEstateCount * 18.75; // Antarctic estate point is 50% of virtual estate point
+      goldenVEPoint += myGoldenEstateCount * 25;
+      antarcticEstatePoint += myAntarcticEstateCount * 12.5;
     } else if (userTotalCount < 10_000_000) {
       checkInPoint += 6.25;
       invitedUserPoint += (invitedUserCount + 1) * 1.25;
 
       virtualEstatePoint += myVirtualEstateCount * 18.75;
-      antarcticEstatePoint += myAntarcticEstateCount * 9.375; // Antarctic estate point is 50% of virtual estate point
+      goldenVEPoint += myGoldenEstateCount * 12.5;
+      antarcticEstatePoint += myAntarcticEstateCount * 6.25;
     } else {
       checkInPoint += 3.125;
       invitedUserPoint += (invitedUserCount + 1) * 0.625;
 
       virtualEstatePoint += myVirtualEstateCount * 9.375;
-      antarcticEstatePoint += myAntarcticEstateCount * 4.6875; // Antarctic estate point is 50% of virtual estate point
+      goldenVEPoint += myGoldenEstateCount * 6.25;
+      antarcticEstatePoint += myAntarcticEstateCount * 3.125;
     }
 
     // TODO(Hanggi): calculate the amount of point based on the formula of minging
@@ -169,6 +204,13 @@ export class PointService {
           amount: antarcticEstatePoint,
           ownerID: userID,
           reason: "ANTARCTIC_VIRTUAL_ESTATE_POINT",
+        },
+      }),
+      this.prisma.pointRecords.create({
+        data: {
+          amount: antarcticEstatePoint,
+          ownerID: userID,
+          reason: "GOLDEN_VIRTUAL_ESTATE_POINT",
         },
       }),
     ]);
