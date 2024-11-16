@@ -24,7 +24,7 @@ type GeocoderControlProps = Omit<
 export default function GeocoderControl(props: GeocoderControlProps) {
   const [marker, setMarker] = useState<React.ReactElement | null>(null);
 
-  const cooldownTime = 5000;
+  const cooldownTime = 10000;
   const [isCooldown, setIsCooldown] = useState(false);
   const cooldownTimerRef = useRef<NodeJS.Timeout | null>(null);
 
