@@ -24,44 +24,44 @@ type GeocoderControlProps = Omit<
 export default function GeocoderControl(props: GeocoderControlProps) {
   const [marker, setMarker] = useState<React.ReactElement | null>(null);
 
-  const cooldownTime = 15000;
-  const [isCooldown, setIsCooldown] = useState(false);
-  const cooldownTimerRef = useRef<NodeJS.Timeout | null>(null);
+  // const cooldownTime = 15000;
+  // const [isCooldown, setIsCooldown] = useState(false);
+  // const cooldownTimerRef = useRef<NodeJS.Timeout | null>(null);
 
-  const startCooldown = () => {
-    setIsCooldown(true);
-    let remainingTime = cooldownTime / 1000; // 转换为秒
+  // const startCooldown = () => {
+  //   setIsCooldown(true);
+  //   let remainingTime = cooldownTime / 1000; // 转换为秒
 
-    // 启动倒计时
-    cooldownTimerRef.current = setInterval(() => {
-      remainingTime -= 1;
-      if (remainingTime > 0) {
-        // toast.warn(`请稍等 ${remainingTime} 秒后再试`);
-      } else {
-        setIsCooldown(false);
+  //   // 启动倒计时
+  //   cooldownTimerRef.current = setInterval(() => {
+  //     remainingTime -= 1;
+  //     if (remainingTime > 0) {
+  //       // toast.warn(`请稍等 ${remainingTime} 秒后再试`);
+  //     } else {
+  //       setIsCooldown(false);
 
-        if (cooldownTimerRef.current) {
-          clearInterval(cooldownTimerRef.current);
-          cooldownTimerRef.current = null;
-        }
-      }
-    }, 1000);
-  };
+  //       if (cooldownTimerRef.current) {
+  //         clearInterval(cooldownTimerRef.current);
+  //         cooldownTimerRef.current = null;
+  //       }
+  //     }
+  //   }, 1000);
+  // };
 
-  // 清理冷却状态
-  const clearCooldown = () => {
-    setIsCooldown(false);
+  // // 清理冷却状态
+  // const clearCooldown = () => {
+  //   setIsCooldown(false);
 
-    if (cooldownTimerRef.current) {
-      clearInterval(cooldownTimerRef.current);
-      cooldownTimerRef.current = null;
-    }
-  };
+  //   if (cooldownTimerRef.current) {
+  //     clearInterval(cooldownTimerRef.current);
+  //     cooldownTimerRef.current = null;
+  //   }
+  // };
 
-  // 清理定时器
-  useEffect(() => {
-    return () => clearCooldown();
-  }, []);
+  // // 清理定时器
+  // useEffect(() => {
+  //   return () => clearCooldown();
+  // }, []);
 
   const geocoder = useControl<any>(
     () => {
@@ -72,22 +72,22 @@ export default function GeocoderControl(props: GeocoderControlProps) {
       });
       ctrl.on("loading", props.onLoading || (() => {}));
       ctrl.on("results", () => {
-        if (isCooldown) {
-          toast.warn(`请稍后再试`);
-          return;
-        } // 冷却期内禁止搜索
+        // if (isCooldown) {
+        //   toast.warn(`请稍后再试`);
+        //   return;
+        // } // 冷却期内禁止搜索
         props.onResults || (() => {});
 
-        startCooldown(); // 进入冷却期
+        // startCooldown(); // 进入冷却期
       });
       ctrl.on("result", (evt) => {
-        if (isCooldown) {
-          toast.warn(`请稍后再试`);
-          return;
-        } // 冷却期内禁止搜索
+        // if (isCooldown) {
+        //   toast.warn(`请稍后再试`);
+        //   return;
+        // } // 冷却期内禁止搜索
         (props.onResult || (() => {}))(evt);
 
-        startCooldown(); // 进入冷却期
+        // startCooldown(); // 进入冷却期
 
         const { result } = evt;
         const location =
