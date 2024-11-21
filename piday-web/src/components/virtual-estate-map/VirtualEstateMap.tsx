@@ -325,7 +325,7 @@ export default function VirtualEstateMap({
         </div>
         <NavigationControl position="bottom-right" />
 
-        <GeocoderControl mapboxAccessToken={token} position="top-right" />
+        {/* <GeocoderControl mapboxAccessToken={token} position="top-right" /> */}
       </Map>
       <div className="absolute top-4 ml-4 mt-0 hidden lg:block">
         <Card className="w-max z-[1000]" size="sm">
