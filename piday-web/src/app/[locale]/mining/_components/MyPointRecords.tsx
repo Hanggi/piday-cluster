@@ -77,6 +77,7 @@ function reasonToString(reason: string) {
     case "GOLDEN_VIRTUAL_ESTATE_POINT":
       return "黄金土地奖励";
     case "ANTARCTIC_VIRTUAL_ESTATE_POINT":
+    case "ANTARCTICA_VIRTUAL_ESTATE_POINT":
       return "南极土地奖励";
     default:
       return reason;

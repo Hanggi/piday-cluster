@@ -115,7 +115,7 @@ export class PointService {
         this.prisma.virtualEstate.count({
           where: {
             ownerID: userID,
-            level: "ANTARCTIC",
+            level: "ANTARCTICA",
           },
         }),
         this.prisma.virtualEstate.count({
@@ -203,7 +203,7 @@ export class PointService {
         data: {
           amount: antarcticEstatePoint,
           ownerID: userID,
-          reason: "ANTARCTIC_VIRTUAL_ESTATE_POINT",
+          reason: "ANTARCTICA_VIRTUAL_ESTATE_POINT",
         },
       }),
       this.prisma.pointRecords.create({
