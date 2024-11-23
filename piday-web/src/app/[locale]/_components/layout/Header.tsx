@@ -111,7 +111,9 @@ export default function Header() {
           </div>
         </Link>
 
-        <AuthStatusButton size="sm" />
+        <div className="flex items-center mr-2">
+          <AuthStatusButton size="sm" />
+        </div>
       </div>
 
       <Drawer open={open} onClose={() => setOpen(false)}>

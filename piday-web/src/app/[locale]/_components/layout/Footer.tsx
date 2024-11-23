@@ -7,7 +7,7 @@ import Button from "@mui/joy/Button";
 import Image from "next/image";
 import Link from "next/link";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 interface BeforeInstallPromptEvent extends Event {
@@ -17,6 +17,11 @@ interface BeforeInstallPromptEvent extends Event {
 
 export default function Footer() {
   const { t } = useTranslation("common");
+
+  // 状态管理音频播放
+  const [isPlaying, setIsPlaying] = useState(false);
+  // 创建 audio 元素的引用
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
   const [deferredPrompt, setDeferredPrompt] =
     useState<BeforeInstallPromptEvent | null>(null);
@@ -74,6 +79,33 @@ export default function Footer() {
       setShowInstallButton(false);
     }
   };
+
+  // const togglePlay = () => {
+  //   if (audioRef.current) {
+  //     if (isPlaying) {
+  //       audioRef.current?.pause();
+  //     } else {
+  //       audioRef.current?.play();
+  //     }
+  //     setIsPlaying(!isPlaying);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   const audio = audioRef.current;
+
+  //   if (audio) {
+  //     audio.muted = true; // 确保初始状态静音以支持自动播放
+  //     audio
+  //       .play()
+  //       .then(() => {
+  //         console.log("Audio is playing automatically.");
+  //       })
+  //       .catch((error) => {
+  //         console.error("AutoPlay failed:", error);
+  //       });
+  //   }
+  // }, []);
 
   return (
     <section className="w-full  bg-[rgba(89,59,139,100)]">
@@ -203,11 +235,15 @@ export default function Footer() {
           </ul>
 
           <div className="flex items-center gap-5">
-            {socials.map((social) => (
-              <Link href={social.href} key={social.href} target="_blank">
-                <i className={cn("text-xl", "text-yellow-500", social.icon)} />
-              </Link>
-            ))}
+            <div>
+              {socials.map((social) => (
+                <Link href={social.href} key={social.href} target="_blank">
+                  <i
+                    className={cn("text-xl", "text-yellow-500", social.icon)}
+                  />
+                </Link>
+              ))}
+            </div>
           </div>
         </nav>
       </div>
@@ -215,6 +251,13 @@ export default function Footer() {
       <center className="text-white py-4 text-sm font-normal">
         Copyright © Piday Metaverse 2024
       </center>
+
+      <div className="container flex justify-end pb-2">
+        <audio controls ref={audioRef} loop autoPlay>
+          <source src="/bgm/summer.mp3" type="audio/mpeg" />
+          Your browser does not support the audio element.
+        </audio>
+      </div>
     </section>
   );
 }

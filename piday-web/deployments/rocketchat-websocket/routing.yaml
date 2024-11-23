@@ -1,0 +1,28 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: rocket-chat-websocket
+  namespace: piday-dev
+spec:
+  hosts:
+    - "rc-dev.piday.world"
+  gateways:
+    - dev/istio-gateway
+  http:
+    - match:
+        - uri:
+            prefix: "/websocket"
+      route:
+        - destination:
+            port:
+              number: 80
+            host: piday-chat-rocketchat.piday-dev.svc.cluster.local
+    # - match:
+    #     # 将其他请求返回 404 错误
+    #     - uri:
+    #         prefix: /
+    #   fault:
+    #     abort:
+    #       percentage:
+    #         value: 100.0
+    #       httpStatus: 404
