@@ -607,50 +607,83 @@ export class VirtualEstateService {
       LOWEST_PRICE: { lastPrice: "asc" },
       HIGHEST_PRICE: { lastPrice: "desc" },
     };
-    const virtualEstateListingsActive =
-      await this.prisma.virtualEstate.findMany({
-        where: {
-          listings: {
-            some: {
-              expiresAt: {
-                gt: new Date(), // Check if the expiration date is in the future
-              },
-            },
-          },
-        },
-        include: {
-          listings: {
-            where: {
-              expiresAt: {
-                gt: new Date(),
-              },
-            },
-          },
-          transactions: {
-            orderBy: {
-              id: "desc",
-            },
-            take: 1,
-          },
-        },
-        take: +size,
-        skip: +(page == 0 ? 0 : page - 1) * size,
-        orderBy: sortOptions[sort] || sortOptions.LATEST,
-      });
+    // const virtualEstateListingsActive =
+    //   await this.prisma.virtualEstate.findMany({
+    //     where: {
+    //       listings: {
+    //         some: {
+    //           expiresAt: {
+    //             gt: new Date(), // Check if the expiration date is in the future
+    //           },
+    //         },
+    //       },
+    //     },
+    //     include: {
+    //       listings: {
+    //         where: {
+    //           expiresAt: {
+    //             gt: new Date(),
+    //           },
+    //         },
+    //         orderBy: {
+    //           id: "desc",
+    //         },
+    //       },
+    //       transactions: {
+    //         orderBy: {
+    //           id: "desc",
+    //         },
+    //         take: 1,
+    //       },
+    //     },
+    //     take: +size,
+    //     skip: +(page == 0 ? 0 : page - 1) * size,
+    //     // orderBy: sortOptions[sort] || sortOptions.LATEST,
+    //   });
 
-    const totalCount = await this.prisma.virtualEstate.count({
+    const listings = await this.prisma.virtualEstateListing.findMany({
       where: {
-        listings: {
-          some: {
-            expiresAt: {
-              gt: new Date(), // Check if the expiration date is in the future
-            },
-          },
+        expiresAt: {
+          gt: new Date(), // Only include listings that haven't expired
         },
       },
+      orderBy: sortOptions[sort] || sortOptions.LATEST,
+      distinct: ["virtualEstateID"], // Only get the latest listing per estate
     });
 
-    return { virtualEstateListingsActive, totalCount };
+    // Extract the virtualEstateIDs in the order of the latest listings
+    const virtualEstateIDs = listings.map((listing) => listing.virtualEstateID);
+
+    // Calculate the number of items to skip based on the current page and page size
+    const skip = +(page == 0 ? 0 : page - 1) * size;
+
+    const estates = await this.prisma.virtualEstate.findMany({
+      where: {
+        virtualEstateID: {
+          in: virtualEstateIDs,
+        },
+      },
+      // orderBy: {
+      //   id: "desc", // Order by id or any other field to maintain consistency
+      // },
+      skip: +skip, // Skip the number of records based on the page
+      take: +size, // Limit the number of records returned to the page size
+    });
+
+    // const totalCount = await this.prisma.virtualEstate.count({
+    //   where: {
+    //     listings: {
+    //       some: {
+    //         expiresAt: {
+    //           gt: new Date(), // Check if the expiration date is in the future
+    //         },
+    //       },
+    //     },
+    //   },
+    // });
+    const totalCount = virtualEstateIDs.length;
+
+    return { virtualEstateListingsActive: estates, totalCount };
   }
 
   async getTransactedVirtualEstates(page: number, size: number, sort: string) {
