@@ -6,6 +6,7 @@ import Link from "next/link";
 
 import { useTranslation } from "react-i18next";
 
+import { VirtualEstateListing } from "../features/virtual-estate-listing/interface/virtual-estate-listing.interface";
 import { VirtualEstate } from "../features/virtual-estate/interface/virtual-estate.interface";
 import PiCoinLogo from "./piday-ui/PiCoinLogo";
 import VirtualEstateLevelChip from "./virtual-estate-level/VitrualEstateLevelChip";
@@ -85,13 +86,11 @@ export function VirtualEstateCard({ ve, showLastPrice }: Props) {
 }
 
 function getVirtualEstatePrice(ve: VirtualEstate) {
-  // Find latest listing item which has type of "ASK" listing items from the ve.listings, and return the price.
-  const askListing = ve?.listings
-    ?.slice()
-    .reverse()
-    .find((listing) => listing.type === "ASK");
-  if (askListing) {
-    return askListing.price;
+  console.log(ve);
+
+  // Get the latest price from the listings
+  if (ve?.listings && ve?.listings?.length > 0) {
+    return ve.listings[0].price;
   }
 
   return ve?.lastPrice;

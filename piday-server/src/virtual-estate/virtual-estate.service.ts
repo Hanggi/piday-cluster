@@ -630,6 +630,15 @@ export class VirtualEstateService {
           in: virtualEstateIDs,
         },
       },
+      include: {
+        listings: {
+          where: {
+            expiresAt: {
+              gt: new Date(),
+            },
+          },
+        },
+      },
       orderBy: sortOptions[sort] || sortOptions.LATEST,
       skip: +skip, // Skip the number of records based on the page
       take: +size, // Limit the number of records returned to the page size
