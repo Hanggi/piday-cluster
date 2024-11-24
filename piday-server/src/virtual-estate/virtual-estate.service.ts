@@ -635,9 +635,15 @@ export class VirtualEstateService {
       take: +size, // Limit the number of records returned to the page size
     });
 
+    const sortedEstates = estates.sort(
+      (a, b) =>
+        virtualEstateIDs.indexOf(a.virtualEstateID) -
+        virtualEstateIDs.indexOf(b.virtualEstateID),
+    );
+
     const totalCount = virtualEstateIDs.length;
 
-    return { virtualEstateListingsActive: estates, totalCount };
+    return { virtualEstateListingsActive: sortedEstates, totalCount };
   }
 
   async getTransactedVirtualEstates(page: number, size: number, sort: string) {
