@@ -2,6 +2,7 @@ import i18nConfig from "@/i18nConfig";
 import TranslationsProvider from "@/src/components/TranslationsProvider";
 import SessionProviderWrapper from "@/src/utils/SessionProviderWrapper";
 import ReduxProviderWrapper from "@/src/utils/redux/ReduxProviderWrapper";
+import { GoogleAnalytics } from "@next/third-parties/google";
 import ThemeRegistry from "@src/components/ThemeRegistry/ThemeRegistry";
 import { dir } from "i18next";
 import type { Metadata } from "next";
@@ -80,6 +81,8 @@ export default async function RootLayout({
         </ThemeRegistry>
         <ToastContainer />
       </body>
+
+      <GoogleAnalytics gaId="G-B4CMHXNTND" />
     </html>
   );
 }
