@@ -607,39 +607,6 @@ export class VirtualEstateService {
       LOWEST_PRICE: { lastPrice: "asc" },
       HIGHEST_PRICE: { lastPrice: "desc" },
     };
-    // const virtualEstateListingsActive =
-    //   await this.prisma.virtualEstate.findMany({
-    //     where: {
-    //       listings: {
-    //         some: {
-    //           expiresAt: {
-    //             gt: new Date(), // Check if the expiration date is in the future
-    //           },
-    //         },
-    //       },
-    //     },
-    //     include: {
-    //       listings: {
-    //         where: {
-    //           expiresAt: {
-    //             gt: new Date(),
-    //           },
-    //         },
-    //         orderBy: {
-    //           id: "desc",
-    //         },
-    //       },
-    //       transactions: {
-    //         orderBy: {
-    //           id: "desc",
-    //         },
-    //         take: 1,
-    //       },
-    //     },
-    //     take: +size,
-    //     skip: +(page == 0 ? 0 : page - 1) * size,
-    //     // orderBy: sortOptions[sort] || sortOptions.LATEST,
-    //   });
 
     const listings = await this.prisma.virtualEstateListing.findMany({
       where: {
@@ -663,24 +630,11 @@ export class VirtualEstateService {
           in: virtualEstateIDs,
         },
       },
-      // orderBy: {
-      //   id: "desc", // Order by id or any other field to maintain consistency
-      // },
+      orderBy: sortOptions[sort] || sortOptions.LATEST,
       skip: +skip, // Skip the number of records based on the page
       take: +size, // Limit the number of records returned to the page size
     });
 
-    // const totalCount = await this.prisma.virtualEstate.count({
-    //   where: {
-    //     listings: {
-    //       some: {
-    //         expiresAt: {
-    //           gt: new Date(), // Check if the expiration date is in the future
-    //         },
-    //       },
-    //     },
-    //   },
-    // });
     const totalCount = virtualEstateIDs.length;
 
     return { virtualEstateListingsActive: estates, totalCount };
