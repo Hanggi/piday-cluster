@@ -303,7 +303,7 @@ export default function VirtualEstateMap({
   return (
     <div className="relative w-full h-full">
       <Map
-        mapStyle="mapbox://styles/mapbox/streets-v9"
+        mapStyle="mapbox://styles/mapbox/streets-v12"
         mapboxAccessToken={token}
         initialViewState={viewState}
         onLoad={() => {
