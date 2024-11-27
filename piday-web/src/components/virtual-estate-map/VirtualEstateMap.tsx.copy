@@ -2,29 +2,21 @@
 
 import { useLazyGetClusterInAreaQuery } from "@/src/features/virtual-estate/api/virtualEstateAPI";
 import { H3ClusterItem } from "@/src/features/virtual-estate/interface/virtual-estate.interface";
-import { DeckProps, FlyToInterpolator } from "@deck.gl/core";
+import { FlyToInterpolator } from "@deck.gl/core";
 import { H3ClusterLayer, H3HexagonLayer } from "@deck.gl/geo-layers";
 import { TextLayer } from "@deck.gl/layers";
 import { MapboxOverlay } from "@deck.gl/mapbox";
-import DeckGL from "@deck.gl/react";
 import "@deck.gl/widgets/stylesheet.css";
 import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
 import { geoToH3, h3ToGeo, kRing } from "h3-js";
 import { debounce } from "lodash";
-import "maplibre-gl/dist/maplibre-gl.css";
 
 import Card from "@mui/joy/Card";
 import Typography from "@mui/joy/Typography";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-// import type { MapLayerMouseEvent, MapRef } from "react-map-gl";
-import { GeolocateControl, NavigationControl } from "react-map-gl";
-import {
-  Map,
-  MapLayerMouseEvent,
-  MapRef,
-  useControl,
-} from "react-map-gl/maplibre";
+import type { MapLayerMouseEvent, MapRef } from "react-map-gl";
+import Map, { GeolocateControl, NavigationControl } from "react-map-gl";
 
 import GeocoderControl from "./GeocoderControl";
 
@@ -39,12 +31,6 @@ const INITIAL_VIEW_STATE = {
 };
 
 // Component
-
-function DeckGLOverlay(props: DeckProps) {
-  const overlay = useControl<any>(() => new MapboxOverlay(props));
-  overlay.setProps(props);
-  return null;
-}
 
 interface VirtualEstate {
   hexID: string;
@@ -317,7 +303,7 @@ export default function VirtualEstateMap({
   return (
     <div className="relative w-full h-full">
       <Map
-        mapStyle="https://basemaps.cartocdn.com/gl/positron-gl-style/style.json"
+        mapStyle="mapbox://styles/mapbox/streets-v12"
         mapboxAccessToken={token}
         initialViewState={viewState}
         onLoad={() => {
@@ -339,21 +325,8 @@ export default function VirtualEstateMap({
         </div>
         <NavigationControl position="bottom-right" />
 
-        <GeocoderControl mapboxAccessToken={token} position="top-right" />
+        {/* <GeocoderControl mapboxAccessToken={token} position="top-right" /> */}
       </Map>
-
-      {/* <DeckGL
-        initialViewState={{
-          longitude: 0.45,
-          latitude: 51.47,
-          zoom: 11,
-        }}
-        controller
-        layers={layers}
-      >
-        <Map mapStyle="https://basemaps.cartocdn.com/gl/positron-gl-style/style.json" />
-      </DeckGL> */}
-
       <div className="absolute top-4 ml-4 mt-0 hidden lg:block">
         <Card className="w-max z-[1000]" size="sm">
           <div className="flex gap-2">
