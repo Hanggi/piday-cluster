@@ -339,7 +339,7 @@ export default function VirtualEstateMap({
         </div>
         <NavigationControl position="bottom-right" />
 
-        <GeocoderControl mapboxAccessToken={token} position="top-right" />
+        {/* <GeocoderControl mapboxAccessToken={token} position="top-right" /> */}
       </Map>
 
       {/* <DeckGL
