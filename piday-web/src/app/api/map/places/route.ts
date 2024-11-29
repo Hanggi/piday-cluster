@@ -4,6 +4,7 @@ import { StatusCodes } from "http-status-codes";
 import { NextRequest } from "next/server";
 
 const MAPBOX_ACCESS_TOKEN = process.env.MAPBOX_ACCESS_TOKEN;
+const MAPTILER_API_KEY = process.env.MAPTILER_API_KEY;
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
@@ -12,7 +13,8 @@ export async function GET(request: NextRequest) {
 
   try {
     const res = await axios.get(
-      `https://api.mapbox.com/geocoding/v5/mapbox.places/${lng},${lat}.json?access_token=${MAPBOX_ACCESS_TOKEN}`,
+      // `https://api.mapbox.com/geocoding/v5/mapbox.places/${lng},${lat}.json?access_token=${MAPBOX_ACCESS_TOKEN}`,
+      `https://api.maptiler.com/geocoding/${lng},${lat}.json?key=${MAPTILER_API_KEY}`,
     );
 
     const data = res.data;
