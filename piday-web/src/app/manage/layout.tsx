@@ -36,7 +36,7 @@ export default async function RootLayout({
   params: Promise<{ locale: string }>;
 }) {
   const locale = (await params).locale;
-  const session = await getServerSession(authOptions);
+  const session: any = await getServerSession(authOptions);
 
   if (!session || !session.roles.includes("PIDAY_ADMIN")) {
     console.info("Not admin");
