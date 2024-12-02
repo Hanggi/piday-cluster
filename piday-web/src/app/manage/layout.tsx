@@ -30,11 +30,12 @@ export function generateStaticParams() {
 
 export default async function RootLayout({
   children,
-  params: { locale },
+  params,
 }: {
   children: React.ReactNode;
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 }) {
+  const locale = (await params).locale;
   const session = await getServerSession(authOptions);
 
   if (!session || !session.roles.includes("PIDAY_ADMIN")) {

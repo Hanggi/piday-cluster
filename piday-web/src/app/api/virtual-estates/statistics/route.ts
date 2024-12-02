@@ -6,7 +6,7 @@ import { NextRequest } from "next/server";
 
 export async function GET(
   request: NextRequest,
-  { params, body }: { params: { side: string }; body: {} },
+  { params, body }: { params: Promise<{ side: string }>; body: {} },
 ) {
   try {
     const res = await instance.get(`/virtual-estates/statistics`, {});

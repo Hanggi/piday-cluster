@@ -3,7 +3,6 @@
 import { WrapperCard } from "@/src/components/WrapperCard";
 import PiCoinLogo from "@/src/components/piday-ui/PiCoinLogo";
 import { Statistics } from "@/src/features/virtual-estate/interface/statistics.interface";
-import { cn } from "@/src/utils/cn";
 
 import { Typography } from "@mui/joy";
 

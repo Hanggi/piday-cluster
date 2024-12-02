@@ -11,10 +11,10 @@ import React from "react";
 import ReactMarkdown from "react-markdown";
 
 type BlogProps = {
-  params: {
+  params: Promise<{
     slug: string;
     date: string;
-  };
+  }>;
 };
 
 async function getBlogContent(slug: string): Promise<string | null> {
@@ -29,7 +29,7 @@ async function getBlogContent(slug: string): Promise<string | null> {
 }
 
 export default async function BlogPost({ params }: BlogProps) {
-  const { slug, date } = params;
+  const { slug, date } = await params;
   const content = await getBlogContent(slug);
 
   if (!content) {
@@ -53,19 +53,19 @@ export default async function BlogPost({ params }: BlogProps) {
                   img: ({ src, alt }) => (
                     <div className="flex justify-center mb-10">
                       <Image
-                        src={src as string}
                         alt={alt || ""}
-                        width={800}
-                        height={400}
                         className="rounded-lg shadow-lg"
+                        height={400}
+                        src={src as string}
+                        width={800}
                       />
                     </div>
                   ),
                   h1: ({ children }) => (
                     <Typography
                       aria-label="H1"
-                      level="title-lg"
                       className="!text-3xl font-semibold !mb-4"
+                      level="title-lg"
                     >
                       {children}
                     </Typography>
@@ -73,8 +73,8 @@ export default async function BlogPost({ params }: BlogProps) {
                   h2: ({ children }) => (
                     <Typography
                       aria-label="H2"
-                      level="title-lg"
                       className="!text-2xl font-semibold !mb-4"
+                      level="title-lg"
                     >
                       {children}
                     </Typography>
@@ -82,8 +82,8 @@ export default async function BlogPost({ params }: BlogProps) {
                   h3: ({ children }) => (
                     <Typography
                       aria-label="H3"
-                      level="title-lg"
                       className="!text-xl font-semibold !mb-4"
+                      level="title-lg"
                     >
                       {children}
                     </Typography>
@@ -91,8 +91,8 @@ export default async function BlogPost({ params }: BlogProps) {
                   p: ({ children }) => (
                     <Typography
                       aria-label="P"
-                      level="body-md"
                       className="!mb-6 !text-lg"
+                      level="body-md"
                     >
                       {children}
                     </Typography>

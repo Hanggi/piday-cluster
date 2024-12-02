@@ -40,7 +40,7 @@ export default async function Home() {
       <h1 className="text-3xl font-bold text-center mb-8">Blog List</h1>
       <div className="list-disc list-inside">
         {blogs.map((blog) => (
-          <Card key={blog.slug} className="mb-4">
+          <Card className="mb-4" key={blog.slug}>
             <Link href={`/blog/${blog.date}/${blog.slug}`}>
               <h2 className=" hover:underline">{blog.title}</h2>
             </Link>

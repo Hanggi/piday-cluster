@@ -10,7 +10,7 @@ export async function POST(
   {
     params,
   }: {
-    params: { hexID: string; bidID: string };
+    params: Promise<{ hexID: string; bidID: string }>;
   },
 ) {
   const { headers } = request;

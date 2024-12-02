@@ -8,13 +8,14 @@ export async function POST(
   {
     params,
   }: {
-    params: { hexID: string; bidID: string };
+    params: Promise<{ hexID: string; bidID: string }>;
   },
 ) {
   const body = await request.json();
   const { receiverID, paymentPassword } = body;
   const { headers } = request;
-  const hexID = params.hexID;
+  const hexID = (await params).hexID;
+
   try {
     const res = await instance.post(
       "/virtual-estates/" + hexID + "/transfer",

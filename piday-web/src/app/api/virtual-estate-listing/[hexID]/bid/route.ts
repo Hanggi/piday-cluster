@@ -8,11 +8,11 @@ export async function POST(
   {
     params,
   }: {
-    params: { hexID: string };
+    params: Promise<{ hexID: string }>;
   },
 ) {
   const { headers } = request;
-  const hexID = params.hexID;
+  const hexID = (await params).hexID;
   const body = await request.json();
   const { price, type } = body;
   try {

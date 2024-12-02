@@ -2,11 +2,10 @@
 
 import { useLazyGetClusterInAreaQuery } from "@/src/features/virtual-estate/api/virtualEstateAPI";
 import { H3ClusterItem } from "@/src/features/virtual-estate/interface/virtual-estate.interface";
-import { DeckProps, FlyToInterpolator } from "@deck.gl/core";
+import { DeckProps } from "@deck.gl/core";
 import { H3ClusterLayer, H3HexagonLayer } from "@deck.gl/geo-layers";
 import { TextLayer } from "@deck.gl/layers";
 import { MapboxOverlay } from "@deck.gl/mapbox";
-import DeckGL from "@deck.gl/react";
 import "@deck.gl/widgets/stylesheet.css";
 import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
 import { geoToH3, h3ToGeo, kRing } from "h3-js";
@@ -26,7 +25,6 @@ import {
   useControl,
 } from "react-map-gl/maplibre";
 
-import GeocoderControl from "./GeocoderControl";
 
 const SHOW_HEXAGON_LAYER_FROM_ZOOM = 15;
 
@@ -317,18 +315,18 @@ export default function VirtualEstateMap({
   return (
     <div className="relative w-full h-full">
       <Map
+        initialViewState={viewState}
         mapStyle="https://basemaps.cartocdn.com/gl/positron-gl-style/style.json"
         mapboxAccessToken={token}
-        initialViewState={viewState}
+        ref={mapRef}
+        style={{ position: "relative" }}
+        onClick={handleClickHexagon}
         onLoad={() => {
           if (overlay.current) {
             mapRef.current?.getMap().addControl(overlay.current as any);
           }
         }}
-        onClick={handleClickHexagon}
         onMove={(evt) => handleMapViewChange({ viewState: evt.viewState })}
-        ref={mapRef}
-        style={{ position: "relative" }}
       >
         <div style={{ position: "absolute", right: 10, top: 10 }}>
           <GeolocateControl

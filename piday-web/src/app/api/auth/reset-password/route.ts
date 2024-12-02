@@ -3,7 +3,7 @@ import instance from "@/src/features/axios/instance";
 import { AxiosError } from "axios";
 import { StatusCodes } from "http-status-codes";
 
-export async function POST(request: Request, res: Response) {
+export async function POST(request: Request) {
   const { headers } = request;
   const req = await request.json();
 

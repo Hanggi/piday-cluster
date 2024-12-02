@@ -5,14 +5,15 @@ import { StatusCodes } from "http-status-codes";
 
 export async function POST(
   request: Request,
+
   {
     params,
   }: {
-    params: { listingID: string };
+    params: Promise<{ listingID: string }>;
   },
 ) {
   const { headers } = request;
-  const listingID = params.listingID;
+  const listingID = (await params).listingID;
   try {
     const res = await instance.post(
       "/virtual-estate-listing/cancel/" + listingID,

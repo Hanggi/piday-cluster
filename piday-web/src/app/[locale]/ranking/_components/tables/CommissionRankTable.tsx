@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-import { ComponentProps, useCallback, useMemo, useState } from "react";
+import { ComponentProps, useCallback, useState } from "react";
 import React from "react";
 
 import {

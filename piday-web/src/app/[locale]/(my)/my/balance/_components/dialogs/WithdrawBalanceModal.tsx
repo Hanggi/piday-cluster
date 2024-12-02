@@ -3,10 +3,8 @@ import {
   useErrorToast,
   useSuccessToast,
 } from "@/src/features/rtk-utils/use-error-toast.hook";
-import { useLazyGetUserInfoQuery } from "@/src/features/user/api/userAPI";
 import { myUserValue } from "@/src/features/user/user-slice";
 import { useCreateWithdrawRequestMutation } from "@/src/features/withdraw/api/withdrawAPI";
-import { debounce } from "lodash";
 
 import Button from "@mui/joy/Button";
 import DialogContent from "@mui/joy/DialogContent";

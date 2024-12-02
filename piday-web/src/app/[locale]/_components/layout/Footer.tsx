@@ -253,7 +253,7 @@ export default function Footer() {
       </center>
 
       <div className="container flex justify-end pb-2">
-        <audio controls ref={audioRef} loop autoPlay>
+        <audio autoPlay controls loop ref={audioRef}>
           <source src="/bgm/summer.mp3" type="audio/mpeg" />
           Your browser does not support the audio element.
         </audio>

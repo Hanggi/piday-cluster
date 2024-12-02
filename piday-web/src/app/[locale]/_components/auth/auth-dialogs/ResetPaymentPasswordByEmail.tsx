@@ -1,6 +1,5 @@
 import {
   useGetMyUserQuery,
-  useSendPasswordResetEmailMutation,
   useSendPaymentPasswordResetEmailMutation,
 } from "@/src/features/auth/api/authAPI";
 

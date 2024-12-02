@@ -123,8 +123,8 @@ export default function MyProfile() {
         </div>
         <div className="mb-4 w-6/12">
           <Select
-            value={nationality}
             placeholder="Nationality"
+            value={nationality}
             onChange={handleNationalityChange}
           >
             {countries.map((country) => (

@@ -4,7 +4,6 @@ import Pagination from "@/src/components/piday-ui/pagination/Pagination";
 import { useGetRechargeRecordsByUserIdQuery } from "@/src/features/admin/users/user-admin-api";
 import { format } from "date-fns";
 
-import Card from "@mui/joy/Card";
 import CircularProgress from "@mui/joy/CircularProgress";
 import Drawer from "@mui/joy/Drawer";
 import Table from "@mui/joy/Table";
@@ -38,7 +37,7 @@ export default function UserBalanceRecordDrawer({
   }, []);
 
   return (
-    <Drawer open={open} anchor="right" onClose={onClose}>
+    <Drawer anchor="right" open={open} onClose={onClose}>
       <div>
         <div className="p-2">
           <Typography level="h2">User Recharge Records Page</Typography>

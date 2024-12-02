@@ -22,7 +22,6 @@ import Typography from "@mui/joy/Typography";
 
 import { useCallback, useState } from "react";
 import React from "react";
-import { toast } from "react-toastify";
 
 import UserBalanceRecordDrawer from "../../users/_components/UserBalanceRecordDrawer";
 
@@ -185,7 +184,7 @@ export default function WithdrawRequestList() {
                   </td>
                 </tr>
                 <tr>
-                  <td colSpan={5} className="text-end">
+                  <td className="text-end" colSpan={5}>
                     <div className="flex gap-2 items-center">
                       <Typography level="body-sm">
                         Pi Wallet Address:
@@ -216,8 +215,8 @@ export default function WithdrawRequestList() {
       </Card>
 
       <UserBalanceRecordDrawer
-        userID={selectUserID as string}
         open={openBalanceRecordDrawer}
+        userID={selectUserID as string}
         onClose={() => {
           setOpenBalanceRecordDrawer(false);
           setSelectUserID(null);

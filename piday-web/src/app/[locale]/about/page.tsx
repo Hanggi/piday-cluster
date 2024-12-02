@@ -13,8 +13,8 @@ const About = () => {
           <div className="container mx-auto px-6 md:px-12 lg:px-24">
             <div className="mb-10">
               <Typography
-                level="h1"
                 className="text-center !mb-4 text-5xl font-extrabold !text-[rgba(89,59,139,100)] "
+                level="h1"
               >
                 PiDay World 派对世界
               </Typography>
@@ -25,11 +25,11 @@ const About = () => {
 
             <div className="flex justify-center mb-10">
               <Image
-                src="/img/about/banner.png"
                 alt="Landscape"
-                width={800}
-                height={400}
                 className="rounded-lg shadow-lg"
+                height={400}
+                src="/img/about/banner.png"
+                width={800}
               />
             </div>
 
@@ -199,11 +199,11 @@ const About = () => {
 
             <div className="flex justify-center mb-10">
               <Image
-                src="/img/about/map.png"
                 alt="City"
-                width={800}
-                height={400}
                 className="rounded-lg shadow-lg"
+                height={400}
+                src="/img/about/map.png"
+                width={800}
               />
             </div>
 
@@ -242,24 +242,24 @@ const About = () => {
               <ul className="list-disc list-inside text-lg text-gray-700">
                 <li>
                   <a
-                    href="https://twitter.com/pidayapp"
                     className="text-blue-500 hover:underline"
+                    href="https://twitter.com/pidayapp"
                   >
                     推特
                   </a>
                 </li>
                 <li>
                   <a
-                    href="https://t.me/pidayapp"
                     className="text-blue-500 hover:underline"
+                    href="https://t.me/pidayapp"
                   >
                     电报
                   </a>
                 </li>
                 <li>
                   <a
-                    href="https://piday.world"
                     className="text-blue-500 hover:underline"
+                    href="https://piday.world"
                   >
                     官网
                   </a>

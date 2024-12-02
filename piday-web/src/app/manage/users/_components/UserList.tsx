@@ -99,8 +99,8 @@ export default function UserList() {
       </Card>
 
       <UserBalanceRecordDrawer
-        userID={selectUserID as string}
         open={openBalanceRecordDrawer}
+        userID={selectUserID as string}
         onClose={() => {
           setOpenBalanceRecordDrawer(false);
           setSelectUserID(null);

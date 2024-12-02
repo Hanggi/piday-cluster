@@ -7,13 +7,13 @@ import { NextRequest } from "next/server";
 
 export async function GET(
   request: NextRequest,
-  { params, body }: { params: { page: string; pageSize: string }; body: {} },
+  segmentData: { params: Promise<{ page: string; size: string }>; body: {} },
 ) {
-  const searchParams = request.nextUrl.searchParams;
+  const searchParams = await segmentData.params;
   const { headers } = request;
 
-  const page = searchParams.get("page");
-  const size = searchParams.get("size");
+  const page = searchParams.page;
+  const size = searchParams.size;
 
   try {
     const res = await instance.get(

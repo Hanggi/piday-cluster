@@ -4,9 +4,13 @@ import { StatusCodes } from "http-status-codes";
 
 export async function GET(
   request: Request,
-  { params }: { params: { hexID: string } },
+  {
+    params,
+  }: {
+    params: Promise<{ hexID: string }>;
+  },
 ) {
-  const hexID = params.hexID;
+  const hexID = (await params).hexID;
 
   const url = new URL(request.url);
   const depth = url.searchParams.get("depth");

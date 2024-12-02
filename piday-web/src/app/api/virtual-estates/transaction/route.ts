@@ -7,11 +7,11 @@ import { NextRequest } from "next/server";
 
 export async function GET(
   request: NextRequest,
-  { params, body }: { params: { side: string }; body: {} },
+  { params, body }: { params: Promise<{ side: string }>; body: {} },
 ) {
   const searchParams = request.nextUrl.searchParams;
   const { headers } = request;
-  const side = searchParams.get("side");
+  const side = (await params).side;
 
   try {
     const res = await instance.get(

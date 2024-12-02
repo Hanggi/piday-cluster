@@ -7,15 +7,13 @@ import {
   TableHeader,
   TableRow,
 } from "@/src/components/Table";
-import Pagination from "@/src/components/piday-ui/pagination/Pagination";
-import { useGetInvitationRankQuery } from "@/src/features/leaderboard/api/leaderboardAPI";
 import { cn } from "@/src/utils/cn";
 
 import Card from "@mui/joy/Card";
 
 import Image from "next/image";
 
-import { ComponentProps, useCallback, useMemo, useState } from "react";
+import { ComponentProps, useMemo, useState } from "react";
 
 import { RankDataKey } from "../@types/rankData.type";
 import { rankData } from "./rankData";

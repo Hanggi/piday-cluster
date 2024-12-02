@@ -8,12 +8,12 @@ export async function PATCH(
   {
     params,
   }: {
-    params: { hexID: string; bidID: string };
+    params: Promise<{ hexID: string; bidID: string }>;
   },
 ) {
   const { headers } = request;
-  const hexID = params.hexID;
-  const bidID = params.bidID;
+  const hexID = (await params).hexID;
+  const bidID = (await params).bidID;
 
   const req = await request.json();
 

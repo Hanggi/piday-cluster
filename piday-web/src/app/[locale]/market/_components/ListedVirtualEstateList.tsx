@@ -7,7 +7,6 @@ import {
   useGetTransactedVirtualEstatesQuery,
 } from "@/src/features/virtual-estate/api/virtualEstateAPI";
 import { VirtualEstate } from "@/src/features/virtual-estate/interface/virtual-estate.interface";
-import { set } from "lodash";
 
 import CircularProgress from "@mui/joy/CircularProgress";
 import Option from "@mui/joy/Option";
@@ -142,7 +141,7 @@ export default function ListedVirtualEstateList() {
           <div className="grid py-6 grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6">
             {listingVirtualEstates?.map((ve, index) => (
               <div key={index}>
-                <VirtualEstateCard ve={ve} showLastPrice={false} />
+                <VirtualEstateCard showLastPrice={false} ve={ve} />
               </div>
             ))}
           </div>
@@ -167,7 +166,7 @@ export default function ListedVirtualEstateList() {
           <div className="grid py-6 grid-cols-2 gap-8 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6">
             {transactedVirtualEstates?.map((ve, index) => (
               <div key={index}>
-                <VirtualEstateCard ve={ve} showLastPrice={true} />
+                <VirtualEstateCard showLastPrice={true} ve={ve} />
               </div>
             ))}
           </div>

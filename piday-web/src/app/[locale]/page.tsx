@@ -11,7 +11,7 @@ import VirtualEstateMapClientWrapper from "./_components/home-ve-map/VirtualEsta
 const MAPBOX_ACCESS_TOKEN = process.env.MAPBOX_ACCESS_TOKEN;
 
 interface Props {
-  params: { hexID: string };
+  // params: Promise<{ hexID: string }>;
 }
 
 declare global {
@@ -20,7 +20,7 @@ declare global {
   }
 }
 
-export default async function HomePage({ params }: Props) {
+export default async function HomePage() {
   const statistics = await getStatitics();
 
   return (

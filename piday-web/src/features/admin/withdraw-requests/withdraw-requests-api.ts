@@ -1,7 +1,6 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 
 import { baseQuery } from "../../rtk-utils/fetch-base-query";
-import { VirtualEstate } from "../../virtual-estate/interface/virtual-estate.interface";
 import { WithdrawRequest } from "../../withdraw/interface/withdraw-request.interface";
 
 export const withdrawRequestAdminAPI = createApi({

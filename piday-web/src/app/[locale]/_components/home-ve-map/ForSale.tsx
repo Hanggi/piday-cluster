@@ -8,7 +8,6 @@ import { cn } from "@/src/utils/cn";
 
 import IconButton from "@mui/joy/IconButton";
 import Input from "@mui/joy/Input";
-import Select from "@mui/joy/Select";
 import Typography from "@mui/joy/Typography";
 
 import { useRouter } from "next/navigation";

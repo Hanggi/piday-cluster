@@ -6,7 +6,6 @@ import Link from "next/link";
 
 import { useTranslation } from "react-i18next";
 
-import { VirtualEstateListing } from "../features/virtual-estate-listing/interface/virtual-estate-listing.interface";
 import { VirtualEstate } from "../features/virtual-estate/interface/virtual-estate.interface";
 import PiCoinLogo from "./piday-ui/PiCoinLogo";
 import VirtualEstateLevelChip from "./virtual-estate-level/VitrualEstateLevelChip";

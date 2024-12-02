@@ -12,8 +12,6 @@ import { h3ToGeo } from "h3-js";
 import { useSession } from "next-auth/react";
 
 import Button from "@mui/joy/Button";
-import Card from "@mui/joy/Card";
-import Chip from "@mui/joy/Chip";
 import Typography from "@mui/joy/Typography";
 
 import { useCallback, useEffect, useState } from "react";

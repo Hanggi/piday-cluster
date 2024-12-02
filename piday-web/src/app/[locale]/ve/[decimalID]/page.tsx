@@ -9,8 +9,6 @@ import { VirtualEstate } from "@/src/features/virtual-estate/interface/virtual-e
 import { getAccessToken } from "@/src/utils/sessionTokenAccessor";
 import { AxiosError } from "axios";
 import { isNaN, isNumber } from "lodash";
-import { getServerSession } from "next-auth";
-import { getSession } from "next-auth/react";
 
 import { redirect } from "next/navigation";
 
@@ -22,12 +20,12 @@ import { VirtualEstateTradingHisory } from "./_components/VirtualEstateTradingHi
 const MAPBOX_ACCESS_TOKEN = process.env.MAPBOX_ACCESS_TOKEN;
 
 interface Props {
-  params: { decimalID: string };
+  params: Promise<{ decimalID: string }>;
 }
 
-export default async function VirtualEstateDetailPage({
-  params: { decimalID },
-}: Props) {
+export default async function VirtualEstateDetailPage({ params }: Props) {
+  const { decimalID } = await params;
+
   // if decimalID is not a decimal number then it's a hexID
   if (isNaN(+decimalID) || !isNumber(+decimalID)) {
     const deciamlPathID = hexIDtoDecimal(decimalID);

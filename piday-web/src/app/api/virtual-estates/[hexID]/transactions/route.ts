@@ -6,9 +6,13 @@ import { NextRequest } from "next/server";
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { hexID: string } },
+  {
+    params,
+  }: {
+    params: Promise<{ hexID: string }>;
+  },
 ) {
-  const hexID = params.hexID;
+  const hexID = (await params).hexID;
 
   const searchParams = request.nextUrl.searchParams;
   const { headers } = request;

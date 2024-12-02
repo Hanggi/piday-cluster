@@ -1,9 +1,8 @@
 import MapboxGeocoder, { GeocoderOptions } from "@mapbox/mapbox-gl-geocoder";
 
 import * as React from "react";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { ControlPosition, Marker, MarkerProps, useControl } from "react-map-gl";
-import { toast } from "react-toastify";
 
 type GeocoderControlProps = Omit<
   GeocoderOptions,
@@ -98,8 +97,8 @@ export default function GeocoderControl(props: GeocoderControlProps) {
           setMarker(
             <Marker
               {...(typeof props.marker === "object" ? props.marker : {})}
-              longitude={location[0]}
               latitude={location[1]}
+              longitude={location[0]}
             />,
           );
         } else {

@@ -9,13 +9,16 @@ import CircularProgress from "@mui/joy/CircularProgress";
 import Table from "@mui/joy/Table";
 import Typography from "@mui/joy/Typography";
 
-import { useCallback, useState } from "react";
+import { use, useCallback, useState } from "react";
 
 interface Props {
-  params: { userID: string };
+  params: Promise<{ userID: string }>;
 }
 
-export default function RechargeRecords({ params: { userID } }: Props) {
+export default function RechargeRecords({ params }: Props) {
+  const routeParams = use(params);
+  const userID = routeParams.userID;
+
   const [page, setPage] = useState(1);
   const [size, setSize] = useState(20);
   const { data: balanceRec, isLoading } = useGetRechargeRecordsByUserIdQuery({
@@ -24,7 +27,6 @@ export default function RechargeRecords({ params: { userID } }: Props) {
     size,
   });
 
-  console.log("Balance rec", balanceRec);
   const handlePageClick = useCallback(({ selected }: { selected: number }) => {
     setPage(selected + 1);
   }, []);

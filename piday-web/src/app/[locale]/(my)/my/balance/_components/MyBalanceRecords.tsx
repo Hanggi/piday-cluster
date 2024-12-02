@@ -5,7 +5,6 @@ import {
   useGetBalanceQuery,
   useGetMyRechargeRecordsQuery,
 } from "@/src/features/account/api/accountAPI";
-import { useGetWithdrawRequestsQuery } from "@/src/features/admin/withdraw-requests/withdraw-requests-api";
 import { format } from "date-fns";
 
 import Button from "@mui/joy/Button";

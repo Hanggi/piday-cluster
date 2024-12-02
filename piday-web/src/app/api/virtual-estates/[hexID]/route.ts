@@ -7,10 +7,14 @@ import { NextRequest } from "next/server";
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { hexID: string } },
+  {
+    params,
+  }: {
+    params: Promise<{ hexID: string }>;
+  },
 ) {
   const { headers } = request;
-  const hexID = params.hexID;
+  const hexID = (await params).hexID;
 
   try {
     const res = await instance.get(
@@ -60,10 +64,14 @@ export async function GET(
 // Mint a new virtual estate
 export async function POST(
   request: NextRequest,
-  { params }: { params: { hexID: string } },
+  {
+    params,
+  }: {
+    params: Promise<{ hexID: string }>;
+  },
 ) {
   const { headers } = request;
-  const hexID = params.hexID;
+  const hexID = (await params).hexID;
 
   const reqJSON = await request.json();
   try {
