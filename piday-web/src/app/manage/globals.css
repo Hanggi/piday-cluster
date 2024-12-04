@@ -3,7 +3,8 @@
 @tailwind utilities;
 
 @import "remixicon/fonts/remixicon.css";
-@import "mapbox-gl/dist/mapbox-gl.css";
+/* @import "mapbox-gl/dist/mapbox-gl.css"; */
+@import "maplibre-gl/dist/maplibre-gl.css";
 
 :root {
   --foreground-rgb: 0, 0, 0;

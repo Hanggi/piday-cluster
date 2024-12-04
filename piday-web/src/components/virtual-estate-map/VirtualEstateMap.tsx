@@ -25,7 +25,6 @@ import {
   useControl,
 } from "react-map-gl/maplibre";
 
-
 const SHOW_HEXAGON_LAYER_FROM_ZOOM = 15;
 
 const INITIAL_VIEW_STATE = {
@@ -38,11 +37,11 @@ const INITIAL_VIEW_STATE = {
 
 // Component
 
-function DeckGLOverlay(props: DeckProps) {
-  const overlay = useControl<any>(() => new MapboxOverlay(props));
-  overlay.setProps(props);
-  return null;
-}
+// function DeckGLOverlay(props: DeckProps) {
+//   const overlay = useControl<any>(() => new MapboxOverlay(props));
+//   overlay.setProps(props);
+//   return null;
+// }
 
 interface VirtualEstate {
   hexID: string;
