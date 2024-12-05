@@ -67,7 +67,7 @@ export default function ListedVirtualEstateList() {
       setPage(1);
       refetchListedVEList();
     }
-  }, [listedVirtualEstateList, page, size, router]);
+  }, [listedVirtualEstateList, page, size, router, refetchListedVEList]);
 
   useEffect(() => {
     if (listedVirtualEstateList) {

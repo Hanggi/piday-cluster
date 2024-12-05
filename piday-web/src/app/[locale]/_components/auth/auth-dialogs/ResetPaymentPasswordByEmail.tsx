@@ -41,7 +41,7 @@ export default function ResetPaymentPasswordByEmailDialog({
     }
     sendResetPaymentPasswordEmail({ email });
     onClose && onClose();
-  }, [email, sendResetPaymentPasswordEmail]);
+  }, [email, onClose, sendResetPaymentPasswordEmail]);
 
   useEffect(() => {
     if (myUser?.email) {

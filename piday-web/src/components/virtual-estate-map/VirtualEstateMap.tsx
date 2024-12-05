@@ -17,12 +17,7 @@ import Typography from "@mui/joy/Typography";
 import { useCallback, useEffect, useRef, useState } from "react";
 // import type { MapLayerMouseEvent, MapRef } from "react-map-gl";
 import { GeolocateControl, NavigationControl } from "react-map-gl";
-import {
-  Map,
-  MapLayerMouseEvent,
-  MapRef,
-  useControl,
-} from "react-map-gl/maplibre";
+import { Map, MapLayerMouseEvent, MapRef } from "react-map-gl/maplibre";
 
 const SHOW_HEXAGON_LAYER_FROM_ZOOM = 15;
 
@@ -139,6 +134,7 @@ export default function VirtualEstateMap({
       });
     }
   }, [
+    clusterDepth,
     triggerGetCluster,
     viewState.latitude,
     viewState.longitude,
@@ -239,7 +235,15 @@ export default function VirtualEstateMap({
     } else {
       overlay.current.setProps({ layers: layers } as any);
     }
-  }, [hexagons, onSaleList, selectedHexID, soldList, clusterData]);
+  }, [
+    hexagons,
+    onSaleList,
+    selectedHexID,
+    soldList,
+    clusterData,
+    clusterDepth,
+    clusterMaxCount,
+  ]);
 
   useEffect(() => {
     if (defaultHexID) {
@@ -289,7 +293,7 @@ export default function VirtualEstateMap({
       // if (mounted) {
       // }
     },
-    [debounceToSetCenterHex, mounted],
+    [debounceToSetCenterHex],
   );
 
   const handleClickHexagon = useCallback(

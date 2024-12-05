@@ -41,7 +41,7 @@ export default function TransferVirtualEstateDialog({
     if (open && myUser && !myUser.isPaymentPasswordSet) {
       toast.warn("请先设置支付密码!6");
     }
-  }, [myUser]);
+  }, [myUser, open]);
 
   const [userInput, setUserInput] = useState(""); // email, userID, piAddress
 

@@ -54,7 +54,7 @@ export default function MyProfile() {
       setNationality(value || "");
       updateNationality({ nationality: value || "" });
     },
-    [],
+    [updateNationality],
   );
 
   useEffect(() => {

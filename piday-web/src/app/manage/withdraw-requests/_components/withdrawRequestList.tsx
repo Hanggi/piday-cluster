@@ -67,13 +67,13 @@ export default function WithdrawRequestList() {
     async (withdrawStatusID: string) => {
       const r = await acceptWithdrawRequest({ withdrawStatusID }).unwrap();
     },
-    [],
+    [acceptWithdrawRequest],
   );
   const handleCancelWithdrawRequest = useCallback(
     async (withdrawStatusID: string) => {
       const r = await cancelWithdrawRequest({ withdrawStatusID }).unwrap();
     },
-    [],
+    [cancelWithdrawRequest],
   );
 
   const handlePageClick = useCallback(({ selected }: { selected: number }) => {

@@ -74,7 +74,7 @@ export default function WithdrawRequestModal({
     createWithdraw({ amount: JSON.stringify(amount), paymentPassword });
     setPaymentPassword("");
     setAmount(0);
-  }, [amount, paymentPassword, createWithdraw]);
+  }, [amount, balance, createWithdraw, paymentPassword]);
 
   // useEffect(() => {
   //   if (createWithdrawResult.isSuccess) {

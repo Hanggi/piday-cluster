@@ -1,6 +1,5 @@
 "use client";
 
-// import MenuIcon from "@mui/icons-material/Menu";
 import { useSession } from "next-auth/react";
 
 import GlobalStyles from "@mui/joy/GlobalStyles";
@@ -12,8 +11,8 @@ import * as React from "react";
 import { toggleSidebar } from "../utils";
 
 export default function Header() {
-  // const { data: session } = useSession();
-  // console.log(session);
+  const { data: session } = useSession();
+  console.log(session);
 
   return (
     <Sheet
