@@ -1,5 +1,5 @@
 {
-  "extends": "next/core-web-vitals",
+  "extends": ["next/core-web-vitals", "next/typescript"],
   "plugins": ["react-hooks", "unused-imports"],
   "rules": {
     "unused-imports/no-unused-imports": "warn",
