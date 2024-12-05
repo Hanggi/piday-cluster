@@ -44,7 +44,7 @@ export default function ListedVirtualEstateList() {
     params.set("page", page.toString());
 
     router.replace(`?${params.toString()}`);
-  }, [page]);
+  }, [page, router, searchParams]);
 
   const {
     data: listedVirtualEstateList,
