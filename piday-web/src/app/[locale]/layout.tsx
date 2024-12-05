@@ -26,7 +26,9 @@ export const metadata: Metadata = {
   description:
     "Piday world is a metaverse that mirrors the Earth's lands，allowing each pioneer to own their own digital land asset on the chain.",
 
-  metadataBase: process.env.NEXT_PUBLIC_BASE_URL || "https://piday.world",
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_BASE_URL || "https://piday.world",
+  ),
 
   manifest: "/manifest.json",
   // themeColor: "#593b8b",
