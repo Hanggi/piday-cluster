@@ -9,3 +9,4 @@ data:
 
   BACKEND_BASE_URL: "http://piday-server-service.piday-dev"
   NEXTAUTH_URLL: "https://app-dev.piday.world"
+  NEXT_PUBLIC_BASE_URL: "https://app-dev.piday.world"

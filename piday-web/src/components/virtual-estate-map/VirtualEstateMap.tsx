@@ -2,7 +2,6 @@
 
 import { useLazyGetClusterInAreaQuery } from "@/src/features/virtual-estate/api/virtualEstateAPI";
 import { H3ClusterItem } from "@/src/features/virtual-estate/interface/virtual-estate.interface";
-import { DeckProps } from "@deck.gl/core";
 import { H3ClusterLayer, H3HexagonLayer } from "@deck.gl/geo-layers";
 import { TextLayer } from "@deck.gl/layers";
 import { MapboxOverlay } from "@deck.gl/mapbox";
@@ -316,6 +315,7 @@ export default function VirtualEstateMap({
       <Map
         initialViewState={viewState}
         mapStyle="https://basemaps.cartocdn.com/gl/positron-gl-style/style.json"
+        // mapStyle="https://demotiles.maplibre.org/style.json"
         mapboxAccessToken={token}
         ref={mapRef}
         style={{ position: "relative" }}

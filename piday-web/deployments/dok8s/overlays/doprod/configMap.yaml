@@ -9,6 +9,7 @@ data:
   BACKEND_BASE_URL: http://piday-server-service.piday-prod
 
   NEXTAUTH_URL: https://piday.world
+  NEXT_PUBLIC_BASE_URL: https://piday.world
   NEXTAUTH_SECRET: "YLK9K7hLS6c4uklwBZKXmBmrBMYdwK7UpGL29d4SVXk="
 
   KEYCLOAK_BASE_URL: "https://auth.piday.world"

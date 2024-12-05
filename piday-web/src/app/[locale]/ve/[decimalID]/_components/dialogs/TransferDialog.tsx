@@ -38,8 +38,8 @@ export default function TransferVirtualEstateDialog({
 
   const myUser = useSelector(myUserValue);
   useEffect(() => {
-    if (myUser && !myUser.isPaymentPasswordSet) {
-      toast.warn("请先设置支付密码");
+    if (open && myUser && !myUser.isPaymentPasswordSet) {
+      toast.warn("请先设置支付密码!6");
     }
   }, [myUser]);
 

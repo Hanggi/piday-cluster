@@ -9,6 +9,7 @@ data:
   BACKEND_BASE_URL: http://piday-server-service.piday-staging
 
   NEXTAUTH_URL: https://testnet.piday.world
+  NEXT_PUBLIC_BASE_URL: https://testnet.piday.world
   NEXTAUTH_SECRET: "YLK9K7hLS6c4uklwBZKXmBmrBMYdwK7UpGL29d4SVXk="
 
   KEYCLOAK_BASE_URL: "https://staging-auth.piday.world"

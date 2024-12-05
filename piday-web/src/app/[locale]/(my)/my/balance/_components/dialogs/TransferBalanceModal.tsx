@@ -35,7 +35,7 @@ export default function TransferBalanceModal({
   const myUser = useSelector(myUserValue);
   useEffect(() => {
     if (myUser && !myUser.isPaymentPasswordSet) {
-      toast.warn("请先设置支付密码");
+      toast.warn("请先设置支付密码!");
     }
   }, [myUser]);
 
