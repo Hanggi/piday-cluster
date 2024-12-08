@@ -208,7 +208,7 @@ export class PointService {
       }),
       this.prisma.pointRecords.create({
         data: {
-          amount: antarcticEstatePoint,
+          amount: goldenVEPoint,
           ownerID: userID,
           reason: "GOLDEN_VIRTUAL_ESTATE_POINT",
         },
