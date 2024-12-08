@@ -109,13 +109,13 @@ export default function Footer() {
 
   return (
     <section className="w-full  bg-[rgba(89,59,139,100)]">
-      {showInstallButton && (
+      {/* {showInstallButton && (
         <div className="fixed bottom-0 left-0 right-0 h-20 z-50 !bg-violet-600 opacity-80 px-8">
           <div className="py-4 flex justify-end">
             <Button onClick={handleInstallClick}>安装应用</Button>
           </div>
         </div>
-      )}
+      )} */}
 
       <div
         className={cn("top-0 w-full max-md:py-4 md:h-20", {
