@@ -21,6 +21,7 @@ import { useSelector } from "react-redux";
 import AcceptAskToBuyDialog from "./dialogs/AcceptAskToBuyDialog";
 import AskToSellDialog from "./dialogs/AskToSellDialog";
 import BidToBuyDialog from "./dialogs/BidToBuyDialog";
+import CancelListinglDialog from "./dialogs/CancelListingDialog";
 import MintVirtualEstateDialog from "./dialogs/MintVirtualEstateDialog";
 import TransferVirtualEstateDialog from "./dialogs/TransferDialog";
 
@@ -63,6 +64,7 @@ export default function VirtualEstateDetailCard({
     useState(false);
   const [openTransferVirtualEstateDialog, setOpenTransferVirtualEstateDialog] =
     useState(false);
+  const [openCancelListingDialog, setOpenCancelListingDialog] = useState(false);
 
   const handleOpenMintDialog = useCallback(() => {
     if (!place) return;
@@ -79,6 +81,9 @@ export default function VirtualEstateDetailCard({
   }, []);
   const handleOpenTransferDialog = useCallback(() => {
     setOpenTransferVirtualEstateDialog(true);
+  }, []);
+  const handleOpenCancelListingDialog = useCallback(() => {
+    setOpenCancelListingDialog(true);
   }, []);
 
   const isMyVirtualEstate = useCallback(() => {
@@ -149,11 +154,26 @@ export default function VirtualEstateDetailCard({
               <Typography className="opacity-40" level="title-md">
                 {t("virtual-estate:label.sellingPrice")}
               </Typography>
-              <div className="flex gap-2">
-                <div className="w-6 h-6 relative">
-                  <PiCoinLogo />
+              <div className="flex justify-between items-center">
+                <div className="flex gap-2">
+                  <div className="w-6 h-6 relative">
+                    <PiCoinLogo />
+                  </div>
+                  <Typography level="title-md">{listing.price}</Typography>
                 </div>
-                <Typography level="title-md">{listing.price}</Typography>
+
+                {/* Only owner could cancel the listing. */}
+                {isMyVirtualEstate() && (
+                  <div className="mt-2">
+                    <Button
+                      color="neutral"
+                      variant="outlined"
+                      onClick={handleOpenCancelListingDialog}
+                    >
+                      {t("virtual-estate:button.cancelListing")}
+                    </Button>
+                  </div>
+                )}
               </div>
             </div>
           )}
@@ -259,6 +279,16 @@ export default function VirtualEstateDetailCard({
           setOpenTransferVirtualEstateDialog(false);
         }}
       />
+
+      {listing && listing.listingID && (
+        <CancelListinglDialog
+          listingID={listing.listingID}
+          open={openCancelListingDialog}
+          onClose={() => {
+            setOpenCancelListingDialog(false);
+          }}
+        />
+      )}
     </div>
   );
 }

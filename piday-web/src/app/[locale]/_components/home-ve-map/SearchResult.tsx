@@ -48,7 +48,7 @@ export function SearchResult({ statistics }: Props) {
               <PiCoinLogo />
             </div>
             <Typography className="font-semibold !text-secondary" level="h4">
-              {statistics.totalTransactionVolume}
+              {(+statistics.totalTransactionVolume).toFixed(2)}
             </Typography>
           </div>
           <Typography className="!text-sm text-center pt-1.5 pb-4">

@@ -19,7 +19,11 @@ interface Props {
   onClose: () => void;
 }
 
-export default function AskToSellDialog({ open, listingID, onClose }: Props) {
+export default function CancelListinglDialog({
+  open,
+  listingID,
+  onClose,
+}: Props) {
   const { t } = useTranslation(["virtual-estate"]);
   const dispatch = useDispatch();
 

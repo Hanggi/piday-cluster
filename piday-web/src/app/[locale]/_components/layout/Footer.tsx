@@ -41,8 +41,8 @@ export default function Footer() {
   useEffect(() => {
     if (isPWAInstalled() && isMobileDevice()) {
       console.log("PWA 已安装并在移动设备上运行");
-    } else if (isMobileDevice()) {
-      console.log("用户在移动设备上，但 PWA 未安装");
+    } else if (isMobileDevice() && deferredPrompt) {
+      console.log("用户在移动设备上，但 PWA 未安装，且支持PWA");
       setShowInstallButton(true);
     } else {
       console.log("用户在桌面设备上");
