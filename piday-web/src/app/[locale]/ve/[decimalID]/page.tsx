@@ -50,7 +50,6 @@ export default async function VirtualEstateDetailPage({ params }: Props) {
       },
     });
 
-    console.log(res.data);
     mintPrice = res.data.mintPrice;
     virtualEstate = res.data.ve;
     onSaleListing = res.data.listing;

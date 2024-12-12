@@ -148,79 +148,85 @@ export default function SignInDialog({
       <ModalClose sx={{ m: 1 }} variant="plain" />
       <DialogContent>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <FormControl className="mb-4" error={!!errors.username}>
-            <FormLabel>{t("common:auth.email")}</FormLabel>
-            <Input
-              {...register("username", {
-                required: t("common:auth.validation.required"),
-                pattern: {
-                  value: /\S+@\S+\.\S+/,
-                  message: t("common:auth.validation.email"),
-                },
-              })}
-              placeholder={t("common:auth.emailPlaceholder")}
-            />
-            {errors.username && (
-              <FormHelperText>{errors.username.message}</FormHelperText>
-            )}
-          </FormControl>
-          <FormControl className="mb-4" error={!!errors.password}>
-            <FormLabel>{t("common:auth.password")}</FormLabel>
-            <Input
-              {...register("password", {
-                required: t("common:auth.validation.required"),
-                minLength: {
-                  value: 6,
-                  message: t("common:auth.validation.passwordLength"),
-                },
-              })}
-              placeholder={t("common:auth.passwordPlaceholder")}
-              type="password"
-            />
-            {errors.password && (
-              <FormHelperText>{errors.password.message}</FormHelperText>
-            )}
-          </FormControl>
-          <div className="flex justify-between">
+          {false && (
             <div>
-              <Typography
-                className={"!text-blue-500 hover:!text-blue-300 cursor-pointer"}
-                level="body-sm"
-                onClick={() => {
-                  console.log("!");
-                  setOpenResetPasswordDialog(true);
-                }}
-              >
-                忘记密码
-              </Typography>
-            </div>
-            <div className="mb-8 text-right flex justify-end items-center">
-              <Typography level="body-sm">
-                {t("common:auth.signIn.signUpHint")}
-              </Typography>
-              <Typography
-                className={clsx(
-                  "!text-blue-500",
-                  "hover:!text-blue-300",
-                  "cursor-pointer",
-                  "!ml-2",
+              <FormControl className="mb-4" error={!!errors.username}>
+                <FormLabel>{t("common:auth.email")}</FormLabel>
+                <Input
+                  {...register("username", {
+                    required: t("common:auth.validation.required"),
+                    pattern: {
+                      value: /\S+@\S+\.\S+/,
+                      message: t("common:auth.validation.email"),
+                    },
+                  })}
+                  placeholder={t("common:auth.emailPlaceholder")}
+                />
+                {errors.username && (
+                  <FormHelperText>{errors.username?.message}</FormHelperText>
                 )}
-                level="body-sm"
-                onClick={() => {
-                  onAuthTypeChange(AuthDialogType.EMAIL_SIGN_UP);
-                }}
-              >
-                {t("common:auth.signUp.title")}
-              </Typography>
-            </div>
-          </div>
-          <Button disabled={isLoading} fullWidth type="submit">
-            {isLoading ? <BeatLoader /> : t("common:auth.signIn.title")}
-          </Button>
+              </FormControl>
+              <FormControl className="mb-4" error={!!errors.password}>
+                <FormLabel>{t("common:auth.password")}</FormLabel>
+                <Input
+                  {...register("password", {
+                    required: t("common:auth.validation.required"),
+                    minLength: {
+                      value: 6,
+                      message: t("common:auth.validation.passwordLength"),
+                    },
+                  })}
+                  placeholder={t("common:auth.passwordPlaceholder")}
+                  type="password"
+                />
+                {errors.password && (
+                  <FormHelperText>{errors.password?.message}</FormHelperText>
+                )}
+              </FormControl>
+              <div className="flex justify-between">
+                <div>
+                  <Typography
+                    className={
+                      "!text-blue-500 hover:!text-blue-300 cursor-pointer"
+                    }
+                    level="body-sm"
+                    onClick={() => {
+                      console.log("!");
+                      setOpenResetPasswordDialog(true);
+                    }}
+                  >
+                    忘记密码
+                  </Typography>
+                </div>
+                <div className="mb-8 text-right flex justify-end items-center">
+                  <Typography level="body-sm">
+                    {t("common:auth.signIn.signUpHint")}
+                  </Typography>
+                  <Typography
+                    className={clsx(
+                      "!text-blue-500",
+                      "hover:!text-blue-300",
+                      "cursor-pointer",
+                      "!ml-2",
+                    )}
+                    level="body-sm"
+                    onClick={() => {
+                      onAuthTypeChange(AuthDialogType.EMAIL_SIGN_UP);
+                    }}
+                  >
+                    {t("common:auth.signUp.title")}
+                  </Typography>
+                </div>
+              </div>
+              <Button disabled={isLoading} fullWidth type="submit">
+                {isLoading ? <BeatLoader /> : t("common:auth.signIn.title")}
+              </Button>
 
-          <div className="mt-4">
-            <Divider />
-          </div>
+              <div className="mt-4">
+                <Divider />
+              </div>
+            </div>
+          )}
 
           <div className="mt-4 w-full flex">
             <Button
