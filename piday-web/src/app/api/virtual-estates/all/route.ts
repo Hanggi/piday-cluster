@@ -9,11 +9,11 @@ export async function GET(
   request: NextRequest,
   segmentData: { params: Promise<{ page: string; size: string }>; body: {} },
 ) {
-  const searchParams = await segmentData.params;
+  const searchParams = request.nextUrl.searchParams;
   const { headers } = request;
 
-  const page = searchParams.page;
-  const size = searchParams.size;
+  const page = searchParams.get("page");
+  const size = searchParams.get("size");
 
   try {
     const res = await instance.get(

@@ -5,13 +5,11 @@ import { StatusCodes } from "http-status-codes";
 
 import { NextRequest } from "next/server";
 
-export async function GET(
-  request: NextRequest,
-  { params, body }: { params: Promise<{ side: string }>; body: {} },
-) {
+export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
   const { headers } = request;
-  const side = (await params).side;
+
+  const side = searchParams.get("side");
 
   try {
     const res = await instance.get(
