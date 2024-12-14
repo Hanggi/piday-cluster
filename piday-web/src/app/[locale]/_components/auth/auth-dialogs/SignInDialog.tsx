@@ -148,7 +148,7 @@ export default function SignInDialog({
       <ModalClose sx={{ m: 1 }} variant="plain" />
       <DialogContent>
         <form onSubmit={handleSubmit(onSubmit)}>
-          {false && (
+          {true && ( // TODO(Hanggi): Hide email sign in from PI browser
             <div>
               <FormControl className="mb-4" error={!!errors.username}>
                 <FormLabel>{t("common:auth.email")}</FormLabel>
