@@ -93,9 +93,9 @@ export default function SignInDialog({
 
   useEffect(() => {
     if (window.Pi) {
-      window.Pi.checkUserHasPiBrowser().then((hasPiBrowser: boolean) => {
-        alert(hasPiBrowser);
-        if (!hasPiBrowser) {
+      window.Pi.checkUserHasPiBrowser().then((hasPiBrowser: any) => {
+        alert(JSON.stringify(hasPiBrowser));
+        if (hasPiBrowser) {
           setShowEmailSignIn(false);
         }
       });
