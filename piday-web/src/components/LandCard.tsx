@@ -85,8 +85,6 @@ export function VirtualEstateCard({ ve, showLastPrice }: Props) {
 }
 
 function getVirtualEstatePrice(ve: VirtualEstate) {
-  console.log(ve);
-
   // Get the latest price from the listings
   if (ve?.listings && ve?.listings?.length > 0) {
     return ve.listings[0].price;

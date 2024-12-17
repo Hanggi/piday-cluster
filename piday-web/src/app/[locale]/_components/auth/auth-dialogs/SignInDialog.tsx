@@ -21,7 +21,7 @@ import Typography from "@mui/joy/Typography";
 
 import { useSearchParams } from "next/navigation";
 
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import BeatLoader from "react-spinners/BeatLoader";
@@ -54,6 +54,7 @@ export default function SignInDialog({
   );
   const [isLoading, setIsLoading] = useState(false); // 登录状态标志
   const [piSignIn, piSignInResult] = usePiSignInMutation();
+  const [showEmailSignIn, setShowEmailSignIn] = useState(true);
 
   const {
     register,
@@ -89,6 +90,16 @@ export default function SignInDialog({
     },
     [onClose, t],
   );
+
+  useEffect(() => {
+    if (window.Pi) {
+      window.Pi.checkUserHasPiBrowser().then((hasPiBrowser: boolean) => {
+        if (!hasPiBrowser) {
+          setShowEmailSignIn(false);
+        }
+      });
+    }
+  }, []);
 
   const handlePiSignIn = useCallback(async () => {
     if (!window.Pi) {
@@ -148,7 +159,7 @@ export default function SignInDialog({
       <ModalClose sx={{ m: 1 }} variant="plain" />
       <DialogContent>
         <form onSubmit={handleSubmit(onSubmit)}>
-          {true && ( // TODO(Hanggi): Hide email sign in from PI browser
+          {showEmailSignIn && (
             <div>
               <FormControl className="mb-4" error={!!errors.username}>
                 <FormLabel>{t("common:auth.email")}</FormLabel>
