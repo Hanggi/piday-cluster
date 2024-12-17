@@ -61,22 +61,26 @@ export default async function BlogPost({ params }: BlogProps) {
                       />
                     </div>
                   ),
-                  h1: ({ children }) => (
-                    <Typography
-                      aria-label="H1"
-                      className="!text-3xl font-semibold !mb-4"
-                      level="title-lg"
-                    >
-                      {children}
-                    </Typography>
-                  ),
+                  h1: (props) => {
+                    const { children } = props;
+
+                    return (
+                      <Typography
+                        aria-label="H1"
+                        className="!text-3xl font-semibold !mb-4"
+                        level="title-lg"
+                      >
+                        {children as string}
+                      </Typography>
+                    );
+                  },
                   h2: ({ children }) => (
                     <Typography
                       aria-label="H2"
                       className="!text-2xl font-semibold !mb-4"
                       level="title-lg"
                     >
-                      {children}
+                      {children as string}
                     </Typography>
                   ),
                   h3: ({ children }) => (
@@ -85,7 +89,7 @@ export default async function BlogPost({ params }: BlogProps) {
                       className="!text-xl font-semibold !mb-4"
                       level="title-lg"
                     >
-                      {children}
+                      {children as string}
                     </Typography>
                   ),
                   p: ({ children }) => (
@@ -94,17 +98,19 @@ export default async function BlogPost({ params }: BlogProps) {
                       className="!mb-6 !text-lg"
                       level="body-md"
                     >
-                      {children}
+                      {children as string}
                     </Typography>
                   ),
                   ol: ({ children }) => (
-                    <ol className="!list-decimal">{children}</ol>
+                    <ol className="!list-decimal">{children as string}</ol>
                   ),
                   ul: ({ children }) => (
-                    <ul className="!list-disc">{children}</ul>
+                    <ul className="!list-disc">{children as string}</ul>
                   ),
                   li: ({ children }) => (
-                    <li className=" !text-lg !mb-4 !ml-12">{children}</li>
+                    <li className=" !text-lg !mb-4 !ml-12">
+                      {children as string}
+                    </li>
                   ),
                 }}
               >

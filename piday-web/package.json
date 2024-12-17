@@ -21,7 +21,7 @@
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
     "@mapbox/mapbox-gl-geocoder": "^5.0.3",
-    "@mui/joy": "5.0.0-beta.50",
+    "@mui/joy": "5.0.0-beta.51",
     "@next/third-parties": "^15.1.0",
     "@radix-ui/react-tabs": "^1.1.2",
     "@reduxjs/toolkit": "^2.5.0",
@@ -79,7 +79,7 @@
     "postcss": "^8.4.49",
     "prettier": "^3.4.2",
     "tailwindcss": "^3.4.16",
-    "typescript": "^5.5.4"
+    "typescript": "^5.7.2"
   },
   "packageManager": "yarn@4.5.3"
 }
