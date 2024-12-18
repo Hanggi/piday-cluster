@@ -54,7 +54,9 @@ export default function SignInDialog({
   );
   const [isLoading, setIsLoading] = useState(false); // 登录状态标志
   const [piSignIn, piSignInResult] = usePiSignInMutation();
-  const [showEmailSignIn, setShowEmailSignIn] = useState(true);
+  const [showEmailSignIn, setShowEmailSignIn] = useState<boolean | undefined>(
+    undefined,
+  );
 
   const {
     register,
@@ -97,10 +99,13 @@ export default function SignInDialog({
         .then(({ userHasPiBrowser }: { userHasPiBrowser: boolean }) => {
           if (userHasPiBrowser) {
             setShowEmailSignIn(false);
+          } else if (userHasPiBrowser === false) {
+            setShowEmailSignIn(true);
           }
         })
-        .catch((err) => {
+        .catch((err: any) => {
           console.error(err);
+          setShowEmailSignIn(true);
         });
     }
   }, []);
@@ -163,8 +168,8 @@ export default function SignInDialog({
       <ModalClose sx={{ m: 1 }} variant="plain" />
       <DialogContent>
         <form onSubmit={handleSubmit(onSubmit)}>
-          {showEmailSignIn && (
-            <div>
+          {
+            <div className={`${showEmailSignIn ? "" : "hidden"} sm:block`}>
               <FormControl className="mb-4" error={!!errors.username}>
                 <FormLabel>{t("common:auth.email")}</FormLabel>
                 <Input
@@ -241,7 +246,7 @@ export default function SignInDialog({
                 <Divider />
               </div>
             </div>
-          )}
+          }
 
           <div className="mt-4 w-full flex">
             <Button
