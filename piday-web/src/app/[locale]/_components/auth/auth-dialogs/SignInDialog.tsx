@@ -93,13 +93,15 @@ export default function SignInDialog({
 
   useEffect(() => {
     if (window.Pi) {
-      window.Pi.checkUserHasPiBrowser().then(
-        ({ userHasPiBrowser }: { userHasPiBrowser: boolean }) => {
+      window.Pi.checkUserHasPiBrowser()
+        .then(({ userHasPiBrowser }: { userHasPiBrowser: boolean }) => {
           if (userHasPiBrowser) {
             setShowEmailSignIn(false);
           }
-        },
-      );
+        })
+        .catch((err) => {
+          console.error(err);
+        });
     }
   }, []);
 
