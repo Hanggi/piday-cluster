@@ -22,7 +22,6 @@ declare global {
 
 export default async function HomePage() {
   const statistics = await getStatitics();
-
   return (
     <section className="container mx-auto py-4 px-0 mb-8">
       <div className="w-full h-[400px] lg:h-[800px] relative pb-8">
