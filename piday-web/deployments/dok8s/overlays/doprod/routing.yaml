@@ -5,7 +5,7 @@ metadata:
   # namespace: piday-prod
 spec:
   hosts:
-    - "mainnet.piday.world"
+    - "piday.world"
   gateways:
     - prod/istio-gateway
   http:
