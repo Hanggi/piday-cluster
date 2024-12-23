@@ -1,135 +1,100 @@
-# 2024-07-21
+# 2024-12-23
 
-# Piday Land 派对土地铸造攻略
+# Piday World Metaland Mint Guide
 
-## 前景提示
+## Prospect Tips
 
-创世土地一共仅有3万块，铸造价格3.14派。黄金土地免费铸造，黄金土地总量为30万块。南极土地免费铸造，每一块土地对应地球的实际面积是314平方米。 
-红利：创世土地好处是低价期、分红权、参与权和身份象征。
-数量：每个用户可以铸造土地数量没有限制。
-次数：每次只能铸造一块，想铸造多块需要操作多次。
+- **Genesis Land**: Limited to 30,000 pieces, minting price is 3.14 Picoins.
+- **Gold Land**: Free minting, with a total supply of 300,000 pieces.
+- **Antarctic Land**: Free minting. Each piece of metaverse land corresponds to an actual area of **314 square meters** on Earth.
 
-## 铸造引导
+### Benefits of Genesis Land:
+1. **Low Entry Price**: Acquire lands at an initial, affordable rate.
+2. **Dividend Rights**: Participate in potential land-related returns.
+3. **Participation Rights**: Access unique features and events.
+4. **Identity Symbol**: Showcase ownership as a status symbol.
 
-因为piday对应的是地球实景，所以在piday铸造的时候，需要其他地图辅助完成，比如，张三要铸造巴黎埃菲尔铁塔位置的元宇宙土地，由于他不认识英文，那么，他可以打开百度地图或谷歌地图，然后对比piday中的地图：
+### Key Details:
+- **Quantity**: No limit to the number of lands a user can mint.
+- **Frequency**: Users can mint only one piece at a time; multiple operations are required for minting additional pieces.
+- **Market Trading**: Each piece of land is a unique NFT that can be traded.
 
-寻找顺序：大洲 -> 国家 -> 城市 -> 区域 -> 街道 -> 建筑。
+---
 
-### 第一步
+## Mint Guidance
 
-先找到欧洲，拉伸到法国为止。
+Piday Metaverse maps align with real-world geography, requiring users to compare Piday's maps with external mapping tools (e.g., Google Maps) to identify their desired locations.
 
-![第一步：找到法国](/blog-images/piday-land/piday-land-1.png)
+### Steps to Mint a Land Parcel:
 
-### 第二步
+1. **Navigate to Continent and Country**  
+   Start by identifying the desired continent and then narrow down to the target country. For example:
+   - Locate Europe and zoom into France.
 
-拉伸到巴黎为止，继续放大地图。
+2. **Refine Search to City and Region**  
+   Zoom into the specific city, e.g., Paris, and continue narrowing to neighborhoods or landmarks.
 
-![第二步：拉伸到巴黎](/blog-images/piday-land/piday-land-2.png)
+3. **Pinpoint the Exact Location**  
+   - Locate the landmark or area of interest using external maps for reference. For example, use Google Maps to identify the Eiffel Tower's location.
+   - Cross-check the location on the Piday map to ensure accuracy.
 
-### 第三步
+4. **Select a Hexagonal Parcel**  
+   - Once the map displays a honeycomb-like layer, choose a hexagonal plot of land.
+   - **Purple Hexagons**: Indicate already-minted parcels. Select an adjacent hexagon.
 
-找到埃菲尔铁塔区域，寻找河流形状更容易。先用百度地图查看大概位置，然后回到Piday 地图里找。
+5. **Complete the Minting Process**  
+   - Double-click on your selected land parcel. The map zooms into the land's detail page.
+   - Click the **"MINT" button** and complete the payment process.
 
-![第三步：找到埃菲尔铁塔](/blog-images/piday-land/piday-land-3.png)
+---
 
-![第四步：选择六边形](/blog-images/piday-land/piday-land-4.png)
+## Best Lands to Mint
 
-### 第四步
+### Categories of High-Value Lands:
+1. **Landmark Areas**: 
+   - World-renowned buildings or monuments.
+   - Examples: Eiffel Tower, Great Wall of China, Statue of Liberty.
+2. **Commercial Districts**: 
+   - The busiest commercial zones in major cities.
 
-继续放大地图，看到蜂窝状图层后，选中某个六边形。图中紫色表示已经被铸造，选择紫色周边的位置。
+### Examples of World-Class Landmarks:
+1. Great Wall of China  
+2. Statue of Liberty, USA  
+3. Eiffel Tower, France  
+4. Sydney Opera House, Australia  
+5. Taj Mahal, India  
 
-![第五步：支付铸造](/blog-images/piday-land/piday-land-5.png)
+(*Full list available above*)
 
-### 第五步
+If no world-class landmarks are available, explore **local or national landmarks**, such as regional attractions or iconic buildings within your country.
 
-鼠标选中地块，或者手指双击某个地块，地图会自动缩放到此土地详情页面，然后右侧有“创世铸造”按钮，点击支付即可完成铸造。
+---
 
-![总结](/blog-images/piday-land/piday-land-6.png)
+## Selection Strategy
 
-## 最佳土地
+When minting near a landmark that spans multiple hexagons, consider the following strategies:
 
-对应现实世界中的土地，一般有三种类型的土地具有价值：旅游景点、政府驻地、商业街区。  
-由于是在虚拟世界，所以大多数人会选择知名的地理位置或者地标建筑所在的位置，所以首选的土地类型是两种：  
-第一类，地标区。世界级的地标建筑或旅游景点，或者国家级的地标建筑或旅游景点。  
-第二类，商业区。每个城市最繁华的商业地段。
+1. **Film Strategy**  
+   Mint all hexagons occupied by the landmark. Future use cases may include:
+   - Uploading images, videos, or 3D scenes.
+   - Renting lands or charging for AR experiences.
 
-以地标建筑或名胜古迹为例，下面是50个世界级地标建筑：
+2. **Single-Piece Strategy**  
+   Mint the central hexagon of the landmark. Surrounding lands may increase in value as users aim to complete the set.
 
-1. 中国 — 万里长城
-2. 美国 — 自由女神像
-3. 俄罗斯 — 莫斯科红场
-4. 法国 — 埃菲尔铁塔和凯旋门
-5. 英国 — 大本钟
-6. 埃及 — 金字塔
-7. 意大利 — 比萨斜塔和古罗马斗兽场
-8. 巴西 — 救世主耶稣基督像
-9. 土耳其 — 圣索菲亚大教堂
-10. 希腊 — 帕特农神庙
-11. 澳大利亚 — 悉尼歌剧院
-12. 德国 — 勃兰登门
-13. 缅甸 — 仰光大金塔
-14. 梵蒂冈 — 圣彼得大教堂
-15. 捷克 — 布拉格广场
-16. 柬埔寨 — 吴哥窟
-17. 迪拜 — 哈利法塔
-18. 荷兰 — 风车
-19. 印度 — 泰姬陵
-20. 日本 — 东京塔
-21. 韩国 — 佛国寺
-22. 泰国 — 大皇宫
-23. 不丹 — 国家纪念碑
-24. 新加坡 — 鱼尾狮
-25. 越南 — 胡志明市圣母大教堂
-26. 尼泊尔 — 泥阿塔波拉塔
-27. 老挝 — 万象塔銮
-28. 阿富汗 — 巴米扬立佛
-29. 蒙古 — 祭敖包
-30. 摩洛哥 — 鸽子广场
-31. 古巴 — 国会大厦
-32. 苏丹 — 阿都沙末大厦
-33. 丹麦 — 丹麦市政厅广场
-34. 印尼 — 莫迪卡广场（独立广场）
-35. 以色列 — 哭墙
-36. 菲律宾 — 深奥古斯丁教堂
-37. 冰岛 — 雷克雅未克大教堂
-38. 马尔代夫 — 阿雅达度假村
-39. 毛里求斯 — 红顶教堂
-40. 孟加拉国 — 国家英雄纪念碑
-41. 马来西亚 — 双子大楼
-42. 沙特阿拉伯 — 王国中心大厦
-43. 芬兰 — 赫尔辛基大教堂
-44. 挪威 — 奥斯陆皇宫
-45. 葡萄牙 — 发现者纪念碑
-46. 西班牙 — 科尔多瓦历史中心
-47. 瑞士 — 廊桥水塔
-48. 乌克兰 — 祖国母亲雕像
+3. **Frontal Strategy**  
+   Mint the hexagon facing the landmark's primary view. This ensures prominent visibility for AR tourism or uploaded content.
 
-如果你找不到世界级的地标建筑，那么可以找国家级的地标建筑，你可以搜索一下中国每个省份都有什么地标建筑或名胜古迹，比如：北京紫禁城、河南少林寺、四川峨眉金顶、浙江雷峰塔、湖北黄鹤楼、海南海上观音、广东广州塔、天津瓷房子、西藏布达拉宫、江西滕王阁、黑龙江哈尔滨索菲亚教堂、澳门大三巴牌坊等等。
+4. **Encirclement Strategy**  
+   Mint hexagons surrounding a sold-out landmark. Anticipate value appreciation or acquisition from adjacent landowners.
 
-## 选择策略
+5. **Linear Strategy**  
+   Mint a row of hexagons along one side of a landmark. Straight-line plots are attractive for future expansions or AR displays.
 
-可能有人会疑问，那我如果选择一个地标建筑，这块地标占了很多个六边形土地，我该怎么选择最好呢？
+---
 
-### 第一个策略，成片
+## Explore More
 
-把此建筑所占的六边形全部铸造，然后将来在这整个面积中上传图片、视频、3D场景等等，或者进行土地租赁、二创旅游景点收费、上架广告等等。
+This is a global metaverse experiment where user participation shapes the platform's growth. Minting lands, conducting activities, and creating commercial opportunities are driven by individual creativity.
 
-### 第二个策略，一块
-
-只购买最中间的那块，然后等待周边的被某个用户全买走后，有可能他将来想要二创或者成片区域销售一个好价格的时候，就可能会求购你所在的那块最中间的土地。
-
-### 第三个策略，正面
-
-因为很多地标建筑都是有正面位置的，如果你想上传图片或者AR旅游到此的时候，必经你所在位置或者只看正面，那么这块正面位置对应的土地就是最佳选择，你就不用购买整个地标所占的全部土地了。
-
-### 第四个策略，包围
-
-如果某些地标建筑被买完了，你可以选择周围一圈购买，因为未来会因为这块土地的价格增加而价格外溢到周围土地，或者等待被中间土地持有者扩大收购。
-
-### 第五个策略，单边
-
-选择地标建筑的某一面，然后挨着铸造一排土地形成一条直线，如果他扩大土地收购有可能更愿意收购连着的土地，同时你可以二创时候上传一条长图片或宽视频显示，如果有人去看中间的地标也会顺便看你的土地上的内容。
-
-还有更多的土地铸造想法或者策略，你可以自己探索挖掘，这是一场全民参与的探索实验，土地的铸造完全取决于用户自己的行为，以后在土地上做什么行为或商业活动也完全取决于用户自己，无数个个体的无序会形成集体的有序性。
-如果你有更好的想法，可以分享给Piday 官方，让我们一起创造一个全新而美好的元宇宙世界。
+Share your ideas with **Piday Official** to collectively build an innovative and vibrant metaverse community.

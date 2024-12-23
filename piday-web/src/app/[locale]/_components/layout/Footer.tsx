@@ -47,7 +47,7 @@ export default function Footer() {
     } else {
       console.log("用户在桌面设备上");
     }
-  }, []);
+  }, [deferredPrompt]);
 
   useEffect(() => {
     const handler = (e: Event) => {
@@ -66,19 +66,19 @@ export default function Footer() {
     };
   }, []);
 
-  const handleInstallClick = async () => {
-    if (deferredPrompt) {
-      deferredPrompt.prompt();
-      const choiceResult = await deferredPrompt.userChoice;
-      if (choiceResult.outcome === "accepted") {
-        console.log("用户接受了安装");
-      } else {
-        console.log("用户取消了安装");
-      }
-      setDeferredPrompt(null);
-      setShowInstallButton(false);
-    }
-  };
+  // const handleInstallClick = async () => {
+  //   if (deferredPrompt) {
+  //     deferredPrompt.prompt();
+  //     const choiceResult = await deferredPrompt.userChoice;
+  //     if (choiceResult.outcome === "accepted") {
+  //       console.log("用户接受了安装");
+  //     } else {
+  //       console.log("用户取消了安装");
+  //     }
+  //     setDeferredPrompt(null);
+  //     setShowInstallButton(false);
+  //   }
+  // };
 
   // const togglePlay = () => {
   //   if (audioRef.current) {
@@ -91,21 +91,20 @@ export default function Footer() {
   //   }
   // };
 
-  // useEffect(() => {
-  //   const audio = audioRef.current;
-
-  //   if (audio) {
-  //     audio.muted = true; // 确保初始状态静音以支持自动播放
-  //     audio
-  //       .play()
-  //       .then(() => {
-  //         console.log("Audio is playing automatically.");
-  //       })
-  //       .catch((error) => {
-  //         console.error("AutoPlay failed:", error);
-  //       });
-  //   }
-  // }, []);
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.volume = 0.1;
+      // audio.muted = true; // 确保初始状态静音以支持自动播放
+      // audio
+      //   .play()
+      //   .then(() => {
+      //     console.log("Audio is playing automatically.");
+      //   })
+      //   .catch((error) => {
+      //     console.error("AutoPlay failed:", error);
+      //   });
+    }
+  }, []);
 
   return (
     <section className="w-full  bg-[rgba(89,59,139,100)]">

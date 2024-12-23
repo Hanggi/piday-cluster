@@ -1,14 +1,12 @@
 "use client";
 
 import axios from "axios";
-import { set } from "lodash";
 
 import Button from "@mui/joy/Button";
-import Input from "@mui/joy/Input";
 
 import Script from "next/script";
 
-import { useState } from "react";
+import TestButtons from "./_component/TestButtons";
 
 type Direction = "user_to_app" | "app_to_user";
 
@@ -70,8 +68,6 @@ export default function TestPage() {
   // 执行检测函数
   checkCookieSupport();
   checkLocalStorageSupport();
-
-  const [userUid, setUserUid] = useState("");
 
   return (
     <div className="container">
@@ -197,48 +193,7 @@ export default function TestPage() {
         </Button>
       </div>
 
-      <div className="py-8">
-        <Input
-          onChange={(event) => {
-            setUserUid(event.target.value);
-          }}
-        />
-        <Button
-          onClick={async () => {
-            const apiUrl = "https://api.minepi.com/v2/payments";
-            const appSecret = process.env.PI_APP_SECRET; // 在环境变量中存储你的 App Secret
-
-            try {
-              const response = await axios.post(
-                apiUrl,
-                {
-                  amount: 0.01, // 支付金额
-                  memo: "Test U2A payment", // 支付备注
-                  metadata: {
-                    amount: 0.01,
-                  }, // 自定义元数据
-                  user_uid: userUid, // 接收支付的用户 UID
-                },
-                {
-                  headers: {
-                    Authorization: `Key ${appSecret}`,
-                  },
-                },
-              );
-              console.log("Payment initiated:", response.data);
-              return response.data;
-            } catch (error) {
-              console.error(
-                "Failed to send payment:",
-                // error.response?.data || error.message,
-              );
-              throw error;
-            }
-          }}
-        >
-          A2U Payment
-        </Button>
-      </div>
+      <TestButtons />
 
       <Script
         src="https://sdk.minepi.com/pi-sdk.js"

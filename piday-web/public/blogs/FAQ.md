@@ -1,155 +1,195 @@
-# 2024-07-21
+# 2024-12-23
 
-# Piday 31条问答
+# Piday World Metaverse Q&A
 
-## 1、 Piday是什么？
+## 1. What is Piday?
 
-PiDay是一个地球镜像元宇宙土地平台，每块六边形土地对应的实景面积是314平方米，任何先锋都可以在PiDay中铸造土地和交易土地，每一块土地都是一个NFT。每个先锋都可以成为城市的管理者，PiDay将采取DAO治理模式，开启元宇宙虚拟城市自治和城市经济分红，人人皆是创建者、人人皆是管理者、人人皆是受益者。PidayWorld是Pinetwork生态中第一个元宇宙土地应用平台。
+Piday is an Earth-mirrored metaverse land platform where each hexagonal land corresponds to 314 square meters of real-world area. Users can mint and trade lands, each of which is an NFT. Participants can become city managers through a DAO governance model, enabling virtual city autonomy and urban economic dividends. Piday World is the first metaverse land application in the Pinetwork ecosystem, where everyone is a creator, manager, and beneficiary.
 
-## 2、 Piday 是谁开发的？
+---
 
-Piday是由派帝社区（PiKing）研发，于2022年设计，2023年投入研发，2024年3月14日上线第一版本。派帝社区始于2019年8月份，是最早布道Pi的社区，社区旗下还有Piline、3A学院、Memeet等基于Pinetwork的生态应用。
+## 2. Who developed Piday?
 
-## 3、 Piday里面能干什么？
+Piday was developed by the **PiKing Community**, designed in 2022, developed in 2023, and launched its first version on **March 14, 2024**. Established in August 2019, PiKing is one of the earliest communities advocating for Pinetwork. It also supports other Pi-based applications, including **Piline Payment**, **3A Web3 College**, and **Memeet Web3 Meeting**.
 
-1. **拥有土地**，成为一名元宇宙地主，铸造和拥有元宇宙土地，进行土地开发和创作。
-2. **积分挖矿**，成为一名元宇宙矿工，可以每日签到获得Piday平台的积分PidayPoint（简称PP）。
-3. **参与DAO**，成为一名元宇宙市长，你可以参与Piday自治城DAO的城市市长竞选，管理和创作所在自治城的未来。
+---
 
-## 4、 Piday里面的土地有什么用？
+## 3. What can be done in Piday?
 
-1. **交易**，每一块土地都是NFT，可以上架交易赚取Picoin。
-2. **挖矿**，持有土地可以挖掘平台的积分PP。
-3. **分红**，持有土地可以获得对应城市税收的分红。
-4. **DAO**，持有土地可以参与对应城市的DAO管理。
-5. **二创**，后期会开发创作工具，用户可以在土地上创作内容额外赚取收益。
+1. **Own Land**: Mint and own metaverse lands, becoming a virtual landlord for development and creation.
+2. **Mine Points**: Check-in daily to earn PidayPoints (PP), becoming a metaverse miner.
+3. **Participate in DAO**: Run for mayor in city DAOs to manage and develop autonomous cities.
 
-## 5、 Piday里面的土地价格是多少？
+---
 
-创世土地3万块，固定创世量，持有创世土地者即为平台创世股东权，持有创世土地拥有城市创世居民权，参与城市自治管理和竞选，以及该城市二期土地销售分红和城市经济分红。
-创世土地铸造价格：3.14个派
-每铸造一块土地，推广者可获得10%的土地铸造费。
+## 4. What is the use of land in Piday?
 
-## 6、 Piday里面的土地铸造使用的派币都是映射币吗？
+1. **Trade**: Each land is an NFT that can be traded for Picoins.
+2. **Mine Points**: Earn PP by holding land.
+3. **Dividends**: Receive city tax dividends from holding land.
+4. **DAO Governance**: Participate in city management through DAOs.
+5. **Content Creation**: Future tools will allow users to create content on lands to generate extra income.
 
-是的，只有主网映射币才能铸造土地，测试币无法进入平台也无法铸造土地。
+---
 
-## 7、 Piday如何注册和登录？
+## 5. What is the land price in Piday?
 
-1. 在Pi浏览器APP内访问，使用Pi账号授权注册和登录。或者使用邮箱注册登录。
-2. 在任何浏览器访问，使用邮箱注册和登录。
+- **Genesis Land**: 30,000 pieces at 3.14 Picoins each. Owners receive voting rights, city tax dividends, and governance privileges.
+- **Gold Land**: Free for the first 3 pieces; additional lands are 0.5 Picoins each. Total supply: 300,000 pieces.
+- **Antarctic Land**: Free for the first 3 pieces; additional lands are 0.5 Picoins each. Total supply: TBD.
 
-## 8、 Piday里面为什么要绑定Pi钱包地址？
+---
 
-因为只有绑定Pi钱包地址来确定账户唯一性，才能实现后面的充值、内转、提现和土地转移等操作。
+## 6. Are all Picoins used for minting in Piday mainnet coins?
 
-## 9、 Piday里面绑定的地址必须是映射地址吗？
+Yes, only **mainnet coins** can be used for minting. Testnet coins are not accepted.
 
-不是，绑定的Pi钱包地址是否映射都不影响绑定Piday，因为绑定只是一种账号和钱包地址之间的关系确认。就好像你的银行卡里有没有钱，都可以绑定微信号一个道理。
+---
 
-## 10、 Piday里面的积分有什么用？
+## 7. How to register and log in to Piday?
 
-持有平台积分会获得平台相应的权益，属于平台的权益积分，会按照某种比例兑换代币。
+1. Access via the **Pi Browser app** using Pi account authorization.
+2. Use **email registration** on the platform through any browser.
 
-## 11、 Piday里面的DAO有什么用？
+---
 
-DAO是Piday非常重要的组成部分，是实现每个城市运转下去的重要组织形式，DAO内可以实现土地持有者自我管理城市、自我发展城市。你也可以理解成是元宇宙的一场DAO实验。
+## 8. Why is it necessary to bind a Pi wallet address?
 
-## 12、 Piday里面的土地交易有手续费吗？
+Binding ensures account uniqueness, enabling features like deposits, internal transfers, withdrawals, and land transfers.
 
-有，每块土地交易会产生1%的手续费，由卖家付手续费，手续费用于平台运营、返佣奖励、城市税收、联合国DAO管理等等。
+---
 
-## 13、 Piday里面有返佣机制吗？
+## 9. Does the bound Pi wallet need to be on the mainnet?
 
-有。在注册的时候输入上级邀请码来绑定邀请关系，下级铸造土地或者卖出土地产生的手续费都会给上级带来返佣，同时挖矿积分也会产生加成。土地铸造返佣是10%，土地交易手续费中的10%，每邀请1人每日获得20%的积分奖励。
+No, the wallet doesn't need to be mapped to the mainnet for binding. Binding only links an account to a wallet.
 
-## 14、 Piday里面的积分如何获得更多？
+---
 
-有三种方式可以获得更多的积分PP：
+## 10. What is the use of points (PP) in Piday?
 
-1. 自己每日签到获得，按日分配。初始值每日100个，按照平台总人数人数增加10倍减半机制。
-2. 邀请队友注册获得，按日按人分配，每邀请一人后，每日可额外获得20个，按照平台总人数人数增加10倍减半机制。
-3. 持有土地挖矿获得，按日按量分配，每持有一块土地，每日可额外获得300个，按照平台总人数人数增加10倍减半机制。每日只需签到一次，24小时为一日计算周期。
+PP represents platform benefits and can be exchanged for tokens under specific conditions.
 
-## 15、 Piday里面的用户有什么角色？
+---
 
-每个用户可以拥有多种身份，因为角色和持有土地情况而定。
+## 11. What is the role of DAOs in Piday?
 
-1. 创世公民，创世土地持有者，人数上限为3万。
-2. 数字公民，非创世土地持有者，人数上限为1.62万亿。
-3. 数字游民，未持有土地的用户，人数没有上限。
-4. 南极居民，只持有南极土地的用户，南极土地初期免费获得，目前暂未开放。
-5. 数字代表，城市DAO领袖或联合国DAO人员，参与自治城管理或联合国管理。
-6. 数字守卫者，维护自己所在城市聊天室和谐的用户，相当于城市频道管理员。
-7. 数字志愿者，元宇宙平台义务志愿者。
-8. 派对管理员，派对平台的技术和运营人员，不断完善派对。  
-   备注：各种身份的用户会获得对应土地或DAO的经济分红，数字志愿者会有额外的奖励（暂未公布）。
+DAOs enable landowners to self-manage and develop cities. It's also a governance experiment for the metaverse.
 
-## 16、 Piday里面的钱包都有什么功能？
+---
 
-映射币充值、映射币内转、映射币提现。
+## 12. Is there a transaction fee for land trades in Piday?
 
-## 17、 Piday可以修改支付密码吗？
+Yes, a **1% fee** applies to land sales, paid by the seller. This fee funds platform operations, rewards, city taxes, and DAO management.
 
-支持，在平台增加邮箱验证功能之后就可以自由修改支付密码。
+---
 
-## 18、Piday里面可以修改账户密码吗？
+## 13. Is there a commission rebate in Piday?
 
-支持，在平台增加邮箱验证功能之后就可以自由修改支付密码。
+Yes. Enter an invitation code during registration to bind relationships:
 
-## 19、Piday里面可以一个Pi钱包地址绑定多个账号吗？
+- Minting lands provides **10% of the minting fee** as a rebate.
+- Transaction fees generate **10% rebates** for referees.
+- Inviting users grants **20% extra PP daily per invitee**.
 
-不能。一个Pi钱包地址只能绑定一个账号，为了保护用户的资产安全，防止重复绑定被盗，同时防止转账时候数据出错，所以只能绑定一个。
+---
 
-## 20、Piday里面可以Pi币提现吗？
+## 14. How to earn more points in Piday?
 
-支持，在平台增加邮箱验证功能和提现功能之后就可以随时提现，24小时内审核提币。
+1. **Check-in daily** for a base reward of 100 PP (with halving based on user growth).
+2. **Invite others** to earn 20 extra PP daily per invitee.
+3. **Hold lands** to mine 300 PP daily per parcel.
 
-## 21、Piday里面一共多少土地？
+---
 
-整个平台的土地是1.62万亿块土地，但是99%的土地可能是没有价值的，因为地球上存在大量的海洋、极低、沙漠、山脉和无人区，首批创世土地只有3万块。
+## 15. What roles can users have in Piday?
 
-## 22、Piday里面的土地可以转移吗？
+1. **Genesis Citizen**: Genesis landowners (max 30,000).
+2. **Digital Citizen**: General landowners (max 1.62 trillion).
+3. **Digital Nomad**: Non-landowners (no cap).
+4. **Antarctic Resident**: Owners of Antarctic lands.
+5. **DAO Leader**: City or global DAO representatives.
+6. **Digital Guardian**: City chat moderators.
+7. **Digital Volunteer**: Platform support volunteers.
+8. **Piday Administrator**: Staff maintaining the platform.
 
-完全可以，土地属于用户的资产，可以点击土地当中的转移按钮，输入接收账号绑定的Pi钱包地址就可以转移土地到对方账号。
+---
 
-## 23、Piday里面的创世土地有什么好处？
+## 16. What wallet functions are supported in Piday?
 
-因为创世土地只有3万块，不再增加，所以非常稀缺，创世土地具有第一批自治城DAO的参与权和而且土地销售的分红权。
+1. Recharge Picoins (mainnet).
+2. Transfer Picoins internally.
+3. Withdraw Picoins.
 
-## 24、Piday里面绑定的钱包地址可以更改吗？
+---
 
-可以，在Piday平台设置邮箱验证功能之后随时可以修改绑定的Pi钱包地址。
+## 17. Can I change my payment or account password in Piday?
 
-## 25、Piday里面可以批量铸造或者批量购买土地吗？
+Yes, passwords can be reset via email verification.
 
-可以，批量铸造功能和批量购买功能正在开发中，即将上线。
+---
 
-## 26、Piday里面什么样的土地更好？
+## 18. Can a Pi wallet address be bound to multiple accounts?
 
-一般选择现实世界中的地标建筑、名胜古迹、商业中心等土地的价值会更高，因为知名度和物理世界土地价值镜像，所以人们更愿意持有和购买地标地块。
+No. A wallet can only bind to one account for security and data integrity.
 
-## 27、Piday里面转账为什么需要输入Pi钱包地址？
+---
 
-因为每个Pi钱包地址只能绑定一个Pi账号，所以在平台内部Pi钱包地址是唯一性的，所以通过输入Pi钱包地址转账实际上是账号对账号之间的转账，而选择Pi钱包地址对地址转账的方式就是为了让用户体验P2P地址对地址转账派币的体验感，更接近真实的链上转账。
+## 19. Can I withdraw Picoins in Piday?
 
-## 28、Piday里面如何利益最大化？
+Yes, once the withdrawal feature is enabled, transfers are reviewed within 24 hours.
 
-1. **土地方面**，选择地标土地铸造然后上架卖掉赚取更多派币，持有更多创世土地可以获得自治城税收分红。
-2. **邀请方面**，邀请更多人铸造土地赚取铸造费用返佣奖励和土地交易手续费返佣奖励，以及获得挖矿积分奖励。
-3. **积分方面**，保持签到、多邀请人、多持有土地等方式来赚取更多积分。
-4. **DAO**，参与自治城DAO管理获得更多税收分红和DAO管理权。
+---
 
-## 29、Piday里面的土地何时上链？
+## 20. How much land does Piday have?
 
-Pinetwork官方宣布全面主网开源后，Piday会接入主网API，然后进行数据上链。
+Piday contains **1.62 trillion parcels**, but 99% are likely to be of low value (e.g., oceans, deserts). The first mint focuses on **30,000 Genesis Lands**.
 
-## 30、Piday里面的积分会上链吗？
+---
 
-政策允许的条件下会适时上链。
+## 21. What are the benefits of Genesis Lands?
 
-## 31、Piday未来的规划是什么？
+1. Scarcity: Only 30,000 pieces.
+2. DAO Participation: Exclusive governance rights.
+3. Dividends: City tax and land sale shares.
 
-1. 完成创世土地的铸造。
-2. 完成自治城DAO和Chat聊天室功能。
-3. 全面开放土地铸造和DAO管理。
+---
+
+## 22. Can lands be transferred in Piday?
+
+Yes, lands can be transferred via the **transfer button** and specifying the recipient's wallet address.
+
+---
+
+## 23. What type of land has the most value?
+
+Landmarks, historical sites, and commercial centers typically hold the most value due to their popularity and mirroring real-world significance.
+
+---
+
+## 24. How can I maximize profits in Piday?
+
+1. Mint and trade high-value lands (e.g., landmarks).
+2. Invite others to mint and trade for commission rebates.
+3. Earn more PP through regular activity and landholding.
+4. Participate in DAO governance for tax and economic dividends.
+
+---
+
+## 25. When will lands in Piday be on-chain?
+
+Lands will be recorded on-chain after PiNetwork's mainnet opens fully.
+
+---
+
+## 26. Will Piday points become blockchain tokens?
+
+If permitted by regulations, points will be tokenized in the future.
+
+---
+
+## 27. What are Piday's future plans?
+
+1. Complete Genesis Land minting.
+2. Launch city DAO and chatroom functions.
+3. Expand land minting and DAO governance.
+4. Build a decentralized, participatory metaverse ecosystem.
