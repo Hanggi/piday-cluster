@@ -62,7 +62,24 @@ export default function TestButtons() {
               uid: userUid, // 接收支付的用户 UID
             });
           }}
-        ></Button>
+        >
+          pppp
+        </Button>
+      </div>
+
+      <div className="py-8">
+        <Button
+          onClick={async () => {
+            try {
+              const has = await window.Pi.checkUserHasPiBrowser();
+              alert(has);
+            } catch (error) {
+              alert(error);
+            }
+          }}
+        >
+          Check User Has Pi Browser
+        </Button>
       </div>
     </div>
   );

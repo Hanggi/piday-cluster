@@ -8,6 +8,7 @@ import {
   Get,
   HttpException,
   HttpStatus,
+  Logger,
   Post,
   Query,
   Req,
@@ -128,8 +129,11 @@ export class AuthController {
       }
     }
 
+    Logger.log(myPiUser);
+
     const find = await this.authService.findUserByPiID(myPiUser.uid);
     const pass = generatePasswordFromPiUid(myPiUser.uid);
+
     if (!find) {
       if (!inviteCode) {
         throw new HttpException(
