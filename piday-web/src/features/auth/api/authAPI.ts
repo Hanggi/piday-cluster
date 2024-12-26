@@ -123,6 +123,54 @@ export const authRTKApi = createApi({
         return error.data;
       },
     }),
+    sendMigrateToEmailAccountEmail: builder.mutation<
+      void,
+      { userID: string; email: string; locale?: string }
+    >({
+      query: ({
+        userID,
+        email,
+        locale,
+      }: {
+        userID: string;
+        email: string;
+        locale: string;
+      }) => ({
+        url: `/auth/send-migrate-to-email-account-email?userID=${userID}&email=${email}`,
+        method: "GET",
+        headers: {
+          locale,
+        },
+      }),
+      transformResponse: (response: AxiosResponse) => {
+        return response.data;
+      },
+      transformErrorResponse: (error: any) => {
+        console.log(error);
+        return error.data;
+      },
+    }),
+    migrateToEmailAccount: builder.mutation<
+      void,
+      { email: string; code: string; userID: string }
+    >({
+      query: ({ email, code, userID }) => ({
+        url: `/auth/migrate-to-email-account`,
+        method: "POST",
+        body: {
+          email,
+          code,
+          userID,
+        },
+      }),
+      transformResponse: (response: AxiosResponse) => {
+        return response.data;
+      },
+      transformErrorResponse: (error: any) => {
+        console.log(error);
+        return error.data;
+      },
+    }),
     resetPaymentPassword: builder.mutation<
       void,
       {
@@ -183,6 +231,8 @@ export const {
   useSetPaymentPasswordMutation,
   useResetAccountPasswordMutation,
   useSendPasswordResetEmailMutation,
+  useSendMigrateToEmailAccountEmailMutation,
+  useMigrateToEmailAccountMutation,
 
   useSendPaymentPasswordResetEmailMutation,
   useResetPaymentPasswordMutation,

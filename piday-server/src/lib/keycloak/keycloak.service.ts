@@ -47,6 +47,12 @@ export class KeycloakService {
     return users[0];
   }
 
+  // This user ID is the keycloak user ID
+  async findUserByUserID(userID: string): Promise<UserRepresentation> {
+    await this.getAccessToken();
+    return await this.kcAdminClient.users.findOne({ id: userID });
+  }
+
   async createUser(user: UserRepresentation): Promise<UserRepresentation> {
     await this.getAccessToken();
     return await this.kcAdminClient.users.create(user);

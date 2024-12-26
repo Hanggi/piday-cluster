@@ -50,7 +50,7 @@ export default function SignInDialog({
   const [openResetPasswordDialog, setOpenResetPasswordDialog] = useState(false);
 
   const [inviteCode, setInviteCode] = useState<string>(
-    searchParams.get("ic") as string,
+    (searchParams.get("ic") as string) || "",
   );
   const [isLoading, setIsLoading] = useState(false); // 登录状态标志
   const [piSignIn, piSignInResult] = usePiSignInMutation();

@@ -21,6 +21,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 
+import MigrateToEmailAccountDialog from "../../../_components/auth/auth-dialogs/MigrateToEmailAccount";
 import ResetPasswordByEmailDialog from "../../../_components/auth/auth-dialogs/ResetPasswordByEmail";
 import ResetPaymentPasswordByEmailDialog from "../../../_components/auth/auth-dialogs/ResetPaymentPasswordByEmail";
 import SetPaymentPasswordModel from "./modals/SetPaymentPasswordModel";
@@ -92,6 +93,8 @@ export default function MyProfile() {
   const [openResetPasswordDialog, setOpenResetPasswordDialog] = useState(false);
   const [openResetPaymentPasswordDialog, setOpenResetPaymentPasswordDialog] =
     useState(false);
+  const [openMigrateToEmailAccountDialog, setOpenMigrateToEmailAccountDialog] =
+    useState(false);
 
   return (
     <Card className="mt-8" size="lg">
@@ -108,6 +111,17 @@ export default function MyProfile() {
         <div className="mb-4">
           <Typography level="title-md">{t("profile:profile.email")}</Typography>
           <Typography>{session?.user?.email}</Typography>
+          {!session?.user?.email && (
+            <div>
+              <Button
+                onClick={() => {
+                  setOpenMigrateToEmailAccountDialog(true);
+                }}
+              >
+                {t("profile:button.migrateToEmailAccount")}
+              </Button>
+            </div>
+          )}
         </div>
         <div className="mb-4">
           <Typography level="title-md">
@@ -266,6 +280,14 @@ export default function MyProfile() {
           open={openResetPaymentPasswordDialog}
           onClose={() => {
             setOpenResetPaymentPasswordDialog(false);
+          }}
+        />
+
+        <MigrateToEmailAccountDialog
+          open={openMigrateToEmailAccountDialog}
+          userID={session?.user.id}
+          onClose={() => {
+            setOpenMigrateToEmailAccountDialog(false);
           }}
         />
       </div>

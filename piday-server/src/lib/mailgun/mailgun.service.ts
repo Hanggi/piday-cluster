@@ -58,6 +58,44 @@ export class MailService {
       throw new ServiceException("Send email failed", "SEND_EMAIL_FAILED");
     }
   }
+
+  async sendEmail({
+    from,
+    to,
+    subject,
+    text,
+    html,
+    replyTo = "",
+  }: {
+    from?: string;
+    to: string;
+    subject: string;
+    text?: string;
+    html?: string;
+    replyTo?: string;
+  }) {
+    const sentFrom = new Sender(
+      from || "services@piday.world",
+      "PiDay Services",
+    );
+
+    const recipients = [new Recipient(to.trim(), "PiDay User")];
+
+    const emailParams = new EmailParams()
+      .setFrom(sentFrom)
+      .setTo(recipients)
+      .setReplyTo(sentFrom)
+      .setSubject(subject)
+      .setHtml(html)
+      .setText(text);
+
+    try {
+      await this.mailerSend.email.send(emailParams);
+    } catch (err) {
+      console.error("Send email failed:", err);
+      throw new ServiceException("Send email failed", "SEND_EMAIL_FAILED");
+    }
+  }
 }
 
 // test

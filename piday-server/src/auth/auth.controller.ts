@@ -330,6 +330,7 @@ export class AuthController {
       );
     }
   }
+
   @Get("send-password-reset-email")
   @Throttle({ default: { limit: 2, ttl: 60000 } })
   async sendResetPasswordEmail(
@@ -352,6 +353,66 @@ export class AuthController {
 
     res.status(HttpStatus.OK).json({
       message: "Reset password email sent",
+    });
+  }
+
+  @Get("send-migrate-to-email-account-email")
+  @Throttle({ default: { limit: 2, ttl: 60000 } })
+  async sendMigrateToEmailAccountEmail(
+    @Query() { userID, email }: EmailQueryDto,
+    @Res() res: Response,
+  ) {
+    if (!userID) {
+      throw new HttpException("User ID is required", HttpStatus.BAD_REQUEST);
+    }
+
+    try {
+      await this.authService.sendMigrateToEmailAccountEmail(userID, email);
+    } catch (err) {
+      console.error(err);
+      switch (err.code) {
+        case "USER_NOT_FOUND":
+          throw new HttpException("user not found", HttpStatus.NOT_FOUND);
+      }
+      throw new HttpException(
+        "Internal Server Error",
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+
+    res.status(HttpStatus.OK).json({
+      message: "Migrate to email account email sent",
+    });
+  }
+
+  @Post("migrate-to-email-account")
+  async migrateToEmailAccount(
+    @Body()
+    { userID, email, code }: { userID: string; email: string; code: string },
+    @Res() res: Response,
+  ) {
+    if (!userID) {
+      throw new HttpException("User ID is required", HttpStatus.BAD_REQUEST);
+    }
+
+    try {
+      await this.authService.migrateToEmailAccount({ userID, email, code });
+    } catch (err) {
+      console.error(err);
+      switch (err.code) {
+        case "USER_NOT_FOUND":
+          throw new HttpException("user not found", HttpStatus.NOT_FOUND);
+        case "INVALID_PASSWORD":
+          throw new HttpException("Invalid Password", HttpStatus.UNAUTHORIZED);
+      }
+      throw new HttpException(
+        "Internal Server Error",
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+
+    res.status(HttpStatus.OK).json({
+      message: "Migrate to email account success",
     });
   }
 }

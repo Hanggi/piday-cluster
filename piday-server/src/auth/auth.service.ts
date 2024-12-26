@@ -156,6 +156,10 @@ export class AuthService {
     return createdUser;
   }
 
+  /*****************************************************************************
+   * Pi Wallet Integration
+   ****************************************************************************/
+
   // Pi Sign In
   async findUserByPiID(piUid: string) {
     return this.prisma.user.findUnique({
@@ -235,6 +239,10 @@ export class AuthService {
 
     return createdUser;
   }
+
+  /*****************************************************************************
+   * Security & Password Reset
+   ****************************************************************************/
 
   async sendResetPasswordEmail(email: string) {
     const user = await this.keycloakService.findUserByEmail(email);
@@ -359,6 +367,148 @@ export class AuthService {
       throw new ServiceException("Send email failed", "SEND_EMAIL_FAILED");
     }
   }
+
+  async sendMigrateToEmailAccountEmail(userID: string, email: string) {
+    const user = await this.keycloakService.findUserByUserID(userID);
+
+    if (!user) {
+      throw new ServiceException("user not found", "USER_NOT_FOUND");
+    }
+
+    const redisKey = `piday::migrate_to_email_account.${userID}.${email}`;
+    // Get existing verification code
+    let verificationCode = await this.redis.get(redisKey);
+    if (!verificationCode) {
+      verificationCode = uuidv4();
+
+      this.redis.set(redisKey, verificationCode);
+      this.redis.expire(redisKey, 60 * 30);
+    }
+
+    const actionURL = `${process.env.FRONTEND_URL}/auth/migrate-to-email-account?userID=${userID}&email=${email}&code=${verificationCode}`;
+
+    try {
+      console.log({
+        name: user.username,
+        action_url: actionURL,
+        verification_code: verificationCode,
+      });
+      await this.mailService.sendEmail({
+        to: email,
+        subject: "Account Migration Notice | 账户迁移通知",
+        html: `<p>亲爱的用户：</p>
+     <p>您好！</p>
+     <p>通过点击下面的链接，您可以将当前的 Pi 账户迁移到您的邮箱账户。</p>
+     <p>Dear User,</p>
+     <p>Greetings!</p>
+     <p>By clicking the link below, you can migrate your current Pi account to your email account.</p>
+     <a href="${actionURL}">${actionURL}</a>`,
+        text: `亲爱的用户：
+ 您好！
+ 通过点击下面的链接，您可以将当前的 Pi 账户迁移到您的邮箱账户。
+ Dear User,
+ Greetings!
+ By clicking the link below, you can migrate your current Pi account to your email account.
+ ${actionURL}`,
+      });
+    } catch (error) {
+      console.error("Send email failed:", error);
+      throw new ServiceException("Send email failed", "SEND_EMAIL_FAILED");
+    }
+  }
+
+  async migrateToEmailAccount({
+    code,
+    email,
+    userID,
+  }: {
+    code: string;
+    email: string;
+    userID: string;
+  }) {
+    const redisKey = `piday::migrate_to_email_account.${userID}.${email}`;
+    // Get existing verification code
+    const verificationCode = await this.redis.get(redisKey);
+    if (verificationCode !== code) {
+      throw new ServiceException(
+        "Invalid verification code of migrate to email account",
+        "INVALID_VERIFICATION_CODE",
+      );
+    }
+
+    const piUser = await this.prisma.user.findUnique({
+      where: {
+        keycloakID: userID,
+      },
+    });
+
+    if (!piUser) {
+      throw new ServiceException("user not found", "USER_NOT_FOUND");
+    }
+
+    if (piUser && piUser.email) {
+      throw new ServiceException(
+        "Email already binded to Pi Account",
+        "EMAIL_EXISTS",
+      );
+    }
+
+    // Check whether the email is already in use
+    const existingEmailUser = await this.prisma.user.findUnique({
+      where: {
+        email,
+      },
+    });
+
+    if (existingEmailUser) {
+      // Archive the existing pi account user
+      const piUid = piUser.piUid;
+
+      const res = await this.prisma.$transaction([
+        this.prisma.user.update({
+          data: {
+            piUid: piUid + "_archived",
+          },
+          where: {
+            id: piUser.id,
+          },
+        }),
+
+        this.prisma.user.update({
+          data: {
+            piUid: piUid,
+          },
+          where: {
+            id: existingEmailUser.id,
+          },
+        }),
+      ]);
+      if (res) {
+        this.redis.expire(redisKey, 0);
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      // Bind the email to pi account
+      const updatedUser = await this.prisma.user.update({
+        data: {
+          email,
+        },
+        where: {
+          keycloakID: userID,
+        },
+      });
+
+      if (updatedUser) {
+        this.redis.expire(redisKey, 0);
+        return true;
+      } else {
+        return false;
+      }
+    }
+  }
+
   async updatePaymentPassword({
     code,
     email,

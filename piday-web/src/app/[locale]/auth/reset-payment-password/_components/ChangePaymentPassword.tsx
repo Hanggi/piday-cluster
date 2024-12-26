@@ -32,7 +32,7 @@ export default function ChangePaymentPassword() {
   useErrorToast(resetPaymentPasswordResult.error);
   useSuccessToast(
     resetPaymentPasswordResult.isSuccess,
-    t("changePassword.success"),
+    t("change-password:changePassword.success"),
     () => {},
   );
   const searchParams = useSearchParams();
@@ -63,7 +63,7 @@ export default function ChangePaymentPassword() {
         <div className="my-4">
           <form onSubmit={handleSubmit(onSubmit)}>
             <FormControl className="mb-4" error={!!errors.newPassword}>
-              <FormLabel>{t("changePassword.newPassword.label")}</FormLabel>
+              <FormLabel>{t("change-password:changePassword.newPassword.label")}</FormLabel>
               <Input
                 {...register("newPassword", {
                   required: t("changePassword.newPassword.required"),
@@ -72,7 +72,7 @@ export default function ChangePaymentPassword() {
                     message: t("changePassword.newPassword.validation"),
                   },
                 })}
-                placeholder={t("changePassword.newPassword.placeholder")}
+                placeholder={t("change-password:changePassword.newPassword.placeholder")}
                 type="password"
               />
               {errors.newPassword && (
@@ -80,7 +80,7 @@ export default function ChangePaymentPassword() {
               )}
             </FormControl>
             <FormControl className="mb-4" error={!!errors.confirmPassword}>
-              <FormLabel>{t("changePassword.confirmPassword.label")}</FormLabel>
+              <FormLabel>{t("change-password:changePassword.confirmPassword.label")}</FormLabel>
               <Input
                 {...register("confirmPassword", {
                   required: t("changePassword.confirmPassword.required"),
@@ -95,7 +95,7 @@ export default function ChangePaymentPassword() {
                     );
                   },
                 })}
-                placeholder={t("changePassword.confirmPassword.placeholder")}
+                placeholder={t("change-password:changePassword.confirmPassword.placeholder")}
                 type="password"
               />
               {errors.confirmPassword && (

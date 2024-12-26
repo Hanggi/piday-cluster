@@ -32,16 +32,22 @@
     "myProfile": "我的资料",
     "username": "用户名",
     "email": "邮箱",
+    "verificationCode": "验证码",
     "invitationCodeLink": "邀请码链接",
+    "migrateToEmailAccountAlert": "如果迁移的邮箱已经注册，则现有的Pi账号将被归档（无法访问）并以邮箱账号为准。请用户注意。",
     "placeholder": {
       "enterYourPiWalletAddress": "请输入您的Pi钱包地址"
     }
   },
   "button": {
+    "migrateToEmailAccount": "迁移到邮箱账户",
+    "send": "发送",
     "save": "保存",
     "cancel": "取消"
   },
   "toast": {
+    "migrateToEmailAccountEmailSent": "迁移到邮箱账户邮件已发送",
+    "migrateToEmailAccountSuccess": "Migrate to Email Account Success",
     "updatePiWalletAddressSuccess": "更新Pi钱包地址成功",
     "updateNationalitySuccess": "国籍更新成功"
   },

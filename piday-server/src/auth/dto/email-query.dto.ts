@@ -1,6 +1,8 @@
 import { IsEmail } from "class-validator";
 
 export class EmailQueryDto {
+  userID?: string;
+
   @IsEmail()
   email: string;
 }

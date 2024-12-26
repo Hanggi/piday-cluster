@@ -77,8 +77,15 @@ export default function AuthStatusButton({ size = "md" }: Props) {
       <Script
         src="https://sdk.minepi.com/pi-sdk.js"
         onLoad={() => {
-          // @ts-ignore
-          (Pi as any).init({ version: "2.0" });
+          try {
+            // @ts-ignore
+            (Pi as any).init({
+              version: "2.0", // required
+              // sandbox: true, // optional
+            });
+          } catch (err) {
+            alert(err);
+          }
         }}
       />
     </div>

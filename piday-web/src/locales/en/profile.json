@@ -32,16 +32,22 @@
     "myProfile": "My Profile",
     "username": "Username",
     "email": "Email",
+    "verificationCode": "Verification Code",
     "invitationCodeLink": "Invitation Code Link",
+    "migrateToEmailAccountAlert": "Migrate to Email Account Alert",
     "placeholder": {
       "enterYourPiWalletAddress": "Enter Your Pi Wallet Address"
     }
   },
   "button": {
+    "migrateToEmailAccount": "Migrate to Email Account",
+    "send": "Send",
     "save": "Save",
     "cancel": "Cancel"
   },
   "toast": {
+    "migrateToEmailAccountEmailSent": "Migrate to Email Account Email Sent",
+    "migrateToEmailAccountSuccess": "Migrate to Email Account Success",
     "updatePiWalletAddressSuccess": "Update Pi Wallet Address Success",
     "updateNationalitySuccess": "Updated Nationality Success"
   },
