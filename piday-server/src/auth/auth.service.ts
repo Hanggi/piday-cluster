@@ -462,12 +462,14 @@ export class AuthService {
 
     if (existingEmailUser) {
       // Archive the existing pi account user
-      const piUid = piUser.piUid;
+      const piUserKeycloakID = piUser.keycloakID;
+      const existingEmailUserKeycloakID = existingEmailUser.keycloakID;
 
+      // Switch keycloakID between pi account and existing email account
       const res = await this.prisma.$transaction([
         this.prisma.user.update({
           data: {
-            piUid: piUid + "_archived",
+            keycloakID: existingEmailUserKeycloakID + `_temp_${Date.now()}`,
           },
           where: {
             id: piUser.id,
@@ -476,10 +478,20 @@ export class AuthService {
 
         this.prisma.user.update({
           data: {
-            piUid: piUid,
+            keycloakID: piUserKeycloakID,
+            email: existingEmailUser.email + `_archived_${Date.now()}`,
           },
           where: {
             id: existingEmailUser.id,
+          },
+        }),
+        this.prisma.user.update({
+          data: {
+            keycloakID: existingEmailUserKeycloakID,
+            email: existingEmailUser.email,
+          },
+          where: {
+            id: piUser.id,
           },
         }),
       ]);
