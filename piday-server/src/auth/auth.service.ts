@@ -396,13 +396,18 @@ export class AuthService {
       await this.mailService.sendEmail({
         to: email,
         subject: "Account Migration Notice | 账户迁移通知",
-        html: `<p>亲爱的用户：</p>
+        html: `<p>亲爱的${user.username}：</p>
      <p>您好！</p>
      <p>通过点击下面的链接，您可以将当前的 Pi 账户迁移到您的邮箱账户。</p>
-     <p>Dear User,</p>
+     <p>Dear ${user.username},</p>
      <p>Greetings!</p>
      <p>By clicking the link below, you can migrate your current Pi account to your email account.</p>
-     <a href="${actionURL}">${actionURL}</a>`,
+     <a href="${actionURL}">${actionURL}</a>
+     <br/>
+
+     <i>如果迁移的邮箱已经注册，则现有的Pi账号将被归档（无法访问）并以邮箱账号为准。请用户注意。\n 点击邮箱链接确认后，返回PiBrowser退出账号，然后使用Pi账号重新登录即可。</i>
+     <i>If the migrated email address is already registered, the existing Pi account will be archived (no longer accessible) and will be replaced by the email account. Please note this carefully.After clicking the email confirmation link, return to Pi Browser, log out of the account, and then log back in using the Pi account.</i>
+     `,
         text: `亲爱的用户：
  您好！
  通过点击下面的链接，您可以将当前的 Pi 账户迁移到您的邮箱账户。
@@ -488,7 +493,7 @@ export class AuthService {
         this.prisma.user.update({
           data: {
             keycloakID: existingEmailUserKeycloakID,
-            email: existingEmailUser.email,
+            email: existingEmailUser.email.trim().toLocaleLowerCase(),
           },
           where: {
             id: piUser.id,

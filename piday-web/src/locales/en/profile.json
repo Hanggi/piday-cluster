@@ -34,7 +34,7 @@
     "email": "Email",
     "verificationCode": "Verification Code",
     "invitationCodeLink": "Invitation Code Link",
-    "migrateToEmailAccountAlert": "Migrate to Email Account Alert",
+    "migrateToEmailAccountAlert": "If the migrated email address is already registered, the existing Pi account will be archived (no longer accessible) and will be replaced by the email account. Please note this carefully.After clicking the email confirmation link, return to Pi Browser, log out of the account, and then log back in using the Pi account.",
     "placeholder": {
       "enterYourPiWalletAddress": "Enter Your Pi Wallet Address"
     }

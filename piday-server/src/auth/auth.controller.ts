@@ -367,7 +367,10 @@ export class AuthController {
     }
 
     try {
-      await this.authService.sendMigrateToEmailAccountEmail(userID, email);
+      await this.authService.sendMigrateToEmailAccountEmail(
+        userID,
+        email.trim().toLocaleLowerCase(),
+      );
     } catch (err) {
       console.error(err);
       switch (err.code) {

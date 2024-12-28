@@ -34,7 +34,7 @@
     "email": "邮箱",
     "verificationCode": "验证码",
     "invitationCodeLink": "邀请码链接",
-    "migrateToEmailAccountAlert": "如果迁移的邮箱已经注册，则现有的Pi账号将被归档（无法访问）并以邮箱账号为准。请用户注意。",
+    "migrateToEmailAccountAlert": "如果迁移的邮箱已经注册，则现有的Pi账号将被归档（无法访问）并以邮箱账号为准。请用户注意。\n 点击邮箱链接确认后，返回PiBrowser退出账号，然后使用Pi账号重新登录即可",
     "placeholder": {
       "enterYourPiWalletAddress": "请输入您的Pi钱包地址"
     }
